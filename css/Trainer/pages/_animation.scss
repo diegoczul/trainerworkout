@@ -1,0 +1,16 @@
+.rowStyle {
+	@include flex-direction(row);
+	@include justify-content(space-between);
+
+	.exerciseOptions svg {
+		margin-bottom: 0;
+	}
+}
+
+.moveUp {
+	bottom: 0;
+}
+
+.hide {
+	display: none !important;
+}

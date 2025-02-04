@@ -1,0 +1,23 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+.default-block {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%; }
+  .default-block:last-child {
+    margin-right: 0; }
+
+.right-to-left-block {
+  float: right;
+  display: block;
+  margin-left: 2.35765%;
+  width: 48.82117%; }
+  .right-to-left-block:last-child {
+    margin-left: 0; }
+
+/*# sourceMappingURL=direction-context.css.map */

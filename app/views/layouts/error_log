@@ -1,0 +1,16 @@
+[01-Aug-2018 03:38:07 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[16-Aug-2018 22:31:09 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[19-Aug-2018 22:13:38 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[30-Aug-2018 11:35:32 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[06-Jan-2019 04:43:47 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[08-Jan-2019 16:18:00 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[21-Apr-2019 14:28:26 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[22-Jul-2019 21:26:02 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[23-Jul-2019 21:01:15 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[06-Nov-2019 02:15:13 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[27-Nov-2019 21:04:12 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[07-Feb-2020 00:21:51 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[25-Feb-2020 03:18:11 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[08-May-2020 02:13:40 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[18-Jun-2020 01:38:25 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314
+[11-Jul-2020 05:59:58 UTC] PHP Fatal error:  Class 'Request' not found in /home/trainer/public_html/app/views/layouts/frontEnd.blade.php on line 314

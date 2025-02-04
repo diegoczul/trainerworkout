@@ -1,0 +1,537 @@
+.fb_popup-compose .sendmessageform {
+    clear: both;
+    float: left;
+    white-space: nowrap;
+    width: 100%;    
+    margin-top: 7px;
+}
+.fb_popup-compose .messagelisting {
+    height: 400px;
+    width: 98%;
+    white-space: nowrap;
+    float: left;
+    overflow-y: scroll;
+    padding-right: 5px;
+}
+.fb_popup-compose .messagelisting .existingmsg {
+    padding: 0px 15px;
+}
+.fb_popup-compose .messagelisting .message {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: medium none #CCCCCC;
+    clear: both;
+    float: left;
+    margin-top: 4px;
+	
+    padding: 2px;
+	
+	padding-left:7px;
+	padding-right:7px;
+    width: 97%;
+    color: #000 !important;
+    white-space: normal;
+}
+.foodsoption {
+     
+        background-color: #FFF;
+}
+.setsholder {
+        overflow-x: auto;
+}
+.program_weights {
+        white-space: nowrap;
+}
+.ex_comments textarea {
+        background: none;
+        background-color: #FFF;
+}
+h6.m_name span {
+        margin-left: 26px;
+        color: gray;
+}
+#permission ul li {
+        border-bottom: 1px dotted #CCC;
+        clear: both;
+}
+#permission ul li label {
+        float: right;
+        margin-right: 250px;
+}
+.right_count {
+        float: right;
+        color: gray;
+}
+.pustota_34px {
+        width: 34px;
+        height: 40px;
+        clear: both;
+}
+.toppart {
+        width:570px;
+}
+.products:nth-of-type(3n+3){
+        margin-right: 0px !important;
+}
+.emptyprofilepicture {
+        display: inline-block;
+        width: 100px;
+        height: 110px;
+        background-color: #ededed;
+}
+/*This style is set by Stan for highlighting those blocks that were selected for adding to DAY block*/
+.selectedEx, .selectedDiet{
+	border-color : #FFCC00
+}
+.message_preloader, .notification_preloader {
+        display: none;
+}
+.manageworkouts .workoutswrap:nth-child(3n) {
+        margin-right: 0px;
+}
+.blockholderpopup {
+        width: 450px !important;
+        z-index: 999;
+        display: none;
+        border: 1px solid #0e78c2;
+        z-index: 9999;
+        behavior: url(/css/PIE/PIE.htc);
+        padding: 30px 30px 20px 30px;
+        line-height: 22px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+}
+table.tabulardata tr:nth-child(even){
+        background-color: #F4F4F4;
+}
+html {
+        overflow-y: inherit;
+}
+.inputbox-small {
+        color: #000 !important;
+}
+.fb_popup-compose {
+        width: 430px;
+        /*background: #edf1f5;
+        border: 1px solid #0e78c2;*/
+        z-index: 9999;
+        display: block;
+        behavior: url(/css/PIE/PIE.htc);
+        padding: 30px 30px 20px 30px;
+        line-height: 22px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+}
+.fb_white_popup-compose {
+        width: 430px auto;
+        background: #FFF;
+        border: 1px solid #0e78c2;
+        z-index: 9999;
+        display: block;
+        behavior: url(/css/PIE/PIE.htc);
+        padding: 30px 30px 20px 30px;
+        line-height: 22px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+}
+.blackbg {
+        display: none;
+}
+/*----------------------------------------------*/
+input[type="text"], input[type="password"], textarea, select {
+    color: #000000;
+}
+/* trainercomposemessage*/
+.trainercomposemessage .friendholder {
+        display: none;
+}
+.trainercomposemessage .friendholder ul {
+        list-style: none;
+        background-color: #FFF;
+        margin-top: 4px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        padding: 1px;
+}
+.trainercomposemessage .friendholder ul li {
+        padding-left: 7px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border: 1px solid #FFF;
+}
+.trainercomposemessage .friendholder ul li:hover {
+        border: 1px solid #CCC;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #F6F6F6;
+}
+/*AddPictures*/
+.Browsefile .file-hidden {
+    margin-top: -30px;
+    margin-left: -30px;
+    -moz-opacity: 0; 
+    filter: alpha(opacity=0); 
+    opacity: 0; 
+    height: 1px; 
+    width: 1px;
+}
+.Browsefile .whitebutton {
+    min-height: 31px;
+}
+/*Bench*/
+#dv-image-upload #preview img { 
+    width: 100px; 
+    height: auto; 
+    margin: 5px; 
+}
+#img-msg-preview { 
+    width: 100px; 
+    height: auto;
+    margin: 5px; 
+}
+#dv-image-upload, #dv-webcam-upload { 
+    display: none;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.user-comment .pix-thumb, .comments .pix-white, .comments .pix {
+    text-align: center;
+}
+.user-comment .pix-thumb a {
+    overflow: hidden;
+    width: 75px;
+    height: 75px;
+}
+.comments .pix-white a, .comments .pix a {
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+}
+.user-comment .pix-thumb img {
+    max-height: 75px;
+}
+.comments .pix-white img, .comments .pix img {
+    max-height: 50px;
+}
+.rightcontainer div#more {
+    margin: 10px 0px;
+}
+/*FindTrainer*/
+.img-gym-thumb { 
+    width: 52px; 
+    height: 52px;
+}
+.img-trainer-thumb {
+    width: 94px; 
+    height: 101px; 
+}
+/*Friends width: 124px; 
+    height: 124px;*/
+.img-border { 
+    
+}
+#dv-search-result { 
+    margin: 25px 0px; 
+}
+.friends-list ul li .add {
+    position:absolute; 
+    right:0; 
+    top:127px; 
+    width:22px; 
+    height:22px;
+}
+.left { 
+    left: 0px !important; 
+}
+.friends-list ul li .add a { 
+    background:url(/images/blue_icon_addfriends.png) no-repeat 0 0; 
+    width:22px; 
+    height:22px; 
+    display:block;
+}
+.friends-list ul li .add a:hover { 
+    background:url(/images/blue_icon_addfriends-a.png) no-repeat 0 0;
+}
+/*GymDirectory*/
+.img-trainer-thumb {
+    width: 94px; 
+    height: 101px; 
+}
+.img-gym-main-thumb {
+    width: 167px; 
+    height: 109px; 
+}
+/*Notifications*/
+.newnotification div.notifications:last-child {
+    border-bottom: none !important;
+}
+.oldnotification div.notifications:last-child {
+    border-bottom: none !important;
+}
+/*Pictures*/
+#dv-upload-image {
+    overflow: hidden;
+    position: absolute;
+    top: 96px;
+    left: 10px;
+    -moz-opacity: 0;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    height: 1px;
+    width: 1px;
+}
+#photoimg {
+    width:100%;
+    height: 100%;
+    margin-left: 5px;
+    margin-top: 75px;
+}
+.album ul li:nth-child(4n+1) {
+    margin-left: 0px !important;
+}
+.createprofile a {
+    width:23px;
+    height:23px;
+    background:url(/images/star-offb.png) no-repeat 0 0;
+    display:block;
+    float:left;
+}
+.createprofile a:hover {
+    background:url(/images/star-activeb.png) no-repeat 0 0;
+}
+.coverimg a {
+    width:23px;
+    height:23px;
+    background:url(/images/star-activeb.png) no-repeat 0 0;
+    display:block;
+    float:left;
+}
+.coverimg img, .createprofile img { 
+    float: left;
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+#fade-img {
+    display: none; 
+    background-color:  #000; 
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 100%; 
+    opacity: .85; 
+    -moz-opacity: .85; 
+    -khtml-opacity: .85; 
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=85); z-index: 10;
+}
+#dv-image-title {
+    position: fixed;
+    display: none; 
+    z-index: 9999; 
+    background-color: #FFF; 
+    border: 1px solid black; 
+    padding: 25px; 
+    width: 265px; 
+    height: 95px; 
+}
+#image_title {
+    margin-bottom: 15px;
+    color: black !important;
+}
+.dv-img-container img {
+    width: 100%; 
+    height: auto;
+}
+/*ShareDiet*/
+.sharedietform .friendholder {
+    display: none;        
+}
+.sharedietform .friendholder ul {
+        list-style: none;
+        background-color: #F6F6F6;
+        margin-top: 4px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        padding: 1px;
+}
+.sharedietform .friendholder ul li {
+        padding-left: 7px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border: 1px solid #FFF;
+}
+.sharedietform .friendholder ul li:hover {
+        border: 1px solid #CCC;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #D6D6D6;
+}
+/*Objectives*/
+.noncheckmark{ background:url(/images/green-tickh.png) no-repeat left top; float:left; display:block; text-indent:-9999px; width:20px; height:18px; margin-left:33%;}
+.noncheckmark:hover{ background:url(/images/green-tick.png) no-repeat left top;}
+/*-----------------*/
+/*---FriendProfile page block---*/
+#more { margin: 10px 0px; }
+.hide {display: none;}
+.information ul li:nth-child(4n) {margin-right: 0px !important;}
+#dv-mnu-profile, #dv-mnu-measurements {margin-bottom: -10px;}
+.mnu-selected {background: url(/images/select-a.gif) repeat-x 0 0;}
+.mnu-selected:first-child {  border-top-left-radius:8px; -moz-border-top-left-radius:8px; -webkit-border-top-left-radius:8px; border-bottom-left-radius:8px; -moz-border-bottom-left-radius:8px; -webkit-border-bottom-left-radius:8px;}
+.mnu-selected:last-child {  border-top-right-radius:8px; -moz-border-top-right-radius:8px; -webkit-border-top-right-radius:8px; border-bottom-right-radius:8px; -moz-border-bottom-right-radius:8px; -webkit-border-bottom-right-radius:8px; border-right:0px;}
+.mnu-selected a {color: #FFF !important;}
+/* measurements */
+input[type="text"], input[type="password"], textarea, select { color: black; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;  }
+.information ul li .lnk-active { background:#eeeeee; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+.show-block {display: block; width: 100%;}
+.hide-block {display: none; width: 100%;}
+#dv-viewmeasurement, #dv-comparemeasurement, #dv-weights, #dv-comparepictures {margin-top: 155px;}
+.measurementdetails, .bodymeasurements, .picturescompare { margin-top: 10px; }
+/* profile */
+.album ul li:nth-child(4n+1) {margin-left: 0px !important;}
+#dv-information, #dv-objectives, #dv-pictures {margin-top: 155px;}
+/* nutrition */
+#dv-nutritions {margin-top: 155px;}
+/*---End of FriendProfile page block---*/
+/*------------------------------------------*/
+/*
+
+
+
+
+                NEW PROGRAMMERS STYLES
+
+
+
+
+*/
+
+div.systemMessages{
+    position:fixed;
+    width: 100%;
+    height: auto;
+    z-index: 999999;
+    margin-left: auto;
+    margin-right: auto;
+}
+.successBox, .errorBox{
+    width: 100%;
+    -moz-opacity:80;
+    filter:alpha(opacity=80);
+    opacity:0.8;
+    margin-left: auto;
+    margin-right:auto;
+}
+.systemMessages p{
+    margin: 0px;
+    padding: 0px;
+}
+.successBox{
+    background: #dbf3be;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 13px;
+    padding-top: 13px;
+    border:solid 1px #45a106;
+    color:#256302;
+    font-weight: bold;
+}
+.errorBox{
+    background: #fab8b8;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 13px;
+    padding-top: 13px;
+    border:solid 1px #9b1f06;
+    color:#691200;
+    font-weight: bold;
+}
+.hideErrorMessageButton{
+    float: right;
+    color:#000000;
+    margin-right: 75px;
+}
+.floatLeft{
+    float:  left;   
+}
+#fade, #fade_login {
+	display: none;
+	background-color:  #000;
+	position: fixed; left: 0; top: 0;
+	width: 100%; height: 100%;
+	opacity: .85;
+        -moz-opacity: .85;
+        -khtml-opacity: .85;
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=85);
+	z-index: 10;
+}
+.mod_loginpopup {display: none; position: absolute; z-index: 99999; background-color: white; padding: 15px;}
+div.notice_notifications{
+        z-index: 999;
+        max-width: 300px;
+        height: auto;
+        width: auto;
+        position: fixed;
+        right: 5px;
+        top: 0;
+        text-align: right;
+}
+div.notice_notification {
+        height: auto;
+        min-height: 50px;
+        width: auto;
+        min-width: 200px;
+        background-color: #333;
+        border-radius: 14px;
+        -moz-border-radius: 14px;
+        -webkit-border-radius: 14px;
+        -khtml-border-radius: 14px;
+        z-index: 9999;
+        margin-top: 5px;
+        margin-right: 5px;
+        color: #FFF;
+        opacity: .96;
+        text-align: center;
+        padding-top: 15px;    
+        cursor: pointer;
+}
+div.notice_notification span {
+        float: right;
+        font-size: 13px;
+        font-weight: bold;
+        color: #CCC;
+        margin-right: 7px;
+        margin-top: -12px;
+        display: none;
+}
+.add_pane {
+	float:left;
+	width:241px;
+	height:108px;
+	overflow:hidden;
+}
+/*---------------------------------------------------------------*/
+#blockholderpopup{ width:420px!important;}
+#blockholderpopup .excersieholder{ min-height:261px; float:left; width:140px; margin-right:12px;}
+#blockholderpopup .excersieholder .bicky_fix{ border:2px solid #E4E4E4; height:130px; overflow:hidden; text-align:center; width:140px; padding-bottom:10px;}
+#blockholderpopup .excersieholder:hover .bicky_fix{border:2px solid #8bcbff; vertical-align:bottom;-webkit-box-shadow: #b9e1ff 0px 0px 10px;-moz-box-shadow: #b9e1ff 0px 0px 10px;box-shadow: #b9e1ff 0px 0px 10px;behavior: url(/css/PIE/PIE.htc);}
+#blockholderpopup span.img-arrow, .dwnarrow{padding-bottom:0px; margin-top:-6px; background:url(/images/arrowdwn.png) no-repeat center bottom; display:block;}
+/*---------------------------------------------------------------*/
+.workoutright .inputboxsm { padding: 3px 0px; min-width: 37px; }
+
+
+#profileworkouts{
+	display:none;
+}
+
+.sharewokoutform h4{}
+.sharewokoutform .bluebutton{ background:#55bde8; padding:8px 15px; color:#fff; font-weight:normal; font-size:14px; text-decoration:none; cursor:pointer; border:1px solid #e1e1e1; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; text-align:center;}
+ .sharewokoutform .bluebutton:hover{ background:#008fca; color:#fff; text-decoration:none;}
+ .sharewokoutform a.bluebutton{padding:10px 15px;}
+ .sharewokoutform .inputbox-middle{ border:1px solid #e1e1e1; height:32px; width:80%;box-shadow: inset 0 5px 5px -5px #ccc;}
+ .sharewokoutform .bottommargin span.right{ float:left; display:block; margin-top:6px; margin-right:10px;}

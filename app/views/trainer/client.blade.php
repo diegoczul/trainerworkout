@@ -1,0 +1,365 @@
+@extends('layouts.trainer')
+
+@section("header")
+    {{ Helper::seo("client",array("firstName"=>$user->user->firstName,"lastName"=>$user->user->lastName)) }}
+@endsection
+
+@section('content')
+<!-- content area starts here -->
+<section id="content" class="clientpage">
+    <div class="client_header">
+        <div class="wrapper">
+            <div class="clients_navigation">
+                <span><span><a href="/Trainer/" class="borderbtn backbtn" onClick="window.history.go(-1)">{{ Lang::get("content.Clients") }}</a> > {{ $user->user->firstName }}</span>
+                <span class="message 
+                @if($user->user->virtual != 0 or $user->user->lastLogin == null)
+                    control">{{ Lang::get("content.controlProfile")}}
+                @else
+                    no-control">{{ Lang::get("content.noControlProfile")}}
+                @endif
+                </span></span>
+                
+                <p class="trainingSince">{{ Lang::get("content.Training with you since") }} {{ Helper::date($user->user->created_at) }}</p>
+            </div>
+            <div class="client_details">
+                <div class="profileimage">
+                        <img src="/{{ Helper::image($user->user->image) }}" alt="profile image">
+                </div>
+
+                
+                <div class="profieldetails">
+                @if($user->user->virtual != 0 or $user->user->lastLogin == null)
+                {{ Form::open(array('url' => Lang::get("routes./Clients/ModifyClient"),  'name' => 'modifyClient', 'id' => 'modifyClient')); }}
+                @endif
+                    <div class="infoBlocksContainer">
+                        <div class="infoColumn">
+                            <div class="info">
+                                <p class="label">{{ Lang::get("content.first name") }}</p>
+                                <input name="client" value="{{ $user->id }}" type="hidden">
+                                <input class="input" name="firstName" value="{{ $user->user->firstName }}" {{ ($user->user->virtual != 0 or $user->user->lastLogin == null) ? "" : "disabled" }}>
+                            </div>
+                            <div class="info">
+                                <p class="label">{{ Lang::get("content.email") }}</p>
+                                <input class="input" name="email" value="{{ $user->user->email }}" {{ ($user->user->virtual != 0 or $user->user->lastLogin == null) ? "" : "disabled" }}>
+                            </div>
+                        </div>
+                        <div class="infoColumn">
+                            <div class="info">
+                                <p class="label">{{ Lang::get("content.last name") }}</p>
+                                <input class="input" name="lastName" value="{{ $user->user->lastName }}" {{ ($user->user->virtual != 0 or $user->user->lastLogin == null) ? "" : "disabled" }}>
+                            </div>
+                            <div class="info">
+                                <p class="label">{{ Lang::get("content.phone") }}</p>
+                                <input class="input" name="phone" value="{{ $user->user->phone }}" {{ ($user->user->virtual != 0 or $user->user->lastLogin == null) ? "" : "disabled" }}>
+                            </div>
+                        </div>
+                    </div>
+                @if($user->user->virtual != 0 or $user->user->lastLogin == null)
+                    <div class="btnContainer">
+                        <button type="submit" class="saveChanges ajaxSave">Save changes</button>
+                    </div>
+                {{ Form::close(); }}
+                @endif
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="wrapper">
+
+    <!-- if client has any acitivty -->
+        <!-- Calendar -->
+        @if($performances > 0)
+        <div class="clientWidget">
+
+            <h1>{{ Lang::get("content.Acitivity Feed") }}</h1> 
+            <div id="w_calendarActivity_full" class="calendar">
+
+            </div>
+        </div>
+        @endif
+    <!-- end of activity -->
+
+
+        <!--Client v2 workout-->
+        <div class="clientWidget">
+        <div class="workouts">
+            <div class="workoutHeader">
+                <div class="workoutHeader_description">
+                    <h1>{{ Lang::get("content.WorkoutsOf") }} {{ ( $client->user and $client->user->getCompleteName() != "" ) ? $client->user->getCompleteName() :  ($client->user ? $client->user->email : "Client") }}{{ Lang::get("content.WorkoutsOfAfter") }}</h1>
+                    <p>{{ Lang::get("content.Hereresidesalloftheworkoutsyouhavecreatedforclients") }} {{ ( $client->user and $client->user->getCompleteName() != "" ) ? $client->user->getCompleteName() :  ($client->user ? $client->user->email : "Client") }}</p>
+                </div>
+                <div class="workouts_options workouts_options_down">
+                    <a title="Archive" href="javascript:void(0)" class="moreOptionsButton" id="archiveWorkouts" onclick="archiveWorkouts()">
+                         <svg width="20" height="16" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>
+                                archiveMore
+                            </title>
+                            <defs>
+                                <rect id="a" x="1" y="4" width="18" height="12" rx="1.231"/>
+                                <mask id="c" x="0" y="0" width="18" height="12" fill="#fff">
+                                    <use xlink:href="#a"/>
+                                </mask>
+                                <rect id="b" y=".8" width="20" height="4" rx="1.231"/>
+                                <mask id="d" x="0" y="0" width="20" height="4" fill="#fff">
+                                    <use xlink:href="#b"/>
+                                </mask>
+                            </defs>
+                            <g stroke="#369AD8" fill="none" fill-rule="evenodd">
+                                <use mask="url(#c)" stroke-width="1.6" xlink:href="#a"/>
+                                <use mask="url(#d)" stroke-width="1.6" xlink:href="#b"/>
+                                <path d="M6.4 7.4h7.2" stroke-width=".8" stroke-linecap="round"/>
+                            </g>
+                        </svg>
+                    </a>
+                    
+                    <div title="Print" id="printWorkouts">
+                        <a href="javascript:void(0)" class="moreOptionsButton">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="https://www.w3.org/2000/svg">
+                                <title>
+                                    print
+                                </title>
+                                <g stroke="#369AD8" fill="none" fill-rule="evenodd">
+                                    <rect x="3.2" width="14" height="10" rx="1.2"/>
+                                    <rect fill="#F2F2F2" y="4.8" width="20" height="10" rx="1.2"/>
+                                    <circle stroke-width=".5" fill="#FFF" cx="14.2" cy="7.8" r=".8"/>
+                                    <circle stroke-width=".5" fill="#FFF" cx="17" cy="7.8" r=".8"/>
+                                    <g transform="translate(5.6 10.4)">
+                                        <rect fill="#F2F2F2" width="8.8" height="9.6" rx="1.14"/></rect>
+                                        <path d="M2.167 2.5h4.678M2.167 4.5h4.678M2.167 6.5h4.678" stroke-width=".5" stroke-linecap="square"/></path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="printMenu" id="printOptionMenu">
+
+                            <ul>
+                                <li id="printJpeg" onclick="downloadJPEG(this)">
+                                    <svg width="20" height="27" viewBox="0 0 20 27" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+                                        <title>
+                                            Jpeg Icon hover
+                                        </title>
+                                        <defs>
+                                            <path id="a" d="M0 .266h19.948V27H0"/></path>
+                                            <path id="c" d="M0 .266h19.948V27H0V.266z"/></path>
+                                        </defs>
+                                        <g fill="none" fill-rule="evenodd">
+                                            <mask id="b" fill="#fff">
+                                                <use xlink:href="#a"/></use>
+                                            </mask>
+                                            <path d="M18.882 27H1.122a1.07 1.07 0 0 1-1.065-1.066V1.332C.057.746.537.266 1.122.266h14.013L19.7 4.83l.248 21.104A1.07 1.07 0 0 1 18.882 27" fill="#FFF" mask="url(#b)"/></path>
+                                            <mask id="d" fill="#fff">
+                                                <use xlink:href="#c"/></use>
+                                            </mask>
+                                            <g class="svgLines">
+                                                <path d="M18.738 26.5H1.148a.656.656 0 0 1-.648-.662V1.435c0-.37.29-.67.648-.67h13.68V5.08c0 .138.113.25.25.25h4.313v20.51a.658.658 0 0 1-.65.662zm.458-21.81c.052.05.087.095.116.138h-3.984V.878c.027.022.055.05.09.084l3.778 3.728zm.35-.356L15.77.604c-.17-.166-.344-.338-.69-.338H1.147A1.16 1.16 0 0 0 0 1.434v24.403C0 26.477.515 27 1.148 27h17.59a1.16 1.16 0 0 0 1.154-1.163V5.077c0-.355-.174-.574-.345-.743z" fill="#369AD8" mask="url(#d)"/></path>
+                                                <path d="M16.848 19.665H6.165l4.08-5.277 1.643 2.1a.24.24 0 0 0 .206.096.248.248 0 0 0 .198-.11l2.17-3.232 2.648 3.605v2.58c0 .132-.118.238-.262.238M2.87 19.428v-9.29c0-.128.117-.233.262-.233h13.716c.144 0 .26.105.26.234V16l-2.454-3.344a.25.25 0 0 0-.41.008l-2.175 3.24-1.63-2.082a.25.25 0 0 0-.396 0l-4.51 5.838H3.132c-.146 0-.264-.105-.264-.236m13.98-10.02H3.132c-.42 0-.763.33-.763.733v9.287a.75.75 0 0 0 .76.737h13.717c.42 0 .76-.33.76-.737v-9.29c.002-.404-.34-.733-.76-.733" fill="#369AD8"/></path>
+                                                <path d="M6.326 12.425c.62 0 1.125.473 1.125 1.053S6.95 14.53 6.328 14.53c-.62 0-1.124-.472-1.124-1.052 0-.58.505-1.053 1.124-1.053m0 2.604c.896 0 1.625-.698 1.625-1.553 0-.856-.728-1.553-1.624-1.553-.895 0-1.624.697-1.624 1.553s.73 1.55 1.624 1.55" fill="#369AD8"/></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                    <p>JPEG {{ Lang::get("content.view") }}</p>
+                                </li>
+                                <li id="printPdf" onclick="downloadPDF(this)">
+                                    <svg width="20" height="27" viewBox="0 0 20 27" xmlns="https://www.w3.org/2000/svg">
+                                        <title>
+                                            grid
+                                        </title>
+                                        <g stroke="#369AD8" fill="none" fill-rule="evenodd">
+                                            <path d="M0 .993C0 .445.454 0 1.008 0H15.23c.28 0 .65.162.84.382l3.595 4.103c.185.21.335.6.335.886v20.62c0 .558-.455 1.01-.992 1.01H.992A.993.993 0 0 1 0 26.007V.993z" stroke-width=".5" fill="#FFF"/>
+                                            <path d="M16.848 9.405H3.132c-.42 0-.763.33-.763.734v9.288a.75.75 0 0 0 .762.737h13.716c.42 0 .76-.33.76-.737v-9.29c.002-.404-.34-.733-.76-.733M2.5 18.5h15m-15-2h15m-15-2h15m-15-2h15m-3-2.955v10.91m-3-10.91v10.91m-6-10.91v10.91m3-10.91v10.91"/>
+                                            <path d="M15.4.5v4a.5.5 0 0 0 .51.5h3.64" stroke-width=".5" stroke-linecap="square"/>
+                                        </g>
+                                    </svg>
+                                    <p>PDF {{ Lang::get("content.grid") }}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {{-- <a href="javascript:void(0)" class="lessOptionsWorkoutButton" id="moreOptions" onclick="showMore()"></a> --}}
+                    <a href="javascript:void(0)" onclick="lightBox();" class="addElementButton" id="newWorkout">{{ Lang::get("content.newWorkout") }} {{ $user->user->firstName }}</a>
+                </div>
+            </div>
+
+            <div id="w_workoutsClient">
+                <!-- /widgets/full/workout.blade.php -->
+            </div>
+
+        </div> <!-- End of Workouts -->
+    </div>  <!-- End of Client widget -->
+                
+                
+               
+    <!-- Body Weight -->
+<!--     <div class="widgets fullwidthwidget measurement fltright shadow clientmeasurements">
+        <div class="fltright"><a href="javascript:void(0)" onClick="toggle('w_add_weight');"><i class="fa fa-plus"></i>Add Weight</a></div>
+        <h1>Weight</h1>        
+        <div id="w_add_weight" class="add">
+                {{ View::make("widgets.add.weight")->with("user",$user->user)}}
+        </div>
+        <div id="w_weights">
+        
+        </div>
+                   
+    </div> -->
+
+    <!--measurement-->
+<!--      <div class="widgets fullwidthwidget measurement fltright shadow clientmeasurements">
+        <div class="fltright"><a class="bluebtn" href="javascript:void(0)"  onClick="toggle('w_add_measurements');"><i class="fa fa-plus"></i>Add Body  Measurement</a></div> 
+        <h1>Body Measurement</h1>
+        <div id="w_add_measurements" class="add">
+            {{-- {{ View::make("widgets.addfull.measurements")->with("user",$user->user)}} --}}
+        </div>
+        <div id="w_measurements_full">
+            
+        </div>  
+                   
+    </div> -->
+
+                
+            
+</div> <!-- End of Wrapper -->
+
+<div class="pop-up">
+    <div class="pop-kill" onclick="closePop()"></div>
+    <div id="calendar_performance" class="moving-pop">
+        
+    </div>
+</div>
+
+
+</section>
+
+@include('popups.typeOfWorkout')
+
+@endsection
+
+@section('scripts')
+
+@if($performances > 0)
+    <script>callWidgetExternal("w_calendarActivity_full",null,{{ $user->user->id }});</script>
+@endif
+{{-- <script>callWidgetExternal("w_weights",null,{{ $user->user->id }});</script> --}}
+{{-- <script>callWidgetExternal("w_measurements_full",null,{{ $user->user->id }});</script> --}}
+{{-- <script>callWidgetExternal("w_pictures_full",null,{{ $user->user->id }});</script> --}}
+<script>callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });</script> 
+
+<script type="text/javascript">
+    widgetsToReload = [];
+    var archive = "false";
+
+function closePop() {
+    $(".pop-up").removeClass("pop-up--active");
+    $(".workoutSwitcher a:first-child").addClass("active");
+    $(".calendarPerformance--Details").removeClass("calendarPerformance--Details--active");
+    // $(".calendarPerformanceContainer").find(".calendarPerformance--Details").first().addClass("calendarPerformance--Details--active");
+}
+
+function showDetails(obj) {
+    var $details = $(obj).find(".calendarPerformanceContainer").clone();
+    $details.find(".calendarPerformance--Details").first().addClass("calendarPerformance--Details--active");
+    $("#calendar_performance").html($details);
+
+    $(".pop-up").addClass("pop-up--active");
+}
+
+
+function viewArchivedWorkouts(){
+    $("#viewUnArchivedWorkouts").css('display','inline-block');
+    $("#viewArchivedWorkouts").hide();
+    callWidget("w_workoutsClient",null,null,null,{client: {{ $client->id }}, archive:  'true'});
+    archive = "true";
+}
+
+function viewUnArchivedWorkouts(){
+    $("#viewUnArchivedWorkouts").hide();
+    $("#viewArchivedWorkouts").css("display","inline-block");
+    callWidget("w_workoutsClient",null,null,null,{client: {{ $client->id }}, archive: 'false'});
+    archive = "false";
+}
+
+function downloadJPEG(obj){
+
+    if(debug) console.log("PrintWorkoutJPEG");
+
+
+    $(obj).closest(".loadingParent").find(".loading").show();
+    //window.location.assign("{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/JPEG");
+    var url = "{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/JPEG";
+    triggerAjaxFileDownload(url);
+    widgetsToReload.push("w_workouts");
+    refreshWidgets();
+    showLess();
+}
+
+
+function downloadPDF(obj){
+
+    if(debug) console.log("PrintWorkoutPDF");
+
+
+    $(obj).closest(".loadingParent").find(".loading").show();
+    //window.location.assign("{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/PDF");
+    var url = "{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/PDF";
+    triggerAjaxFileDownload(url);
+    widgetsToReload.push("w_workouts");
+    refreshWidgets();
+    showLess();
+}
+
+function downloadBoth(obj){
+    if(debug) console.log("PrintWorkoutBoth");
+
+
+    $(obj).closest(".loadingParent").find(".loading").show();
+    //window.location.assign("{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/JPEG/PDF");
+    //document.getElementById('downloader').src = "{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/JPEG/PDF";
+    var url = "{{ Lang::get("routes./Workouts/createUserDownload") }}/"+selectedItems.join(",")+"/JPEG/PDF";
+    triggerAjaxFileDownload(url);
+    
+    widgetsToReload.push("w_workouts");
+    refreshWidgets();
+    showLess(); 
+}
+
+
+function searchWorkouts(value){
+// Show loader
+showTopLoader();
+typewatchGlobal(function() {
+    var preload;
+        $("#search_loader").show();
+        $.ajax({
+            'async': true,
+            'url': '{{ Lang::get("routes./Workouts/Search") }}',
+            'type': 'post',
+            'data': {
+                search: $("#searchWorkouts").val(),
+                archive: archive,
+            },
+            'success': function(data) {
+                $("#w_workouts").html(data);
+                $("#search_loader").hide();
+                hideTopLoader();
+            }
+        });
+}, 300);
+}
+
+
+
+$("#modifyClient input").click(function() {
+    $("#modifyClient").find(".saveChanges").show();
+});
+
+$(".saveChanges").click(function() {
+    $(".saveChanges").hide();
+})
+
+</script>
+
+
+@endsection

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.4 (17249) - http://www.bohemiancoding.com/sketch -->
+    <title>exitLightbox</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Employee-Invite" sketch:type="MSArtboardGroup" transform="translate(-931.000000, -252.000000)" fill="#2C3E50">
+            <path d="M938.866923,257.745603 L942.053785,254.558741 C942.640126,253.9724 942.63469,253.028088 942.048904,252.442302 C941.459033,251.852431 940.515555,251.85433 939.932465,252.43742 L936.745603,255.624282 L933.558741,252.43742 C932.9724,251.85108 932.028088,251.856515 931.442302,252.442302 C930.852431,253.032172 930.85433,253.97565 931.43742,254.558741 L934.624282,257.745603 L931.43742,260.932465 C930.85108,261.518805 930.856515,262.463117 931.442302,263.048904 C932.032172,263.638774 932.97565,263.636876 933.558741,263.053785 L936.745603,259.866923 L939.932465,263.053785 C940.518805,263.640126 941.463117,263.63469 942.048904,263.048904 C942.638774,262.459033 942.636876,261.515555 942.053785,260.932465 L938.866923,257.745603 Z" id="exitLightbox" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,16 @@
+[06-Jan-2018 04:24:02 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[06-May-2018 12:46:03 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[16-Aug-2018 22:32:09 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[03-Sep-2018 17:14:32 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[11-Jan-2019 10:33:53 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[07-Mar-2019 22:33:19 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[03-May-2019 19:55:24 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[09-Jun-2019 18:02:53 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[26-Nov-2019 06:32:28 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[01-Dec-2019 21:09:09 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[14-Dec-2019 23:06:59 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[24-Feb-2020 12:06:12 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[16-Mar-2020 05:32:35 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[19-Mar-2020 07:09:03 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[28-Jun-2020 00:23:08 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56
+[12-Jul-2020 01:11:21 UTC] PHP Fatal error:  Call to a member function count() on null in /home/trainer/public_html/app/views/notifications/notifications.blade.php on line 56

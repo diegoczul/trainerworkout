@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="37px" height="37px" viewBox="0 0 37 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Rewind Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Workouts-/-Create-/-View" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Tablet-Circuit-AMRAP" transform="translate(-31.000000, -949.000000)">
+            <g id="Group-2" transform="translate(32.000000, 950.000000)">
+                <g id="Rewind-Icon">
+                    <circle id="End-Point" stroke="#2C3E50" fill="#FFFFFF" cx="17.5" cy="17.5" r="17.5"></circle>
+                    <path d="M26.7901235,18.1481481 C26.7901235,17.0072312 26.5695339,15.9154938 26.166845,14.9096766 C24.8007248,11.4974463 21.3388186,9.07407407 17.2839506,9.07407407 C14.8635479,9.07407407 12.6544204,9.93753354 10.9761932,11.3593557 M7.77777778,18.1481481 C7.77777778,23.1596209 12.0338363,27.2222222 17.2839506,27.2222222 C19.1490704,27.2222222 22.3566954,25.8236656 22.3566954,25.8236656" id="End-Point-Copy" stroke="#2C3E50" stroke-width="2"></path>
+                    <polygon id="Triangle-3" fill="#2C3E50" points="28.1439333 23.4550435 29.4873853 15.5506563 22.4109756 17.8499212"></polygon>
+                    <polygon id="Triangle-3-Copy" fill="#2C3E50" points="8.89567007 11.3656492 4.45336168 18.0402351 11.8531789 18.8179872"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

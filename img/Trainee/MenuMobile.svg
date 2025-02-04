@@ -1,0 +1,10 @@
+<svg width="39" height="25" viewBox="0 0 39 25" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        Mobile Menu Icon
+    </title>
+    <g transform="translate(2)" fill="#FFF" fill-rule="evenodd">
+        <rect width="35" height="3" rx="5"/>
+        <rect y="18" width="35" height="3" rx="5"/>
+        <rect y="9" width="35" height="3" rx="5"/>
+    </g>
+</svg>

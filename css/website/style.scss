@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+//reset against browser agents
+@import "../global/_reset.scss";
+
+// Definings Variables
+@import "../global/_variables.scss";
+@import "_websiteVariables.scss";
+
+// Frameworks & mixins 
+@import "../bourbon/bourbon";
+@import "../neat/neat";
+@import "../global/_mixin.scss";
+
+
+/*  ===========     General Rule & Styling     =============
+===========================================================*/
+
+
+// Basic Styling
+@import "_global.scss";
+@import "_nav.scss";
+@import "_footer.scss";
+@import "_notification.scss";
+
+	// Pages  
+	@import "pages/_corePages.scss";
+	@import "pages/_personalTrainer.scss";
+	@import "pages/_gym.scss";
+	@import "pages/_accountPages.scss";

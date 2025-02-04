@@ -1,0 +1,22 @@
+<?php
+
+class UsersSettings extends \Eloquent {
+
+	use SoftDeletingTrait;
+	protected $fillable = [];
+	protected $dates = ['deleted_at'];
+
+	public static $rules = array(
+		"name" => "required|min:2|max:300",
+		"value" => "required|max:1000"
+	);
+
+	public function users(){
+		return $this->hasOne("Users","id","userId");
+	}
+
+	public static function validate($data){
+		return Validator::make($data, static::$rules);
+	}
+
+}

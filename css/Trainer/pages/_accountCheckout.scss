@@ -1,0 +1,523 @@
+/*************    Upgrade Plan     ***************/
+
+.payBlock fieldset,
+.PayCompleteButton fieldset {
+  border: none;
+  padding: 0;
+}
+
+#payRightContainer {
+  border-right: none;
+}
+
+.upgradePlan a {
+  text-decoration: none;
+  color: #52D2B0;
+  text-shadow: 0px 1px 2px #717AB0;
+  font-size: 1.1em;
+}
+
+header .upgradePlan {
+  position: relative;
+  float: right;
+  bottom: 16px;
+  z-index: 10;
+  margin-right: 189px;
+  display: inline-block;
+}
+
+
+.upgradeBackground {
+  background-color: #2C3E50 !important;
+  background-image: none !important;
+  margin: 0 !important;
+}
+
+.upgradeBox {
+  margin-top: 135px;
+  overflow:auto;
+}
+
+.payCard {
+  background-color: #fff;
+  max-width: 800px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
+  margin: auto auto;
+  padding: 10px;
+
+  @media (min-width: $superSmall_to_small) {
+    padding: 15px;
+  }
+
+  @media (min-width: $small_to_medium) {
+    padding: 20px;
+  }
+
+  @media (min-width: $device_detection) {
+    padding: 30px;
+  }
+}
+
+.upgradeHeader {
+  text-align: center;
+}
+
+.upgradeHeader h1 {
+  color: #4BCFB0;
+  font-size: 2em;
+  padding: 40px 0;
+  margin: 0;
+  text-transform: none;
+}
+
+.upgradePlans {
+  margin: auto auto;
+  text-align: center;
+  padding-bottom: 80px;
+}
+
+.upgradeMonthly,
+.upgradeYearly {
+  background-color: #4BCFB0;
+  width: 320px;
+  position: relative;
+  display: inline-block;
+}
+
+.upgradeYearly {
+  margin-left: -2.5px;
+}
+
+.upgradePlanHeader {
+  text-align: center;
+}
+
+.upgradePlanHeader h2{
+  color: #fff;
+  font-size: 2.2em;
+  padding: 30px 0 12px;
+  margin: 0;
+}
+
+.upgradeDescription {
+  width: 250px; /* Used in Plan section */
+  margin: auto auto;
+  color: #fff;
+  font-size: 1em;
+  font-weight: lighter;
+}
+
+.upgradeDescription ul li {
+  text-align: left;
+  list-style-type: disc;
+  padding-bottom: 5px;
+}
+
+.upgradePrice {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 23px;
+}
+
+.upgradeButton {
+  display: inline-flex;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.upgradeButton a {
+  padding: 15px 40px;
+  color: #fff;
+  text-decoration: none;
+  background-color: #FBB147;
+  font-weight: lighter;
+}
+
+.BTNdiv{
+  position: relative;
+}
+
+#upgradeDiscount {
+  width: 60px;
+  height: 53px;
+  z-index: 5;
+  position: absolute;
+  top: -8px;
+  right: -7px;
+}
+
+/*************    PayPage    ***************/
+
+
+.upgradeBackground {
+  text-transform: none;
+}
+
+.checkoutBox {
+  margin-top: 30px;
+}
+
+.checkoutHeader h1 {
+    color: #4BCFB0;
+    font-size: 2em;
+    margin: 0 0 10px 0;
+    text-transform: none;
+    text-align: center;
+
+    @media (min-width: $superSmall_to_small) {
+      margin-bottom: 15px;
+    }
+
+    @media (min-width: $small_to_medium) {
+     margin-bottom: 20px;
+    }
+
+}
+
+
+/****************  THANK YOU PAGE ***************/
+
+.thankYouBox {
+  width: 800px;
+  margin: auto auto;
+}
+
+.thankYouImg {
+  text-align: center;
+  width: 100%;
+  margin-top: 140px;
+}
+
+.thankYouMessage{
+  width: 600px;
+  margin: auto auto;
+  text-align: center;
+}
+
+.thankYouMessage h2, 
+.thankYouMessage h4 {
+  font-size: 32px;
+  color: #2C3E50;
+  line-height: 40px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.thankYouMessage h4 {
+  margin-bottom: 60px;
+}
+
+
+/* ---------------------------------------------------------------
+FRAMEWORK OVERRIDE CHOSEN
+--------------------------------------------------------------- */
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+  height:25px!important;
+}
+
+
+.payCard {
+  
+  input[type="text"]{
+    height: 35px;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    color: #666;
+
+  }
+}
+
+.payHeader {
+  background: #52D2B0;
+  width: 100%;
+  text-transform: none;
+  padding: 20px;
+}
+
+.payMembership h2 {
+  font-size: 1.5em;
+  font-weight: lighter;
+  color: #fff;
+  text-transform: none;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+
+
+.payPlanBtn {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.payPlanBtn a {
+  @include btn(#fff, 25px, 130px);
+  vertical-align: middle;
+  font-weight: lighter;
+  font-family: "Open Sans";
+  color: #2C3E50;
+  font-size: 1em;
+  padding: 5px 8px;
+}
+
+.payBlocks {
+  margin-bottom: 15px;
+  @include display(flex);
+  @include flex-direction(column);
+
+  @media (min-width:$small_to_medium ) {
+    @include flex-direction(row);
+  }
+}
+
+.payBlock{
+  width: 100%;
+  margin: auto;
+}
+
+.payInfoContainer {
+  height: 250px;
+  padding: 10px 0;
+
+  @media (min-width: $small_to_medium) {
+    border: solid #2C3E50 1px;
+    padding: 10px;
+  }
+}
+
+.payBlock .payHeader {
+  padding: 0px;
+}
+
+
+.payBlock .payHeader h2 {
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  margin: 0px;
+}
+
+.payCredit .payHeader {
+  border-left: solid 1px #fff;
+}
+
+#paylowerContainer {
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.payFormInput {
+  border: solid 1px #2C3E50;
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.25);
+}
+
+
+.payForm label{
+  font-family: "Open Sans";
+  font-weight: lighter;
+  color: #2C3E50;
+  padding-left: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 0px;
+}
+
+.no_pointer{
+  cursor: default !important;
+}
+
+
+.payFormFull {
+  width: 100%;
+}
+
+
+.payFormFull input {
+  width: 100%;
+}
+
+
+.payFormHalf {
+  width: 49%;
+  display: inline-block;
+}
+
+.payFormHalf select {
+  border: solid 1px #2C3E50;
+  border-radius: 1px;
+  background-color: #fff;
+  width: 100%;
+  height: 37px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.payFormHalf input {
+  width: 100%;
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.25);
+}
+
+
+.payFormRight {
+  float: right;
+}
+
+.payFormLeft {
+  text-align: left;
+}
+
+.payFormThreeForth {
+  width: calc(100% - 65px);
+  min-width: 200px;
+  display: inline-block;
+}
+
+
+.payFormThreeForth input {
+  width: 100%;
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.25);
+}
+
+
+.payFormOneForth {
+  width: 52px;
+  display: inline-block;
+}
+
+.payFormOneForth input {
+  width: 100%;
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.25);
+}
+
+.expdate {
+  text-align: right;
+  margin-right: 0;
+}
+
+.expdate label {
+  text-decoration: underline;
+  margin-right: 15px;
+}
+
+.expInput{
+  display: inline-block;
+}
+
+.expInput label{
+  text-decoration: none;
+}
+
+#expInputMonth {
+  width: 52px;
+  label{
+    margin-right: 3px;
+  }
+  input {
+    width: 45px !important;
+  }
+}
+
+#expInputYear {
+  float: initial;
+  width: 67px;
+  input {
+    width: 60px !important;
+  }
+}
+
+#payform_submit {
+  border:none;
+  @include btn($tw_orange, 44px, 100%);
+  font-weight: lighter;
+  font-family: "Open Sans";
+  color: #fff;
+  font-size: 24px;
+
+  @media (min-width:$small_to_medium ) {
+    width: 50%;
+    min-width: auto;
+  }
+}
+
+.PayCompleteButton{
+  text-align: center;
+  margin: auto;
+  margin-bottom: 25px;
+}
+
+.unitMetric{
+  font-size: 8px;
+  opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+
+.fltleft { float:left!important;}
+
+.clearfix:before,.clearfix:after{content:"\0020";display:block;height:0;overflow:hidden}
+
+.clearfix:after,.clear{clear:both}
+
+.clearfix{zoom:1}
+
+
+//Thank you Page
+
+
+.thankYou {
+  margin-top: 10vh;
+
+  .widgets {
+    max-width: 600px;
+    margin: auto auto;
+  }
+}
+
+.tyMessage {
+  margin-bottom: 30px;
+  margin-top: 12px;
+  text-align: center;
+  color: $tw_dblue;
+  font-size: 2em;
+}
+
+.tyTransaction {
+  font-size: 1.2em;
+}
+
+.thankyou {
+  max-width: 500px;
+  margin: auto auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

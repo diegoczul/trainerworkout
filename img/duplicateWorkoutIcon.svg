@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="20px" height="25px" viewBox="0 0 20 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.1 (15681) - http://www.bohemiancoding.com/sketch -->
+    <title>Duplicate Button</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="My-Workout---Hover-Copy" sketch:type="MSArtboardGroup" transform="translate(-481.000000, -367.000000)" fill="#FFFFFF">
+            <g id="HOVER---Buttons" sketch:type="MSLayerGroup" transform="translate(453.000000, 337.000000)">
+                <g id="Duplicate-Button" transform="translate(18.000000, 27.000000)" sketch:type="MSShapeGroup">
+                    <g id="Duplicate-Icon" transform="translate(10.000000, 3.000000)">
+                        <rect id="Rectangle-2061-Copy" x="3.94814815" y="0" width="15.7925926" height="21.3807407"></rect>
+                        <rect id="Rectangle-2061" stroke="#7079B1" stroke-width="0.956250027" x="0" y="2.91555556" width="15.7925926" height="21.3807407"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

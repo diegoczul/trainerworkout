@@ -1,0 +1,242 @@
+.Trainee {
+	background-color: #F2F1F5;
+	padding-bottom: 80px;
+    min-height: 100vh;
+}
+
+#emptyMessage {
+	width: 100%;
+	margin: 120px auto;
+	text-align: center;
+
+	p {
+		color: white;
+		font-size: 1.5em;
+		max-width: 500px;
+		margin: auto auto;
+
+		span {
+			font-weight: 500;
+		}
+	}
+}
+
+/* =======    Exercise HEADER   ==========
+==========================================*/
+
+.workoutHeaderContainer {
+	width: 100%;
+	background-color: $tw_blue;
+	box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.25);
+}
+
+.workoutHeaderWrapper {
+	
+
+	@media all and ( min-width: 970px) {
+		& {
+			max-width: 950px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+}
+
+
+.workoutHedaer {
+	padding: 10px;
+	
+	text-align: center;
+	@include display(flex);
+	@include flex-direction(column);
+	@include align-content(space-between);
+
+	.internal & {
+		display: block;
+	}
+}
+
+.workoutHedaer h1 {
+	font-weight: 500;
+	margin-bottom: auto;
+	color: white;
+	margin: 20px;
+}
+
+.trainerWorkoutMessage {
+	background-color: #fff;
+	padding: 15px;
+	border-radius: 10px;
+	position: relative;
+	margin: 10px;
+}
+
+.trainerWorkoutMessage p {
+	font-size: 12px;
+	color: $tw_dblue;
+	letter-spacing: 0.2px;
+	line-height: 19px;
+	margin: 0;
+	text-align: left;
+	word-break: break-all;
+}
+
+.trainerWorkoutMessage:after {
+	content: url(/img/Trainee/bubbleTail.svg);
+	position: absolute;
+	bottom: -7px;
+	left: 17px;
+}
+
+
+.workoutData {
+	@include display(flex);
+	@include justify-content(space-between);
+}
+
+.workoutData p {
+	margin: 0;
+
+}
+
+.workoutPT {
+	@include display(flex);
+}
+
+.workoutPT img {
+	border: solid 2px #fff;
+	border-radius: 50%;
+	height: 35px;
+	width: 35px;
+}
+
+
+.workoutPTname {
+	padding-left: 5px;
+	@include display(flex);
+	@include flex-direction(column);
+
+	p {
+		font-size: 0.7em;
+		font-weight: lighter;
+		color: white;
+		letter-spacing: 0.035em;
+
+		&:first-child{
+			margin-top: 4px;
+		}
+
+		&:last-child {
+			margin-top: auto;
+			margin-bottom: 5px;
+		}
+	}
+}
+
+.workoutDate {
+	@include display(flex);
+
+	p {
+		margin-top: auto;
+		color: white;
+
+		&:first-child {
+			padding-right: 7px;
+			color: rgba(255, 255, 255, 0.6);
+		}
+	}
+}
+
+
+
+/* ========      RESPONSIVE      =========*/
+
+@media all and ( min-width: 768px) {
+
+
+.exeInfo {
+	@include flex-direction(row);
+}
+
+// .exeDescription {
+// 	width: 50%;
+// }
+
+.unitSwitcherContainer {
+	width: 50%;
+	margin-top: 5px;
+}
+
+.exeDetails {
+	@include flex-direction(row);
+	@include justify-content(space-between);
+	padding: 0 25px 25px;
+}
+
+.exeImg {
+	margin: 0;
+	width: 45%;
+}
+
+.exeTempo {
+	margin-left: 0;
+}
+
+.exeData {
+	width: 55%;
+	@include align-self(flex-end);
+}
+
+.restBtwExe h5 {
+	font-size: 18px;
+}
+
+}
+
+
+
+@media all and ( min-width: 970px) {
+
+.restBtwExe,
+.exerciseContainer {
+	max-width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+}
+
+
+.client .workouts_options {
+	width: 100%;
+	max-width: 990px;
+	padding: 10px;
+	position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

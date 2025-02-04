@@ -1,0 +1,277 @@
+#w_clients {
+	@extend #w_workouts;
+
+	.viewMore {
+		width: 200px;
+	}
+}
+
+.clients_options {
+	.addElementButton {
+		margin: auto 0 auto auto;
+		font-size: 1em;
+	}
+}
+
+#w_workoutsClient {
+	@extend #w_workouts;
+
+	.workoutsHover_BTNContainer {
+		width: 100%;
+	}
+}
+
+.parentClient {
+	@extend .parentWorkout;
+
+	html.no-touchevents &:hover .client_main_container .clientsHover {
+		bottom: 0;
+		top: auto;
+	}
+}
+
+.client_main_container {
+	@extend .workout_main_container;
+	box-shadow: 0 3px 0 0 darken($tw_dblue, 15%), 0 4px 6px 1px rgba(0, 0, 0, 0.25);
+
+	&:active {
+	    box-shadow:0 1px 0 0 darken($tw_dblue, 15%), 0 4px 6px 1px rgba(0, 0, 0, 0.25);
+	}
+
+	&:hover {
+		box-shadow: 0 4px 0 darken($tw_dblue, 15%), 0 1px 1px 1px rgba(0, 0, 0, 0.25);
+	}
+
+	.clientsHover_BTNContainer {
+		width: 33.33%;
+		background-color: $tw_green;
+		border-right-color: #2BA484;
+
+		&:hover {
+			border-color: #2BA484;
+		}
+	}
+
+	.client_overlay {
+		background-image: linear-gradient(-194deg, #3E5771 8%, #2C3E50 100%);
+		padding: 20px;
+	}
+
+	//Hover info
+	.clientInfo {
+		padding: 10px;
+		margin: auto auto auto 0;
+
+		p {
+			text-align: left;
+			margin: 0;
+			font-size: 1em;
+		}
+	}
+}
+
+.clientName {
+	display: inline-block;
+	margin: auto 0 auto 20px;
+    max-width: calc(75% - 20px);
+
+	span {
+		font-weight: lighter;
+		font-size: 18px;
+		display: block;
+		overflow-wrap: break-word;
+
+		&:first-child {
+			margin-bottom: 4px;
+		}
+	}
+}
+
+
+// Picture & name
+.client_baseInfo {
+	width: 100%;
+	text-align: left;
+	@include display(flex);
+
+	img {
+		width: 65px;
+		height: 65px;
+		max-width: 100px;
+		max-height: 100px;
+		border-radius: 100%;
+		border: white solid 2px;
+		display: inline-block;
+	}
+}
+
+.client_workout_info {
+	text-align: left;
+}
+
+.client_nbWorkouts span:first-child,
+.client_lastPerformance span:first-child {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.client_nbWorkouts {
+	margin-bottom: 10px;
+}
+
+.client_main_container .clientsHover {
+	@extend .workoutsHover;
+	bottom: -250px;
+	// height: auto;
+	background: none;
+	top: auto !important;
+	@include transition (all 0.4s $ease-out-quart);
+}
+
+.clientsHoverView {
+	@extend .WorkoutsHoverView !optional;
+}
+
+.clientsHover_BTNsContainer {
+	@extend .workoutsHover_BTNsContainer;
+}
+
+.clientsHover_BTNContainer {
+	@extend .workoutsHover_BTNContainer;
+
+}
+
+.clientsHover_BTNimg {
+	@extend .workoutsHover_BTNimg;
+	height: 50px !important;
+}
+
+.clientsHoverBTN {
+	@extend .workoutsHoverBTN !optional;
+}
+
+.clientsHover_BTNtxt {
+	@extend .workoutsHover_BTNtxt;
+	height: 40px !important;
+}
+
+.client_overlay {
+	@extend .workout_overlay;
+}
+
+
+.client_info {
+	span {
+		text-align: left;
+	}
+}
+
+.client_date {
+	@extend .workout_date;
+}
+
+#clientCreated {
+	@extend #workourCreated !optional;
+}
+
+.client_status {
+	@extend .workout_status;
+}
+
+.client_main_containerAlways {
+	bottom: 0px !important;
+	top: auto;
+}
+
+
+.workouts .messageClients, 
+.clients .messageClients {
+	margin-top: auto;
+	padding: 0;
+}
+
+
+.clientView .workoutsHover a.WorkoutsHoverView {
+	width: 170px;
+	height: auto;
+}
+
+
+.clientNavigation {
+	text-align: right;
+
+	a {
+		color: $tw_dblue;
+		position: relative;
+		text-decoration: underline;
+
+		&::before {
+			content: url("/img/svg/backArrow.svg");
+			height: 22px;
+			position: absolute;
+			left: -15px;
+			top: 0px;
+		}
+	}
+}
+
+
+.noClients {
+	min-height: 250px;
+	width: 100%;
+	@include display(flex);
+	@include flex-direction(column);
+
+	p {
+		font-size: 2em;
+		font-weight: 600;
+		color: $tw_orange;
+		font-family: 'Indie Flower', cursive;
+		position: relative;
+		text-align: center;
+		max-width: 650px;
+		margin: auto auto;
+
+		&::before {
+			content: url("/img/svg/onboardingCWarrow3.svg");
+			display: block;
+			position: static;
+
+			@media (min-width: $onboardingBreakOne) {
+
+				display: none;
+			}
+
+		}
+
+		@media (min-width: $onboardingBreakOne) {
+		margin: 120px auto;
+
+			&::after {
+		    	content: url("/img/svg/onboardingCWarrow3.svg");
+		    	display: inline-block;
+		    	margin-left: 10px;
+		    	position: absolute;
+		    	bottom: 100%;
+			    right: 9%;
+	    			
+
+		    	@media (min-width: $onboardingBreakTwo) {
+		    	    left: 113%;
+				    bottom: 45%;
+				    margin: 0;
+		    	}
+		    }
+		}
+	}
+
+	a {
+		margin: auto auto;
+		@include btnColor($tw_orange);
+	}
+}
+
+#createClient {
+	margin: auto 0 auto auto;
+}
+
+

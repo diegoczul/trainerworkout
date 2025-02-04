@@ -1,0 +1,9 @@
+<svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        Edit Icon
+    </title>
+    <g transform="rotate(33 2.768 9.344)" fill="#FFF" fill-rule="evenodd">
+        <rect width="2" height="8.667" rx=".349"/>
+        <path d="M.684 11.05c.174.525.455.533.632 0L2 9H0l.684 2.05z"/>
+    </g>
+</svg>

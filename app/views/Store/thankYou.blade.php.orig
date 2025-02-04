@@ -1,0 +1,88 @@
+<?php 
+    $layoutToLoad = null;
+    if(Auth::check()){
+        $layoutToLoad = strtolower(Auth::user()->userType); 
+    } else{
+        $layoutToLoad = "visitor"; 
+    }
+?>
+@extends('layouts.'.$layoutToLoad)
+
+
+@section('content')
+
+<body class="fullWidth upgradeBackground">
+
+ <!-- content area starts here -->
+    <section id="content" class="clearfix">
+		<div class="wrapper">
+        	
+<<<<<<< HEAD
+
+=======
+>>>>>>> fixes.18
+            <div class="widgets fullwidthwidget shadow marginleftnone">
+            	
+            	<h1>{{ Lang::get("content.Confirmation") }}</h1>
+            	<div class="thankyou">
+                	<span class="thankyouimg"><img src="/img/Trainee/thankyou.png" alt="thankyou"></span>
+                    <p>{{ Lang::get("content.Andremember") }}</p>
+                    <h2>{{ Lang::get("content.transaction",array("orderid"=>$order->id)) }}</h2>
+                    <div class="ordersummary">
+<<<<<<< HEAD
+
+=======
+>>>>>>> fixes.18
+                    	
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0" class="tabulardata ordertable">
+                          <tbody>
+                          <tr>
+                          	<td colspan="3"><h3>{{ Lang::get("content.OrderSummary") }}</h3></td>
+                          </tr>
+                          <tr>
+<<<<<<< HEAD
+
+=======
+>>>>>>> fixes.18
+                            <td>{{ Lang::get("content.Subtotal") }}</td>
+                            <td>${{ $order->subtotal }}</td>
+                          </tr>
+
+                          <tr>
+                            <td>{{ Lang::get("content.Total") }}</td>
+                            <td>${{ $order->total}}</td>
+<<<<<<< HEAD
+
+=======
+>>>>>>> fixes.18
+                          </tr>
+                        </tbody></table>
+                   
+                
+                </div> -->
+                <!-- bottom button holder -->
+                <div class="btnholder">
+                	
+               	  <?php /*  <a href="/Trainee/Workouts" class="bluebtn">Access Workout</a> */ ?>
+                </div>
+            </div>
+            <?php /*  <div class="widgets onethirdwidthwidget shadow">
+            	<h1>Recommended Prodcuts</h1>
+                
+                 <div id="w_trendingWorkouts">
+            
+                </div>
+                <!-- bottom button holder -->
+               
+            </div> */ ?>
+            <div class="clearfix"></div>
+        </div>
+    </section>
+</body>
+
+@endsection
+
+
+    @section("scripts")
+    <script>//callWidget("w_trendingWorkouts");</script>
+    @endsection

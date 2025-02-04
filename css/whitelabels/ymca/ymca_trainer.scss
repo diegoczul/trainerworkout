@@ -1,0 +1,350 @@
+//Brand Color
+
+$tw_blue: #369AD8;
+$tw_orange: #FBB147;
+$tw_purple: #7079B1;
+$tw_dblue: #2C3E50;
+$tw_green: #52D2B0;
+$overlay: rgba(44,62,80,0.95);
+$red: #E94F5F;
+
+
+$YMCAvividRed: #CC0130;
+$YMCAvividRedDarken: #880120;
+$YMCAvividRedTransparent: rgba(204,0,47,0.55);
+
+$YMCA_lightGrey: #5E5E63;
+$YMCA_darkGrey: #3c3c3c;
+
+$YMCAmainHeader: $YMCAvividRed;
+$YMCAworkout: $YMCAvividRed;
+
+$YMCAViewWorkout: $YMCAvividRed;
+
+
+// Frameworks & mixins 
+// @import "../../bourbon/bourbon";
+// @import "../../global/_mixin.scss";
+
+
+// With raising shadow
+@mixin buttonColorRaised($color) {
+    background-color: $color;
+    -webkit-box-shadow: 0 3px 0 darken($color, 20%), 0 15px 20px rgba(0, 0, 0, .35);
+       -moz-box-shadow: 0 3px 0 darken($color, 20%), 0 15px 20px rgba(0, 0, 0, .35);
+            box-shadow: 0 3px 0 darken($color, 20%), 0 15px 20px rgba(0, 0, 0, .35);
+}
+
+// No raising shadow
+@mixin btnColor($color) {
+    background-color: $color;
+    -webkit-box-shadow: 0 3px 0 darken($color, 20%);
+       -moz-box-shadow: 0 3px 0 darken($color, 20%);
+            box-shadow: 0 3px 0 darken($color, 20%);
+}
+// *****************
+//
+//      Global
+//
+// *****************
+
+// All headers
+h1 {
+    color: $YMCA_darkGrey;
+}
+
+// Header
+.main_header {
+    background-color: $YMCAmainHeader;
+}
+
+//background
+.trainer {
+    background: url('/img/whitelabels/ymca/backgroundClient.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    position: relative;
+    background-color: rgba(44,62,80,0.80);
+
+    .Trainer,
+    .o-wrapper {
+        background: rgba(44,62,80,0.80);
+        min-height: calc( 100vh - 30px);
+    }
+}
+
+
+// ***********************
+//
+//          Workouts
+//
+// ***********************
+
+// links of the search workout widget
+.searchWorkout #showButton a {
+    color: $YMCA_darkGrey;    
+}
+
+// Search workout button
+.searchWorkout .search_group a.searchButton {
+    background-color: $YMCA_lightGrey;
+}
+
+
+//Create workout button
+.addElementButton {
+    @include btnColor($YMCAvividRed);
+}
+
+//Workout card in workouts
+#w_workoutsClient .workout_main_container,
+.workout_main_container {
+	-webkit-box-shadow: 0 3px 0 $YMCAvividRedDarken, 0 15px 20px rgba(0, 0, 0, .35);
+       -moz-box-shadow: 0 3px 0 $YMCAvividRedDarken, 0 15px 20px rgba(0, 0, 0, .35);
+            box-shadow: 0 3px 0 $YMCAvividRedDarken, 0 15px 20px rgba(0, 0, 0, .35);
+
+    &:hover {
+	   	-webkit-box-shadow: 0 3px 0 darken($YMCA_lightGrey, 20%), 0 15px 20px rgba(0, 0, 0, .35);
+	       -moz-box-shadow: 0 3px 0 darken($YMCA_lightGrey, 20%), 0 15px 20px rgba(0, 0, 0, .35);
+	            box-shadow: 0 3px 0 darken($YMCA_lightGrey, 20%), 0 15px 20px rgba(0, 0, 0, .35); 	
+    }
+
+    .workoutsHover {
+        @include btnColor($YMCA_lightGrey);
+
+    }
+
+    .workoutsHover_BTNContainer {
+    	background-color: $YMCA_lightGrey;
+    	border-right: solid 1px darken($YMCA_lightGrey, 20%);
+
+    	&:hover {
+    		border: solid 1px darken($YMCA_lightGrey, 20%);
+    	}
+    }
+
+
+    .workoutsHover a.WorkoutsHoverView:hover {
+    	color: $YMCAworkout;
+    }
+    // #w_workoutsClient & .workout_overlay,
+    .workout_overlay {
+        background-image: linear-gradient(-180deg, $YMCAvividRedTransparent 0%, $YMCAworkout 63%);
+    }
+}
+
+.workoutsHover_status {
+	background-color: $YMCAworkout;
+}
+
+.moreOptions_view a svg g{
+    stroke: $YMCAvividRed;
+}
+
+.moreOptions_view a svg path{
+    stroke: $YMCAvividRed;
+}
+
+.addTagBtn {
+    @include btnColor($YMCAvividRed);
+}
+
+//workouts button
+.archive,
+.viewMore {
+	color: $YMCAworkout;
+}
+
+// *************************
+//
+//      View Workout
+//
+// *************************
+
+
+//View workout page. 
+.moreOptions_view {
+    background-color: $tw_dblue;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.5);
+}
+
+.exerciseNote .noteContainer span {
+    border: solid 1px white;
+}
+
+.workoutHeaderContainer {
+    background-color: $YMCAViewWorkout;
+}
+
+// *************************
+//
+//  Create / edit wokrout
+//
+// *************************
+
+
+.cw-adding .widget {
+    background-color:$tw_dblue;
+    box-shadow: 0 -2px 2px rgba(0,0,0,0.5);
+}
+
+.cw-adding button#completeWorkout {
+    @include btnColor($YMCAvividRed);
+}
+
+// *************************
+//
+//          Profile
+//
+// *************************
+
+.p_form button {
+	@include buttonColorRaised($YMCAViewWorkout); 
+}
+
+
+
+
+// *************************
+//
+//          Exercise
+//
+// *************************
+.exercises .addExercise {
+    @include btnColor($YMCAvividRed);
+}
+
+.btmbuttonholder .greybtn {
+    color: $YMCAvividRed;
+}
+
+.searchField button {
+    background-color:$YMCAvividRed;
+}
+
+.exerciseEdit {
+    color:$YMCAvividRed;
+}
+
+.addexercise {
+    .saveex {
+        @include btnColor($YMCAvividRed);
+    }
+}
+
+// *************************
+//
+//          Clients
+//
+// *************************
+.client_main_container .clientsHover_BTNContainer {
+    background-color: $YMCA_lightGrey;
+    border-right: solid 1px darken($YMCA_lightGrey, 20%);
+
+    &:hover {
+        border: solid 1px darken($YMCA_lightGrey, 20%);
+    }
+}
+
+.reportSettings input[type="button"] {
+    color: $YMCAvividRed;
+}
+
+
+
+// *************************
+//
+//          Client File
+//
+// *************************
+
+
+
+
+.popup_container {
+    background-color: $YMCAworkout;
+    
+    .header {
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .share_content button {
+        @include btnColor($YMCA_darkGrey);
+    }
+}
+
+// *************************
+//
+//         Emplopyees
+//
+// *************************
+
+.employee--header button {
+    @include btnColor($YMCAvividRed);
+}
+
+.employee_table thead tr {
+    background-color: $YMCA_lightGrey;
+}
+
+.user_options button {
+    @include btnColor($tw_green);
+}
+
+// *************************
+//
+//      Feedback page-break-inside: 
+//
+// *************************
+
+
+.feedbackContainer button {
+    @include btnColor($YMCAvividRed);
+}
+
+
+
+
+
+// NOT SURE IF USED
+
+#performanceHeader button {
+	@include buttonColorRaised($YMCAViewWorkout); 
+}
+
+#step2 li {
+	@include buttonColorRaised($YMCAViewWorkout);
+}
+
+
+#jumbotron .top {
+    background: rgba(44,62,80,0.80);
+    transform: skewY(0deg);
+    z-index: 5;
+}
+
+.accountPages {
+    background: url('/img/whitelabels/ymca/backgroundClient.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .background {
+        background: rgba(44,62,80,0.80);
+        transform: skewY(0deg);
+        width: 100%;
+        height: 100%;
+    }
+}
+
+// .submit {
+    // @include buttonColor($YMCAvividRed)
+// }
+
+#scrollNav {
+    background-color: $YMCAvividRed;
+    background-image: none;
+
+    .action {
+        display: none;
+    }
+}

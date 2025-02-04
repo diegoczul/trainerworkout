@@ -1,0 +1,27 @@
+<svg width="601" height="744" viewBox="0 0 601 744" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>
+        Shapes Bg Copy 2
+    </title>
+    <defs>
+        <path id="a" d="M0 0h600.5v744H0z"/>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="69.037%" id="c">
+            <stop stop-color="#6FB7E3" offset="0%"/>
+            <stop stop-color="#369AD8" offset="100%"/>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="b" fill="#fff">
+            <use xlink:href="#a"/>
+        </mask>
+        <use fill="#D8D8D8" xlink:href="#a"/>
+        <g mask="url(#b)">
+            <path fill="url(#c)" d="M1.166 0h1197.502v744H1.166z" transform="translate(-601)"/>
+            <g transform="matrix(-1 0 0 1 600 0)" fill="url(#c)">
+                <path d="M290.34.61l64.13 458.13-64.13 27.487L.582.61z"/>
+                <path d="M154.498 253.498L45.475 605.34H1.75V341.458z"/>
+                <path d="M153.332 254.108L1.166 343.9V1.223zM153.332 255.33L43.726 603.507l274.014-99.26z"/>
+            </g>
+            <path fill="url(#c)" d="M624.986 0l-98.528 736.67H108.44L0 0z" transform="translate(-315.325)"/>
+        </g>
+    </g>
+</svg>

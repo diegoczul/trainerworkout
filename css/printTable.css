@@ -1,0 +1,345 @@
+
+
+
+
+
+
+
+td.varRest{
+	border-bottom-width: 0px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	font-size:11px; 
+	font-family: 'os light';}
+
+/***************************************************MUSCLE TABLE*****************************************************************/
+
+/*HEADER*/
+td.hWgt{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	height: 18px;
+	max-height: 18px;}
+td.hReps{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	height: 18px;
+	max-height: 18px;}
+td.hSet{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	width: 42px;
+	height: 18px;
+	max-height: 18px;}
+
+/*BODY*/
+td.varSets{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	height: 18px;
+	max-height: 18px;
+	height: 18px;
+	max-height: 18px;}
+td.varWgt{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	font-size:11px; 
+	font-family: 'os regular';
+	height: 18px;
+	max-height: 18px;}	
+td.varReps{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	font-size:11px; 
+	font-family: 'os regular';
+	height: 18px;
+	max-height: 18px;}
+
+/*LAST ROW*/
+td.lastSet{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-size:11px; 
+	height: 18px;
+	max-height: 18px;
+	font-family: 'os semibold';} /*the one the bottom of the table*/
+td.lastWgt{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-size:11px; 
+	font-family: 'os regular';}
+td.lastReps{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-size:11px; 
+	font-family: 'os regular';} /*the one the bottom of the table*/
+
+/***************************************************CARDIO TABLE******************************************************************/
+
+/*HEADER*/
+td.hTimeDist{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:9px;
+	width: 36px;
+	max-width: 45px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+td.hHrSpd{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:9px;
+	width: 36px;
+	max-width: 45px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+td.hInt{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	width: 43px;}
+
+.tag1 {
+	float: left;
+    top: 2px;
+    font-size: 6px;
+    margin-left: 2px;
+}
+
+.tag2 {
+    float: right;
+    bottom: 2px;
+    right: 2px;
+    margin-right: 2px;
+    font-size: 6px;
+}
+
+.line {
+    position: absolute;
+    float: center;
+    margin-left: -1px;
+
+    width: 100%;
+    /*border-top: 1px dashed #424a79;    */
+    /*-webkit-transform: rotate(0deg);
+       -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+         -o-transform: rotate(0deg);
+            transform: rotate(-44.5deg);*/
+}
+
+
+
+/*BODY*/
+td.varTimeDist{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-family: 'os regular';
+	font-size:9px;
+	width: 35px;
+	max-width: 36px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative;}
+td.varHrSpd{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	font-family: 'os regular';
+	font-size:9px;
+	width: 35px;
+	max-width: 36px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+
+/*LAST ROW*/
+td.lastTimeDist{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-family: 'os regular';
+	font-size:9px;
+	width: 35px;
+	max-width: 45px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+td.lastHrSpd{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-family: 'os regular';
+	font-size:9px;
+	width: 35px;
+	max-width: 45px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+td.lastInter{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	font-family: 'os regular';
+	font-size:11px; }
+
+/*************************************************CIRCUIT********************************************************/
+
+
+td.ccHead{
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:12px; 
+	
+	vertical-align: bottom;}
+td.ccRest{
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	font-family: 'os light';
+	font-size:11px; 
+	height: 18px;
+	min-width: 164px;
+	max-width: 164px;
+	vertical-align: bottom;}
+td.ccType{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	width: 160px;
+	max-width: 160px;
+	font-family: 'os semibold';
+	font-size:11px;  }
+td.ccExInfo{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os regular';
+	font-size:11px; 
+	min-width: 164px;
+	word-wrap: break-word;
+	vertical-align:top;}
+
+
+/*************************MUSCLE**************************/
+td.ccWgt{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	max-width: 37px;
+	height: 18px;
+	max-height: 18px;}
+td.ccReps{
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	height: 18px;
+	max-height: 18px;}
+td.ccSet{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	width: 42px;
+	height: 18px;
+	max-height: 18px;}
+
+/*************************CARDIO***************************/
+td.ccInter{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:11px; 
+	width: 43px;
+}
+td.ccTimeDist{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:9px;
+	width: 36px;
+	max-width: 45px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+td.ccHrSpd{
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	font-family: 'os semibold';
+	font-size:9px;
+	width: 36px;
+	max-width: 45px; 
+	height: 18px;
+	max-height: 18px;
+	position: relative}
+
+.circuit .mainTable{
+	background-color: #EEEEEE;
+}	
+.circuit .circuitTable{
+	background-color: #FFF;
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>Add Logo Placeholder</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Workouts-/-Create-/-View" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile-NEW-SCREEN!" transform="translate(-20.000000, -95.000000)">
+            <g id="Add-Logo-Placeholder" transform="translate(20.000000, 95.000000)">
+                <rect id="Rectangle-1779" stroke="#C8C8C8" stroke-width="1.251" stroke-linecap="square" stroke-dasharray="2.085,4.17,1.668000066280365,2.085" x="0" y="0" width="50" height="50"></rect>
+                <text id="Add-Logo" font-family="OpenSans-Semibold, Open Sans" font-size="7.506" font-weight="500" fill="#C8C8C8">
+                    <tspan x="8.33333333" y="15.5">Add Logo</tspan>
+                </text>
+                <g id="Image-file-Icon-Copy-3" transform="translate(13.333333, 22.083333)" fill="#C8C8C8">
+                    <path d="M18.50289,0.114343627 L2.33333358e-05,3.32209363 L2.71182333,18.5793534 L4.54815667,18.2724711 L4.54815667,19.5834025 L23.3333567,19.5834025 L23.3333567,5.33042206 L19.4068233,5.33042206 L18.50289,0.114343627 Z M1.75165667,4.54893186 L17.2601567,1.84343676 L17.8817567,5.33019167 L4.54815667,5.33019167 L4.54815667,16.7382897 L3.95502333,16.8497995 L1.75165667,4.54893186 Z M6.07345667,6.83649559 L21.8080567,6.83649559 L21.8080567,18.0770985 L6.07345667,18.0770985 L6.07345667,6.83649559 Z" id="Fill-1"></path>
+                    <path d="M10.1411333,11.4385098 C9.40683333,11.4385098 8.78523333,10.8249755 8.78523333,10.099701 C8.78523333,9.37442647 9.40683333,8.76066176 10.1411333,8.76066176 C10.8756667,8.76066176 11.4970333,9.37419608 11.4970333,10.099701 C11.4970333,10.8249755 10.8756667,11.4385098 10.1411333,11.4385098 L10.1411333,11.4385098 Z M7.0903,7.84047549 L7.0903,16.1802108 L10.2825333,14.0884804 L12.2598,15.315549 L17.0620333,10.099701 L17.6836333,10.350598 L20.7909333,13.8931078 L20.7909333,7.84047549 L7.0903,7.84047549 L7.0903,7.84047549 Z" id="Fill-2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

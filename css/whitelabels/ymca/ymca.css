@@ -1,0 +1,86 @@
+.main_header {
+  background-color: #CC0130; }
+
+.workoutContainer {
+  -webkit-box-shadow: 0 3px 0 #880120, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #880120, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #880120, 0 15px 20px rgba(0, 0, 0, 0.35); }
+  .workoutContainer:hover {
+    -webkit-box-shadow: 0 3px 0 #2c2c2f, 0 15px 20px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0 3px 0 #2c2c2f, 0 15px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 3px 0 #2c2c2f, 0 15px 20px rgba(0, 0, 0, 0.35); }
+  .workoutContainer .workoutsHover {
+    background-color: #5E5E63; }
+  .workoutContainer .workoutsHover_BTNContainer {
+    background-color: #5E5E63;
+    border-right: solid 1px #2c2c2f; }
+    .workoutContainer .workoutsHover_BTNContainer:hover {
+      border: solid 1px #2c2c2f; }
+  .workoutContainer .workoutsHover a.WorkoutsHoverView:hover {
+    color: #CC0130; }
+
+.workout {
+  background-image: linear-gradient(-180deg, rgba(204, 0, 47, 0.55) 0%, #CC0130 63%); }
+
+.workoutsHover_status {
+  background-color: #CC0130; }
+
+.archive,
+.viewMore {
+  color: #CC0130; }
+
+.p_form button {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35); }
+
+.workoutHeaderContainer {
+  background-color: #CC0130; }
+
+#performanceHeader button {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35); }
+
+#step2 li {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35); }
+
+.content {
+  background: url("/img/whitelabels/ymca/backgroundClient.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  position: relative; }
+  .content .traineeBackgroundFilter {
+    position: absolute;
+    background: rgba(44, 62, 80, 0.8);
+    transform: skewY(0deg);
+    width: 100%;
+    height: 100%; }
+
+#jumbotron .top {
+  background: rgba(44, 62, 80, 0.8);
+  transform: skewY(0deg);
+  z-index: 5; }
+
+.accountPages {
+  background: url("/img/whitelabels/ymca/backgroundClient.jpg");
+  background-size: cover;
+  background-repeat: no-repeat; }
+  .accountPages .background {
+    background: rgba(44, 62, 80, 0.8);
+    transform: skewY(0deg);
+    width: 100%;
+    height: 100%; }
+
+#scrollNav {
+  background-color: #CC0130;
+  background-image: none; }
+  #scrollNav .action {
+    display: none; }
+
+/*# sourceMappingURL=ymca.css.map */

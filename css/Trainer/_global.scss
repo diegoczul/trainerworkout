@@ -1,0 +1,518 @@
+	@page {
+		size: landscape;
+		margin-top: 0.2cm;
+		margin-left: 0.5cm;
+		margin-right: 0.5cm;
+	}
+
+
+	* {
+		-webkit-print-color-adjust: exact;
+	}
+
+a,
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6, 
+p, 
+span,
+title,
+html, 
+div,
+button,
+input,
+select, 
+textarea {
+	font-family: $font;
+	font-weight: 300;
+		-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+	text-decoration: none;
+}
+
+h1{
+	font-size: 1.5em;
+	color: $tw_blue;
+	text-transform: uppercase;
+}
+
+
+h2 {
+	font-size: 1.625em;
+	font-weight: 400;
+}
+
+h3 {
+	font-size: 1.25em;
+	color: $viewWorkoutTitles_color;
+}
+
+h4 {
+	font-size: 1em;
+	color: $viewWorkoutTitles_color;
+}
+
+h5 {
+	font-size: 0.8em;
+	color: $viewWorkoutTitles_color;
+}
+
+label {
+	font-size: 14px;
+	color: #FFF;
+	line-height: 19px;
+	padding: 0 0 4px 0;
+}
+
+input {
+	height: 40px;
+	border: 2px solid rgba(255,255,255,0.52);
+	border-radius: 2px;
+	width: 100%;
+	padding: 9px;
+	margin-bottom: 15px;
+	background: transparent;
+}
+
+caption{
+	display: none;
+}
+
+
+
+/*****   Data Table for exercise  *******/
+
+
+
+table {
+	width: 100%;
+}
+
+th, 
+td {
+	text-align: center;
+	padding: 6px 0;
+	border-bottom: 1px #fff solid;
+	border-right: 1px #fff solid;
+
+	@media (min-width:$table_breakPoints) {
+		& {
+			padding: 8px 0;
+		}
+	}
+}
+
+thead th {
+	font-size: 12px;
+	color: #FFFFFF;
+	line-height: 16px;
+	font-weight: lighter;
+	padding: 5px 4px;
+
+	@media (min-width:$table_breakPoints) {
+		& {
+			padding: 8px 0;
+			font-size: 1em;
+		}
+	}
+}
+
+thead tr th:last-child{
+	border-right: none;
+}
+
+tbody tr td:last-child{
+	border-right: none;
+}
+
+tbody tr:last-child th, 
+tbody tr:last-child td {
+	border-bottom: none;
+}
+
+tbody {
+	background-color: #F2F1F5;
+}
+
+tbody th, 
+tbody td {
+	font-weight: 600;
+	font-size: 13px;
+	color: #2C3E50;
+	line-height: 18px;
+}
+
+tbody th span,
+tbody td span {
+	font-weight: lighter;
+	font-size: 12px;
+	color: #2C3E50;
+	line-height: 18px;
+}
+
+td.restBtwSet {
+	font-size: 12px;
+	color: #369AD8;
+	line-height: 17px;
+	padding: 2px 0;
+	background: #fff;
+}
+
+
+.fltright {
+	float: right;
+}
+
+.overlayStyle {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	position: fixed;
+	min-height: 100vh;
+	background-color: rgba(44,62,80,0.85);
+	z-index: 1000;
+	overflow-y: scroll;
+}
+
+.exitOverlay {
+	position: absolute;
+	top: 2rem;
+	right: 2rem;
+	padding: 10px;
+	z-index: 5000;
+}
+
+.overlayKillParent {
+	display: none;
+
+	&-active {
+		@include display(flex);
+		@include justify-content(center);
+		@include align-items(center);
+	}
+}
+
+.overlayKillChild {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100vw;
+	background: transparent;
+	z-index: 1002;
+}
+
+.overlayKillContent {
+	z-index: 1500;
+}
+
+#lightBoxLoading {
+	@extend .overlayStyle;
+	@include display(flex);
+	z-index: 10000;
+
+	img {
+		margin: auto auto;
+		width: 150px;
+	}
+}
+
+
+/*  =====================     Wrappers      =============================
+========================================================================*/
+
+.o-wrapper {
+	padding-top: 70px;
+}
+
+.no_padding {
+	padding-top:0;
+}
+
+.wrapper {
+	max-width: 1150px; 
+	padding: 0 5px;
+}
+
+@media all and (min-width: 400px) {
+	.wrapper {
+		padding: 0 10px;
+	}
+}
+
+@media all and (min-width: 1040px) {
+	.wrapper {
+		margin: auto;
+		max-width: 1150px; 
+	}
+}
+
+.widget {
+	background-color: #fff;
+	border-radius: 2px;
+	padding: 20px 10px 20px 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+@media all and (min-width: 400px) {
+	.widget {
+		padding: 30px 20px 20px 20px;
+	}
+}
+
+
+/*  =====================     Buttons      =============================
+========================================================================*/
+
+.moreOptionsButton {
+	@include btn ($workoutOptionsButtons_color, 30px, 50px, 5px);
+	text-align: center;
+	margin-right: 10px;
+	cursor: pointer;
+	margin-top: auto;
+	margin-bottom: 0;
+	display: none;
+
+	svg {
+		height: 20px;
+		width: auto;
+	}
+}
+
+.addElementButton {
+	@include btn($tw_blue, 40px, auto,  12px, 16px);
+	margin: auto;
+    min-width: 185px;
+}
+
+
+/*  =====================     Effects      =============================
+========================================================================*/
+
+
+.logoAnimated {
+	fill: #fff;
+	
+}
+
+@media all and (min-width: 769px) {
+	.hvr-grow {
+	  display: inline-block;
+	  vertical-align: middle;
+	  -webkit-transform: translateZ(0);
+	  transform: translateZ(0);
+	  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	  -webkit-backface-visibility: hidden;
+	  backface-visibility: hidden;
+	  -moz-osx-font-smoothing: grayscale;
+	  -webkit-transition-duration: 0.3s;
+	  transition-duration: 0.3s;
+	  -webkit-transition-property: transform;
+	  transition-property: transform;
+	}
+	.hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
+	  -webkit-transform: scale(1.15);
+	  transform: scale(1.15);
+	}
+}
+
+.loader-bg {
+	width: 100%;
+	position: fixed;
+	top: 1.5 * -$loaderBg_height; 
+	left: 0;
+	right: 0;
+	height: $loaderBg_height;
+	z-index: 10000;
+	background-color: $tw_dblue;
+	text-align: center;
+	@include transition(all 0.3s);
+
+	img {
+		height: $loaderBgImg_height;
+		width: auto;
+		margin-top: ($loaderBg_height - $loaderBgImg_height) / 2;
+	}
+}
+
+.moveMe {
+	top: 0;
+}
+
+
+
+/*   TAGS SYSTEM   */
+.badge {
+		border: 1px solid;
+		border-radius: 3px;
+		padding: 6px;
+		margin-bottom: 8px;
+		margin-right: 10px;
+		font-size: .8em;
+		cursor: pointer;
+		display: inline-block;
+		@include transition( all 0.25s);
+		a {
+			padding-left: 6px;
+			color: inherit;
+		}
+		i {
+			padding-right: 8px;
+		}
+	}
+
+
+.client {
+	color: $tw_orange;
+}
+
+.label-user{
+	border-color: $tw_orange;
+	color: #fff;
+	background-color: $tw_orange;
+}
+
+.selabel-user {
+	border-color: $tw_orange;
+	color: $tw_orange;
+	background-color: #fff;
+}
+
+.selabel-user:hover   {
+	@extend .label-user;
+}
+
+
+
+
+.keyword {
+	color: $tw_purple;
+}
+
+.label-tag {
+	border-color: $tw_purple;
+	color: #fff;
+	background-color: $tw_purple;
+}
+
+.selabel-tag{
+	border-color: $tw_purple;
+	color: $tw_purple;
+	background-color: #fff;
+}
+
+.selabel-tag:hover {
+	@extend .label-tag;
+}
+
+
+.rotatingParent_top,
+.rotatingParent_bottom {
+	position: relative;
+}
+
+
+a[class*='rotate_'] {
+	// position: absolute;
+	opacity: 1 !important;
+
+	.rotatingParent_bottom & {
+		bottom: 0px;
+	}
+
+	.rotatinngParent_top & {
+		top: 5px;
+	}
+
+	.trainee & {
+		bottom: 12px;
+	}
+
+	img {
+		height: 18px !important;
+		width: 18px !important;
+		border: none !important;
+		border-radius: 0px;
+	}
+}
+
+.showRotateReceiver {
+	position: absolute;
+}
+
+.rotate_left {
+	left: calc(50% - 30px);
+}
+
+.rotate_right {
+	right: calc(50% - 30px);
+}
+
+.tabSwitcherContainer {
+	@include display(flex);
+	@include flex-direction(row);
+
+	.tabBtn {
+		background: $grey;
+		border-radius: 2px;
+		padding: 3px 5px;
+		margin-right: 5px;
+		color: white;
+		@include box-shadow(2px);
+	}
+
+	.tabSelected {
+		background: white;
+		box-shadow: none;
+		color: $grey;
+	}
+}
+
+div[class^="tab_"] {
+	display: none;
+}
+
+div.showTab {
+	@include display(flex);
+}
+
+
+#textarea_counter {
+	padding-left: 5px;
+	font-size: 0.8em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

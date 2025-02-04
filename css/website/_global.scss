@@ -1,0 +1,283 @@
+* {
+	box-sizing:border-box;
+}
+
+*:focus {
+	outline: none;
+}
+
+a, p, h1, h2, h3, h4, h5,
+span,
+title,
+html, 
+div,
+button,
+input,
+select, 
+textarea {
+	font-family: $font;
+		-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a, p,
+span,
+title,
+html, 
+div,
+button,
+input,
+select, 
+textarea {
+	font-weight: 300;
+}
+
+a {
+	text-decoration: none;
+}
+
+input.error {
+  border: 3px solid $red !important;
+  border-radius: 5px !important;
+}
+
+.wrapper {
+	padding: 0 10px;
+	max-width: 1200px;
+	margin: auto auto;
+
+
+	@media (min-width: $footerBreak_first) {
+		padding: 0 20px;
+	}
+}
+
+.underline {
+	border-bottom: 2px solid $tw_orange;
+}
+
+.input {
+	background: white;
+	height: 45px;
+	width: 100%;
+	color: $writting;
+	box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+	border: none;
+	border-radius: 2px;
+	padding: 10px;
+	font-size: 1.1em;
+}
+
+a {
+	color: #fff;
+}
+
+a.action {
+	@include btn($tw_orange, auto, auto, 8px, 14px);
+	font-size: 1.2em;
+}
+
+
+h1 {
+	color: $tw_blue;
+	font-size: 2em;
+	margin-bottom: 20px;
+	font-weight: 300;
+	line-height: 1.2em;
+
+	@media (min-width: $global) {
+		font-size: 2.625em;
+	}
+}
+
+p {
+	color: $writting;
+	font-size: 1em;
+	line-height: 1.4em;
+}
+
+.device {
+	background: #FFFFFF;
+    box-shadow: 0 2px 6px 0 rgba(0,21,64,0.14), 0 10px 20px 0 rgba(0,21,64,0.05), inset 0 4px 7px 1px #fff, inset 0 -5px 20px rgba(173,186,204,0.25);
+    border-radius: 24px;
+	position: relative;
+	@include display(flex);
+	@include justify-content(center);
+	@include align-items(center);
+
+	@media (min-width: $two_columnDisplay) {
+		border-radius: 38px;
+		box-shadow: 0 2px 6px 0 rgba(0,21,64,0.14), 0 10px 20px 0 rgba(0,21,64,0.05), inset 0 -5px 20px 0 rgba(173,186,204,0.25), inset 0 7px 4px 1px rgba(255,255,255,0.50);
+	}
+
+	@include transition(width 0.5s, height 0.5s, color, 0.6s);
+}
+
+
+.deviceBtn {
+	background: #FFFFFF;
+	border: 1px solid #979797;
+	border-radius: 50%;
+	position: absolute;
+	height: 20px;
+	width: 20px;
+
+	@media (min-width: $two_columnDisplay) {
+		height: 30px;
+		width: 30px;
+	}
+	@include transition(all 0.3s);
+}
+
+.screen {
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+	height: 100%;
+    border: solid 1px #f4f4f4;
+	@include display(flex);
+	@include flex-direction(column);
+}
+
+
+.header {
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 2;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.30);
+}
+
+
+
+.iPad-portrait {
+	width: 80vw;
+	height: 80vw * $iPadRatio;
+	padding: 20px 8px 30px 8px;
+
+
+	@media (min-width: $two_columnDisplay) {
+		width: 45vw;
+		height: 45vw * $iPadRatio;
+		padding: 35px 12px 45px 12px;
+	}
+
+	@media (min-width: 2 * $iPadWidth + 40px) {
+		width: $iPadWidth;
+		height: $ipadHeight;
+		
+	}
+	.deviceBtn {
+		bottom: 8px;
+		left: calc(50% - 15px);
+	}
+
+}
+
+.iPad-landscape {
+	@extend .iPad-portrait;
+
+	@media (min-width: 2 * $iPadWidth + 40px) {
+		width: $ipadHeight;
+		height: $iPadWidth;
+		padding: 12px 45px 12px 35px;
+
+		
+		.deviceBtn {
+			right: 8px;
+			bottom: auto;
+			left: auto;
+			top: calc(50% - 15px);
+		}
+	}
+}
+
+
+.iPhone7-portrait {
+	width: $iPhone7Width;
+	height: $iPhone7Height;
+	padding: 35px 10px 45px 10px;
+	
+
+	.deviceBtn {
+		bottom: 8px;
+		left: calc(50% - 15px);
+		height: 30px;
+		width: 30px;
+
+	}
+}
+
+.iPhone7-landscape {
+	width: $iPhone7Height;
+	height: $iPhone7Width;
+	padding: 10px 45px 10px 35px;
+	
+
+	.deviceBtn {
+		right: 8px;
+		top: calc(50% - 15px);
+		height: 30px;
+		width: 30px;
+	}
+}
+
+
+.desktop {
+	background: #000000;
+	box-shadow: 0 2px 6px 0 rgba(0,21,64,0.14), 0 10px 20px 0 rgba(0,21,64,0.05);
+	border-radius: 30px;
+	width: 90vw;
+	height: 90vw * $desktopRatio;
+	padding: 18px;
+
+	@media (min-width: $two_columnDisplay) {
+		width: 45vw;
+		height: 45vw * $desktopRatio;
+	}
+
+	@media (min-width: 2 * $iPadWidth + 40px) {
+		width: $desktopWidth;
+		height: $desktopHeight;
+		padding: 27px;
+	}
+
+	.screen{
+		border: none;
+	}
+
+	.deviceBtn {
+		display: none;
+	}
+}
+
+.none {
+	box-shadow: none;
+	background: none;
+
+	.deviceBtn {
+		display: none;
+	}
+
+	.screen{
+		border: none;
+	}
+
+	.scrollableContainer {
+		overflow-y: visible;
+	}
+}
+
+
+.coreAsset {
+	width: 100%;
+}
+
+
+.scrollableContainer {
+	overflow-y: scroll;
+}
+
+
+

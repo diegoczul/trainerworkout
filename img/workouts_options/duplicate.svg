@@ -1,0 +1,9 @@
+<svg width="20" height="25" viewBox="0 0 20 25" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        Duplicate Icon
+    </title>
+    <g fill="#FFF" fill-rule="evenodd">
+        <path d="M3.948 0H19.74v21.38H3.95z"/>
+        <path stroke="#7079B1" stroke-width=".956" d="M0 2.916h15.793v21.38H0z"/>
+    </g>
+</svg>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="41px" height="41px" viewBox="0 0 41 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>Rewind Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.208387115 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Workouts-/-Create-/-View" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" filter="url(#filter-1)">
+        <g id="CW-VIEW-WORKOUT" transform="translate(-240.000000, -2600.000000)">
+            <g id="CIRCUIT" transform="translate(214.000000, 637.000000)">
+                <g id="Rewind-Icon" transform="translate(33.000000, 1967.000000)">
+                    <circle id="End-Point" stroke="#2C3E50" stroke-width="2" fill="#FFFFFF" cx="13.5" cy="13.5" r="13.5"></circle>
+                    <path d="M20.6666667,14 C20.6666667,13.1198641 20.4964976,12.2776666 20.1858519,11.5017505 C19.1319877,8.86945857 16.4613743,7 13.3333333,7 C11.4661655,7 9.76198143,7.6660973 8.46734903,8.76293156 M6,14 C6,17.8659932 9.28324517,21 13.3333333,21 C14.7721401,21 17.2465936,19.9211134 17.2465936,19.9211134" id="End-Point-Copy" stroke="#2C3E50" stroke-width="2"></path>
+                    <path d="M21.7110342,18.0938907 L22.7474115,11.9962205 L17.2884669,13.7699392 L21.7110342,18.0938907 L21.7110342,18.0938907 Z" id="Triangle-3" fill="#2C3E50"></path>
+                    <path d="M6.86237405,8.76778655 L3.43545044,13.9167528 L9.14388089,14.516733 L6.86237405,8.76778655 L6.86237405,8.76778655 Z" id="Triangle-3-Copy" fill="#2C3E50"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

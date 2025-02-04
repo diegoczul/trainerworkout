@@ -1,0 +1,544 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"wok",
+				"workoutPDF"
+			],
+			[
+				"wokou",
+				"workoutPDFArray"
+			],
+			[
+				"workoutP",
+				"workoutPDF"
+			],
+			[
+				"workouP",
+				"workoutPDFArray"
+			],
+			[
+				"all",
+				"allowList"
+			],
+			[
+				"workou",
+				"workoutsArray"
+			],
+			[
+				"workous",
+				"workoutsString"
+			],
+			[
+				"nam",
+				"name_temp"
+			],
+			[
+				"DEFAUL",
+				"DEFAULT_BPM"
+			],
+			[
+				"equipm",
+				"equipmentRequired"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"item",
+				"itemPurchased"
+			],
+			[
+				"mem",
+				"membershipUser"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"ex",
+				"exception"
+			],
+			[
+				"Workouts",
+				"WorkoutsExercises"
+			],
+			[
+				"workout",
+				"workoutNew"
+			],
+			[
+				"worok",
+				"workoutNew"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 107.0,
+		"last_filter": "Package Control: in",
+		"selected_items":
+		[
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/diego/GitHub/TrainerWorkout",
+		"/Users/diego/GitHub/TrainerWorkout/app",
+<<<<<<< HEAD
+		"/Users/diego/GitHub/TrainerWorkout/app/config",
+		"/Users/diego/GitHub/TrainerWorkout/app/config/live",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en",
+		"/Users/diego/GitHub/TrainerWorkout/app/libraries",
+=======
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/fr",
+		"/Users/diego/GitHub/TrainerWorkout/app/libraries",
+		"/Users/diego/GitHub/TrainerWorkout/app/start",
+>>>>>>> french
+		"/Users/diego/GitHub/TrainerWorkout/app/views",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/auth",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/user",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/layouts",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/notifications",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/onboarding",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/password",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/popups",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/Store",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/templates",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainee",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets",
+<<<<<<< HEAD
+=======
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets/add",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets/addfull",
+>>>>>>> french
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets/base",
+		"/Users/diego/GitHub/TrainerWorkout/css",
+		"/Users/diego/GitHub/TrainerWorkout/js",
+		"/Users/diego/GitHub/TrainerWorkout/legacyFiles"
+	],
+	"file_history":
+	[
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/workouts.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en/content.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets/base/tags.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/css/innerStyles.css",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/fr/content.php",
+		"/Users/diego/GitHub/TrainerWorkout/js/langs",
+		"/Users/diego/GitHub/TrainerWorkout/css/timeline.css",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en/javascriptLanguage.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/fr/javascriptLanguage.js",
+		"/Users/diego/GitHub/TrainerWorkout/js/global.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/createWorkout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/Store/thankYou.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/js/prebody.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/index.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/layouts/trainer.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/start/global.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/routes.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en/routes.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/SystemController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en/messages.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/fr/messages.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/fr/routes.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets/base/workouts.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/memberships.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/exercises.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/exercise.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/addExerciseInWorkout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/addExercise.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/workoutPrint.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/css/printTable.css",
+		"/Users/diego/GitHub/TrainerWorkout/css/responsive.css",
+>>>>>>> french
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainee/addExercise.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/Store/upgradePlan.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/Store/checkout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/popups/shareWorkout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/popups/addExerciseInWorkout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/password/reset.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/password/remind.blade.php",
+<<<<<<< HEAD
+		"/Users/diego/GitHub/TrainerWorkout/app/views/layouts/trainer.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/user/inviteClient.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/user/activateEmail.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/auth/reminder.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/js/workout-builder.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/widgets/base/workouts.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/lang/en/messages.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/routes.php",
+=======
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/user/inviteClient.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/user/activateEmail.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/emails/auth/reminder.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/js/workout-builder.js",
+>>>>>>> french
+		"/Users/diego/GitHub/TrainerWorkout/app/events.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/WorkoutsController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/layouts/frontEndThankyou.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/layouts/frontEnd.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/workoutPrints.blade.php",
+<<<<<<< HEAD
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainer/workouts.blade.php",
+=======
+>>>>>>> french
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Sharings.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Workouts.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/templates/exerciseList.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/templates/workoutBuilder.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/ControlPanel/emails/feeds.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/workout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/workoutImage.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/OrdersController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/MembershipsController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/MembershipManagement.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/css/main.css",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/trainee/createWorkout.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/config/beta/app.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/ControlPanel/Exercises.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/js/ControlPanel/global.js",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/ExercisesController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Exercises.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/errors/notFound.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/filters.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/UsersController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Memberships.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/controllers/TagsController.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/libraries/Messages.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/layouts/popup.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/libraries/Helper.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Users.php",
+		"/Users/diego/GitHub/Aplus/refund.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/config/packages/artdarek/oauth-4-laravel/config.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/DemoModel.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Clients.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Calendar.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/WorkoutLog.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/UserMessages.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/SessionsUsers.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Reminders.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Permissions.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/OrdersItems.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Orders.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/OrderItems.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/ExercisesImages.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/Availabilities.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/WorkoutsExercises.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/models/WorkoutsGroups.php",
+		"/Users/diego/GitHub/TrainerWorkout/app/views/ControlPanel/emails/error.blade.php",
+		"/Users/diego/GitHub/TrainerWorkout/TrainerWorkout.sublime-project",
+		"/Users/diego/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 91.0,
+		"where_history":
+		[
+			"/Users/diego/GitHub/TrainerWorkout"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"loading",
+			"Search",
+			"MesWorkouts",
+			":$",
+			"content.transaction",
+			"return View",
+			"}}\"></",
+>>>>>>> french
+			"shared",
+			"<<<",
+			"imageTable",
+			"the purchase of you",
+			"rest",
+			"xercises have unspecified i",
+			"', array",
+			"',",
+			"order",
+			"Thankyou",
+			"WorkoutBuilderPrice",
+			"Calendar/datepicker.js",
+			"Log",
+			"PrintWorkouts",
+			"sharewokoutform",
+			"workoutInProgress",
+			"shareWorkout",
+			"shareWorkouts",
+			"ShareByEmail",
+			"sharewokoutform",
+			"ShareWorkout",
+			"share",
+			"createWorkout",
+			"event",
+			"createWorkout",
+			"completeWOr",
+			"alert(\"1",
+			"alert(1",
+			"shareBy",
+			"<<<",
+			"DEFAULT_TIME",
+			"intervals",
+			"tmpl_editExerciseFieldsCardioBound",
+			"tmpl_editExerciseClassical",
+			"generateWorkoutEditPanels",
+			"dropExercise",
+			"bindDragDropEvent",
+			"bindDra",
+			"fetchCardioFields",
+			"fieldsToInterval",
+			"intervals",
+			"propagateCa",
+			"num_of_sets_input",
+			"circuit_rest",
+			"+å",
+			"addRestTime",
+			"rest_time",
+			"transparent",
+			"set_label",
+			"alert",
+			"in bpm",
+			"placeholder=\"in bpm\"",
+			"addIntervalCardioToEdit",
+			"addCardioInterval",
+			"placeholder=\"in bpm\"",
+			"rest_time_circuit",
+			"class=\"circuit_round\"",
+			"Rounds",
+			".exercise_field_panel ",
+			"Weight",
+			"setsHeaderMuscle",
+			"Weight ",
+			"newcard",
+			"oldcard",
+			"Membership",
+			"MembershipManagement",
+			"Membership",
+			"updgra",
+			"Membership",
+			"triggerLoading",
+			"trigger",
+			"<<<",
+			"showStep2",
+			"showSt",
+			"pushObserver",
+			"addToEditableExercises",
+			"<span class=\"small\">",
+			"removeExercise(event",
+			"exercisesimages",
+			"recreateStep3FromExerciseGroups",
+			"dropExercise",
+			"bindDragDropEvent",
+			"drop",
+			"}\n",
+			"data-validate",
+			"rounds",
+			"imgError(this)",
+			"onerror",
+			"AddExerciseToHTML",
+			"removeExercise",
+			"dropExercise",
+			"bindDragDropEvent",
+			"addNewCircuitExercise",
+			"exercise_overlay_move ",
+			"panel_overlay_arrows",
+			"trigger",
+			"searchExercise",
+			"triggerLoading",
+			"loading",
+			"searchExercise",
+			"required",
+			"arrayDataTables",
+			"ajaxSaveImage",
+			"arrayDataTables",
+			"restTimeBetweenExercises",
+			"mainTable",
+			"border-bottom-width: 2px;",
+			"border-top-width: 2px;",
+			"border-left-width: 2px;",
+			"border-right-width: 2px;",
+			"font-size:",
+			"clndr",
+			"clndr.css ",
+			"/clndr.css ",
+			"clndr.css ",
+			"Calendar/date",
+			"/Calendar/date",
+			"missing",
+			"notFound",
+			"td {",
+			"height: 25px;"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Trackyourprogress",
+			"'), array",
+			"border-bottom-width: 1px;",
+			"border-top-width: 1px;",
+			"border-left-width: 1px;",
+			"border-right-width: 1px;",
+			"height: 18px;",
+			"height: 25px;",
+			"-",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "macpro.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 238.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

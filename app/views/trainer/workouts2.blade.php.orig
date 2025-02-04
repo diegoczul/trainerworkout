@@ -1,0 +1,41 @@
+@extends('layouts.trainer')
+
+@section('content')
+ <!-- content area starts here -->
+    <section id="content" class="clearfix">
+		<div class="wrapper">
+        	 <div class="widwrapper clearfix">
+            <div class="widgets threefourthwidget shadow marginleftnone createaworkout" >
+            	<div class="fltright"><a href="/Trainer/CreateWorkout/" class="bluebtn"><i class="fa fa-plus"></i>Create Workout</a></div>
+            	<h1>Latest Workout</h1>
+
+                	<div id="w_workouts">
+                		
+                	</div>                
+                
+            </div>
+            <div class="widgets onethirdwidthwidget shadow">
+            	<h1>Trending Workouts</h1>
+                <div id="w_trendingWorkouts">
+               
+            
+                </div>
+            </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </section>
+@endsection
+
+@section('scripts')
+<script>callWidget("w_workouts");</script>
+<script>callWidget("w_trendingWorkouts");</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ $("#m_workouts").addClass('active'); });
+
+
+</script>
+@endsection
+

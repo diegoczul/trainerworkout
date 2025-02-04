@@ -1,0 +1,1725 @@
+/*  ==============     Create Workout Page     ===================
+=================================================================*/
+
+
+$widgetShadow: 0 1px 3px 1px rgba(0,0,0,0.18), 0 1px 2px 0 rgba(0,0,0,0.30);
+$headerShadow: 0 2px 4px 0 rgba(0,0,0,0.30);
+
+
+/*  ===========     Header of Workout     ================
+==========================================================*/
+.ptLogoPlaceholder {
+	width: 20%;
+	min-width: 52px;
+	height: 50px;
+	background-image: url("../../img/svg/addLogoPlaceholder.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 50px 50px;
+
+	img {
+		width: 100%;
+	}
+
+	input{
+		opacity: 0;
+		float: right;
+		width: 50px;
+		cursor: pointer;
+
+		@media (min-width:$table_breakPoints) {
+			& {
+				width: 80px;
+				height: 80px;
+			}
+		}
+
+	}
+
+	@media (min-width:$table_breakPoints) {
+		& {
+			width: 80px;
+			height: 80px;
+			background-size: 80px 80px;
+		}
+	}
+}
+
+#workout {
+	padding-bottom: 80px;
+}
+
+.cw {
+	&-header {
+		@media (min-width:$desktop_breakPoints) {
+			position: relative;
+		}
+
+		@include display(flex);
+
+		&-description {
+			margin-left: 10px;
+			width: 80%;
+			padding-right: 35px;
+
+			@media (min-width:$table_breakPoints) {
+				& {
+					padding-top: 14px;
+				}
+			}
+
+			input {
+				cursor: pointer;
+				box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.15);
+				border-radius: 2px 0px 0px 2px;
+				border: 1px #F0F0F0 solid;
+				font-size: 1em;
+				height: auto;
+				margin-bottom: 10px;
+				color: $viewWorkoutTitles_color;
+
+				@media (min-width: $small_to_medium ) {
+					max-width: 60%;
+				}
+			}
+		}
+	}
+
+	.widget {
+		margin-bottom: 20px;
+		box-shadow: $widgetShadow;
+
+		@media (min-width:$table_breakPoints) {
+			& {
+				padding: 30px;
+			}
+		}
+	}
+	&-exercise,
+	&-create .widget{
+		box-shadow: $widgetShadow;
+	}
+}
+
+
+/*  =======  Adding a Note  ========
+====================================*/
+.ptAddNote {
+	border-top-left-radius: 100%;
+	border-bottom-left-radius: 100%;
+	right: 0px;
+	height: 50px;
+	width: 47px;
+	top: 111px;
+	padding: 1px;
+
+	@media (min-width:$table_breakPoints) {
+		& {
+			top:128px;
+		}
+	}
+
+	.spanContainer {
+		// width: 100%;
+		// padding: 5px 3px;
+		margin: auto auto;
+		text-align: right;
+		cursor: pointer;
+	}
+
+	@media (min-width:$desktop_breakPoints) {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		top: 10px;
+		right: 10px;
+	}
+}
+
+.exerciseNote {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	top: -24px;
+	right: 10px;
+
+	.circuit &,
+	.cw & {
+		top: 10px;
+	}
+
+	.spanContainer {
+		padding: 8px 3px;
+		text-align: center;
+		cursor: pointer;
+		margin: auto auto;
+	}
+}
+
+.exerciseNote,
+.ptAddNote{
+	position: absolute;
+	background: $tw_dblue;
+	@include transition(all 0.3s);
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
+	cursor: pointer;
+	@include display(flex);
+
+	span {
+		color: white;
+		line-height: 1.2em;
+		font-size: 0.8em;
+	}
+
+	.note {
+		display: none;
+		text-align: center;
+		max-width: 500px;
+		margin: auto auto;
+
+		form {
+			@include display(flex);
+			@include flex-direction(column);
+		}
+
+		h3 {
+			color: white;
+			margin-top: 20vh;
+			margin-bottom: 6px;
+		}
+
+		textarea {
+			width: 100%;
+			max-width: 450px;
+			min-height: 160px;
+			text-align: left;
+			margin: auto;
+		    background: white !important;
+		    border: none !important;
+		    padding: 10px;
+		    font-size: 1em;
+		}
+
+		button {
+			@include btn($tw_blue, 45px, 160px);
+			padding: 0 12px;
+			font-size: 1.2em;
+			margin: 50px auto;
+
+		}
+	}
+
+	.spanOpen {
+		margin: 0 !important;
+	}
+}
+
+
+.ptAddingNote {
+	position: fixed;
+	top: 0px !important;
+	right: 0;
+	width: 100%;
+	height: 100vh;
+	border-radius: 0;
+	background: rgba(44,62,80,0.95);
+	z-index: 500;
+	padding: 25px;
+}
+
+.exitNote {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+
+/*  ============     Adding Exercise     ===================
+===========================================================*/
+
+#addingExercise {
+	transition: all 0.2s;
+
+	.widget {
+		// margin-bottom: 0;
+		} 
+}
+
+.cw-create {
+	// padding: 0 5px;
+
+	.innerContainer {
+		@include display(flex);
+		@include justify-content(space-around);
+		padding-bottom: 10px;
+	}
+
+
+	button {
+		@include btn($tw_blue, auto, auto, auto, 15px);
+		text-transform: uppercase;
+		width: 45%;
+		min-height: 45px;
+		@media all and (min-width: 470px) {
+			font-size: 1.25em;				
+		}		
+
+	}
+
+	#completeWorkout {
+		display: none;
+	}
+}
+
+
+// this class is added to the main div of the adding an exercise to make the div become sticky at the bottom. 
+.cw-adding {
+	position: fixed;
+	bottom: 0vh;
+	right: 0;
+    left: 0;
+	width: 100%;
+	z-index: 75;
+	height: 75px;
+	padding: 0;
+	margin: 0;
+	@include display(flex);
+	max-width: none;
+	background: $tw_dblue;
+	box-shadow: 0 -2px 4px 0 rgba(0,0,0,0.30);
+
+	@media all and (min-width: $fixedMenuBreakPoint) {
+		padding-left: $fixedMenuWidth;
+	}
+
+
+	.widget {
+		border-radius: 0;
+		padding: 0;
+		background:none;
+	    width: 100%;
+	    box-shadow: none;
+	    max-width: 1130px;
+	    margin: auto auto;
+	}
+
+	.innerContainer {
+		padding: 0 0 3px 0;
+		@include justify-content(space-between);
+		max-width: 1000px;
+
+		@media (min-width:$desktop_breakPoints) {
+			// max-width: 900px;
+			max-width: 100%;
+			margin: auto;
+		}
+	}
+
+	button {
+		border-radius: 0;
+		width: 33%;
+		max-width: 300px;
+		background-color: transparent;
+		box-shadow: 0 2px 0 0 white;
+
+		@media all and (min-width: 470px) {
+			font-size: 1.25em;				
+		}
+	}
+
+	button#completeWorkout {
+		display: block;
+		@include btn($tw_green, 46px, auto);
+		margin: 5px auto;
+
+		@media all and (min-width: 470px) {
+			font-size: 1.25em;				
+		}		
+	}
+}
+
+
+/*  ==============     Search POP-UP     ===================
+===========================================================*/
+.searchPop {
+	display: none;
+
+	.overlay {
+		@extend .ptAddingNote;
+		padding: 0;
+		@include display(flex);
+		@include flex-direction(column);
+		overflow-y: scroll;
+
+		@media all and (min-width: $fixedMenuBreakPoint) {
+			padding-left: $fixedMenuWidth;
+		}
+	}
+}
+
+.exitSearch {
+	@extend .exitNote;
+}
+
+
+.searchContainer {
+	background: rgba(255,255,255,0.3);
+	padding: 20px 10px;
+	margin-bottom: 20px;
+	width: 100%;
+	display: table;
+	max-height: 80vh;
+
+	h4 {
+		text-align: center;
+		font-size: 1.5em;
+		color: white;
+		letter-spacing: 0.05em;
+		font-weight: 500;
+		margin-bottom: 20px;
+	}
+}
+
+@media (min-width:$medium_to_large) {
+	.searchWrapper {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+}
+
+.addExercise {
+    width: 250px;
+    margin: 0 auto;
+    text-align: center;
+    //padding-bottom: 15px;
+
+	a {
+		color: white;
+		text-decoration: underline;
+		font-size: 1em;
+		font-weight: 500;
+		width: 250px;
+	}
+}
+
+.searchField {
+//Proportion variable
+$inputWidth: 70%;
+$buttonWidth: 66px;
+$lgButtonWidth: 90px;
+
+	input {
+		background: white;
+		border: none;
+		box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.25);
+		color: $desc_grey;
+		font-size: 1em;
+		@include border-right-radius(0px);
+		@include flex(1);
+	
+	}
+
+	button {
+		@include btn($tw_blue, 40px, $buttonWidth);
+		color: white;
+		font-size: 1em;
+		@include border-left-radius(0px);
+		box-shadow: none;
+		@media (min-width: $small_to_medium) {
+			width: $lgButtonWidth;
+		}
+	}
+}
+
+//==================
+//      TAGS
+//==================
+
+ul.tabs {
+	width: 100%;
+	overflow: hidden;
+	@include display(flex);
+}
+
+li.tab {
+	@include flex-grow(1);
+	color: white;
+	font-weight: 400;
+	font-size: 0.8em;
+	letter-spacing: 1.44px;
+	text-align: center;
+	padding: 12px 0px;
+	cursor: pointer;
+}
+
+.tagContainer {
+	
+}
+
+#tags-exercise,
+#tags-muscle, 
+#tags-equipment {
+	display: none;
+}
+
+@media (min-height: $device_detection) {
+	#tags-exercise {
+		display: block;
+	}
+}
+
+
+
+#tags-exercise,
+li.tab:nth-child(1) {
+	background: rgba(255, 255, 255, 0.12);
+}
+
+#tags-muscle,
+li.tab:nth-child(2) {
+	background: rgba(255, 255, 255, 0.24);
+}
+
+#tags-equipment,
+li.tab:nth-child(3) {
+	background: rgba(255, 255, 255, 0.36);
+}
+
+div[id^="tags"] {
+	padding: 8px;
+}
+
+
+#tags-exercise .selected {
+	background: white;
+	color: $tw_dblue;
+}
+
+
+.searchTag {
+	border: 1px solid white;
+	border-radius: 2px;
+	color: white;
+	font-size: 0.8em;
+	display: inline-block;
+	padding: 8px 12px;
+	transition: all 0.2s;
+	margin: 0 6px 6px 0;
+	cursor: pointer;
+
+	.selected {
+		color:$tw_dblue;
+		background: white;
+	}
+
+	&:hover {
+		color:$tw_dblue;
+		background: white;
+	}
+}
+
+#search_results{
+	display: none;
+	padding-bottom: 40px;
+}
+
+//==================
+// Search Results
+//==================
+
+.searchResultsContainer {
+	@include display(flex);
+	@include flex-wrap(wrap);
+	@include justify-content(center);
+	@include align-content(flex-start);
+	margin-bottom: 20px;
+	max-width: 1000px;
+	@media (min-width: 1045px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	li {
+		min-width: 150px;
+		position: relative;
+		margin: 15px;
+		max-width: 150px;
+		background: white;
+		cursor: pointer;
+		min-height: 150px;
+		overflow: hidden;
+
+		&:hover .favorite {
+			bottom: 0;
+		}
+
+		&:hover .addToWorkout {
+			top: 0;
+		}
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.exeName {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		height: 80px;
+		background-image: linear-gradient(-180deg, rgba(63,164,202,0.00) 0%, rgba(37,119,165,0.62) 51%, rgba(30,107,155,0.80) 100%);
+		padding: 0 5px 5px;
+		color: white;
+		@include display(flex);
+		@include flex-direction(column);
+		@include align-items(flex-end);
+	}
+
+	span {
+		font-size: 0.8em;
+		display: block;
+		position: absolute;
+		bottom: 5px;
+		left: 5px;
+	}
+}
+
+.removeFavorite,
+.addToWorkout,
+.favorite {
+	z-index: 5;
+	position: absolute;
+	right: 0;
+	left: 0;
+	color: white;
+	@include transition(all 0.3s);
+}
+
+
+.addToWorkout {
+	top: -145px;
+	background: $tw_green;
+	padding: 55px 0;
+	font-weight: 400;
+}
+
+.removeFavorite,
+.favorite {
+	bottom: -100px;
+	padding: 10px 0;
+	font-size: 0.8em;
+}
+
+.favorite {
+	background: $tw_dblue;
+}
+
+.removeFavorite {
+	background: $red;
+}
+
+#search_results {
+	text-align: center;
+	margin-top: 20px;
+	button {
+		@include btn($viewMoreBtn, 30px, 120px);
+		color: $tw_blue;
+		font-size: 0.8em;
+		margin-bottom: 100px;
+	}
+}
+
+
+/*  ================     Exercises     ====================
+===========================================================*/
+
+.cw-exercise {
+	background: white;
+	margin: 0px 5px;
+	border-radius: 2px;
+	padding: 1px 1px 10px 1px;
+
+	@media (min-width:$desktop_breakPoints) {
+		& {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 1130px;
+			padding: 1px 1px 10px 1px;	
+		}
+	}
+
+
+	h1 {
+		font-size: 1em;
+		line-height: 1.3em;
+		color: white;
+		text-transform: none;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		width: 95%;
+
+		@media (min-width: 450px) {
+			& {
+			    font-size: 1.25em;
+			    margin: 8px;
+			}
+		}
+	}
+}
+
+
+.exerciseHeader {
+	width: 100%;
+	padding: 3px 5px 7px 5px;
+	margin: auto auto;
+	@include border-top-radius(2px);
+
+	.muscle & {
+		background: $tw_blue;
+	}
+
+	.cardio & {
+		background: $tw_orange;
+	}
+
+	.circuit & {
+		background: $tw_dblue;
+		position: relative;
+	}
+}
+
+// .hoverTxt {
+// 	opacity: 0;
+// }
+
+.exerciseOptions {
+	margin-top: 8px;
+	@include display(flex);
+	@include justify-content(flex-end);
+
+	svg {
+		cursor: pointer;
+		margin: auto 15px auto 0;
+
+		&:hover .hoverTxt{
+			opacity: 1;
+		}
+	}
+}
+
+.containerExercise {
+	@include display(flex);
+	@include flex-direction(column);
+	position: relative;
+
+	@media (min-width:$medium_to_large) {
+		& {
+			@include flex-direction(row);
+		}
+	}
+	.circuit & {
+		position: relative;
+	}
+
+	svg {
+		rect,
+		path {
+			fill: $tw_dblue;
+		}
+
+		path,
+		ellipse,
+		polyline {
+			stroke: $tw_dblue;
+		}
+	}
+}
+
+
+
+.exerciseImageContainer {
+	// @include display(flex);
+	// @include justify-content(space-around);
+	// @include flex-direction(column);
+	padding: 5px;
+
+	@media (min-width:$medium_to_large) {
+		& {
+			width: 50%;
+			@include justify-content(space-between);
+		}
+
+		.cardio & {
+			width: 40%;
+		}
+	}
+}
+
+.exerciseImages {
+
+	img {
+		display: inline-block;
+		max-width: 45%;
+		max-height: 45%;
+		height: auto;
+		width: auto;
+		margin: auto 5px;
+		
+		// &:last-child {
+		// 	float: right;
+		// }
+
+		// @media (min-width: 500px) {
+		// 	& {
+		// 		max-width: 200px;
+		// 		max-height: 200px;
+		// 	}
+		// }
+	} 
+}
+
+.exerciseDetails {
+
+	&-topContainer {
+		@include display(flex);
+		@include justify-content(space-between);
+		padding-top: 10px;
+		margin-bottom: 10px;
+
+		.unitSwitcherContainer {
+			// p:first-child{
+			// 	padding-right:5px;
+			// }
+			// p:last-child{
+			// 	padding-left
+			// }
+			padding-right: 10px;
+		}
+	}
+
+	.tempoContainer {
+		padding-left: 5px;
+
+		@media (min-width:$medium_to_large) {
+			padding-left:0;
+		}
+
+		button {
+			@include btn($exerciseDescriptionBox_color, 20px, 100px);
+			color: $tw_dblue;
+			font-size: 0.65em;
+			margin-left: 5px;
+
+			@media (min-width:$table_breakPoints) {
+				font-size: 0.8em;
+				width: 120px;
+				height: 25px;
+			}
+
+			@media (min-width:$medium_to_large) {
+				margin-left: 0;
+			}
+		}
+	}
+
+	@media (min-width:$medium_to_large) {
+		& {
+			width: 50%;
+			margin-top: auto;
+			padding-top: 50px;
+		}
+
+		.cardio & {
+			width: 60%;
+		}
+	}
+
+	.tempo-active {
+		@include display(flex);
+
+		div {
+			background:$exerciseDescriptionBox_color;
+			min-width: 30px;
+			height: 30px;
+			font-size: 0.6em;
+		}
+
+		div:first-child {
+			padding: 10px 5px;
+			margin-right: 1px;
+		}
+
+		div:last-child {
+			background-image: url("/img/svg/closeTempo.svg");
+			background-position: center;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+
+		input {
+			background: $exerciseDescriptionBox_color;
+			padding: 0 10px;
+			width: 30px;
+			height: 30px;
+			margin-right: 1px;
+			background-image: url("/img/svg/editGrey.svg");
+			background-position: center;
+			background-repeat: no-repeat;
+			margin-bottom: 0;
+		}
+	}
+
+	.hide {
+		display: none !important;
+	}
+}
+
+.circuit-muscle table input,
+.muscle input {
+	padding: 0 45% 0 0%;
+}
+
+.range input{
+	padding: 0 45% 0 0%;
+}
+.maxRep input{
+	padding: 0 30% 0 0%;
+}
+
+.circuit-cardio table input,
+.cardio input {
+	padding: 0 54% 0 0%;
+}
+
+.speed input{
+	padding: 0 58% 0 0%;
+}
+
+.distance input{
+	padding: 0 45% 0 0%;
+}
+
+.cardioSet .time input{
+	padding: 0 50% 0 0%;
+}
+
+.hr input,
+.muscleSet .time input{
+	padding: 0 50% 0 0;
+}
+
+
+.cw-exercise {
+
+	td {
+		position: relative;
+
+		&::after {
+			position: absolute;
+			right: 20%;
+			color: $tw_dblue;
+			font-weight: lighter;
+			font-size: 0.8em;
+			line-height: 2em;
+
+			@media (min-width:$table_breakPoints) {
+				& {
+					font-size: 1em;
+					line-height: 1.6em;
+				}
+			}
+		}
+
+		&.repStyleChoice,
+		input {
+			background-image: url("/img/svg/editGrey.svg");
+			background-position: 95% 50%; 
+			background-repeat: no-repeat;
+		}
+
+		&.repStyleChoice {
+			font-weight: 300;
+		    padding-right: 13px;
+		    padding-left: 5px;
+		    cursor: pointer;
+		}
+	}
+
+	input {
+		border-radius: 0;
+		border: none;
+		height: auto;
+		width: 100%;
+		margin: 0;
+		font-size: 1em;
+		line-height: 1.6em;
+		text-align: right;
+		@media(max-width: $small_to_medium){
+			&:focus{
+				font-size: 16px;
+			}
+		}
+		&:focus,
+		&:active,
+		&.fill{
+			background-image: none;
+		}
+	}
+}
+
+.cardio .exerciseDetails td::after{
+	right: 5%;
+
+	@media (min-width: 375px) {
+		right: 15%;
+	}
+}
+
+
+.exercise-table {
+	text-align: center;
+
+	button {
+		@include btn($exerciseDescriptionBox_color, 26px, 95%);
+		font-size: 0.7em;
+		color: $tw_dblue;
+		margin: auto;
+		margin-top: 5px;
+
+		@media (min-width:$table_breakPoints) {
+			& {
+				font-size: 0.8em;
+			}
+		}
+	}
+	tbody th,
+	tbody td{
+		vertical-align: middle;
+	}
+	.restBtwSet {
+		background: white;
+
+		td {
+			font-size: 0.7em;
+			font-weight: lighter;
+			padding: 0 6px;
+			vertical-align: middle;
+			text-align: right;
+		}
+
+		th {
+			padding: 2px;
+			padding-bottom: 5px;
+		}
+		
+		button{
+			width: 45px;
+			height: 22px;
+			margin: 0;
+		}
+
+		input {
+			display: none;
+			width: 85px;
+			//padding: 4px;
+			padding-right: 25px;
+			box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.30);
+			margin: 5px 0px 5px 0px;
+			//max-width: calc(50% - 75px);
+			//min-width: 200px;
+		}
+
+		span {
+			display: none;
+		}
+
+		&-active {
+			background: initial;
+
+			input {
+				display: initial;
+				padding: 5px 55% 5px 20%;
+			}
+
+			p {
+				display: none;
+			}
+
+			span {
+				display: initial;
+			}
+		}
+
+		.secRest input{
+			cursor: pointer;
+			box-shadow:none;
+			height: 18px;
+		}
+	}
+}
+
+
+//adding and removing sets
+.setManagement {
+
+	.removeSet {
+		display: none;
+	}
+
+	&-active {
+		@include display(flex);
+		@include justify-content(space-around);
+
+		.removeSet {
+			display: initial;
+		}
+
+		button {
+			width: 45%;
+			min-width: auto;
+		}
+	}
+}
+
+
+
+//Unite of Mesure to be applied to get them shown. 
+.lbs::after {
+	content: "lbs";
+}
+
+.kg::after {
+	content: "kg";
+}
+.time::after,
+.sec::after {
+	content:"sec";
+}
+
+
+.muscleSet .range::after,
+.rep::after{
+	content:'reps';
+}
+
+.cardioSet .range::after{
+	content:'bpm';
+}
+.maxRep::after{
+	content:'';
+}
+.secRest::after {
+	//content: "seconds between set";
+	top: 6px;
+	right: 33px !important;
+}
+
+.min::after {
+	content: "min";
+}
+
+.mi::after {
+	content: "mi.";
+}
+
+.mih::after {
+	content: "mi/h";
+}
+
+.km::after {
+	content: "km";
+}
+
+.kmh::after {
+	content: "km/h";
+}
+
+.hr::after {
+	content: "bpm";
+}
+
+.reserve::after{
+	content: 'bpm';
+}
+
+.Vo2Max::after{
+	content:'%';
+}
+
+.max::after{
+	content:'bpm'
+}
+
+.effort::after{
+	content:'%';
+}
+// .hr input {
+// 	padding-right: 55px;
+// }
+
+
+th.bound, 
+.tbRepType {
+	position: relative;
+
+	&::after{
+		cursor:pointer;
+		content: url("/img/svg/dropDown.svg");
+		right: 5%;
+		position: absolute;
+		top: 24%;
+	}
+}
+
+.set .tbSet{
+	text-indent: 10px;
+
+	&::after{
+		cursor:pointer;
+		content: url("/img/svg/dropDownB.svg");
+		right: 2%;
+		position: absolute;
+	}
+}
+
+
+
+
+
+.circuitExerciseOptions {
+	@include display(flex);
+	@include flex-direction(column);
+
+	button {
+		@include btn($tw_blue, 40px, 120px);
+		color: white;
+		text-transform: uppercase;
+		font-size: 1em;
+	}
+}
+
+
+
+// Raise Menu for selecting how the muscle exercise is bound. 
+.overlay {
+	@extend .overlayStyle;
+}
+
+.leftOverBound {
+	@extend .overlayStyle;
+	z-index:100;
+}
+
+.chooseBound {
+	position: fixed;
+	width: 84%;
+    left: 8%;
+    right: 0;
+    top: 33%;
+    z-index: 200;
+    color: white;
+    opacity: 1;
+    @include transition(bottom 0.4s $ease-out-quint);
+
+    @media (min-width: $medium_to_large){
+    	width: 45%;
+    	left: 30%;
+    }
+
+	li {
+		cursor:pointer;
+		padding: 10px 40px;
+		//border-bottom: 1px solid #fff;
+		background: rgba(54,154,216,0.95);
+	box-shadow: 0px -4px 8px 1px rgba(55,128,174,0.50);
+	margin:5px;
+		&:hover {
+			background-color: rgba(24, 89, 129, 0.95);
+			&:first-child {
+				background: rgba(54,154,216,0.95);
+			}
+		}
+		&:first-child{
+			cursor: default;
+		}
+	}
+
+	.exeName {
+		padding-left: 10px;
+	}
+}
+/*
+.muscle .chooseBound {
+	background: rgba(54,154,216,0.95);
+	box-shadow: 0px -4px 8px 1px rgba(55,128,174,0.50);
+}*/
+
+// .cardio .chooseBound {
+// 	background: rgba(251,177,70,0.95);
+// 	box-shadow: 0px -4px 8px 1px rgba(251,177,70,0.50);
+// }
+
+.circuit-muscle .chooseBound{
+	background:#2C3E50;
+	box-shadow: 0px -4px 8px 1px #2C3E50;
+}
+
+//Circuit Styling
+
+.cw .circuit {
+	padding: 1px;
+	position: relative;
+
+	h1 {
+		text-align: center;
+		text-transform: uppercase;
+		padding: 15px 0 5px;
+		font-size: 1.2em;
+		width: 100%;
+
+		@media (min-width:$table_breakPoints) {
+			& {
+				font-size: 1.25em;
+			}
+		}
+	}
+
+	.exerciseImages {
+		padding-left: 22px;
+	}
+
+	.cExercise_header_bottom {
+		margin-top: 0;
+	}
+
+	.exerciseOptions {
+		@include justify-content(flex-start);
+	}
+}
+
+
+.circuitSetUp {
+	padding: 0 10px 10px; 
+
+	@media (min-width: $small_to_medium) {
+		margin: auto auto;
+		width: 400px;
+	}
+
+	label {
+		font-size: 0.8em;
+		cursor: pointer
+	}
+ 	
+
+	.likeNumber,
+	input[type=number] {
+		border: 1px solid rgba(255, 255, 255, 0.52);
+		border-radius: 2px;
+		width: 45px;
+		height: 25px;
+		color: white;
+		padding: 0 5px;
+		font-size: 0.8em;
+		@media (max-width: $small_to_medium){
+	 		&:focus{
+				font-size:16px;
+			}
+	 	}
+	    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
+	    text-align: left;
+	}
+
+	// input[type=number] {
+	// 	border: 1px solid rgba(255, 255, 255, 0.52);
+	// 	border-radius: 2px;
+	// 	width: 38px;
+	// 	height: 25px;
+	// 	color: white;
+	// 	padding: 0 2px;
+	// 	font-size: 0.8em;
+	//     box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
+	// }
+
+	input[type=radio] {
+		opacity: 0;
+		position: absolute;
+		cursor: pointer;
+		height: 25px;
+		top: -2px;
+	}
+
+	input[type=radio] + label span {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		background: transparent;
+		border: 1px solid rgba(255, 255, 255, 0.7);
+		border-radius: 100%;
+		margin-right: 8px;
+		box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.50);
+	}
+
+	input[type=radio]:checked + label span {
+		background: url("/img/svg/selected.svg");
+		background-position: center center;
+		background-size: 6px;
+		background-repeat: no-repeat;
+	}
+
+	.optionId {
+		background: white;
+		border-radius: 50%;
+		height: 2em;
+		width: 2em;
+		display: block;
+		text-align: center;
+		line-height: 2em;
+		margin-bottom: 10px;
+		margin-top: 15px;
+	}
+
+	.option{
+		padding-left: 9px;
+		padding-bottom: 12px;
+		position: relative;
+	}
+}
+
+.circuitStyleSubmit {
+	text-align: center;
+	padding: 30px 0;
+}
+
+.circuitStyleSubmit,
+.circuitStyle-emom,
+.circuitStyle-amrap,
+.circuitStyle-rounds {
+	display: none;
+}
+
+
+.circuitInfo {
+	margin-top:auto;
+
+	.circleInstruction {
+		border: 2px white solid;
+		border-radius: 100%;
+		width: 50px;
+		height: 50px;
+		@include display(flex);
+		@include flex-direction(column);
+		color: white;
+		text-align: center;
+
+		span {
+			font-size: 0.6em;
+			margin: 2px auto auto auto;
+			font-weight: lighter;
+		}
+
+		p {
+			margin: auto auto 2px auto;
+		}
+	}
+}
+
+
+.nbrounds,
+.amrap,
+.emom {
+	@include display(flex);
+	@include justify-content(flex-start);
+
+	span {
+		margin-top: auto;
+		font-weight: bold;
+		color: white;
+		margin-left: 6px;
+	}
+}
+
+
+.addExerciseToCircuit {
+	padding: 50px 0;
+	text-align: center;
+	position: relative;
+
+	button {
+		@include btn($tw_blue, 52px, 185px);
+		text-transform: uppercase;
+		color: white;
+		font-size: 1.2em;
+	}
+}
+
+.repeatCircuit {
+	padding: 0 7px 12px 7px;
+	@include clearfix;
+	position: relative;
+
+	svg {
+		z-index: 2;
+		float: left;
+	}
+}
+
+.restTimeBtwRoundsEmom,
+.restTimeBtwRounds {
+	border: 1px $tw_dblue solid;
+	@include border-left-radius(20px);
+	margin-left: 1px;
+	margin-top: 1px;
+	height: 36px;
+	width: 100%;
+	text-align: center;
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
+
+	p {
+		line-height: 36px;
+		@media (max-width: $superSmall_to_small){
+			font-size: 90%;
+		}
+	}
+}
+
+
+.cExercise_header_info h5 {
+	font-size: 20px;
+	font-weight: 400;
+}
+
+
+
+.restBtwExercise {
+	position: relative;
+	text-align: center;
+	padding: 18px 0;
+
+	button {
+		@include btn($exerciseDescriptionBox_color, 26px, 95%);
+		font-size: 0.7em;
+		color: $tw_dblue;
+		margin: auto;
+
+		@media (min-width:$table_breakPoints) {
+			font-size: 0.8em;
+		}
+	}
+	
+}
+
+  
+.btwExerciseRest {
+	@extend .restBtwExercise;
+}
+
+.circuitContainer .btwExerciseRest:last-child {
+	display: none;
+}
+
+.cw .btwExerciseRest {
+	@media (min-width:$desktop_breakPoints) {
+		max-width: 1057px;
+		margin: auto;
+	}
+
+	&-active {
+		@include display(flex);
+		@include justify-content(space-between);
+		padding: 0 10px;
+		margin: 0 5px;
+
+		svg {
+			margin-top: auto;
+			margin-bottom: auto;
+
+			&:last-child {
+				cursor: pointer;
+			}
+		}
+
+		@media (min-width:$desktop_breakPoints) {
+			max-width: 1004px;
+			margin: auto;
+		}
+	}
+
+	&-time{
+		@include display(flex);
+		padding-right: 20px;
+		
+		input {
+			margin: auto 0;
+			width: 60px;
+			margin: 10px;
+			padding: 2px;
+			padding-left: 8px;
+			border: transparent;
+			text-align: center;
+			color: $tw_blue;
+			font-size: 1em;
+			box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.30);
+		}
+
+		label {
+			font-size: 1em;
+			color: $tw_blue;
+			margin: auto 0;
+			padding: 0;
+
+			@media (max-width: $superSmall_to_small){
+				font-size: 0.7em;
+			}
+		}
+	}
+}
+
+
+.circuitContainer{
+	.btwExerciseRest{
+		
+		.addRest {
+			width: 80%;
+		}
+		
+		.restTime {
+			color: #2C3E50;
+		}
+		
+		input {
+			width:100%;
+		}
+	}
+
+	.btwExerciseRest-active {
+		border: 1px solid #2C3E50;    
+		margin: auto 10px;
+    	border-bottom-left-radius: 26px;
+    	border-top-left-radius: 17px;
+    	height: 50px;
+
+	}
+
+}
+
+.circuitEditing {
+	padding: 1px;
+	margin-top: 10px;
+
+	.circuitInfo,
+	.exerciseOptions,
+	.addExerciseToCircuit,
+	.repeatCircuit {
+		display: none;
+	}
+
+	.exerciseHeader {
+		border-radius: 2px;
+	// Creates conflicts for bottom corner radius. 
+		.circuitDelete{
+			cursor:pointer;
+			position:absolute;
+			right: 10px;
+			top:10px;
+		}
+
+	}
+}
+
+
+
+.saveStatusContainer {
+	position: fixed;
+    bottom: 10vh;
+    right: 1vh;
+	perspective: 1000px;
+}
+
+.saveStatus {
+	transition: 0.3s;
+	transform-style: preserve-3d;
+	position: relative;
+
+	&_active {
+		transform: rotateY(180deg);
+	}
+
+	&_failed {
+		.saving, 
+		.saved {
+			display: none;
+		}
+
+		.failed { //here show the failing message
+			right: 10px;
+			opacity: 1;
+		}
+	}
+}
+
+.saveStatus,
+.saving, 
+.saved {
+    height: 43px;
+    width: 90px;
+}
+
+.saved {
+	width: 90px;
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+	background: $tw_green;
+}
+
+.saving {
+	transform: rotateY(180deg);
+	background: $tw_dblue;	
+}
+
+.saving, 
+.saved {
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+    padding: 6px;
+    border-radius: 20px;
+	@include display(flex);
+	border: white solid 1px;
+    p {
+    	color: white;
+    	font-size: 0.8em;
+    	margin: auto;
+    	padding-right:6px;
+    }
+}	
+
+.svglogo {
+	margin: auto auto;
+	height: 80%;
+}
+
+.failed { //What does the fail messge look like. 
+	opacity: 0;
+	position:absolute;
+	right: -100vw;
+	background: $red;
+	padding: 15px;
+	border-radius: 0;
+	transform: rotateY(0deg);
+	@include transition(right 0.3s$ease-out-circ);
+	p {
+		color: white;
+		font-size: 1em;
+	}
+}
+
+
+

@@ -1,0 +1,503 @@
+<!-- This view is the view workout page on deskptop & mobiles-->
+@extends('layouts.trainer')
+@section('content')
+<section id="content" class="clearfix">
+	<div class="wrapper">
+		<div class="widgets fullwidthwidget shadow_VW widget_height_VW">
+
+          
+		<!-- PRINT -->
+		<div class="fltright fltright_view">
+            <a target="_blank" href="" class="greenbtn a_workout_button btn viewworkoutbtn">
+	            <i class="fa fa-print"></i>
+	            print
+            </a>
+ 		</div>
+
+		<!-- SHARE -->
+       <div class="fltright fltright_view">
+        <a href="" class="fancybox greenbtn a_workout_button btn viewworkoutbtn">
+           <i class="fa fa-share-square-o"></i>
+           share
+        </a>
+       </div>
+
+     <!-- EDIT -->
+        <div class="fltright fltright_view">
+          <a target="_blank" href="" class="greenbtn a_workout_button btn viewworkoutbtn">
+            <i class="fa fa-pencil"></i>
+            edit
+          </a>
+      	</div>
+
+	 	<!-- WORKOUT TITLE -->
+	 	<h1 id="title_VW">Ski in the mountains of yolo</h1>
+
+	 	<!-- CREATED BY -->
+	 	<h2 id="subtitle_VW">This workout was created by Alain on Jul 28, 2015 </h2>
+
+	</div>
+
+    <!------------------------ CIRCUIT ------------------------>
+    <div class="widgets fullwidthwidget shadow_VW">
+
+          <div class="green_mark_VW"></div>
+          <div class="circuit_title_VW"><h3>2 ROUNDS | rest between rounds: 60 sec</h3></div>
+          <!-- MUSCLE -->
+            <div class="dayitemsdetails workout_VW clearfix" exercise="">
+
+                  <!-- LEFT AREA WITH THE EXERCISE DESCRIPTION -->
+                  <div class="dayworkouts clearfix width_VW">
+                     
+                    <div class="circuit_exOrder_VW">
+                      <h5>Exercise 1/3</h5>
+                    </div>
+                    <div class="circuit_exTitle_VW">
+                      <h5><img class="equip_img" src="/images/exercises/C99D00BB-66B2-4D16-9781-BB283E841144_thumb.jpg"> Muscle Exercise</h5>
+                    </div>
+
+                    <div class="workout_image_container">
+                        <ul class="img_ul">
+                           <li>
+                              <a href="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" data-lightbox="ex_4032"><img src="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" alt="Tricep press"></a>
+                           </li>
+                           <li>
+                              <a href="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" data-lightbox="ex_4032"><img data-lightbox="ex_4032" id="customImage4032" src="/public/users/4/exercises//07343390-3F14-FB40-3BDC-1E06731DFFCA.jpg" alt="Trainer Workout - "></a>
+                          </li>
+                        </ul>
+                    </div>
+                    
+                    <table class="tempo_VW">
+                      <tbody>
+                        <tr>
+                          <td class="td_darkBlue tempo_header"><span>Tempo</span></td>
+                          <td class="td_regularBlue tempo_inputs">3</td>
+                          <td class="td_lightBlue tempo_inputs">0</td>
+                          <td class="td_regularBlue tempo_inputs">3</td>
+                          <td class="td_lightBlue tempo_inputs">4</td>
+                        <tr>
+                      </tbody>
+                    </table>
+
+                    <div class="workoutComment_1">
+                         <div class="note_VW">
+                           <strong>Note: </strong> Lorem Ipsum Dolor Blablal Asd
+                         </div>
+                    </div>
+                  </div>
+                  <!-- RIGHT AREA WITH THE EXERCISE SETS -->
+                  <div class="setsTable clearfix width_VW">
+                    <table>
+                      <tbody>
+                        <!-- HEADER -->
+                        <tr>
+                          <td class="td_darkBlue setsHeader">Set</td>
+                          <td class="td_darkBlue setsHeaderMuscle">Weight</td>
+                          <td class="td_darkBlue setsHeaderMuscle">Repetitions</td>
+                        </tr>
+                        <!-- VALUES -->
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>1</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>2</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>3</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                      </tbody>
+                    </table> 
+                  </div>
+            </div>
+
+          <!-- REST -->
+          <div class="circuit_rest_VW">
+            <p>Rest between exercises: 30 sec</p>
+          </div>  
+
+          <!-- CARDIO -->
+            <div class="dayitemsdetails workout_VW clearfix" exercise="">
+              <!-- LEFT AREA WITH THE EXERCISE DESCRIPTION -->
+                  <div class="dayworkouts clearfix width_VW">
+                     
+                    <div class="circuit_exOrder_VW">
+                      <h5>Exercise 2/3</h5>
+                    </div>
+                    <div class="circuit_exTitle_VW">
+                      <h5>Cardio Exercise</h5>
+                    </div>
+
+                    <div class="workout_image_container">
+                        <ul class="img_ul">
+                         <li>
+                            <a href="/images/exercises/324C3D7E-F789-C0FB-9902-72AB857AFB6E.jpg" data-lightbox="ex_4032"><img src="/images/exercises/324C3D7E-F789-C0FB-9902-72AB857AFB6E.jpg" alt="Tricep press"></a>
+                         </li>
+                         <li>
+                            
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <table class="tempo_VW">
+                      <tbody>
+                        <tr>
+                          <td class="td_darkBlue tempo_header"><span>Tempo</span></td>
+                          <td class="td_regularBlue tempo_inputs">3</td>
+                          <td class="td_lightBlue tempo_inputs">0</td>
+                          <td class="td_regularBlue tempo_inputs">3</td>
+                          <td class="td_lightBlue tempo_inputs">4</td>
+                        <tr>
+                      </tbody>
+                    </table>
+
+                    <div class="workoutComment_1">
+                         <div class="note_VW">
+                           <strong>Note: </strong> Lorem Ipsum Dolor Blablal Asd
+                         </div>
+                    </div>
+                  </div>
+
+                  <!-- RIGHT AREA WITH THE EXERCISE SETS -->
+                <div class="setsTable clearfix width_VW">
+                  <table>
+                    <tbody>
+                      <!-- HEADER -->
+                      <tr>
+                        <td class="td_darkBlue setsHeader">Interval</td>
+                        <td class="td_darkBlue setsHeaderCardio">Heart Rate</td>
+                        <td class="td_darkBlue setsHeaderCardio">Speed</td>
+                        <td class="td_darkBlue setsHeaderCardio">Distance</td>
+                        <td class="td_darkBlue setsHeaderCardio">Time</td>
+                      </tr>
+                      <!-- VALUES -->
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>1</strong></td>
+                        <td class="td_regularBlue setsData">90 bpm</td>
+                        <td class="td_regularBlue setsData">20 km/h</td>
+                        <td class="td_regularBlue setsData">5 km</td>
+                        <td class="td_regularBlue setsData">30 min</td>
+                      </tr>
+                      <tr>
+                        <td class="td_lightBlue setsRest">Rest</td>
+                        <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                      </tr>
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>2</strong></td>
+                        <td class="td_regularBlue setsData">90 bpm</td>
+                        <td class="td_regularBlue setsData">20 km/h</td>
+                        <td class="td_regularBlue setsData">5 km</td>
+                        <td class="td_regularBlue setsData">30 min</td>
+                      </tr>
+                    </tbody>
+                  </table> 
+                </div>
+            </div>
+
+          <!-- REST -->
+          <div class="circuit_rest_VW">
+            <p>Rest between exercises: 30 sec</p>
+          </div>
+
+          <!-- MUSCLE -->
+            <div class="dayitemsdetails workout_VW clearfix" exercise="">
+
+                  <!-- LEFT AREA WITH THE EXERCISE DESCRIPTION -->
+                  <div class="dayworkouts clearfix width_VW">
+                     
+                    <div class="circuit_exOrder_VW">
+                      <h5>Exercise 3/3</h5>
+                    </div>
+                    <div class="circuit_exTitle_VW">
+                      <h5><img class="equip_img" src="/images/exercises/C99D00BB-66B2-4D16-9781-BB283E841144_thumb.jpg"> Muscle Exercise</h5>
+                    </div>
+
+                    <div class="workout_image_container">
+                        <ul class="img_ul">
+                           <li>
+                              <a href="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" data-lightbox="ex_4032"><img src="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" alt="Tricep press"></a>
+                           </li>
+                           <li>
+                              <a href="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" data-lightbox="ex_4032"><img data-lightbox="ex_4032" id="customImage4032" src="/public/users/4/exercises//07343390-3F14-FB40-3BDC-1E06731DFFCA.jpg" alt="Trainer Workout - "></a>
+                          </li>
+                        </ul>
+                    </div>
+                    
+                    <table class="tempo_VW">
+                      <tbody>
+                        <tr>
+                          <td class="td_darkBlue tempo_header"><span>Tempo</span></td>
+                          <td class="td_regularBlue tempo_inputs">3</td>
+                          <td class="td_lightBlue tempo_inputs">0</td>
+                          <td class="td_regularBlue tempo_inputs">3</td>
+                          <td class="td_lightBlue tempo_inputs">4</td>
+                        <tr>
+                      </tbody>
+                    </table>
+
+                    <div class="workoutComment_1">
+                         <div class="note_VW">
+                           <strong>Note: </strong> Lorem Ipsum Dolor Blablal Asd
+                         </div>
+                    </div>
+                  </div>
+                  <!-- RIGHT AREA WITH THE EXERCISE SETS -->
+                  <div class="setsTable clearfix width_VW">
+                    <table>
+                      <tbody>
+                        <!-- HEADER -->
+                        <tr>
+                          <td class="td_darkBlue setsHeader">Set</td>
+                          <td class="td_darkBlue setsHeaderMuscle">Weight</td>
+                          <td class="td_darkBlue setsHeaderMuscle">Repetitions</td>
+                        </tr>
+                        <!-- VALUES -->
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>1</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>2</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>3</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>4</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>5</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                        <tr>
+                          <td class="td_lightBlue setsRest">Rest</td>
+                          <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                        </tr>
+                        <tr>
+                          <td class="td_regularBlue setsNumber"><strong>6</strong></td>
+                          <td class="td_regularBlue setsData">35 Lbs</td>
+                          <td class="td_regularBlue setsData">12</td>
+                        </tr>
+                      </tbody>
+                    </table> 
+                  </div>
+            </div>
+          
+    </div>
+    <!------------------------ MUSCLE EXERCISE ------------------------>
+		<div class="widgets fullwidthwidget shadow_VW">
+
+			    <div class="green_mark_VW"></div>
+
+
+			      <div class="dayitemsdetails workout_VW clearfix" exercise="">
+
+                <!-- LEFT AREA WITH THE EXERCISE DESCRIPTION -->
+                <div class="dayworkouts clearfix width_VW">
+                   
+                  <div class="exercise_title_VW">
+                    <h5><img class="equip_img" src="/images/exercises/C99D00BB-66B2-4D16-9781-BB283E841144_thumb.jpg"> Muscle Exercise</h5>
+                  </div>
+
+                  <div class="workout_image_container">
+                      <ul class="img_ul">
+                         <li>
+                            <a href="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" data-lightbox="ex_4032"><img src="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" alt="Tricep press"></a>
+                         </li>
+                         <li>
+                            <a href="/public/users/4/exercises//66606057-186C-555E-65BA-844CA39660FF.jpg" data-lightbox="ex_4032"><img data-lightbox="ex_4032" id="customImage4032" src="/public/users/4/exercises//07343390-3F14-FB40-3BDC-1E06731DFFCA.jpg" alt="Trainer Workout - "></a>
+                        </li>
+                      </ul>
+                  </div>
+                  
+                  <table class="tempo_VW">
+                    <tbody>
+                      <tr>
+                        <td class="td_darkBlue tempo_header"><span>Tempo</span></td>
+                        <td class="td_regularBlue tempo_inputs">3</td>
+                        <td class="td_lightBlue tempo_inputs">0</td>
+                        <td class="td_regularBlue tempo_inputs">3</td>
+                        <td class="td_lightBlue tempo_inputs">4</td>
+                      <tr>
+                    </tbody>
+                  </table>
+
+                  <div class="workoutComment_1">
+                       <div class="note_VW">
+                         <strong>Note: </strong> Lorem Ipsum Dolor Blablal Asd
+                       </div>
+                  </div>
+                </div>
+                <!-- RIGHT AREA WITH THE EXERCISE SETS -->
+                <div class="setsTable clearfix width_VW">
+                  <table>
+                    <tbody>
+                      <!-- HEADER -->
+                      <tr>
+                        <td class="td_darkBlue setsHeader">Set</td>
+                        <td class="td_darkBlue setsHeaderMuscle">Weight</td>
+                        <td class="td_darkBlue setsHeaderMuscle">Repetitions</td>
+                      </tr>
+                      <!-- VALUES -->
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>1</strong></td>
+                        <td class="td_regularBlue setsData">35 Lbs</td>
+                        <td class="td_regularBlue setsData">12</td>
+                      </tr>
+                      <tr>
+                        <td class="td_lightBlue setsRest">Rest</td>
+                        <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                      </tr>
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>2</strong></td>
+                        <td class="td_regularBlue setsData">35 Lbs</td>
+                        <td class="td_regularBlue setsData">12</td>
+                      </tr>
+                      <tr>
+                        <td class="td_lightBlue setsRest">Rest</td>
+                        <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                      </tr>
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>3</strong></td>
+                        <td class="td_regularBlue setsData">35 Lbs</td>
+                        <td class="td_regularBlue setsData">12</td>
+                      </tr>
+                      <tr>
+                        <td class="td_lightBlue setsRest">Rest</td>
+                        <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                      </tr>
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>4</strong></td>
+                        <td class="td_regularBlue setsData">35 Lbs</td>
+                        <td class="td_regularBlue setsData">12</td>
+                      </tr>
+
+                    </tbody>
+                  </table> 
+                </div>
+            </div>	
+		</div>
+
+    <!------------------------ CARDIO EXERCISE ------------------------>
+    <div class="widgets fullwidthwidget shadow_VW">
+
+          <div class="green_mark_VW"></div>
+
+
+            <div class="dayitemsdetails workout_VW clearfix" exercise="">
+
+                <!-- LEFT AREA WITH THE EXERCISE DESCRIPTION -->
+                <div class="dayworkouts clearfix width_VW">
+                   
+                  <div class="exercise_title_VW">
+                    <h5>Cardio Exercise</h5>
+                  </div>
+
+                  <div class="workout_image_container">
+                      <ul class="img_ul">
+                         <li>
+                            <a href="/images/exercises/324C3D7E-F789-C0FB-9902-72AB857AFB6E.jpg" data-lightbox="ex_4032"><img src="/images/exercises/324C3D7E-F789-C0FB-9902-72AB857AFB6E.jpg" alt="Tricep press"></a>
+                         </li>
+                         <li>
+                            
+                        </li>
+                      </ul>
+                  </div>
+                  
+                  <table class="tempo_VW">
+                    <tbody>
+                      <tr>
+                        <td class="td_darkBlue tempo_header"><span>Tempo</span></td>
+                        <td class="td_regularBlue tempo_inputs">3</td>
+                        <td class="td_lightBlue tempo_inputs">0</td>
+                        <td class="td_regularBlue tempo_inputs">3</td>
+                        <td class="td_lightBlue tempo_inputs">4</td>
+                      <tr>
+                    </tbody>
+                  </table>
+
+                  <div class="workoutComment_1">
+                       <div class="note_VW">
+                         <strong>Note: </strong> Lorem Ipsum Dolor Blablal Asd
+                       </div>
+                  </div>
+                </div>
+                <!-- RIGHT AREA WITH THE EXERCISE SETS -->
+                <div class="setsTable clearfix width_VW">
+                  <table>
+                    <tbody>
+                      <!-- HEADER -->
+                      <tr>
+                        <td class="td_darkBlue setsHeader">Interval</td>
+                        <td class="td_darkBlue setsHeaderCardio">Heart Rate</td>
+                        <td class="td_darkBlue setsHeaderCardio">Speed</td>
+                        <td class="td_darkBlue setsHeaderCardio">Distance</td>
+                        <td class="td_darkBlue setsHeaderCardio">Time</td>
+                      </tr>
+                      <!-- VALUES -->
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>1</strong></td>
+                        <td class="td_regularBlue setsData">90 bpm</td>
+                        <td class="td_regularBlue setsData">20 km/h</td>
+                        <td class="td_regularBlue setsData">5 km</td>
+                        <td class="td_regularBlue setsData">30 min</td>
+                      </tr>
+                      <tr>
+                        <td class="td_lightBlue setsRest">Rest</td>
+                        <td class="td_lightBlue setsRestValue" colspan="4">30</td>
+                      </tr>
+                      <tr>
+                        <td class="td_regularBlue setsNumber"><strong>2</strong></td>
+                        <td class="td_regularBlue setsData">90 bpm</td>
+                        <td class="td_regularBlue setsData">20 km/h</td>
+                        <td class="td_regularBlue setsData">5 km</td>
+                        <td class="td_regularBlue setsData">30 min</td>
+                      </tr>
+                    </tbody>
+                  </table> 
+                </div>
+            </div>  
+    </div>
+
+	</div>
+</section>
+@endsection
+@section('scripts')
+@endsection

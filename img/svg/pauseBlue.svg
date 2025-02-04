@@ -1,0 +1,11 @@
+<svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        Pause Icon
+    </title>
+    <g transform="translate(1 1)" fill="none" fill-rule="evenodd">
+        <circle stroke="#2C3E50" fill="#FFF" cx="12.5" cy="12.5" r="12.5"/>
+        <g fill="#2C3E50">
+            <path d="M8.523 7.955h2.84v9.66h-2.84zM13.068 7.955h2.84v9.66h-2.84z"/>
+        </g>
+    </g>
+</svg>

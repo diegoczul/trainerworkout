@@ -1,0 +1,15 @@
+<svg width="19" height="26" viewBox="0 0 19 26" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        Delete Icon
+    </title>
+    <g fill="none" fill-rule="evenodd">
+        <g fill="#FFF">
+            <rect y="2.364" width="19" height="2.364" rx=".6"/>
+            <rect x="7.125" width="4.75" height="1.773" rx=".6"/>
+            <path d="M1.78 5.915a.6.6 0 0 1 .606-.597h14.228c.334 0 .605.262.605.597v17.692A2.395 2.395 0 0 1 14.823 26H4.176a2.4 2.4 0 0 1-2.395-2.393V5.915z"/>
+        </g>
+        <g stroke="#7079B1" stroke-width=".6" stroke-linecap="square">
+            <path d="M13.36 9.75v11.818M9.5 9.75v11.818M5.64 9.75v11.818"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,81 @@
+[27-Jan-2018 13:57:04 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[27-Jan-2018 13:59:43 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[27-Jan-2018 13:59:59 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[27-Jan-2018 14:00:03 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[17-Aug-2018 08:39:27 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[17-Aug-2018 11:34:38 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[17-Aug-2018 11:49:09 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[17-Aug-2018 11:54:46 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[02-Sep-2018 00:46:26 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[02-Sep-2018 16:58:35 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[03-Sep-2018 05:27:08 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[04-Sep-2018 08:45:51 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[08-Oct-2018 12:58:15 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[07-Nov-2018 20:46:49 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[24-Nov-2018 08:14:20 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[29-Nov-2018 02:25:47 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[05-Dec-2018 00:50:18 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[05-Dec-2018 12:05:18 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[05-Dec-2018 21:57:39 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[12-Dec-2018 20:12:13 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[12-Jan-2019 02:20:49 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[12-Jan-2019 12:04:29 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[16-Jan-2019 14:21:28 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[18-Jan-2019 15:58:20 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[20-Jan-2019 16:39:43 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[25-Jan-2019 17:11:51 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[26-Jan-2019 07:56:51 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[26-Jan-2019 17:11:52 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[27-Jan-2019 06:46:03 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[30-Jan-2019 05:13:47 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[30-Jan-2019 23:30:44 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[30-Jan-2019 23:33:46 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[30-Jan-2019 23:35:23 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[01-Feb-2019 01:52:38 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[01-Feb-2019 16:33:04 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[02-Feb-2019 01:35:49 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[02-Feb-2019 11:33:27 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[04-Feb-2019 16:39:35 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[05-Feb-2019 03:40:23 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[07-Feb-2019 21:47:40 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[10-Feb-2019 12:09:58 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[10-Feb-2019 22:31:45 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[13-Feb-2019 22:45:34 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[15-Feb-2019 22:51:24 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[06-Mar-2019 05:57:00 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[06-Mar-2019 22:10:46 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[07-Mar-2019 10:34:06 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[05-Apr-2019 19:14:20 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[08-Apr-2019 06:34:21 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[22-Apr-2019 06:49:32 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[16-May-2019 04:05:13 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[08-Jun-2019 00:28:45 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[08-Jun-2019 17:06:07 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[09-Jun-2019 05:53:27 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[27-Jul-2019 04:11:37 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[27-Jul-2019 04:18:49 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[27-Jul-2019 05:09:13 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[15-Aug-2019 18:40:11 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[10-Sep-2019 08:38:18 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[11-Sep-2019 01:10:10 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[17-Nov-2019 18:20:26 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[10-Dec-2019 23:25:56 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[11-Dec-2019 11:52:16 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[13-Dec-2019 08:38:41 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[16-Dec-2019 12:47:57 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[20-Dec-2019 01:39:49 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[20-Dec-2019 08:00:07 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[22-Dec-2019 04:09:09 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[18-Feb-2020 05:45:50 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[12-Mar-2020 04:46:35 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[12-Mar-2020 16:28:54 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[14-Mar-2020 12:37:42 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[15-Mar-2020 11:37:50 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[19-Mar-2020 08:43:38 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[24-Mar-2020 07:36:10 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[26-Mar-2020 00:46:26 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[22-May-2020 19:06:11 UTC] PHP Fatal error:  Call to a member function getSets() on null in /home/trainer/public_html/app/views/widgets/full/workoutExercise.blade.php on line 22
+[13-Jun-2020 01:56:44 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutMarket.blade.php on line 7
+[13-Jun-2020 16:59:06 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35
+[15-Jun-2020 19:23:19 UTC] PHP Fatal error:  Call to a member function getExercisesImagesWidget() on null in /home/trainer/public_html/app/views/widgets/full/workoutsTrainer.blade.php on line 7
+[12-Jul-2020 01:56:54 UTC] PHP Fatal error:  Class 'Auth' not found in /home/trainer/public_html/app/views/widgets/full/dialog.blade.php on line 35

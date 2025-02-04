@@ -1,0 +1,10 @@
+<svg width="37" height="37" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        Rewind Icon
+    </title>
+    <g transform="translate(1 1)" fill="none" fill-rule="evenodd">
+        <circle stroke="#2C3E50" fill="#FFF" cx="17.5" cy="17.5" r="17.5"/>
+        <path d="M26.79 18.148a8.69 8.69 0 0 0-.623-3.238c-1.366-3.413-4.828-5.836-8.883-5.836a9.73 9.73 0 0 0-6.308 2.285m-3.198 6.788c0 5.012 4.256 9.074 9.506 9.074 1.865 0 5.073-1.398 5.073-1.398" stroke="#2C3E50" stroke-width="2"/>
+        <path fill="#2C3E50" d="M28.144 23.455l1.343-7.904-7.076 2.3zM8.896 11.366L4.453 18.04l7.4.778z"/>
+    </g>
+</svg>
