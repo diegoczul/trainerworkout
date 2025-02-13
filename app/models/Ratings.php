@@ -1,26 +1,31 @@
 <?php
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Ratings extends \Eloquent {
-	use SoftDeletingTrait;
-	use Dimsav\Translatable\Translatable;
+namespace App\Models;
 
-	protected $fillable = [];
-	public $translatedAttributes = ['name'];
-	public $useTranslationFallback = true;
-	
-	protected $dates = ['deleted_at'];
+use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 
-	public static $rules = array(
-		
-	);
+class Ratings extends Model
+{
+    use SoftDeletes, Translatable;
 
-	public function trainer(){
-		return $this->hasOne("Users","id","ownerId");
-	}
+    protected $fillable = [];
+    public $translatedAttributes = ['name'];
+    public $useTranslationFallback = true;
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    protected $dates = ['deleted_at'];
 
+    public static $rules = [];
+
+    public function trainer()
+    {
+        return $this->hasOne("App\Models\Users", "id", "ownerId");
+    }
+
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

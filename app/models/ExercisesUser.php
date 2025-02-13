@@ -1,29 +1,35 @@
 <?php
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Users;
 
+class ExercisesUser extends Model
+{
+    use SoftDeletes;
 
-class ExercisesUser extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public static $rules = array(
+    public static $rules = array(
+        // Add validation rules if needed
+    );
 
-	);
+    public function users()
+    {
+        return $this->hasOne(Users::class, "id", "userId");
+    }
 
-	public function users(){
-		return $this->hasOne("Users","id","userId");
-	}
+    public function exercises()
+    {
+        return $this->hasOne(Exercises::class, "id", "exerciseId");
+    }
 
-	public function exercises(){
-		return $this->hasOne("Exercises","id","exerciseId");
-	}
-
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
-
-
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

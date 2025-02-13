@@ -1,43 +1,44 @@
 <?php
 
-class WorkoutsGroups extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 
-	);
+class WorkoutsGroups extends Model
+{
+    use SoftDeletes;
 
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public static $rules = [];
 
-	public function workoutsExercises(){
-		return $this->belongsTo("WorkoutsExercises","workoutsExercisesId","id");
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
-	public function getExercises(){
-		return WorkoutsExercises::with("exercises")->where("groupId",$this->id)->orderBy("order");
-	}
+    public function workoutsExercises()
+    {
+        return $this->belongsTo(WorkoutsExercises::class, 'workoutsExercisesId', 'id');
+    }
 
-	public function getExercisesImagesCircuit(){
-		$images = array();
-		$exercises = $this->getExercises()->get();
-	
-		$index = 0;
-		$images = array();
+    public function getExercises()
+    {
+        return WorkoutsExercises::with('exercises')->where('groupId', $this->id)->orderBy('order');
+    }
 
-		foreach($exercises as $exercise){
-			
-			$images[$index] = $exercise->exercises->image;
-			$index++;
-		}
-		
-		return $images;
-	}
+    public function getExercisesImagesCircuit()
+    {
+        $images = [];
+        $exercises = $this->getExercises()->get();
 
+        foreach ($exercises as $index => $exercise) {
+            $images[$index] = $exercise->exercises->image;
+        }
 
-
+        return $images;
+    }
 }

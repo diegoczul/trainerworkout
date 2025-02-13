@@ -1,8 +1,11 @@
 <?php
 
-class ExercisesImages extends \Eloquent {
-	
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ExercisesImages extends Model
+{
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 }

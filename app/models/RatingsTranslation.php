@@ -1,11 +1,11 @@
 <?php
 
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class RatingsTranslation extends \Eloquent {
-
-	protected $fillable =  ['name'];
-	public $timestamps = false;
-
-
+class RatingsTranslation extends Model
+{
+    protected $fillable = ['name'];
+    public $timestamps = false;
 }

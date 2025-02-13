@@ -1,14 +1,12 @@
 <?php
 
+namespace App\Models;
 
-class EquipmentsTranslation extends \Eloquent {
+use Illuminate\Database\Eloquent\Model;
 
-	protected $fillable = ['name','nameEngine'];
-	
+class EquipmentsTranslation extends Model
+{
+    protected $fillable = ['name', 'nameEngine'];
 
-
-	
-	
-
-
+    public $timestamps = false;
 }

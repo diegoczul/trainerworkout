@@ -1,22 +1,26 @@
 <?php
 
-class UsersSettings extends \Eloquent {
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+class UsersSettings extends Model {
 
-	public static $rules = array(
-		"name" => "required|min:2|max:300",
-		"value" => "required|max:1000"
-	);
+    use SoftDeletes;
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public function users(){
-		return $this->hasOne("Users","id","userId");
-	}
+    public static $rules = [
+        'name' => 'required|min:2|max:300',
+        'value' => 'required|max:1000',
+    ];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public function users(){
+        return $this->hasOne(Users::class,'id','userId');
+    }
 
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

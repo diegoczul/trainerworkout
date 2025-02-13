@@ -1,7 +1,14 @@
 <?php
 
-class OrdersItems extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class OrdersItems extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 }

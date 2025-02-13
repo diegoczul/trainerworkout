@@ -1,16 +1,30 @@
 <?php
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
+namespace App\Models;
 
+use App\Http\Libraries\Helper;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Ramsey\Uuid\Guid\Guid;
+use Stripe\Stripe;
+use Stripe\Subscription;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Users extends \Eloquent implements UserInterface, RemindableInterface { 
-    use SoftDeletingTrait;
+//class Users extends Model implements UserInterface, RemindableInterface {
+class Users extends Authenticatable {
+    use SoftDeletes, Notifiable;
 
-
-    protected $fillable = [];
+    protected $fillable = [
+        'updated_at',
+        'lastLogin',
+        'virtual',
+    ];
     protected $dates = ['deleted_at'];
     protected $hidden = array('password');
     protected $softDelete = true;
@@ -35,7 +49,7 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
         return Validator::make($data, static::$rules);
     }
 
-     public function getAuthIdentifier()
+    public function getAuthIdentifier()
     {
         return $this->getKey();
     }
@@ -57,7 +71,7 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
     }
 
     public function activeLogo(){
-        return $this->hasOne("UserLogos","userId","id")->where("active",1);
+        return $this->hasOne(UserLogos::class,"userId","id")->where("active",1);
     }
 
     /**
@@ -79,7 +93,6 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
         return Helper::userType($this->userType)."/".$this->id."/".Helper::formatURLString($this->firstName.$this->lastName );
     }
 
-
     public function getRememberTokenName()
     {
         return 'remember_token';
@@ -95,29 +108,29 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
     }
 
     public function friends(){
-        return $this->hasMany("Friends");
+        return $this->hasMany(Friends::class);
     }
 
     public function workouts(){
-        return $this->hasMany("Workouts","userId","id");
+        return $this->hasMany(Workouts::class,"userId","id");
     }
 
     public function workoutsReleased(){
-        return $this->hasMany("Workouts","userId","id")->where("status","Released");
+        return $this->hasMany(Workouts::class,"userId","id")->where("status","Released");
     }
 
     public function group(){
-        return $this->hasOne("UserGroups","userId","id");
+        return $this->hasOne(UserGroups::class,"userId","id");
     }
 
     public function membership(){
-        return $this->hasOne("MembershipsUsers","userId","id");
+        return $this->hasOne(MembershipsUsers::class,"userId","id");
     }
 
     public function doubleCheckOnboardingClient(){
         $ALAIN = 24;
         $Corinne = 15;
-        
+
         if(Clients::where("userId",$ALAIN)->where("trainerId",Auth::user()->id)->count() == 0){
             $client = new Clients();
             $client->userId = $ALAIN; // ALAIN TRAINEE
@@ -143,93 +156,38 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
     }
 
     public function freebesTrainer(){
-
-        //if(1==0){
-
-            $ALAIN = 24;
-
-            Workouts::AddWorkoutToUser(4652,$this->id,false,false);
-            // Workouts::AddWorkoutToUser(2,$this->id);
-            // Workouts::AddWorkoutToUser(4,$this->id);
-            // Workouts::AddWorkoutToUser(5,$this->id);
-            // Workouts::AddWorkoutToUser(6,$this->id);
-            // Workouts::AddWorkoutToUser(7,$this->id);
-
-            // $client = new Clients();
-            // $client->userId = $ALAIN; // ALAIN TRAINEE
-            // $client->trainerId = $this->id;
-            // $client->approvedTrainer = 1;
-            // $client->approvedClient = 1;
-            // $client->save();
-
-            // $friends = new Friends;
-            // $friends->followingId = $ALAIN;
-            // $friends->userId = Auth::user()->id;
-            // $friends->save();
-
-            // $friends = new Friends;
-            // $friends->followingId = Auth::user()->id;;
-            // $friends->userId = $ALAIN;
-            // $friends->save();
-            
-        //}
-
+        $ALAIN = 24;
+        Workouts::AddWorkoutToUser(4652,$this->id,false,false);
     }
 
     public function membershipValid(){
-
-  
-
-        
-
         $membershipUser = MembershipsUsers::where("userId",Auth::user()->id)->first();
-        
-
-
         if($membershipUser){
             $membership = $membershipUser->membership;
             if(date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) <= $membership->workoutsAllowed){
                 return true;
             }
         } else {
-            
             if(count($this->workoutsReleased) <= Config::get("constants.maxFreeWorkouts")) return true;
         }
-
-
-
         return false;
     }
 
     public function membershipValidButAtLimit(){
-
-  
-       
-        
         $membershipUser = MembershipsUsers::where("userId",Auth::user()->id)->first();
-        
-
-
         if($membershipUser){
             $membership = $membershipUser->membership;
-            
             if(date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) < $membership->workoutsAllowed){
                 return true;
             }
-        }   else {
-
+        } else {
             if(count($this->workoutsReleased) < Config::get("constants.maxFreeWorkouts")) return true;
-
         }
-
         return false;
     }
 
     public function freebesTrainee(){
-
-
-       Workouts::AddWorkoutToUser(4652,$this->id,false,false);
-
+        Workouts::AddWorkoutToUser(4652,$this->id,false,false);
     }
 
     public function sendActivationEmail(){
@@ -239,13 +197,12 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
 
         $user = Users::find($this->id);
 
-       Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.activateEmail', array("user"=>serialize($user)), function($message) use ($user)
-            {
-              $message->to($user->email)
-              ->cc(Config::get("constants.activityEmail"))
-                        ->subject(Messages::showEmailMessage("TrainerWorkoutEmailConfirmation"));
-            });
-
+        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.activateEmail', array("user"=>serialize($user)), function($message) use ($user)
+        {
+            $message->to($user->email)
+                ->cc(Config::get("constants.activityEmail"))
+                ->subject(Messages::showEmailMessage("TrainerWorkoutEmailConfirmation"));
+        });
     }
 
     public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail){
@@ -255,53 +212,48 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
         if($this->activated == "" and $this->created_at == $this->updated_at) {
             $password = str_random(8);
             $this->password = Hash::make($password);
-        } 
+        }
 
         $this->save();
         $subject = Lang::get("messages.TrainerWorkoutGroupInvitation");
 
         $user = Users::find($this->id);
 
-       Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.inviteGroup', array("user"=>serialize($user),"password"=>$password,"authorFirstName"=>$authorFirstName,"authorLastName"=>$authorLastName,"authorEmail"=>$authorEmail), function($message) use ($user,$subject)
-            {
-              $message->to($user->email)
-              ->cc(Config::get("constants.activityEmail"))
-                        ->subject($subject);
-            });
-
+        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.inviteGroup', array("user"=>serialize($user),"password"=>$password,"authorFirstName"=>$authorFirstName,"authorLastName"=>$authorLastName,"authorEmail"=>$authorEmail), function($message) use ($user,$subject)
+        {
+            $message->to($user->email)
+                ->cc(Config::get("constants.activityEmail"))
+                ->subject($subject);
+        });
     }
 
-    function postFBTimeline($userObject,$message,$url,$replaceArray=array(),$forceFacebook = false) {
-            if($userObject == null){
-                $userObject = Auth::user();
+    public function postFBTimeline($userObject,$message,$url,$replaceArray=array(),$forceFacebook = false) {
+        if($userObject == null){
+            $userObject = Auth::user();
+        }
+
+        if($userObject->fbUsername != ""){
+            foreach($replaceArray as $key => $value){
+                $message = str_replace("{".$key."}",$value,$message);
             }
+            $config = array(
+                'appId' => '430853867021763',
+                'secret' => '3f8d4530282a97ca54fcb2e8a091d2d2',
+                'cookie' => true ,
+                'scope' => 'publish_stream',
+            );
 
-            if($userObject->fbUsername != ""){
-    
-                foreach($replaceArray as $key => $value){
-                    $message = str_replace("{".$key."}",$value,$message);
-                }
-                $config = array(
-                    'appId' => '430853867021763',
-                    'secret' => '3f8d4530282a97ca54fcb2e8a091d2d2',
-                    'cookie' => true ,
-                    'scope' => 'publish_stream',
-                );
+            $fb = new Facebook($config);
 
-                $fb = new Facebook($config);
-
-              
-
-                try {
-                    $ret_obj = $fb->api('/'.Auth::user()->fbUsername.'/feed', 'POST', array( 'link' => $url, 'message' => $message ));
-                    return array("error"=>false,"message"=>Lang::get("messages.FacebookPosted"));
-                } catch(FacebookApiException $e) {  
-                    return array("error"=>false,"message"=>Lang::get("messages.FacebookError"));
-                }   
-            } else {
-                if($forceFacebook) return array("error"=>false,"message"=>Lang::get("messages.NoFacebookUser"));
+            try {
+                $ret_obj = $fb->api('/'.Auth::user()->fbUsername.'/feed', 'POST', array( 'link' => $url, 'message' => $message ));
+                return array("error"=>false,"message"=>Lang::get("messages.FacebookPosted"));
+            } catch(FacebookApiException $e) {
+                return array("error"=>false,"message"=>Lang::get("messages.FacebookError"));
             }
-
+        } else {
+            if($forceFacebook) return array("error"=>false,"message"=>Lang::get("messages.NoFacebookUser"));
+        }
     }
 
     public function clientLink(){
@@ -334,7 +286,6 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
         }
     }
 
-
     public function getNumberOfClients(){
         $number = Clients::leftJoin("users",function($join){
             $join->on("clients.userId","=","users.id");
@@ -362,10 +313,7 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
                 } else {
                     $sentInvite->sendInvite();
                 }
-                
-
                 return $sentInvite;
-
             } else {
                 $invite = new Invites;
                 $invite->userId = $this->id;
@@ -379,7 +327,6 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
                 } else {
                     $invite->type = "FriendRequest";
                 }
-                
                 $invite->save();
 
                 if($type=="client"){
@@ -387,11 +334,9 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
                 } else {
                     $invite->sendInvite();
                 }
-                
 
                 return $invite;
             }
-            
         } else {
             return null;
         }
@@ -400,135 +345,44 @@ class Users extends \Eloquent implements UserInterface, RemindableInterface {
     public function getStripeSubscription(){
         $debug = Config::get('app.debug');
         if($debug){
-            Stripe::setApiKey(Config::get("constants.STRIPETestsecret_key"));
+            Stripe::setApiKey(Config::get('constants.debugApiKey'));
         } else {
-            Stripe::setApiKey(Config::get("constants.STRIPEsecret_key"));
+            Stripe::setApiKey(Config::get('constants.apiKey'));
         }
-
-        if($this->stripeCheckoutToken == ""){
+        try {
+            $subscription = Stripe::subscriptions()->all([
+                'customer' => $this->stripeCustomerId,
+                'limit' => 1
+            ]);
+            return $subscription;
+        } catch (\Exception $e) {
             return null;
-        } else {
-            try {
-
-                $response = null;
-                $customer = \Stripe\Customer::retrieve($this->stripeCheckoutToken);
-                if($customer->subscriptions and $customer->subscriptions->total_count == 0){
-                    return $response;
-                } else {
-                    $subscription =& $customer->subscriptions[0];
-                        if($subscription and $subscription->status == "active"){
-                            return $subscription;
-                        } else {
-                            return $response;
-                        }
-                     
-                }
-            } catch(Exception $e) {
-                Log::error("STRIPE Customer ERROR");
-                Log::error($e);
-            }
-              return $response;
-            
         }
     }
 
-    public function updateToMembership($membershipId){
-       $stripeMemberhsip = null;
-       $twMembership = null;
-       $today = date("Y-m-d");
-       $interval = "months";
-       $quantity = 1;
-
-
-       //Check to what membership should I update;
-       $membership = Memberships::find($membershipId);
-
-       if($membership){
-            if($membership->durationType == "yearly"){
-                $interval = "years";
-            }elseif ($membership->durationType == "monthly"){
-                $interval = "months";
-            } else {
-                $interval = "days";
-            }
-            //Check if I am upgrading to Stripe or to Fre
-            if($membership->free == 1){
-                //Check if there is a strip membership IN PLACE and CANCEL IT
-                $mem = MembershipsUsers::where("userId",$this->id)->first();
-
-                if($mem){
-                    $stripeMemberhsip = $this->getStripeSubscription();
-                    if($stripeMemberhsip){
-                        //$sub->cancel();
-                        Log::error("CANCEL MEMBERSHIP STRIPE");
-                    }
-
-                    if(date($mem->expiry) < date("Y-m-d")){
-                         $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
-                         $mem->renewedTimes = $mem->renewedTimes+1;
-                         $mem->save();
-                    }
-                } else {
-                    $mem = new MembershipsUsers();
-                    $mem->membershipId = $membershipId;
-                    $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
-                    $mem->registrationDate = date("Y-m-d");
-                    $mem->userId = $this->id;
-                    $mem->save();
-                }
-                
-            } else {
-                $stripeMemberhsip = $this->getStripeSubscription();
-                $mem = MembershipUsers::where("userId",$this->id)->first();
-
-                if($this->stripeCheckoutToken == "" or $stripeMemberhsip == null){
-                    if(date($mem->expiry) < date("Y-m-d")){
-                        $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
-                        $mem->renewedTimes = $mem->renewedTimes+1;
-                        $mem->save();
-                    }
-                } else {
-                    
-                    if($membership->idAPI == $stripeMemberhsip->plan->id){
-                        //UPDATE THE EXPIRY DATE;
-                        $mem->membershipId = $membershipId;
-                        $mem->expiry = date('Y-m-d', $stripeMemberhsip->current_period_end);
-                        $mem->renewedTimes = $mem->renewedTimes+1;
-                        $mem->save();
-                    } else {
-                        //CHANGE STRIPE PLANS
-                        $stripeMemberhsip->plan->id = $membership->idAPI;
-                        $subscription->save();
-
-                        $mem->membershipId = $membershipId;
-                        $mem->expiry = date('Y-m-d', $stripeMemberhsip->current_period_end);
-                        $mem->save();
-                    }
-
-                }
-            }
-
-       }
+    public function subscriptions(){
+        return $this->hasMany("Subscriptions","userId","id");
     }
 
-
-    public function getTrainerWorkoutMembership(){
-        $membership = MembershipsUsers::where("userId",$this->id)->first();
-        if($membership) return $membership;
-
-        $membership = new MembershipsUsers;
-        $membership->userId = $this->id;
-        //DEFAULT MEMBERSHIP
-        $membership->membershipId = Config::get("constants.defaultMembership");
-        $membership->registrationDate = date("Y-m-d H:i:s");
-        $membership->expiry = date('Y-m-d H:i:s', strtotime('+1 year'));
-        $membership->save();
-
-        return $membership;
+    public function scopeNonSoftDeleted($query){
+        return $query->whereNull("deleted_at");
     }
 
-   
+    public function scopeSoftDeleted($query){
+        return $query->whereNotNull("deleted_at");
+    }
 
-    
-    
+    public function subscriptionsAvailable()
+    {
+        $subscriptions = [];
+        if (Subscription::count() > 0) {
+            $subscriptions = Subscription::all();
+        }
+        return $subscriptions;
+    }
+
+    public function getUserSubscriptionPlan($user)
+    {
+        return $this->subscriptions()->where('userId', $user->id)->first();
+    }
 }

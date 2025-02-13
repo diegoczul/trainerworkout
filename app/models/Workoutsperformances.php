@@ -1,81 +1,93 @@
 <?php
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Workoutsperformances extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Users;
+use Workouts;
 
-	);
+class Workoutsperformances extends Model
+{
+    use SoftDeletes;
 
-	public function user(){
-		return $this->hasOne("Users","id","userId");
-	}
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public function trainer(){
-		return $this->hasOne("Users","id","forTrainer");
-	}
+    public static $rules = [];
 
-	public function workout(){
-		return $this->hasOne("Workouts","id","workoutId");
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
-	public function rating(){
-		return $this->hasOne("Ratings","id","ratingId");
-	}
+    public function user()
+    {
+        return $this->hasOne(Users::class, 'id', 'userId');
+    }
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public function trainer()
+    {
+        return $this->hasOne(Users::class, 'id', 'forTrainer');
+    }
 
-	public function notifyTrainerPerformance(){
+    public function workout()
+    {
+        return $this->hasOne(Workouts::class, 'id', 'workoutId');
+    }
 
+    public function rating()
+    {
+        return $this->hasOne(Ratings::class, 'id', 'ratingId');
+    }
 
+    public function notifyTrainerPerformance()
+    {
+        $fromUser = $this->user;
+        $toUser = $this->trainer;
+        $workout = $this->workout;
+        $workoutPerformance = $this;
+        $rating = $this->rating;
+        $ratingString = $rating ? $rating->name : '';
 
-		$fromUser = $this->user;
-		$toUser = $this->trainer;
-		$workout = $this->workout;
-		$workoutPerformance = $this;
-		$rating = $this->rating;
-		$ratingString = "";
-		if($rating) $ratingString = $rating->name;
+        $client = Clients::where('trainerId', $toUser->id)
+            ->where('userId', $fromUser->id)
+            ->first();
 
-		$client = Clients::where("trainerId",$toUser->id)->where("userId",$fromUser->id)->first();
-		
+        if ($client && $client->subscribeClient == 1) {
+            $to_user = $toUser->email;
+            $name = !empty($fromUser->firstName) ? $fromUser->getCompleteName() : $fromUser->email;
+            $subject = Lang::get('content.emailWorkoutPerformed', [
+                'name' => $name,
+                'workout' => $workout->name,
+            ]);
 
-		if($client and $client->subscribeClient == 1){
+            Mail::queueOn(
+                App::environment(),
+                'emails.' . Config::get('app.whitelabel') . '.user.' . App::getLocale() . '.workoutPerformed',
+                [
+                    'toUser' => serialize($toUser),
+                    'fromUser' => serialize($fromUser),
+                    'workout' => serialize($workout),
+                    'performance' => serialize($workoutPerformance),
+                    'rating' => serialize($rating),
+                    'ratingString' => $ratingString,
+                ],
+                function ($message) use ($to_user, $fromUser, $subject) {
+                    $message->to($to_user)
+                        ->replyTo($fromUser->email, $fromUser->getCompleteName())
+                        ->subject($subject);
+                }
+            );
 
-		$to_user = $toUser->email;
-		$name = ($fromUser->firstName != "") ? $fromUser->getCompleteName() : $fromUser->email;
-		$subject = Lang::get("content.emailWorkoutPerformed",array("name"=>$name,"workout"=>$workout->name));
-
-			Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.workoutPerformed', array("toUser"=>serialize($toUser),"fromUser"=>serialize($fromUser),"workout"=>serialize($workout),"performance"=>serialize($workoutPerformance),"rating"=>serialize($rating),"ratingString"=>$ratingString), function($message) use ($to_user,$fromUser,$subject)
-					{
-					  $message->to($to_user)
-					  			->replyTo($fromUser->email,$fromUser->getCompleteName())
-			          			->subject($subject);;
-					});
-
-
-			Event::fire('notifyActivity', array(Auth::user(), $toUser));
-		
-
-		} 
-		// else {
-		// 	$to_user = $toUser->email;
-		// 	$name = ($fromUser->firstName != "") ? $fromUser->getCompleteName() : $fromUser->email;
-		// 	$subject = Lang::get("content.emailWorkoutPerformed",array("name"=>$name,"workout"=>$workout->name));
-
-		// 		Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.workoutPerformed', array("toUser"=>serialize($toUser),"fromUser"=>serialize($fromUser),"workout"=>serialize($workout),"performance"=>serialize($workoutPerformance),"rating"=>serialize($rating),"ratingString"=>$ratingString), function($message) use ($to_user,$fromUser,$subject,$toUser)
-		// 				{
-		// 				  $message->to($fromUser->email)
-		// 				  			->replyTo($to_user,$toUser->getCompleteName())
-		// 		          			->subject($subject);
-		// 		          		});
-		// }
-	}
-
+            Event::dispatch('notifyActivity', [Auth::user(), $toUser]);
+        }
+    }
 }
-

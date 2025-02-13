@@ -1,24 +1,29 @@
 <?php
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
+namespace App\Models;
 
-class ExercisesBodygroups extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 
-	public static $rules = array(
+class ExercisesBodyGroups extends Model
+{
+    use SoftDeletes;
 
-	);
+    protected $fillable = [];  // Add any attributes that should be mass assignable
+    protected $dates = ['deleted_at']; // Ensure the 'deleted_at' field is treated as a date
 
+    public static $rules = [
+        // Add your validation rules here if needed
+    ];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
-	public function bodygroup(){
-		return $this->hasOne("Bodygroups","id","bodygroupId");
-	}
-
-
+    public function bodygroup()
+    {
+        return $this->hasOne("App\Models\Bodygroups", "id", "bodygroupId");
+    }
 }

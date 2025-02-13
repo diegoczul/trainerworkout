@@ -1,5 +1,10 @@
 <?php
 
-class PasswordReminders extends \Eloquent {
-	protected $fillable = [];
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class PasswordReminders extends Model
+{
+    protected $fillable = [];
 }

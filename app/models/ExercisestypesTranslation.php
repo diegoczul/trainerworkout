@@ -1,11 +1,13 @@
 <?php
 
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class ExercisestypesTranslation extends \Eloquent {
+class ExercisesTypesTranslation extends Model
+{
+    protected $table = 'exercisestypes_translations';
+    protected $fillable = ['name'];
 
-	protected $fillable =  ['name'];
-
-
-
+    public $timestamps = false;
 }

@@ -1,23 +1,32 @@
 <?php
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Objectives extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
-		"objective" => "required|min:2|max:500",
-		"measureable" => "max:500",
-		"dateRecord" => "required|date"
-	);
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Users;
 
-	public function users(){
-		return $this->belongsTo("Users");
-	}
+class Objectives extends Model
+{
+    use SoftDeletes;
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
+    public static $rules = [
+        "objective" => "required|min:2|max:500",
+        "measureable" => "max:500",
+        "dateRecord" => "required|date"
+    ];
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class);
+    }
+
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

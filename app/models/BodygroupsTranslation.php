@@ -1,11 +1,13 @@
 <?php
 
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class BodygroupsTranslation extends \Eloquent {
+class BodyGroupsTranslation extends Model
+{
+    protected $table = 'bodygroups_translations';
+    protected $fillable = ['name', 'description'];
 
-	protected $fillable =  ['name','description'];
-	public $timestamps = false;
-
-
+    public $timestamps = false;
 }

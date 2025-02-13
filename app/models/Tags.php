@@ -1,23 +1,24 @@
 <?php
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Tags extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
-		
-	);
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 
-	
+class Tags extends Model
+{
+    use SoftDeletes;
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	
-	
+    public static $rules = [
+        // Define validation rules here if needed
+    ];
 
-
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

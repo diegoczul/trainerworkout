@@ -1,24 +1,33 @@
 <?php
 
-class Testimonials extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Users;
 
-	);
+class Testimonials extends Model
+{
+    use SoftDeletes;
 
-	public function user(){
-		return $this->hasOne("Users","id","userId");
-	}
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public function fUser(){
-		return $this->hasOne("Users","id","fromUser");
-	}
+    public static $rules = [];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
+    public function user()
+    {
+        return $this->hasOne(Users::class, "id", "userId");
+    }
+
+    public function fUser()
+    {
+        return $this->hasOne(Users::class, "id", "fromUser");
+    }
 }

@@ -1,29 +1,24 @@
 <?php
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Equipments extends \Eloquent {
-	use SoftDeletingTrait;
-	use Dimsav\Translatable\Translatable;
-	
+namespace App\Models;
 
-	protected $fillable = [];
-	public $translatedAttributes = ['name','nameEngine'];
-	
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\Validator;
 
-	protected $dates = ['deleted_at'];
+class Equipments extends Model
+{
+    use SoftDeletes, Translatable;
 
-	public static $rules = array(
-		
-	);
+    protected $fillable = [];
 
-	
+    public $translatedAttributes = ['name', 'nameEngine'];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public static $rules = [];
 
-	
-	
-
-
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

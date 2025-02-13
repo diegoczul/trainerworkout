@@ -1,23 +1,27 @@
 <?php
 
-class Sets extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
 
-	);
+class Sets extends Model
+{
+    use SoftDeletes;
 
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public static $rules = [];
 
-	public function workoutsExercises(){
-		return $this->belongsTo("WorkoutsExercises","workoutsExercisesId","id");
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
-
-
+    public function workoutsExercises()
+    {
+        return $this->belongsTo(WorkoutsExercises::class, "workoutsExercisesId", "id");
+    }
 }

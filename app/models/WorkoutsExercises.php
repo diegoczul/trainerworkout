@@ -1,26 +1,34 @@
 <?php
 
-class WorkoutsExercises extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-	public function exercises(){
-		return $this->hasOne("Exercises","id","exerciseId")->withTrashed();
-	}
+class WorkoutsExercises extends Model
+{
+    use SoftDeletes;
 
-	public function equipment(){
-		return $this->hasOne("Equipments","id","equipmentId")->withTrashed();
-	}
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public function sets(){
-		return $this->hasMany("Sets","workoutsExercisesId","id")->orderBy("number","ASC");
-	}
+    public function exercises()
+    {
+        return $this->hasOne(Exercises::class, 'id', 'exerciseId')->withTrashed();
+    }
 
-	public function templateSets(){
-		return $this->hasMany("TemplateSets","workoutsExercisesId","id")->orderBy("number","ASC");
-	}
+    public function equipment()
+    {
+        return $this->hasOne(Equipments::class, 'id', 'equipmentId')->withTrashed();
+    }
 
+    public function sets()
+    {
+        return $this->hasMany(Sets::class, 'workoutsExercisesId', 'id')->orderBy('number', 'ASC');
+    }
 
+    public function templateSets()
+    {
+        return $this->hasMany(TemplateSets::class, 'workoutsExercisesId', 'id')->orderBy('number', 'ASC');
+    }
 }

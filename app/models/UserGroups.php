@@ -1,25 +1,35 @@
 <?php
 
-class UserGroups extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
 
-	public static $rules = array(
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Users;
 
-	);
+class UserGroups extends Model
+{
+    use SoftDeletes;
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public function user(){
-		return $this->hasOne("Users","id","userId");
-	}
+    public static $rules = [
+        // Add validation rules here if needed
+    ];
 
-	public function group(){
-		return $this->hasOne("Groups","id","groupId");
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
+    public function user()
+    {
+        return $this->hasOne(Users::class, "id", "userId");
+    }
+
+    public function group()
+    {
+        return $this->hasOne(Groups::class, "id", "groupId");
+    }
 }
-

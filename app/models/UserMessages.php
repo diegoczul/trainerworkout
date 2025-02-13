@@ -1,63 +1,77 @@
 <?php
 
+namespace App\Models;
 
-class UserMessages extends \Eloquent {
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Users;
 
-	protected $fillable = [];
-	public $table = "arrowchat";
-	public $timestamps = false;
+class UserMessages extends Model
+{
+    protected $fillable = [];
+    public $table = "arrowchat";
+    public $timestamps = false;
 
-	public static $rules = array(
-		"message" => "required"
-	);
+    public static $rules = [
+        "message" => "required",
+    ];
 
-	public function toUser(){
-		return $this->belongsTo("Users","to","id");
-	}
+    public function toUser()
+    {
+        return $this->belongsTo(Users::class, 'to', 'id');
+    }
 
-	public function fromUser(){
-		return $this->belongsTo("Users","from","id");
-	}
+    public function fromUser()
+    {
+        return $this->belongsTo(Users::class, 'from', 'id');
+    }
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 
-	public static function insertMessage($message,$fromId,$toId=""){
-		self::insert( array(
-						"message"		=>	$message,
-						"from"			=>	$user,
-						"to"			=>	$user,
-						"sent"			=>	Helper::dateToUnix(date('Y-m-d H:i:s')),
-						"read"			=>	0,
-						"user_read"		=>	0,
-						"warup"			=> 	0
-						)
-			);
-	}
+    public static function insertMessage($message, $fromId, $toId = "")
+    {
+        self::insert([
+            'message' => $message,
+            'from' => $fromId,
+            'to' => $toId,
+            'sent' => now(),
+            'read' => 0,
+            'user_read' => 0,
+            'warup' => 0,
+        ]);
+    }
 
-	public static function readUserMessages($fromUser,$toUser){
-		$results = self::whereNull("read")->where(
-						function($query) use($fromUser,$toUser){
-							$query->orWhere("from",$fromUser);
-							$query->orWhere("to",$toUser);
-						}
-				)->get();
-		foreach($results as $result){
-			$result->viewed = date("Y-m-d H:i:s");
-			$result->save();
-		}
-	}
+    public static function readUserMessages($fromUser, $toUser)
+    {
+        $results = self::whereNull('read')
+            ->where(function ($query) use ($fromUser, $toUser) {
+                $query->orWhere('from', $fromUser);
+                $query->orWhere('to', $toUser);
+            })
+            ->get();
 
-	public static function getInbox(){
+        foreach ($results as $result) {
+            $result->viewed = now();
+            $result->save();
+        }
+    }
 
-		return
-						DB::select("select * from (
-										select * from (
-												(select `to` as user, message, sent from arrowchat where `from` = ".Auth::user()->id." order by sent DESC)  
-												UNION 
-												(select `from` as user, message, sent from arrowchat where `to` = ".Auth::user()->id."  order by sent DESC)) 
-										as tempTable order by sent desc ) 
-								ordered left join users on users.id = ordered.user group by user ");
-	}
+    public static function getInbox()
+    {
+        return DB::select(
+            DB::raw("SELECT * FROM (
+                SELECT * FROM (
+                    (SELECT `to` as user, message, sent FROM arrowchat WHERE `from` = ? ORDER BY sent DESC)
+                    UNION
+                    (SELECT `from` as user, message, sent FROM arrowchat WHERE `to` = ? ORDER BY sent DESC)
+                ) AS tempTable ORDER BY sent DESC
+            ) ordered LEFT JOIN users ON users.id = ordered.user GROUP BY user"),
+            [Auth::id(), Auth::id()]
+        );
+    }
 }

@@ -1,25 +1,32 @@
 <?php
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Users;
 
-class Weights extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+class Weights extends Model
+{
+    use SoftDeletes;
 
-	public static $rules = array(
-		"weight" => "required|min:2|numeric",
-		"dateRecord" => "date",
-		"recordDate" => "date"
-	);
+    protected $fillable = [];
+    protected $dates = ['deleted_at'];
 
-	public function users(){
-		return $this->belongsTo("Users");
-	}
+    public static $rules = [
+        'weight' => 'required|min:2|numeric',
+        'dateRecord' => 'date',
+        'recordDate' => 'date',
+    ];
 
-	public static function validate($data){
-		return Validator::make($data, static::$rules);
-	}
+    public function users()
+    {
+        return $this->belongsTo(Users::class);
+    }
 
+    public static function validate($data)
+    {
+        return Validator::make($data, static::$rules);
+    }
 }

@@ -1,7 +1,13 @@
 <?php
 
-class DemoModel extends \Eloquent {
-	use SoftDeletingTrait;
-	protected $fillable = [];
-	protected $dates = ['deleted_at'];
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class DemoModel extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [];
 }

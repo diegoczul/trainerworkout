@@ -1,3 +1,0 @@
-php /home/trainer/beta/artisan queue:listen --queue=beta --env=beta --tries=3
-php /home/trainer/beta/artisan queue:listen --queue=live --env=live --tries=3
-php /home/trainer/beta/artisan queue:listen --queue=staging --env=staging --tries=3
