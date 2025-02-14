@@ -5,13 +5,13 @@
 
 var widgetsToReload = [];
 var widgetsList = {};
-var imgLoad = $('<img />', { src : 'assets/img/tw-gif.gif' });
+var imgLoad = $('<img />', { src : '/assets/img/tw-gif.gif' });
 var loadingIcon = null;
 var loadingDiv = null;
 var placeholder = "assets/img/client.png";
 var loadingCounter = 0;
-var imgLoadSpinner = $("<img /", { src : "assets/img/loading-spinner_.gif "});
-var $TWBlockLoading = $('<div id="lodingBlock"><img id="loadingBlockImg" src="assets/img/loading-spinner_.gif"></div>');
+var imgLoadSpinner = $("<img /", { src : "/assets/img/loading-spinner_.gif "});
+var $TWBlockLoading = $('<div id="lodingBlock"><img id="loadingBlockImg" src="/assets/img/loading-spinner_.gif"></div>');
 
 
 var debug = true;
@@ -1054,7 +1054,7 @@ function triggerLoading(target){
 	target.attr("loadingCounter",loadingCounter);
 	loadingDiv = target.clone();
 	html =  '<div class="deleting loading loading'+loadingCounter+'">'+
-                '<div class="loadingSignIcon"><img src="assets/img/tw-gif.gif"> </div>'+
+                '<div class="loadingSignIcon"><img src="/assets/img/tw-gif.gif"> </div>'+
                 '<div class="deletingSign">'+dict["loading"]+'...</div>'+
            '</div>';
 	target.replaceWith(html);
@@ -1064,8 +1064,8 @@ function triggerLoading(target){
 
 /* Overlays loading */
 var $overlay = $("<div id='lightBoxLoading'></div>");
-var $blackSpinner = $('<img src="assets/img/loading-spinner_.gif">');
-var $TWloading = $('<img src="assets/img/tw-gif.gif">');
+var $blackSpinner = $('<img src="/assets/img/loading-spinner_.gif">');
+var $TWloading = $('<img src="/assets/img/tw-gif.gif">');
 
 
 /*  Backyup ONLY  **/

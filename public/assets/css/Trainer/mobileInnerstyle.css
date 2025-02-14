@@ -5359,7 +5359,7 @@ FRAMEWORK OVERRIDE CHOSEN
 .user_role--owner, .user_role--content {
   color: #555; }
 .user_role--content {
-  background-image: url("../../img/Gym/arrowDownDropdown.svg");
+  background-image: url("../../assets/img/Gym/arrowDownDropdown.svg");
   background-repeat: no-repeat;
   background-position: 65px; }
   .user_role--content--select {
@@ -6567,7 +6567,7 @@ div[id^="tags"] {
     width: 30px;
     height: 30px;
     margin-right: 1px;
-    background-image: url("/img/svg/editGrey.svg");
+    background-image: url("/assets/img/svg/editGrey.svg");
     background-position: center;
     background-repeat: no-repeat;
     margin-bottom: 0; }
@@ -6624,7 +6624,7 @@ div[id^="tags"] {
   .cw-exercise td input,
   .cw-exercise td .popup_container .share_content textarea,
   .popup_container .share_content .cw-exercise td textarea {
-    background-image: url("/img/svg/editGrey.svg");
+    background-image: url("/assets/img/svg/editGrey.svg");
     background-position: 95% 50%;
     background-repeat: no-repeat; }
   .cw-exercise td.repStyleChoice {
@@ -6811,7 +6811,7 @@ th.bound,
   th.bound::after,
   .tbRepType::after {
     cursor: pointer;
-    content: url("/img/svg/dropDown.svg");
+    content: url("/assets/img/svg/dropDown.svg");
     right: 5%;
     position: absolute;
     top: 24%; }

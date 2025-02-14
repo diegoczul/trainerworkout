@@ -896,7 +896,7 @@ function showNamesT(data){
 
 
 
-var $loaderBG = $("<div id='loader-bg'><img src='assets/img/tw-gif.gif'></div>");
+var $loaderBG = $("<div id='loader-bg'><img src='/assets/img/tw-gif.gif'></div>");
 
 
 function showTopLoader() {

@@ -15,7 +15,7 @@
         <!-- This div is the hover effect on each workout in the workouts page-->
         <div class="clientsHover">
             <div class="clientsHover_status">
-                <img src="/img/exitPopup.svg" class="hoverExit" onclick="showHover(this)">
+                <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
                 <!-- *****  Client Name   ****** -->
 <!--                 <div class="clientInfo">
                     <p>{{ Lang::get("content.sharedWorkout1") }} {{ $client->numberOfWorkoutsSharedFromTrainerToClient(Auth::user()->id) }} {{ Lang::get("content.sharedWorkout2") }} {{ ( $client->user and $client->user->getCompleteName() != "" ) ? $client->user->getCompleteName() :  ($client->user ? $client->user->email : "Client") }}</p>

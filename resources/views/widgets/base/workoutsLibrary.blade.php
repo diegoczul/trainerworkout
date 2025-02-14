@@ -18,7 +18,7 @@
         <!-- This div is the hover effect on each workout in the workouts page-->
             <div class="workoutsHover">
                 <div class="workoutsHover_status">
-                <img src="/img/exitPopup.svg" class="hoverExit" onclick="showHover(this)">
+                <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
 
 
                 @if($startFrom)

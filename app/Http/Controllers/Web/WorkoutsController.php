@@ -29,7 +29,11 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 use Jenssegers\Agent\Facades\Agent;
+use ZipArchive;
 
 class WorkoutsController extends BaseController {
 
@@ -604,9 +608,9 @@ class WorkoutsController extends BaseController {
 
 
 
-
 						        	Event::dispatch('shareAWorkout', array(Auth::user(),$user->id));
 						        	$comments = $request->get("comments");
+
 									Sharings::shareWorkout(Auth::user()->id,$user->id,$workout,"Workout",$comments,$invite,$copyMe,$copyView,$copyPrint,$subscribe,$lock);
 
 									/////IF IT IS A PERSONAL TRAINER
@@ -1408,7 +1412,7 @@ class WorkoutsController extends BaseController {
         	File::makeDirectory($path);
         }
 
-        $zip = new ZipArchive;
+        $zip = new ZipArchive();
 
         if(Config::get("app.debug")) Log::error($zipFilePath);
         if ($zip->open($zipFilePath, ZipArchive::OVERWRITE|ZipArchive::CREATE) === TRUE) {
@@ -1422,15 +1426,23 @@ class WorkoutsController extends BaseController {
 
 
 
-					if($jpeg){
-						$image = Image2::loadFile(URL::to($workout->getURLImage()));
-						$imagePath = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName()).".jpg";
-						$image->save($imagePath);
+                    if ($jpeg) {
+                        // Load the image using Intervention Image
+                        $imageData = file_get_contents(URL::to($workout->getURLImage()));
+                        $image = Image::make($imageData);
 
-						$zip->addFile($imagePath,Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName()).".jpg");
-						$zip->addFile($workout->getImagePDF(),Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName()).".pdf");
+                        // Define the image path
+                        $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
 
-					}
+                        // Save the image
+                        $image->save($imagePath);
+
+                        // Add the image to the ZIP file
+                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
+
+                        // Add the PDF to the ZIP file
+                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
+                    }
 
 					if($pdf){
 						$data = array();
@@ -2825,17 +2837,17 @@ class WorkoutsController extends BaseController {
 	{
 		$obj = Workouts::find($id);
 
-		if(!$obj) return redirect()->route("trainerWorkouts")->withError(__("messages.NotFound"));
+        $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
+		if(!$obj) return redirect()->route("trainerWorkouts",['userName' => $username])->withError(__("messages.NotFound"));
 
 		if($this->checkPermissions($obj->userId,Auth::user()->id)){
 //			Feeds::insertFeed("DeletedWorkout",Auth::user()->id,Auth::user()->firstName,Auth::user()->lastName);
 			$obj->delete();
 
 			Event::dispatch('deleteAWorkout', array(Auth::user()));
-
-			return redirect()->route("trainerWorkouts")->with("message", __("messages.WorkoutDeleted"));
+			return redirect()->route("trainerWorkouts",['userName' => $username])->with("message", __("messages.WorkoutDeleted"));
 		} else {
-			return redirect()->route("trainerWorkouts")->withError(__("messages.Permissions"));
+			return redirect()->route("trainerWorkouts",['userName' => $username])->withError(__("messages.Permissions"));
 		}
 
 

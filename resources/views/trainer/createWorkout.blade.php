@@ -35,7 +35,7 @@
                 <span >{{ Lang::get("content.add") }}<br>{{ Lang::get("content.note") }}</span>
             </div>
             <div class="note">
-                <img class="exitNote" src="/img/exitPopup.svg" onclick="workoutNote(this);">
+                <img class="exitNote" src="{{asset('assets/img/exitPopup.svg')}}" onclick="workoutNote(this);">
                 <h3>{{ Lang::get("content.Adding a note to this workout") }}</h3>
 
                     <textarea name="noteToWorkout" id="noteToWorkout">{{ $workout->notes }}</textarea>
@@ -99,7 +99,7 @@
 <!-- The searchPOP is shown everytime the users adds or modify an exercise -->
 <div class="searchPop">
     <div class="overlay">
-        <img class="exitSearch" src="/img/exitPopup.svg" onclick="hideSearch()">
+        <img class="exitSearch" src="{{asset('assets/img/exitPopup.svg')}}" onclick="hideSearch()">
         <div class="searchContainer">
             <div class="searchWrapper">
                 <h4>{{ Lang::get("content.Search Exercises") }}</h4>
@@ -210,7 +210,7 @@
                 <span>{{ Lang::get("content.add") }}<br>{{ Lang::get("content.note") }}</span>
             </div>
             <div class="note">
-                <img class="exitNote" src="/img/exitPopup.svg" onclick="exerciseNote(this);">
+                <img class="exitNote" src="{{asset('assets/img/exitPopup.svg')}}" onclick="exerciseNote(this);">
                 <h3>{{ Lang::get("content.Adding a note to this exercise") }}</h3>
                     <textarea name="noteToExercise" class="noteToExercise"></textarea>
                     <button onclick="saveNote(this)">{{ Lang::get("content.Save Note") }}</button>
@@ -442,7 +442,7 @@
                 <span>{{ Lang::get("content.add") }}<br>{{ Lang::get("content.note") }}</span>
             </div>
             <div class="note">
-                <img class="exitNote" src="/img/exitPopup.svg" onclick="exerciseNote(this);">
+                <img class="exitNote" src="{{asset('assets/img/exitPopup.svg')}}" onclick="exerciseNote(this);">
                 <h3>{{ Lang::get("content.Adding a note to this exercise") }}</h3>
                     <textarea name="noteToExercise" class="noteToExercise"></textarea>
 
@@ -541,7 +541,7 @@
             <span>{{ Lang::get("content.add") }}<br>{{ Lang::get("content.note") }}</span>
         </div>
         <div class="note">
-            <img class="exitNote" src="/img/exitPopup.svg" onclick="exerciseNote(this);">
+            <img class="exitNote" src="{{asset('assets/img/exitPopup.svg')}}" onclick="exerciseNote(this);">
             <h3>{{ Lang::get("content.Adding a note to this exercise") }}</h3>
                 <textarea name="noteToExercise" class="noteToExercise"></textarea>
                 <button onclick="saveNote(this)">{{ Lang::get("content.Save Note") }}</button>

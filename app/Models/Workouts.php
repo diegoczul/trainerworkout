@@ -6,6 +6,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Libraries\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 use Ramsey\Uuid\Guid\Guid;
 
 class Workouts extends Model
@@ -471,7 +473,7 @@ class Workouts extends Model
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
 
-        $pdf = PDF::loadfile(URL::to($this->getURLPrint()));
+        $pdf = PDF::loadView('workoutPrint',$data);
         $pdf->setOptions(array(
             "orientation" => "landscape",
         ));
@@ -490,10 +492,10 @@ class Workouts extends Model
 
         $pdf->save($name_temp);
 
-        $merger = new LynX39\LaraPdfMerger\PdfManage;
-        $merger->addPDF($name_temp);
-        $merger->addPDF(Config::get("constants.gridPDF"));
-        $merger->merge('file', $name_temp, 'L');
+//        $merger = new LynX39\LaraPdfMerger\PdfManage;
+//        $merger->addPDF($name_temp);
+//        $merger->addPDF(Config::get("constants.gridPDF"));
+//        $merger->merge('file', $name_temp, 'L');
 
         return $name_temp;
     }
@@ -505,7 +507,8 @@ class Workouts extends Model
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
 
-        $image = Image2::loadFile(URL::to($this->getURLImage()));
+        $image = Image::make(URL::to($this->getURLImage()));
+
 
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);

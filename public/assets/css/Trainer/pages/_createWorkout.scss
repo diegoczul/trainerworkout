@@ -867,7 +867,7 @@ div[id^="tags"] {
 			width: 30px;
 			height: 30px;
 			margin-right: 1px;
-			background-image: url("/img/svg/editGrey.svg");
+			background-image: url("/assets/img/svg/editGrey.svg");
 			background-position: center;
 			background-repeat: no-repeat;
 			margin-bottom: 0;
@@ -937,7 +937,7 @@ div[id^="tags"] {
 
 		&.repStyleChoice,
 		input {
-			background-image: url("/img/svg/editGrey.svg");
+			background-image: url("/assets/img/svg/editGrey.svg");
 			background-position: 95% 50%; 
 			background-repeat: no-repeat;
 		}
@@ -1169,7 +1169,7 @@ th.bound,
 
 	&::after{
 		cursor:pointer;
-		content: url("/img/svg/dropDown.svg");
+		content: url("/assets/img/svg/dropDown.svg");
 		right: 5%;
 		position: absolute;
 		top: 24%;

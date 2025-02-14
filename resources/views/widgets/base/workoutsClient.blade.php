@@ -16,7 +16,7 @@
 
     <div class="workoutsHover">
         <div class="workoutsHover_status">
-        <img src="/img/exitPopup.svg" class="hoverExit" onclick="showHover(this)">
+        <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
 
             <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
 
@@ -28,7 +28,7 @@
 
             <div class="workoutsHover">
                 <div class="workoutsHover_status">
-                    <img src="/img/exitPopup.svg" class="hoverExit" onclick="showHover(this)">
+                    <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
 <!-- *****  Workout Name   ****** -->
                     <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
 <!-- ******  View Workout  *****-->

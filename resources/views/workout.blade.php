@@ -1082,8 +1082,7 @@
                                                             <span>1</span>
                                                         </div>
                                                         <div class="note">
-                                                            <img class="exitNote" src="/img/exitPopup.svg"
-                                                                 onclick="exerciseNote(this);">
+                                                            <img class="exitNote" src="{{asset('assets/img/exitPopup.svg')}}" onclick="exerciseNote(this);">
                                                             <!-- Diego, here is the notes from trainer -->
                                                             <p name="noteToExercise"
                                                                class="viewExerciseNotes">{{{ ($exercise->notes != "") ? $exercise->notes : "" }}}</p>
