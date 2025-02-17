@@ -57,7 +57,7 @@ function accountColors() {
 					<h3>$20.15 / {{ Lang::get("content.month") }}</h3>
 					<form action="{{ Lang::get("routes./Store/addToCart") }}/64/Membership">
 						<button>{{ Lang::get("content.ChoosePlan") }}</button>
-						<img id="upgradeDiscount" src="/img/tagTenPercentOff.png">
+						<img id="upgradeDiscount" src="{{asset('assets/img/tagTenPercentOff.png')}}">
 					</form>
 				</div>
 			</div>

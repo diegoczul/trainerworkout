@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use App\Http\Libraries\Helper;
+use App\Http\Libraries\Messages;
 use App\Models\Clients;
 use App\Models\Notifications;
 use App\Models\Orders;
@@ -24,7 +24,6 @@ use App\Models\Users;
 use App\Models\Memberships;
 use App\Models\MembershipsUsers;
 use App\Models\OrderItems;
-use Messages;
 use Stripe\Stripe;
 
 class OrdersController extends BaseController
@@ -305,9 +304,13 @@ class OrdersController extends BaseController
 
             if (!array_key_exists("orderId", $cart)) $cart["orderId"] = 0;
 
-            $order = $cart["orderId"] == "" ? new Orders() : Orders::find($cart["orderId"]);
+            if(isset($cart["orderId"]) && !empty($cart["orderId"])){
+                $order = Orders::find($cart["orderId"]);
+            }else{
+                $order = new Orders();
+            }
 
-            $order->userId = Auth::user()->id;
+            $order->userId = $user->id;
             $order->total = $cart["total"];
             $order->subtotal = $cart["subtotal"];
             $order->street = $request->get("street");
@@ -348,7 +351,7 @@ class OrdersController extends BaseController
 
                 $orderItem->orderId = $order->id;
                 $orderItem->itemId = $item["id"];
-                $orderItem->paid = 0;
+                $orderItem->paid = now();
                 $orderItem->quantity = 1;
                 $orderItem->price = $itemPurchased->price;
                 $orderItem->save();

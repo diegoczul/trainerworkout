@@ -9,6 +9,19 @@ class Orders extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'userId',
+        'total',
+        'subtotal',
+        'street',
+        'city',
+        'province',
+        'country',
+        'postalcode',
+        'orderDate',
+        'paidBy',
+        'status',
+        'currency',
+    ];
     protected $dates = ['deleted_at'];
 }

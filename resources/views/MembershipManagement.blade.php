@@ -1,5 +1,9 @@
 <!-- This page allows personal trainer to modify their memembership by viewing whihc memembership they have and allowing them to make a switch.  -->
-
+@php
+	use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Messages;
+    use App\Models\Memberships;
+@endphp
 @extends('layouts.trainer')
 
 @section("header")

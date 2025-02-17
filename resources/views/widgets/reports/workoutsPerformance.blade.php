@@ -1,6 +1,10 @@
-<?php
+@php
+	use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Messages;
+
 	$nbPerformanceDay = 0;
-?>
+@endphp
+
 
 <table class="datatables reportTable" cellspacing="0" width="100%">
 <thead>

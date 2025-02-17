@@ -521,13 +521,16 @@ use Illuminate\Support\Facades\Route;
         Route::post(__('routes./Trainee/EditProfile'), [UsersController::class, 'TraineeSave'])->name('EditProfilePost');
     });
 
-// Profile Image Rotation
+    // Profile Image Rotation
     Route::middleware(['auth'])->group(function () {
         Route::post(__('routes./Profile/Rotate/Left'), [UsersController::class, 'rotateLeft']);
         Route::post(__('routes./Profile/Rotate/Right'), [UsersController::class, 'rotateRight']);
     });
 
-// Trainer
+    Route::get(Lang::get(__('routes./MembershipManagement')), [MembershipsController::class, 'indexMembershipManagement'])->middleware('auth');
+    Route::get(Lang::get(__('routes./MembershipManagementOld')), [MembershipsController::class, 'indexMembershipManagementOld'])->middleware('auth');
+
+    // Trainer
     Route::middleware(['auth', 'userTypeChecker'])->group(function () {
         Route::get(__('routes./Trainer/Settings'), [UsersController::class, 'indexSettingsTrainer'])->name('TrainerSettings');
         Route::get(__('routes./Trainer/Memberships'), [UsersController::class, 'indexMemberships']);
@@ -546,36 +549,34 @@ use Illuminate\Support\Facades\Route;
     });
 
     //|--------------------------------------------------------------------------
-//| GYM MANAGEMENT
-//|--------------------------------------------------------------------------
+    //| GYM MANAGEMENT
+    //|--------------------------------------------------------------------------
     Route::get(__('routes./employeeManagement'), [GroupsController::class, 'showGroup'])->name('employeeManagement');
 
-//|--------------------------------------------------------------------------
-//| STORE
-//|--------------------------------------------------------------------------
-    Route::prefix(__('routes./Store'))->group(function () {
-        Route::controller(OrdersController::class)->group(function () {
-            Route::get('/Cart', 'index')->name('cart');
-            Route::get('/removeFromCart', 'removeFromCart');
-            Route::get('/addToCart/{var1}/{var2}', 'addToCart');
-            Route::get('/removeItem/{var1}', 'removeFromCart');
-            Route::get('/Checkout', 'checkout')->name('StoreCheckout');
-            Route::post('/ProcessPayment', 'processPayment')->name('checkout');
-            Route::get('/CreateAccount', 'createAccount')->name('StoreCreateAccount');
-        });
+    //|--------------------------------------------------------------------------
+    //| STORE
+    //|--------------------------------------------------------------------------
+    Route::controller(OrdersController::class)->group(function () {
+        Route::get(__('routes./Store/Cart'), 'index')->name('cart');
+        Route::get(__('routes./Store/removeFromCart'), 'removeFromCart');
+        Route::get(__('routes./Store/addToCart')."/{var1}/{var2}", 'addToCart');
+        Route::get(__('routes./Store/removeItem')."{var1}", 'removeFromCart');
+        Route::get(__('routes./Store/Checkout'), 'checkout')->name('StoreCheckout');
+        Route::post(__('routes./Store/ProcessPayment'), 'processPayment')->name('checkout');
+        Route::get(__('routes./Store/CreateAccount'), 'createAccount')->name('StoreCreateAccount');
     });
 
-//|--------------------------------------------------------------------------
-//| LANGUAGES
-//|--------------------------------------------------------------------------
+    //|--------------------------------------------------------------------------
+    //| LANGUAGES
+    //|--------------------------------------------------------------------------
     Route::get(__('routes./lang/').'{param1}', [SystemController::class, 'changeLanguange']);
 
-//|--------------------------------------------------------------------------
-//| FEEDBACK
-//|--------------------------------------------------------------------------
+    //|--------------------------------------------------------------------------
+    //| FEEDBACK
+    //|--------------------------------------------------------------------------
     Route::post(__('routes./Feedback'), [SystemController::class, 'sendFeedback']);
 
-//CONTROL PANEL ========================================================================================================================
+    //CONTROL PANEL ========================================================================================================================
     Route::middleware(['controlpanel', 'auth'])->group(function () {
 
         Route::get('/ControlPanel/Users/loginUserAdmin/{id}', [UsersController::class, 'controlPanelLoginUserAdmin']);
@@ -693,8 +694,8 @@ use Illuminate\Support\Facades\Route;
     Route::get('ControlPanel/Email/Feeds', [FeedsController::class, 'ControlPanelFeeds']);
     Route::get('ControlPanel/Clients/sendTrainerClientWorkoutRevision', [ClientsController::class, 'sendTrainerClientWorkoutRevision']);
 
-// STATIC SITE
-// TRAINEE
+    // STATIC SITE
+    // TRAINEE
     Route::get(__('routes./TraineeSignUp/', [], "en") . "{key}", [UsersController::class, 'TraineeInvite'])->name('TraineeSignUp');
     Route::get(__('routes./TraineeSignUp', [], "fr"), [UsersController::class, 'TraineeInvite'])->name('TraineeSignUpNoKey');
     Route::post(__('routes./Trainee/SignUp'), [UsersController::class, 'TraineeSignUp'])->name('TraineeSignUpPost');
@@ -703,7 +704,7 @@ use Illuminate\Support\Facades\Route;
         return view('trainee.signUp');
     });
 
-// TRAINER
+    // TRAINER
     Route::get(__('routes./TrainerSignUp/Workout/{key}'), [UsersController::class, 'TrainerInviteWithWorkout']);
     Route::get(__('routes./TrainerSignUp/{key}'), [UsersController::class, 'TrainerInvite']);
     Route::get(__('routes./trainerGetStartedPaid'), [UsersController::class, 'trainerGetStartedPaid'])->name('TrainerSignUp');
