@@ -1684,7 +1684,7 @@ class WorkoutsController extends BaseController {
 			->with("client",$client)
 			->with("tags",$tags)
 			->with("bodygroups",Bodygroups::select("id","name")->where("main",1)->orderBy("name")->get())
-			->with("equipmentsList",Equipments::select("id","name")->lists("name","id"))
+			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("exercisesTypes",Exercisestypes::select("id","name")->orderBy("name")->get())
 			->with("total",Workouts::where("userId","=",$userId)->count());
@@ -1760,7 +1760,7 @@ class WorkoutsController extends BaseController {
 			->with("tags",$tags)
 			->with("bodygroups",Bodygroups::select("id","name")->where("main",1)->orderBy("name")->get())
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
-			->with("equipmentsList",Equipments::select("id","name")->lists("name","id"))
+			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
 			->with("exercisesTypes",Exercisestypes::select("id","name")->orderBy("name")->get())
 			->with("total",Workouts::where("userId","=",$userId)->count());
 	}

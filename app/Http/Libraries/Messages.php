@@ -1,19 +1,9 @@
 <?php
+namespace App\Http\Libraries;
+
+use Illuminate\Support\Facades\Lang;
 
 class Messages {
-
-    
-
-    
-
-   
-
-    
-
-    
-
-     
-
 
     public static function showEmptyMessage($message = "",$self = true){
 
@@ -31,8 +21,6 @@ class Messages {
     public static function showMessage($message) {
         return Lang::get("messages.".$message);
     }
-
-
 
     public static function showFacebookMessage($message,$gender="male") {
         return Lang::get("messages.".$message); 

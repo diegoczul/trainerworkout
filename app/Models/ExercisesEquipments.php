@@ -10,7 +10,7 @@ class ExercisesEquipments extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [ 'exerciseId' ];
+    protected $fillable = [ 'exerciseId', 'equipmentId', 'type' ];
     protected $dates = ['deleted_at'];
 
     public static $rules = [];

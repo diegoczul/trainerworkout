@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\Workoutsperformances;
 use App\Models\Clients;
 
-class WorkoutsperformanceController extends BaseController
+class WorkoutsPerformanceController extends BaseController
 {
     public function workoutsPerformanceClientsIndex()
     {

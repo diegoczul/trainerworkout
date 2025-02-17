@@ -2,15 +2,9 @@
 
 namespace App\Models;
 
-use Helper;
+use App\Http\Libraries\Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use TemplateSets;
-use Users;
-use UserUpdates;
-use Workouts;
-use WorkoutsExercises;
-use Workoutsperformances;
 
 class Clients extends Model
 {

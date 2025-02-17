@@ -8,7 +8,7 @@
                 </ul>
             </div>
         </div>
-        {{ Form::open(array('url' => Lang::get("routes./Clients/AddClient"), "files"=>true, 'name' => 'addClientForm', 'id' => 'addClientForm')); }}
+        {{ Form::open(array('url' => Lang::get("routes./Clients/AddClient"), "files" => true, 'name' => 'addClientForm', 'id' => 'addClientForm')) }}
         <div class="share_content">
             <div class="input_container">
                 <div class="inputRow">
@@ -45,10 +45,9 @@
                         </label>
                         <label for="clientOption">Yes</label>
                     </div>
-         
-                    
+
                 </div>
-                <div class="connectingClient" style="display:block;"">
+                <div class="connectingClient" style="display:block;">
                     <label for="personalizedTxt" class="input_label">{{ Lang::get("content.Personalizethemessagetoyourclients") }}</label>
                     <textarea name="personalizedTxt" id="personalizedTxt" placeholder="{{ Lang::get("content.Thisisthemessagethatyourclientwillreceive") }}"></textarea>
 
@@ -56,10 +55,6 @@
                         <div class="option"><input id="subscribe" type="checkbox" value="yes" name="subscribe" checked="checked" /> <label for="subscribeToWorkout">{{ Lang::get("content.subscribeToWorkout") }}</label> </div>
                     </div>
                 </div>
-
-
-                
-
             </div>
             <button type="submit" id="newClientAction" class="send ajaxSaveSubmit">{{ Lang::get("content.addClient") }}</button>
         </div>
@@ -71,30 +66,23 @@
 <div class="lightbox_mask" onclick="hidelightbox();"></div>
 
 
-{{ HTML::script('fw/awesomplete-gh-pages/awesomplete.js'); }}
-{{ HTML::script('js/twLightbox.js'); }}
-
-
+{{ HTML::script(asset('assets/fw/awesomplete-gh-pages/awesomplete.js')) }}
+{{ HTML::script(asset('assets/js/twLightbox.js')) }}
 <script type="text/javascript">
+    $("#clientOption").change( function() {
+        var showClient = $("#clientOption").is(':checked');
+        if (showClient == true) {
+            $('.connectingClient').show();
+            $('#newClientAction').html(dict["sendInvite"]);
+        } else {
+            $('.connectingClient').hide();
+            $('#newClientAction').html(dict["addClient"]);
+        }
+    });
 
 
-
-$("#clientOption").change( function() {
-    var showClient = $("#clientOption").is(':checked');
-
-    if (showClient == true) {
-        $('.connectingClient').show();
-        $('#newClientAction').html(dict["sendInvite"]);
-    } else {
-        $('.connectingClient').hide();
-        $('#newClientAction').html(dict["addClient"]);
-    }
-});
-
-
-$("body").on("click",".ajaxSaveSubmit",function(event){
+    $("body").on("click",".ajaxSaveSubmit",function(event){
         //alert(1);
-        
         var handler = $(this);
         tForm = $(this).closest("form");
         widget = $(this).attr("widget");
@@ -104,8 +92,7 @@ $("body").on("click",".ajaxSaveSubmit",function(event){
                 e.stopImmediatePropagation();
                 //var postData = $(this).serializeArray();
                 var formURL = $(this).attr("action");
-                $.ajax(
-                {
+                $.ajax({
                     url : formURL,
                     type: "POST",
                     data: new FormData( this ),
@@ -139,10 +126,7 @@ $("body").on("click",".ajaxSaveSubmit",function(event){
                         }
                     }
                 });
-                
             }
         );
     });
-
-
 </script>

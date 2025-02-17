@@ -32,7 +32,7 @@ use App\Http\Controllers\Web\UserMessagesController;
 use App\Http\Controllers\Web\UsersController;
 use App\Http\Controllers\Web\WeightsController;
 use App\Http\Controllers\Web\WorkoutsController;
-use App\Http\Controllers\Web\WorkoutsperformanceController;
+use App\Http\Controllers\Web\WorkoutsPerformanceController;
 use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -107,8 +107,8 @@ use Illuminate\Support\Facades\Route;
 
 // REPORTS
     Route::middleware('auth')->group(function () {
-        Route::post('/reports/workoutsPerformance', [WorkoutsperformanceController::class, 'workoutsPerformance']);
-        Route::get('/reports/workoutsPerformanceDetail', [WorkoutsperformanceController::class, 'workoutsPerformanceDetail']);
+        Route::post('/reports/workoutsPerformance', [WorkoutsPerformanceController::class, 'workoutsPerformance']);
+        Route::get('/reports/workoutsPerformanceDetail', [WorkoutsPerformanceController::class, 'workoutsPerformanceDetail']);
     });
 
 // WIDGETS: WORKOUTS
@@ -353,8 +353,8 @@ use Illuminate\Support\Facades\Route;
 
 // TRAINER REPORTS
     Route::middleware('auth')->group(function () {
-        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'en'), [WorkoutsperformanceController::class, 'workoutsPerformanceClientsIndex']);
-        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'fr'), [WorkoutsperformanceController::class, 'workoutsPerformanceClientsIndex']);
+        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'en'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex']);
+        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'fr'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex']);
     });
 
 // ONBOARDING
@@ -410,7 +410,7 @@ use Illuminate\Support\Facades\Route;
     Route::post(__('routes./Workout/Performance/discartOldPerformance'), [WorkoutsController::class, 'discartOldPerformance']);
     Route::post(__('routes./Workout/Performance/saveProgressPerformance'), [WorkoutsController::class, 'saveProgressPerformance']);
     Route::post(__('routes./Workout/Performance/Start'), [WorkoutsController::class, 'startWorkoutPerformance']);
-    Route::get(__('routes./Workout/Performance/showDetails') . "/{param}", [WorkoutsperformanceController::class, 'workoutsPerformanceDetail']);
+    Route::get(__('routes./Workout/Performance/showDetails') . "/{param}", [WorkoutsPerformanceController::class, 'workoutsPerformanceDetail']);
     Route::post(__('routes./Workout/Performance'), [WorkoutsController::class, 'performWorkout']);
     Route::get(__('routes./WorkoutPDF/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutPDF'])->name('workout');
     Route::get(__('routes./WorkoutImage/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutImage'])->name('workout');

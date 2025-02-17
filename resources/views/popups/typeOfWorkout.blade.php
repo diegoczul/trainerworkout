@@ -50,8 +50,8 @@
 <div class="lightbox_mask" onclick="hidelightbox();"></div>
 
 
-{{ HTML::script('fw/awesomplete-gh-pages/awesomplete.js'); }}
-{{ HTML::script('js/twLightbox.js'); }}
+{{ HTML::script(asset('assets/fw/awesomplete-gh-pages/awesomplete.js')); }}
+{{ HTML::script(asset('assets/js/twLightbox.js')); }}
 
 
 <script type="text/javascript">

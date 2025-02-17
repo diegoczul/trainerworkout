@@ -1,7 +1,10 @@
+@php
+    use App\Http\Libraries\Helper;
+@endphp
 @extends('layouts.trainer')
 
 @section("header")
-    {{ Helper::seo("client",array("firstName"=>$user->user->firstName,"lastName"=>$user->user->lastName)) }}
+    {!! Helper::seo("client",array("firstName"=>$user->user->firstName,"lastName"=>$user->user->lastName)) !!}
 @endsection
 
 @section('content')

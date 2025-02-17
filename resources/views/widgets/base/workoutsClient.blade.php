@@ -1,8 +1,9 @@
 <!-- This page shows the workouts in the page workouts.  -->
-
-
-
-<?php $ids = 0; ?>
+@php
+    use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Messages;
+    $ids = 0;
+@endphp
 @if($permissions["view"])
  @if ($workouts->count() > 0)
     @foreach ($workouts as $workout)
@@ -40,7 +41,7 @@
                     <div class="workoutsHover_BTNContainer hvr-grow {{ ($workout->status == "Draft") ? "disableDiv" : "" }}" onclick="event.cancelBubble = true;">
                         <a href="javascript:void(0)" onClick="{{ ($workout->archived_at) ? "un" : "" }}archiveWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN {{ ($workout->status == "Draft") ? "disableButton" : "" }}">
                             <div class="workoutsHover_BTNimg">
-                                <img src="/img/svg/archive.svg">
+                                <img src="{{asset('assets/img/svg/archive.svg')}}">
                             </div>
                             <div class="workoutsHover_BTNtxt">
                                 <span>{{ ($workout->archived_at) ? Lang::get("content.UnArchive") : Lang::get("content.Archive")  }}</span>
@@ -51,7 +52,7 @@
                     <div class="workoutsHover_BTNContainer hvr-grow">
                         <a href="{{ $workout->getEditURL() }}" class="workoutsHoverBTN">
                             <div class="workoutsHover_BTNimg">
-                                <img src="/img/editWorkoutIcon.svg">
+                                <img src="{{asset('assets/img/editWorkoutIcon.svg')}}">
                             </div>
                             <div class="workoutsHover_BTNtxt">
                                 <span>{{ Lang::get("content.Edit") }}</span>
@@ -63,7 +64,7 @@
                     <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
                         <a href="javascript:void(0)" class="workoutsHoverBTN" onclick="putAllWorkoutsOnSelectMode(this,event);event.stopPropagation(); ">
                             <div class="workoutsHover_BTNimg">
-                                <img workoutid="{{ $workout->id }}" class="selectable" src="/assets/img/selectableWorkoutIcon.svg">
+                                <img workoutid="{{ $workout->id }}" class="selectable" src="{{asset("/assets/img/selectableWorkoutIcon.svg")}}">
                             </div>
                             <div class="workoutsHover_BTNtxt">
                                 <span>{{ Lang::get("content.Select") }}</span>
@@ -89,9 +90,9 @@
     <div class="workout_overlay">
 
         <div class="exe_imgs">
-            <img src="/{{ Helper::image($images[0]) }}">
-            <img src="/{{ Helper::image($images[1]) }}">
-            <img src="/{{ Helper::image($images[2]) }}">
+            <img src="/{{ Helper::image($images[0]) }}" >
+            <img src="/{{ Helper::image($images[1]) }}" >
+            <img src="/{{ Helper::image($images[2]) }}" >
         </div>
         <span class="workout_title" title="{{ $workout->name }}">{{ Helper::text($workout->name,20) }}</span>
         <div class="workout_info" >
@@ -133,10 +134,10 @@
 
 @endforeach
 
-{{ HTML::script('js/verify.notify.js'); }}
+{{ HTML::script(asset('assets/js/verify.notify.js')) }}
 
 
-    <script>
+<script>
 
 function showHover(object) {
     $(object).find(".workoutsHover").toggleClass("workout_main_containerAlways");
@@ -338,20 +339,20 @@ function hideHover() {
 
 @else
     @if(isset($search) and $search != "")
-    {{ Messages::showEmptyMessage("NothingFound",$permissions["self"]) }}
+    {!! Messages::showEmptyMessage("NothingFound",$permissions["self"]) !!}
     @else
-    {{ Messages::showEmptyMessage("WorkoutsEmptyClient",$permissions["self"]) }}
+    {!! Messages::showEmptyMessage("WorkoutsEmptyClient",$permissions["self"]) !!}
     @endif
 @endif
 
 @else
-    {{ Messages::showEmptyMessage("NoPermissions") }}
+    {!! Messages::showEmptyMessage("NoPermissions") !!}
 @endif
 
 
 <div class="viewMore_holder here?">
     @if($countArchiveWorkouts > 0)
-    <a id="viewArchivedWorkouts" class="archive" href="javascript:void(0)" onClick="viewArchivedWorkouts()"  style="{{ ($archive) ? "display: none" : ""; }}">{{ Lang::get("content.viewArchivedWorkouts") }}</a>
+    <a id="viewArchivedWorkouts" class="archive" href="javascript:void(0)" onClick="viewArchivedWorkouts()" style="{{ ($archive) ? "display: none" : ""; }}">{{ Lang::get("content.viewArchivedWorkouts") }}</a>
     <a id="viewUnArchivedWorkouts" class="archive"  href="javascript:void(0)" onClick="viewUnArchivedWorkouts()" style="display: {{ ($archive) ? "inline-block" : "none" }}">{{ Lang::get("content.viewNotArchivedWorkouts") }}</a>
     @endif
     @if($total > $workouts->count())

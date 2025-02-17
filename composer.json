@@ -33,6 +33,7 @@
         "psr-4": {
             "App\\": "app/",
             "App\\Libraries\\Helper\\": "app/Http/Libraries/",
+            "App\\Libraries\\Messages\\": "app/Http/Libraries/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
