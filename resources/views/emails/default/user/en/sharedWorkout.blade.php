@@ -3,11 +3,7 @@
 @section("content")
 
                 <?php $friendName = ""; ?>
-                <?php if(isset($toUser)){ $toUser = unserialize($toUser); } ?> 
-                <?php if(isset($fromUser)){ $fromUser = unserialize($fromUser); } ?> 
-                <?php if(isset($fromUser)){ $friendName = $fromUser->firstName." ".$fromUser->lastName; } ?> 
-                <?php if(isset($sharing)){ $sharing = unserialize($sharing); } ?> 
-                <?php if(isset($invite)){ $invite = unserialize($invite); } ?> 
+                <?php if(isset($fromUser)){ $friendName = $fromUser->firstName." ".$fromUser->lastName; } ?>
 <!-- Beign of message from Trainer -->
 <tr>
     <td align="center" valign="top" id="mainActionContainer" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #369AD8;padding: 80px 40px;">

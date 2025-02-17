@@ -40,9 +40,11 @@
                         </fieldset>
 
                         @if ($exercise->video != "")
-                            <a href="/{{ $exercise->video}}" style="display:block;width:500px; height:400px" id="player"> </a>
+                            <video style="display:block;width:500px; height:400px" src="/{{ $exercise->video}}" controls></video>
+{{--                            <a href="/{{ $exercise->video}}" style="display:block;width:500px; height:400px" id="player"> </a>--}}
                         @endif
                         @if($exercise->youtube != "")
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{$exercise->youtube }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 {{--                            <iframe id="ytplayer" type="text/html" width="500" height="315" src="https://www.youtube.com/embed/{{$exercise->youtube }}"">?autoplay=1" frameborder="0"> </iframe>--}}
                         @endif
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\SharedWorkoutEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -62,8 +63,10 @@ class Sharings extends Model
         $link = sha1($from_user . $to_user . $newWorkout->id . $type);
 
         $workoutPDF = $newWorkout->getPrintPDF();
-        $workoutScreeshot = $newWorkout->getImageScreenshot();
+//        $workoutScreeshot = $newWorkout->getImageScreenshot();
+        $workoutScreeshot = "";
         $workoutScreeshotPDF = $newWorkout->getImagePDF();
+
 
         $toUser = Users::find($to_user);
         if ($toUser) {
@@ -79,25 +82,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
 
-                Mail::queueOn(App::environment(), 'emails.' . Config::get("app.whitelabel") . '.user.' . App::getLocale() . '.sharedWorkout', [
-                    "sharing" => serialize($sharing),
-                    "invite" => serialize($invite),
-                    "toUser" => serialize($toUser),
-                    "fromUser" => serialize($fromUser),
-                    "comments" => $comments
-                ], function ($message) use ($toUser, $sharing, $fromUser, $workoutPDF, $workoutScreeshot, $subject, $workoutScreeshotPDF, $copyMe, $copyView, $copyPrint) {
-                    $message->to($toUser->email)
-                        ->replyTo($fromUser->email, $fromUser->getCompleteName())
-                        ->subject($subject);
-
-                    if ($copyMe) $message->cc($fromUser->email);
-                    if ($copyView) {
-                        $message->attach($workoutScreeshot);
-                        $message->attach($workoutScreeshotPDF);
-                    }
-
-                    if ($copyPrint) $message->attach($workoutPDF);
-                });
+                Mail::send(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
             } else {
                 $sharing = new Sharings();
                 $sharing->viewed = 0;
@@ -113,25 +98,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
 
-                Mail::queueOn(App::environment(), 'emails.' . Config::get("app.whitelabel") . '.user.' . App::getLocale() . '.sharedWorkout', [
-                    "sharing" => serialize($sharing),
-                    "invite" => serialize($invite),
-                    "toUser" => serialize($toUser),
-                    "fromUser" => serialize($fromUser),
-                    "comments" => $comments
-                ], function ($message) use ($toUser, $sharing, $fromUser, $workoutPDF, $workoutScreeshot, $subject, $workoutScreeshotPDF, $copyMe, $copyView, $copyPrint) {
-                    $message->to($toUser->email)
-                        ->replyTo($fromUser->email, $fromUser->getCompleteName())
-                        ->subject($subject);
-
-                    if ($copyMe) $message->cc($fromUser->email);
-                    if ($copyView) {
-                        $message->attach($workoutScreeshot);
-                        $message->attach($workoutScreeshotPDF);
-                    }
-
-                    if ($copyPrint) $message->attach($workoutPDF);
-                });
+                Mail::send(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
             }
         }
     }

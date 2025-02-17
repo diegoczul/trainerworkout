@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
-use Ramsey\Uuid\Guid\Guid;
+use LynX39\LaraPdfMerger\PdfManage;
+use Ramsey\Uuid\Uuid;
 
 class Workouts extends Model
 {
@@ -423,7 +424,7 @@ class Workouts extends Model
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);
         } else {
-            $name = GUID::generate();
+            $name = Uuid::uuid4()->toString();
         }
 
         $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
@@ -441,20 +442,22 @@ class Workouts extends Model
 
     public function getImagePDF()
     {
-        $data["workout"] = $this;
-        $data["user"] = Auth::user();
-        $data["groups"] = $this->getGroups()->get();
-        $data["exercises"] = $this->getExercises()->get();
-
-        $image = Image2::loadFile(URL::to($this->getURLImage()));
-        $pdf = PDF::loadfile(URL::to($this->getURLImage()));
+//        $data["workout"] = $this;
+//        $data["user"] = Auth::user();
+//        $data["groups"] = $this->getGroups()->get();
+//        $data["exercises"] = $this->getExercises()->get();
+//
+//        $image = Image::make(URL::to($this->getURLImage()));
+//        dd(URL::to($this->getURLImage()));
+        $url = URL::to($this->getURLImage());
+        $html = file_get_contents($url);
+        $pdf = PDF::loadHtml($html);
 
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);
         } else {
-            $name = GUID::generate();
+            $name = Uuid::uuid4()->toString();
         }
-
         $name_temp = storage_path() . "/temp/" . $name . ".pdf";
 
         if (File::exists($name_temp)) {
@@ -472,7 +475,6 @@ class Workouts extends Model
         $data["user"] = Auth::user();
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
-
         $pdf = PDF::loadView('workoutPrint',$data);
         $pdf->setOptions(array(
             "orientation" => "landscape",
@@ -481,21 +483,21 @@ class Workouts extends Model
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);
         } else {
-            $name = GUID::generate();
+            $name = Uuid::uuid4()->toString();
         }
 
         $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
-
         if (File::exists($name_temp)) {
             File::delete($name_temp);
         }
 
         $pdf->save($name_temp);
 
-//        $merger = new LynX39\LaraPdfMerger\PdfManage;
-//        $merger->addPDF($name_temp);
-//        $merger->addPDF(Config::get("constants.gridPDF"));
-//        $merger->merge('file', $name_temp, 'L');
+
+        $merger = (new PdfManage())->init();
+        $merger->addPDF($name_temp);
+        $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+        $merger->merge('L', ['file' => $name_temp]);
 
         return $name_temp;
     }
@@ -513,7 +515,7 @@ class Workouts extends Model
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);
         } else {
-            $name = GUID::generate();
+            $name = Uuid::uuid4()->toString();
         }
 
         $name_temp = storage_path() . "/temp/" . $name . ".jpg";

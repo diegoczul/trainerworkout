@@ -20,6 +20,7 @@ use App\Models\UserUpdates;
 use App\Models\Workouts;
 use App\Models\WorkoutsExercises;
 use App\Models\WorkoutsGroups;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -607,9 +608,9 @@ class WorkoutsController extends BaseController {
 
 
 
-
 						        	Event::dispatch('shareAWorkout', array(Auth::user(),$user->id));
 						        	$comments = $request->get("comments");
+
 
 									Sharings::shareWorkout(Auth::user()->id,$user->id,$workout,"Workout",$comments,$invite,$copyMe,$copyView,$copyPrint,$subscribe,$lock);
 
@@ -1426,28 +1427,29 @@ class WorkoutsController extends BaseController {
 
 
 
-                    if ($jpeg) {
-                        // Load the image using Intervention Image
-                        $imageData = file_get_contents(URL::to($workout->getURLImage()));
-                        $image = Image::make($imageData);
-
-                        // Define the image path
-                        $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
-
-                        // Save the image
-                        $image->save($imagePath);
-
-                        // Add the image to the ZIP file
-                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
-
-                        // Add the PDF to the ZIP file
-                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
-                    }
+//                    if ($jpeg) {
+//                        // Load the image using Intervention Image
+//                        $imageData = file_get_contents(URL::to($workout->getURLImage()));
+//                        $image = Image::make($imageData);
+//
+//                        // Define the image path
+//                        $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
+//
+//                        // Save the image
+//                        $image->save($imagePath);
+//
+//                        // Add the image to the ZIP file
+//                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
+//
+//                        // Add the PDF to the ZIP file
+//                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
+//                    }
 
 					if($pdf){
 						$data = array();
 
-						$pdf = PDF::loadfile(URL::to("Workout/PrintWorkoutInternal/".$workout->id));
+                        $html = file_get_contents(URL::to("Workout/PrintWorkoutInternal/".$workout->id));
+						$pdf = Pdf::loadHTML($html);
 						$pdf->setOptions(array(
 							"orientation" => "landscape",
 
@@ -1478,22 +1480,22 @@ class WorkoutsController extends BaseController {
 
 
 
-			App::finish(function($request, $response) use ($path)
-			{
-			    File::deleteDirectory($path);
-			});
+//			App::finish(function($request, $response) use ($path)
+//			{
+//			    File::deleteDirectory($path);
+//			});
 
 
 			$headers = array(
               'Content-Type: application/zip',
             );
 
-			return Response::download($zipFilePath, $name, $headers);
+			return Response::download($zipFilePath, $name, $headers)->deleteFileAfterSend(true);
 		}
 	}
 
 
-	public function createNewWorkout(Request $request){
+    public function createNewWorkout(Request $request){
 		$userId = Auth::user()->id;
 		$permissions = null;
 		if($request->has("userId")){
