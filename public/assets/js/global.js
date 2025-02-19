@@ -406,36 +406,36 @@ function refreshWidgetsExternal(userId){
 $(document).ready(function(){
 
 
-	//DATEPICKER
-	$(function(datepicker) {
-		$( ".datepicker" ).datepicker({
-			changeYear: true,
-			dateFormat: 'yy-mm-dd',
-			yearRange: '1920:2019',
-		});
-
-	});
-	//DATEPICKER
-	$(function(datepicker) {
-		$( ".datepickerToday" ).datepicker({
-			changeYear: true,
-			dateFormat: 'yy-mm-dd',
-			yearRange: '1920:2019',
-			minDate:0
-		});
-
-	});
-
-	//DATEPICKER
-	$(function(datepicker) {
-		$( ".datepickerPast" ).datepicker({
-			changeYear: true,
-			dateFormat: 'yy-mm-dd',
-			yearRange: '1920:2019',
-			maxDate:0
-		});
-
-	});
+	// //DATEPICKER
+	// $(function(datepicker) {
+	// 	$( ".datepicker" ).datepicker({
+	// 		changeYear: true,
+	// 		dateFormat: 'yy-mm-dd',
+	// 		yearRange: '1920:2019',
+	// 	});
+	//
+	// });
+	// //DATEPICKER
+	// $(function(datepicker) {
+	// 	$( ".datepickerToday" ).datepicker({
+	// 		changeYear: true,
+	// 		dateFormat: 'yy-mm-dd',
+	// 		yearRange: '1920:2019',
+	// 		minDate:0
+	// 	});
+	//
+	// });
+	//
+	// //DATEPICKER
+	// $(function(datepicker) {
+	// 	$( ".datepickerPast" ).datepicker({
+	// 		changeYear: true,
+	// 		dateFormat: 'yy-mm-dd',
+	// 		yearRange: '1920:2019',
+	// 		maxDate:0
+	// 	});
+	//
+	// });
 
 	// //TIMEPICKER
 	// $('.timepicker').timepicker();

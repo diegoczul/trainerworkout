@@ -24,7 +24,10 @@ use App\Models\Users;
 use App\Models\Memberships;
 use App\Models\MembershipsUsers;
 use App\Models\OrderItems;
+use Stripe\Customer;
+use Stripe\PaymentMethod;
 use Stripe\Stripe;
+use Stripe\Subscription;
 
 class OrdersController extends BaseController
 {
@@ -220,7 +223,7 @@ class OrdersController extends BaseController
         }
     }
 
-    public function stripeAPIMembershipCheckout($membership, $order = "", $debug = false)
+    public function stripeAPIMembershipCheckout($membership, $request, $order = "", $debug = false)
     {
         $user = Auth::user();
         $cart = Session::get("cart");
@@ -228,35 +231,56 @@ class OrdersController extends BaseController
         Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
         try {
-            $token = request()->get('stripeToken');
-
-            if (empty(request()->get("oldCustomer"))) {
+            $token = $request->get('stripeToken');
+            if (empty($request->get("oldCustomer"))) {
                 if ($user->stripeCheckoutToken == "") {
-                    $customer = \Stripe\Customer::create([
-                        "source" => $token,
+                    // Create a Stripe customer
+                    $customer = Customer::create([
                         "description" => $user->email,
                         "email" => $user->email
                     ]);
 
+                    // Attach payment method to customer
+                    $paymentMethod = PaymentMethod::retrieve($token);
+                    $paymentMethod->attach(['customer' => $customer->id]);
+
+                    // Retrieve updated customer to get default payment method details
+                    $customer = Customer::retrieve($customer->id);
+                    $paymentMethods = $customer->invoice_settings->default_payment_method ? PaymentMethod::retrieve($customer->invoice_settings->default_payment_method) : null;
+
+                    // Save details to user
                     $user->stripeCheckoutToken = $customer->id;
-                    $user->fourLastDigits = $customer->sources->data[0]->last4;
-                    $user->typeOfCreditCard = $customer->sources->data[0]->brand;
+                    $user->fourLastDigits = $paymentMethods->card->last4 ?? "";
+                    $user->typeOfCreditCard = $paymentMethods->card->brand ?? "";
                     $user->save();
                 }
             }
 
             $subId = "";
-            $customer = \Stripe\Customer::retrieve($user->stripeCheckoutToken);
-
-            if ($customer->subscriptions->total_count == 0) {
-                $subscription = $customer->subscriptions->create(["plan" => $membership]);
-                $subId = $subscription->id;
+            $customer = Customer::retrieve($user->stripeCheckoutToken);
+            // Get existing subscriptions
+            $subscriptions = Subscription::all(["customer" => $customer->id, "status" => "active"]);
+            // If no active subscriptions, create a new one
+            if ($subscriptions->data === [] || $subscriptions->total_count == 0) {
+                $subscription = Subscription::create([
+                    "customer" => $customer->id,
+                    "items" => [
+                        ["plan" => $membership] // Use Plan ID
+                    ],
+                ]);
             } else {
-                $subscription = $customer->subscriptions->retrieve($customer->subscriptions->data[0]->id);
-                $subscription->plan = $membership;
+                // Retrieve the first active subscription
+                $subscription = Subscription::retrieve($subscriptions->data[0]->id);
+
+                // Update subscription with new plan
+                $subscription->items = [
+                    ["id" => $subscription->items->data[0]->id, "plan" => $membership]
+                ];
                 $subscription->save();
-                $subId = $subscription->id;
             }
+
+            // Get the subscription ID
+            $subId = $subscription->id;
 
             MembershipsUsers::where("userId", $user->id)->delete();
 
@@ -296,6 +320,7 @@ class OrdersController extends BaseController
 
     public function processPayment(Request $request)
     {
+
         $user = Auth::user();
         $order = null;
 
@@ -377,7 +402,7 @@ class OrdersController extends BaseController
 
             if ($membershipPurchase > 0) {
                 $mem = Memberships::find($membership);
-                $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $order, $debug);
+                $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $request, $order, $debug, );
                 if ($result == "") $approvedMembership = true;
                 if ($result != "") return Redirect::back()->withErrors($result);
             } else {

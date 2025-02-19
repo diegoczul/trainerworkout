@@ -44,8 +44,8 @@ if (Auth::check()) {
                             </h2>
                         @endforeach
                     </div>
-                    <div class="payPlanBtn"><a
-                                href="{{ Lang::get("routes./UpgradePlan") }}">{{ Lang::get("content.changeplan") }}</a>
+                    <div class="payPlanBtn">
+                        <a href="{{ Lang::get("routes./UpgradePlan") }}">{{ Lang::get("content.changeplan") }}</a>
                     </div>
                 </div>
             </div>
@@ -57,13 +57,11 @@ if (Auth::check()) {
                         </div>
 
                         <div class="payInfoContainer" id="payRightContainer">
-                            <form action="/Store/ProcessPayment/" method="post" enctype="multipart/form-data"
-                                  name="payform" id="payform" class="formholder clearfix">
+                            <form action="/Store/ProcessPayment/" method="post" enctype="multipart/form-data" name="payform" id="payform" class="formholder clearfix">
                                 <!-- <div class="payFormFull"> -->
                                 <fieldset class="payForm payFormFull">
                                     <label for="biStreet">{{ Lang::get("content.street") }}</label>
-                                    <input id="biStreet" value="{{ Auth::user()->street }}" name="street" type="text"
-                                           class="payFormInput validate[required]" placeholder="123 acme street">
+                                    <input id="biStreet" value="{{ Auth::user()->street }}" name="street" type="text" class="payFormInput validate[required]" placeholder="123 acme street">
                                 </fieldset>
                                 <!-- </div> -->
 
@@ -421,29 +419,27 @@ if (Auth::check()) {
                                         </select>
                                     </fieldset>
                                 </div>
+                            </form>
                         </div>
                     </div>
                     <div class="payBlock payCredit">
                         <div class="payHeader">
                             <h2>{{ Lang::get("content.CreditCardinformation") }}</h2>
                         </div>
-                        <div class="payInfoContainer">
+                        <div class="payInfoContainer" id="payInfoContainer">
                             <fieldset class="payForm payFormFull">
                                 <label for="ccName">{{ Lang::get("content.cardholdersname") }}</label>
-                                <input id="ccName" data-stripe="name" type="text"
-                                       class="payFormInput validate[required]"><input type="hidden" name="paymentcctype"
-                                                                                      id="ccType" value=""/>
+                                <input id="ccName" data-stripe="name" type="text" class="payFormInput validate[required]">
+                                <input type="hidden" name="paymentcctype" id="ccType" value=""/>
                             </fieldset>
                             <div class="payForm payFormFull">
                                 <fieldset class="payFormThreeForth">
                                     <label for="ccNumber">{{ Lang::get("content.cardcardNumber") }}</label>
-                                    <input id="ccNumber" data-stripe="number" placeholder="4000000000000077" type="text"
-                                           class="payFormInput">
+                                    <input id="ccNumber" data-stripe="number" placeholder="4000000000000077" type="text" class="payFormInput">
                                 </fieldset>
                                 <fieldset class="payForm payFormOneForth payFormRight">
                                     <label for="ccCvc">CVC</label>
-                                    <input data-stripe="cvc" id="ccCvc" type="text" class="payFormInput"
-                                           placeholder="123">
+                                    <input data-stripe="cvc" id="ccCvc" type="text" class="payFormInput" placeholder="123">
                                 </fieldset>
                             </div>
                             <div class="payForm payFormFull">
@@ -451,14 +447,12 @@ if (Auth::check()) {
                                     <label style="cursor: default">{{ Lang::get("content.expirationdate") }}</label>
                                     <div class="expInput" id="expInputMonth">
                                         <label for="ccMonth">{{ Lang::get("content.month") }}</label>
-                                        <input data-stripe="exp-month" id="ccMonth" type="text" class="payFormInput"
-                                               style="width:20px" placeholder="12">
+                                        <input data-stripe="exp-month" id="ccMonth" type="text" class="payFormInput" style="width:20px" placeholder="12">
                                     </div>
 
                                     <div class="expInput payFormRight" id="expInputYear">
                                         <label for="ccYear">{{ Lang::get("content.year") }}</label>
-                                        <input id="ccYear" data-stripe="exp-year" type="text" class="payFormInput"
-                                               style="width:35px" placeholder="2018">
+                                        <input id="ccYear" data-stripe="exp-year" type="text" class="payFormInput" style="width:35px" placeholder="2018">
                                     </div>
                                 </fieldset>
                             </div>
@@ -467,8 +461,7 @@ if (Auth::check()) {
                 </div>
                 <div class="PayCompleteButton">
                     <fieldset>
-                        <input name="payform_submit" id="payform_submit" type="submit"
-                               value="{{ Lang::get("content.CompleteSubscription") }}">
+                        <input name="payform_submit" id="payform_submit" type="submit" value="{{ Lang::get("content.CompleteSubscription") }}">
                     </fieldset>
                 </div>
             </div>
@@ -477,24 +470,11 @@ if (Auth::check()) {
         </div>
 
         <div class="holder">
-
             <div class="fltleft checkbox">
-
             </div>
-
         </div>
-
-        </div>
-
-        </div>
-
         <div class="clearfix"></div>
-
-        </div>
-
         <div class="clearfix"></div>
-
-        </div>
         {{ Form::close() }}
     </section>
     </body>
@@ -503,7 +483,7 @@ if (Auth::check()) {
 
 @section("scripts")
     @if($cart["total"] != 0)
-        {{ HTML::script('https://js.stripe.com/v2/'); }}
+        {{ HTML::script('https://js.stripe.com/v3/'); }}
     @endif
     <script type="text/javascript">
 
@@ -516,23 +496,39 @@ if (Auth::check()) {
         // This identifies your website in the createToken call below
 
         @if($debug)
-        Stripe.setPublishableKey('{{ Config::get("constants.STRIPETestpublishable_key") }}');
+        var Stripe = Stripe('{{ Config::get("constants.STRIPETestpublishable_key") }}');
         @else
-        Stripe.setPublishableKey('{{ Config::get("constants.STRIPEpublishable_key") }}');
+        var Stripe = Stripe('{{ Config::get("constants.STRIPEpublishable_key") }}');
         @endif
         // ...
     </script>
     <script>//callWidget("w_trendingWorkouts");</script>
 
     <script>
+        var elements = Stripe.elements();
+        var card = elements.create('card');
+        card.mount('#payInfoContainer');
         jQuery(function ($) {
             $('#payment-form').submit(function (event) {
+                event.preventDefault();
                 var $form = $(this);
 
-                // Disable the submit button to prevent repeated clicks
-                $form.find('button').prop('disabled', true);
-
-                Stripe.card.createToken($form, stripeResponseHandler);
+                console.log($form);
+                    Stripe.createPaymentMethod({
+                        type: 'card',
+                        card: card,
+                        billing_details: {
+                            name: '{{auth()->user()->firstName??"N/A"}} {{auth()->user()->lastName??"N/A"}}',
+                        },
+                    })
+                    .then(function(result) {
+                        stripeResponseHandler(true,result)
+                        // Handle result.error or result.paymentMethod
+                    });
+                // // Disable the submit button to prevent repeated clicks
+                // $form.find('button').prop('disabled', true);
+                //
+                // Stripe.card.createToken($form, stripeResponseHandler);
 
                 // Prevent the form from submitting with the default action
                 return false;
@@ -549,7 +545,7 @@ if (Auth::check()) {
                 errorMessage(response.error.message);
             } else {
                 // response contains id and card, which contains additional card details
-                var token = response.id;
+                var token = response.paymentMethod.id;
                 // Insert the token into the form so it gets submitted to the server
                 $form.append($('<input type="hidden" name="stripeToken" />').val(token));
                 // and submit
