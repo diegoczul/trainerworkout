@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Mail\FeedbackMail;
 use App\Models\Appointments;
 use App\Models\Availabilities;
 use App\Models\Friends;
@@ -147,19 +148,15 @@ class SystemController extends BaseController
         $date = now()->toDateString();
         $user = Auth::user();
         $email = Config::get("app.feedbackEmail");
-
-        Mail::queue('ControlPanel.emails.feedback', compact('date', 'user', 'feedback'), function ($message) use ($date, $email) {
-            $message->to($email)->subject("Feedback sent $date");
-        });
+        Mail::to($email)->queue(new FeedbackMail($date, $user, $feedback));
 
         $message = __("messages.thankyoufeedback");
-        return Auth::check()
-            ? match (Auth::user()->userType) {
-                "Trainer" => redirect()->route("trainerWorkouts")->with("message", $message),
-                "Trainee" => redirect()->route("traineeWorkouts")->with("message", $message),
+        $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
+        return Auth::check() ? match (Auth::user()->userType) {
+                "Trainer" => redirect()->route("trainerWorkouts",['userName' => $username])->with("message", $message),
+                "Trainee" => redirect()->route("traineeWorkouts",['userName' => $username])->with("message", $message),
                 default => redirect()->route("home")->with("message", $message),
-            }
-            : redirect()->route("home")->with("message", $message);
+            } : redirect()->route("home")->with("message", $message);
     }
 
     public function weeklyActivity()
