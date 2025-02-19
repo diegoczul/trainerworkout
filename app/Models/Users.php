@@ -198,12 +198,12 @@ class Users extends Authenticatable {
 
         $user = Users::find($this->id);
 
-        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.activateEmail', array("user"=>serialize($user)), function($message) use ($user)
-        {
-            $message->to($user->email)
-                ->cc(Config::get("constants.activityEmail"))
-                ->subject(Messages::showEmailMessage("TrainerWorkoutEmailConfirmation"));
-        });
+//        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.activateEmail', array("user"=>serialize($user)), function($message) use ($user)
+//        {
+//            $message->to($user->email)
+//                ->cc(Config::get("constants.activityEmail"))
+//                ->subject(Messages::showEmailMessage("TrainerWorkoutEmailConfirmation"));
+//        });
     }
 
     public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail){
@@ -386,4 +386,5 @@ class Users extends Authenticatable {
     {
         return $this->subscriptions()->where('userId', $user->id)->first();
     }
+
 }

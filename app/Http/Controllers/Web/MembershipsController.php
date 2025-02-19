@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Libraries\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -10,15 +11,14 @@ use Illuminate\Support\Facades\View;
 use App\Models\Memberships;
 use App\Models\MembershipsUsers;
 use App\Models\Users;
-use Messages;
 
 class MembershipsController extends BaseController
 {
     public function indexMembershipManagement()
     {
-        if (!Auth::user()->membership) {
-            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
-        }
+//        if (!Auth::user()->membership) {
+//            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
+//        }
 
         return View::make("MembershipManagement");
     }
