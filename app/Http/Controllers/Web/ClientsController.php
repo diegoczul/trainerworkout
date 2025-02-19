@@ -10,7 +10,7 @@ use App\Models\Invites;
 use App\Models\Friends;
 use App\Models\Notifications;
 use App\Models\Feeds;
-use App\Models\Workoutsperformances;
+use App\Models\WorkoutsPerformances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -162,7 +162,7 @@ class ClientsController extends BaseController
                 $this->pageSize += request()->get("pageSize");
             }
 
-            $performances = Workoutsperformances::where("forTrainer", Auth::id())
+            $performances = WorkoutsPerformances::where("forTrainer", Auth::id())
                 ->where("userId", $user->userId)
                 ->whereNotNull("dateCompleted")
                 ->count();

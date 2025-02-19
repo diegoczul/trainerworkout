@@ -559,7 +559,7 @@ div.showTab {
       padding-left: 280px; } }
 
 .content, .clientpage {
-  background: url("/img/Trainee/background.png");
+  background: url("/assets/img/Trainee/background.png");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -37,7 +37,7 @@ class RedirectIfAuthenticated
         if ($user->userType == "Trainer") {
             return Redirect::route('trainerWorkouts',['userName' => $username])->with(['message' => __("messages.Welcome")]);
         } else {
-            return Redirect::route('traineeWorkouts',['userName' => $username])->with(['message' => __("messages.Welcome")]);
+            return Redirect::route('traineeWorkouts')->with(['message' => __("messages.Welcome")]);
         }
     }
 

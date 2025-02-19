@@ -1,7 +1,10 @@
+@php
+    use App\Http\Libraries\Helper;
+@endphp
 @extends('layouts.trainee')
 
 @section("header")
-    {{ Helper::seo("traineeWorkouts") }}
+    {!! Helper::seo("traineeWorkouts") !!}
 @endsection
 
 @section('content')
@@ -40,12 +43,12 @@
                     </title>
                     <g stroke-width=".5" stroke="#369AD8" fill="none" fill-rule="evenodd">
                         <g>
-                            <rect y="1.702" width="13" height="1.702" rx=".413"/></rect>
-                            <rect x="4.875" width="3.25" height="1.276" rx=".413"/></rect>
+                            <rect y="1.702" width="13" height="1.702" rx=".413"/>
+                            <rect x="4.875" width="3.25" height="1.276" rx=".413"/>
                             <path d="M1.22 3.523c0-.23.182-.414.413-.414h9.734c.23 0 .414.187.414.413V16.35c0 .91-.74 1.65-1.65 1.65H2.87a1.65 1.65 0 0 1-1.65-1.65V3.523z"/></path>
                         </g>
                         <g stroke-linecap="square">
-                            <path d="M9.14 6.3v8.51M6.5 6.3v8.51M3.86 6.3v8.51"/></path>
+                            <path d="M9.14 6.3v8.51M6.5 6.3v8.51M3.86 6.3v8.51"/>
                         </g>
                     </g>
                 </svg>
@@ -55,9 +58,6 @@
 		<div class="traineeWorkoutContainer" id="w_workoutsTrainee">
 			
 		</div>
-
-
-	
 	</div>
 </div>
 

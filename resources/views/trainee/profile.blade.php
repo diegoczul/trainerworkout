@@ -1,15 +1,17 @@
+@use('App\Http\Libraries\Helper')
+
 @extends('layouts.trainee')
 
  <!--------------------------     Profile Page of Users     ---------------------------->
 
 
 @section("header")
-    {{ Helper::seo("traineeProfile",array("firstName"=>$user->firstname,"lastName"=>$user->lastName)) }}
+    {!! Helper::seo("traineeProfile",array("firstName"=>$user->firstname,"lastName"=>$user->lastName)) !!}
 @endsection
 
 
 @section('content')
-{{ Form::open(array('url' => Lang::get('routes./Trainee/EditProfile'), "class"=>"p_form", "files"=>true)); }}
+{{ Form::open(array('url' => Lang::get('routes./Trainee/EditProfile'), "class"=>"p_form", "files"=>true)) }}
 <div class="content">
 <div class="traineeBackgroundFilter"></div>
 	<div class="contentContainer">
@@ -18,17 +20,17 @@
 				<img class="refreshImage" src="/{{{ Helper::image(Auth::user()->image) }}}">
                 <div class="editImgContainer">
                     @if(Auth::user()->image != "")
-                    <a href="javascript:void(0)" onClick="rotateLeft($(this)); arguments[0].stopPropagation(); return false;" class="rotate_left"><img src="/img/rotate_left-white.png"/></a>
+                    <a href="javascript:void(0)" onClick="rotateLeft($(this)); arguments[0].stopPropagation(); return false;" class="rotate_left"><img src="{{asset('assets/img/rotate_left-white.png')}}"/></a>
                     @endif
                     <a class="editProfile" id="editImg" href="#" onclick="$(this).closest('.profile').find('.inputBoxFile').toggle()">edit</a>
                     @if(Auth::user()->image != "")
-                    <a href="javascript:void(0)" onClick="rotateRight($(this)); arguments[0].stopPropagation(); return false;" class="rotate_right"><img src="/img/rotate_right-white.png"/></a>
+                    <a href="javascript:void(0)" onClick="rotateRight($(this)); arguments[0].stopPropagation(); return false;" class="rotate_right"><img src="{{asset('assets/img/rotate_right-white.png')}}"/></a>
                     @endif
                 </div>
 				<input class='inputBoxFile' type="file" name="image" style="display:none">
 			</div>
 			
-				<input id="timezone" type="hidden" name="timezone" class="inputboxmid" value="{{Input::old("timezone")}}" />
+				<input id="timezone" type="hidden" name="timezone" class="inputboxmid" value="{{request()->old("timezone")}}" />
 				<label for="fname">{{ Lang::get("content.first name") }}</label>
 				<input type="text" placeholder="first name" name="firstName" id="firstName" value="{{{ Auth::user()->firstName }}}">
 				<label for="lname">{{ Lang::get("content.last name") }}</label>
@@ -199,40 +201,5 @@ function rotateRight(){
 }
 
 </script>
-
-@endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @endsection

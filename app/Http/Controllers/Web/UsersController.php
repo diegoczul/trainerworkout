@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Event;
-use Messages;
+use Intervention\Image\Facades\Image;
 use UsersSettings;
 
 class UsersController extends Controller
@@ -885,9 +885,11 @@ class UsersController extends Controller
             $user->lastName = ucfirst($request->get("lastName"));
             $user->email = strtolower($request->get("email"));
             $user->phone = Helper::formatPhone(strtolower($request->get("phone")));
-            $user->birthday = strtolower($request->get("birthday"));
             $user->gender = strtolower($request->get("gender"));
             $user->userType = "Trainee";
+            if($request->get('birthday')){
+                $user->birthday = strtolower($request->get("birthday"));
+            }
             if ($request->get("timezone")) {
                 $user->timezone = $request->get("timezone");
             }
@@ -1021,9 +1023,7 @@ class UsersController extends Controller
                     'virtual' => 0,
                 ]);
 
-                return Auth::user()->userType === "Trainer"
-                    ? redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
-                    : redirect()->route('traineeWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
+                return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)]) : redirect()->route('traineeWorkouts')
                         ->with("message", __("messages.Welcome"));
 
             } else {
@@ -1111,7 +1111,7 @@ class UsersController extends Controller
 
                     return Auth::user()->userType === "Trainer"
                         ? redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
-                        : redirect()->route('traineeWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
+                        : redirect()->route('traineeWorkouts')
                             ->with("message", __("messages.Welcome"));
                 } else {
                     return redirect()->route("home")->with("error", "It is not possible to login with Facebook at the moment.");

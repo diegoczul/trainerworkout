@@ -1,3 +1,7 @@
+@php
+	use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Messages;
+@endphp
 <div class="workoutsContainer">
 @if (count($workouts) > 0)
 		@foreach($workouts as $workout)
@@ -6,11 +10,8 @@
 			    <div class="workoutsHover">
 			        <div class="workoutsHover_status">
 				        <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
-
 				        <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
-
 				        <a class="WorkoutsHoverView" href="javascript:void(0)" onClick='window.location = "/{{ $workout->getURL() }}"'>{{ Lang::get("content.ViewWorkout") }}</a>
-
 				    </div>
 
 			        <div class="workoutsHover_BTNsContainer">
@@ -18,18 +19,18 @@
 			            <div class="workoutsHover">
 			                <div class="workoutsHover_status">
 			                    <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
-			<!-- *****  Workout Name   ****** -->
+								<!-- *****  Workout Name   ****** -->
 			                    <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
-			<!-- ******  View Workout  *****-->
+								<!-- ******  View Workout  *****-->
 			                    <a class="WorkoutsHoverView" href="javascript:void(0)" onClick='window.location = "/{{ $workout->getURL() }}"'>{{ Lang::get("content.ViewWorkout") }}</a>
 			                </div>
 
 			                <div class="workoutsHover_BTNsContainer">
-			<!-- ******  Archive  ***** -->
+								<!-- ******  Archive  ***** -->
 			                    <div class="workoutsHover_BTNContainer hvr-grow {{ ($workout->status == "Draft") ? "disableDiv" : "" }}" onclick="event.cancelBubble = true;">
 			                        <a href="javascript:void(0)" onClick="{{ ($workout->archived_at) ? "un" : "" }}archiveWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">
 			                            <div class="workoutsHover_BTNimg">
-			                                <img src="/assets/img/svg/archive.svg">
+			                                <img src="{{asset('/assets/img/svg/archive.svg')}}">
 			                            </div>
 			                            <div class="workoutsHover_BTNtxt">
 			                                <span>{{ ($workout->archived_at) ? Lang::get("content.UnArchive") : Lang::get("content.Archive")  }}</span>
@@ -37,11 +38,11 @@
 			                        </a>
 			                    </div>
 
-            <!-- *****  Delete   ***** -->
+            					<!-- *****  Delete   ***** -->
 			                    <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
 			                        <a href="javascript:void(0)" onClick="deleteWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">
 			                            <div class="workoutsHover_BTNimg">
-			                                <img src="/assets/img/deleteWorkoutIcon.svg">
+			                                <img src="{{asset('/assets/img/deleteWorkoutIcon.svg')}}">
 			                            </div>
 			                            <div class="workoutsHover_BTNtxt">
 			                                <span>{{ Lang::get("content.Delete") }}</span>
@@ -50,11 +51,11 @@
 			                    </div>
 
 
-			<!-- ******   Select   ***** -->
+								<!-- ******   Select   ***** -->
 			                    <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
 			                        <a href="javascript:void(0)" class="workoutsHoverBTN" onclick="putAllWorkoutsOnSelectMode(this,event);event.stopPropagation(); ">
 			                            <div class="workoutsHover_BTNimg">
-			                                <img workoutid="{{ $workout->id }}" class="selectable" src="/assets/img/selectableWorkoutIcon.svg">
+			                                <img workoutid="{{ $workout->id }}" class="selectable" src="{{asset('/assets/img/selectableWorkoutIcon.svg')}}">
 			                            </div>
 			                            <div class="workoutsHover_BTNtxt">
 			                                <span>{{ Lang::get("content.Select") }}</span>
@@ -91,7 +92,7 @@
         </div>
  @else
     <div class="trendingworkout" style="position:relative">
-    {{ Messages::showEmptyMessage("TrendingWorkoutsEmptyTrainer") }}
+    {!! Messages::showEmptyMessage("TrendingWorkoutsEmptyTrainer") !!}
     </div>
 @endif
 

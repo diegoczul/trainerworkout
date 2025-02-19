@@ -21,12 +21,12 @@ class userTypeChecker
         if (Auth::check()) {
             $user = Auth::user();
             $routeArray = explode("/", $request->route()->uri());
-
+            $username = strtolower($user->firstName.$user->lastName);
             if (strtolower($routeArray[0]) != strtolower($user->userType)) {
                 if ($user->userType === "Trainer") {
-                    return Redirect::route('trainerWorkouts')->withError(Lang::get("messages.NotFound"));
+                    return Redirect::route('trainerWorkouts',['userName' => $username])->withError(Lang::get("messages.NotFound"));
                 } elseif ($user->userType === "Trainee") {
-                    return Redirect::route('traineeWorkouts')->withError(Lang::get("messages.NotFound"));
+                    return Redirect::route('traineeWorkouts',['userName' => $username])->withError(Lang::get("messages.NotFound"));
                 }
             }
         }

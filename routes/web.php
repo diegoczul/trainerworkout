@@ -77,12 +77,12 @@ use Illuminate\Support\Facades\Route;
     Route::post(__('routes./login'), [UsersController::class, 'login']);
     Route::post(__('routes./registerNewsletter'), [UsersController::class, 'registerNewsletter']);
     Route::get(__('routes./login/facebook'), [UsersController::class, 'loginFacebook']);
-    Route::get(__('routes./login/trainee/facebook/{param1}'), [UsersController::class, 'loginTraineeFacebook']);
+    Route::get(__('routes./login/trainee/facebook').'/{param1}', [UsersController::class, 'loginTraineeFacebook']);
     Route::get(__('routes./login/trainee/facebook'), [UsersController::class, 'loginTraineeFacebook']);
     Route::get(__('routes./password/reset'), [RemindersController::class, 'getRemind'])->name('password.remind');
     Route::post(__('routes./password/reset'), [RemindersController::class, 'postRemind'])->name('password.request');
-    Route::get(__('routes./password/reset/{token}'), [RemindersController::class, 'getReset'])->name('password.reset');
-    Route::post(__('routes.password/reset/{token}'), [RemindersController::class, 'postReset'])->name('password.update');
+    Route::get(__('routes./password/reset').'/{token}', [RemindersController::class, 'getReset'])->name('password.reset');
+    Route::post(__('routes.password/reset').'/{token}', [RemindersController::class, 'postReset'])->name('password.update');
 
     // CLIENTS
     Route::middleware('auth')->group(function () {
@@ -116,14 +116,14 @@ use Illuminate\Support\Facades\Route;
         Route::post(__('routes./widgets/workouts/archive/').'{param}', [WorkoutsController::class, 'archiveWorkout']);
         Route::post(__('routes./widgets/workouts/unarchive/').'{param}', [WorkoutsController::class, 'unarchiveWorkout']);
         Route::get(__('routes./widgets/workouts/').'{param}', [WorkoutsController::class, 'show']);
-        Route::post(__('routes./widgets/workouts/addEdit'), [WorkoutsController::class, 'AddEdit']);
+        Route::post(__('routes./widgets/workouts/addEdit/'), [WorkoutsController::class, 'AddEdit']);
         Route::delete(__('routes./widgets/workouts/').'{param}', [WorkoutsController::class, 'destroy']);
         Route::post(__('routes./widgets/workoutsTrainer'), [WorkoutsController::class, 'indexWorkoutTrainer']);
         Route::post(__('routes./widgets/workoutsClient'), [WorkoutsController::class, 'indexWorkoutsClient']);
         Route::post(__('routes./widgets/workoutsLibrary'), [WorkoutsController::class, 'indexWorkoutsLibrary']);
         Route::post(__('routes./widgets/workoutsTrainer/full'), [WorkoutsController::class, 'indexWorkoutTrainerFull']);
         Route::get(__('routes./widgets/workoutsTrainee').'/{param}', [WorkoutsController::class, 'show']);
-        Route::post(__('routes./widgets/workoutsTrainee/addEdit'), [WorkoutsController::class, 'AddEdit']);
+        Route::post(__('routes./widgets/workoutsTrainee/addEdit/'), [WorkoutsController::class, 'AddEdit']);
         Route::delete(__('routes./widgets/workoutsTrainee').'/{param}', [WorkoutsController::class, 'destroy']);
         Route::post(__('routes./widgets/workoutsTrainee'), [WorkoutsController::class, 'indexWorkoutTrainee']);
         Route::post(__('routes./widgets/workoutsTrainee/full'), [WorkoutsController::class, 'indexWorkoutTraineeFull']);
@@ -132,20 +132,20 @@ use Illuminate\Support\Facades\Route;
 // WORKOUT MARKET
     Route::middleware('auth')->group(function () {
         Route::get(__('routes./WorkoutMarket'), [WorkoutsController::class, 'indexMarket']);
-        Route::get(__('routes./widgets/workoutMarket/{param}'), [WorkoutsController::class, 'showWorkoutMarket']);
+        Route::get(__('routes./widgets/workoutMarket/'.'{param}'), [WorkoutsController::class, 'showWorkoutMarket']);
         Route::post(__('routes./widgets/workoutMarket'), [WorkoutsController::class, 'indexWorkoutMarket']);
         Route::post(__('routes./widgets/workoutMarket/full'), [WorkoutsController::class, 'indexWorkoutMarketFull']);
         Route::post(__('routes./Workouts/Search'), [WorkoutsController::class, 'searchWorkout']);
-        Route::get(__('routes./Workouts/Client/{param1}/{param2}'), [WorkoutsController::class, 'clientWorkouts']);
-        Route::get(__('routes./Workouts/Client/{param1}'), [WorkoutsController::class, 'clientWorkouts']);
+        Route::get(__('routes./Workouts/Client/').'{param1}/{param2}', [WorkoutsController::class, 'clientWorkouts']);
+        Route::get(__('routes./Workouts/Client/').'{param1}', [WorkoutsController::class, 'clientWorkouts']);
         Route::get('/Client/editWorkout/{param1}/{param2}', [WorkoutsController::class, 'assignWorkoutToClientEdit']);
         Route::get('/Client/AssignWorkout/{param1}/{param2}', [WorkoutsController::class, 'assignWorkoutToClient']);
     });
 
 // WORKOUT PREVIEW
-    Route::get(__('routes./Workout/Preview/{workoutid}/{workoutName}/{workoutAuthor}'), [WorkoutsController::class, 'previewWorkout']);
-    Route::get(__('routes./Workout/Preview/{workoutid}/{workoutName}'), [WorkoutsController::class, 'previewWorkout']);
-    Route::get(__('routes./Workout/Preview/{workoutid}'), [WorkoutsController::class, 'previewWorkout']);
+    Route::get(__('routes./Workout/Preview/').'{workoutid}/{workoutName}/{workoutAuthor}', [WorkoutsController::class, 'previewWorkout']);
+    Route::get(__('routes./Workout/Preview/').'{workoutid}/{workoutName}', [WorkoutsController::class, 'previewWorkout']);
+    Route::get(__('routes./Workout/Preview/').'{workoutid}', [WorkoutsController::class, 'previewWorkout']);
 
 // WORD WIDGETS
     Route::middleware('auth')->group(function () {
@@ -511,12 +511,16 @@ use Illuminate\Support\Facades\Route;
         Route::match(['get', 'post'], __('routes./Search'), [UsersController::class, 'globalSearch']);
     });
 
-// Trainee
+    // Trainee
+    Route::get(__('routes./Trainee/SendFeedback'), [UsersController::class, 'sendFeedback']);
+    Route::get(__('routes./Trainee/ViewWorkout'), [UsersController::class, 'viewWorkoutTrainee']);
+    Route::get(__('routes./Trainee/Workouts'), [UsersController::class, 'viewWorkoutsTrainee'])->name('traineeWorkouts');
+
     Route::middleware(['auth', 'userTypeChecker'])->group(function () {
         Route::get(__('routes./Trainee/Settings'), [UsersController::class, 'indexSettings'])->name('TraineeSettings');
         Route::post(__('routes./Trainee/Settings'), [UsersController::class, 'settingsSave']);
         Route::get(__('routes./Trainee/{username}' . __('routes./Profile')), [UsersController::class, 'indexProfile'])->name('Profile');
-        Route::get(__('routes./Trainee/Profile'), [UsersController::class, 'indexProfile']);
+        Route::get(__('routes./Trainee/Profile'), [UsersController::class, 'indexProfile'])->name('TraineeProfile');
         Route::get(__('routes./Trainee/EditProfile'), [UsersController::class, 'indexEditTrainee'])->name('EditProfile');
         Route::post(__('routes./Trainee/EditProfile'), [UsersController::class, 'TraineeSave'])->name('EditProfilePost');
     });
@@ -546,6 +550,8 @@ use Illuminate\Support\Facades\Route;
         Route::get(__('routes./Trainer') . '/{userId}/{userName}', [UsersController::class, 'indexTrainer']);
         Route::get(__('routes./Trainer') . '/{username}', [UsersController::class, 'trainerIndex'])->name('Trainer');
         Route::get(__('routes./Trainer'), [UsersController::class, 'trainerIndex'])->name('TrainerBase');
+        Route::get(__('routes./Trainee').'/{username}', [UsersController::class, 'index'])->name('Trainee');
+        Route::get(__('routes./Trainee'), [UsersController::class, 'index'])->name('TraineeBase');
     });
 
     //|--------------------------------------------------------------------------

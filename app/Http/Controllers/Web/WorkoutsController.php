@@ -20,8 +20,10 @@ use App\Models\UserUpdates;
 use App\Models\Workouts;
 use App\Models\WorkoutsExercises;
 use App\Models\WorkoutsGroups;
+use App\Models\WorkoutsPerformances;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -32,9 +34,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
 use Jenssegers\Agent\Facades\Agent;
-use ZipArchive;
 
 class WorkoutsController extends BaseController {
 
@@ -1005,11 +1005,11 @@ class WorkoutsController extends BaseController {
 		$workoutId = $request->get("workoutId");
 		$performanceId = $request->get("performanceId");
 		$workout = Workouts::find($workoutId);
-		$performance = Workoutsperformances::find($performanceId);
+		$performance = WorkoutsPerformances::find($performanceId);
 		if(!$performance and $workout){
-			$performance = Workoutsperformances::where("userId",Auth::user()->id)->whereNull("dateCompleted")->where("workoutId",$workout->id)->first();
+			$performance = WorkoutsPerformances::where("userId",Auth::user()->id)->whereNull("dateCompleted")->where("workoutId",$workout->id)->first();
 			if($performance)  return $this::responseJson($performance);
-			$performance = new Workoutsperformances;
+			$performance = new WorkoutsPerformances;
 			$performance->userId = Auth::user()->id;
 			$performance->workoutId = $workout->id;
 			$performance->forTrainer = $workout->authorId;
@@ -1024,14 +1024,14 @@ class WorkoutsController extends BaseController {
 
 		$workoutId = $request->get("workoutId");
 
-		Workoutsperformances::where("userId",Auth::user()->id)->whereNull("dateCompleted")->where("workoutId",$workoutId)->delete();
+        WorkoutsPerformances::where("userId",Auth::user()->id)->whereNull("dateCompleted")->where("workoutId",$workoutId)->delete();
 
 	}
 
 	public function saveProgressPerformance(Request $request){
 		$performanceId = $request->get("performanceId");
 		$seconds = $request->get("totalSeconds");
-		$performance = Workoutsperformances::find($performanceId);
+		$performance = WorkoutsPerformances::find($performanceId);
 		if($performance){
 			$performance->timeInSeconds = $seconds;
 			$performance->save();
@@ -1048,7 +1048,7 @@ class WorkoutsController extends BaseController {
 			$workoutId = $request->get("workoutId");
 			$workout = Workouts::find($workoutId);
 			if($workout){
-				$performance = new Workoutsperformances;
+				$performance = new WorkoutsPerformances;
 				$performance->userId = Auth::user()->id;
 				$performance->workoutId = $workout->id;
 				$performance->forTrainer = $workout->authorId;
@@ -1066,7 +1066,7 @@ class WorkoutsController extends BaseController {
 				return redirect()->route(strtolower(Auth::user()->userType)."Workouts")->with("error",__("messages.Oops"));
 			}
 		} else {
-			$performance = Workoutsperformances::find($performanceId);
+			$performance = WorkoutsPerformances::find($performanceId);
 			if($performance){
 				$performance->timeInSeconds = ($request->get("totaltime") != "") ? $request->get("totaltime")*60 : $request->get("totalTime")*60;
 				$performance->dateCompleted = Carbon::now();

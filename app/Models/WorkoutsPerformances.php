@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\WorkoutPerformedMail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -11,13 +12,11 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Users;
-use Workouts;
 
-class Workoutsperformances extends Model
+class WorkoutsPerformances extends Model
 {
     use SoftDeletes;
-
+    protected $table = 'workoutsperformances';
     protected $fillable = [];
     protected $dates = ['deleted_at'];
 
@@ -69,24 +68,7 @@ class Workoutsperformances extends Model
                 'workout' => $workout->name,
             ]);
 
-            Mail::queueOn(
-                App::environment(),
-                'emails.' . Config::get('app.whitelabel') . '.user.' . App::getLocale() . '.workoutPerformed',
-                [
-                    'toUser' => serialize($toUser),
-                    'fromUser' => serialize($fromUser),
-                    'workout' => serialize($workout),
-                    'performance' => serialize($workoutPerformance),
-                    'rating' => serialize($rating),
-                    'ratingString' => $ratingString,
-                ],
-                function ($message) use ($to_user, $fromUser, $subject) {
-                    $message->to($to_user)
-                        ->replyTo($fromUser->email, $fromUser->getCompleteName())
-                        ->subject($subject);
-                }
-            );
-
+            Mail::to($toUser->email)->queue(new WorkoutPerformedMail($subject,$toUser, $fromUser, $workout, $workoutPerformance, $rating, $ratingString));
             Event::dispatch('notifyActivity', [Auth::user(), $toUser]);
         }
     }

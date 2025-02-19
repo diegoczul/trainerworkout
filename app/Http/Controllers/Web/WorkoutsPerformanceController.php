@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use App\Models\Workoutsperformances;
+use App\Models\WorkoutsPerformances;
 use App\Models\Clients;
 
 class WorkoutsPerformanceController extends BaseController
@@ -23,7 +23,7 @@ class WorkoutsPerformanceController extends BaseController
     public function workoutsPerformance(Request $request)
     {
         $workoutsPeformance = [];
-        $performances = Workoutsperformances::where("forTrainer", Auth::user()->id)
+        $performances = WorkoutsPerformances::where("forTrainer", Auth::user()->id)
             ->whereNotNull("dateCompleted")
             ->get();
         $clients = Clients::where("trainerId", Auth::user()->id)->get();
@@ -86,7 +86,7 @@ class WorkoutsPerformanceController extends BaseController
     public function workoutsPerformanceDetail($id = "")
     {
         if ($id != "") {
-            $performance = Workoutsperformances::find($id);
+            $performance = WorkoutsPerformances::find($id);
             if ($performance) {
                 return View::make("widgets.reports.workoutsPerformanceDetail")
                     ->with("performance", $performance);

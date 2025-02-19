@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Libraries\Helper;
 use App\Models\Calendar;
 use App\Models\Feeds;
-use App\Models\Workoutsperformances;
+use App\Models\WorkoutsPerformances;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +58,7 @@ class CalendarController extends BaseController
             $activities[$currentDate] = ["performance" => []];
         }
 
-        $performances = Workoutsperformances::where("forTrainer", Auth::id())
+        $performances = WorkoutsPerformances::where("forTrainer", Auth::id())
             ->where("userId", $userId)
             ->whereNotNull("dateCompleted")
             ->get();
@@ -149,7 +149,7 @@ class CalendarController extends BaseController
             $activities[$currentDate] = ["performance" => []];
         }
 
-        $performances = Workoutsperformances::where("forTrainer", Auth::id())
+        $performances = WorkoutsPerformances::where("forTrainer", Auth::id())
             ->where("userId", $userId)
             ->whereNotNull("dateCompleted")
             ->where("dateCompleted", ">=", $dateStart . " 00:00:00")

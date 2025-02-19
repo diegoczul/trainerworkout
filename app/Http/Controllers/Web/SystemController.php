@@ -18,7 +18,7 @@ use App\Models\Tasks;
 use App\Models\TemplateSets;
 use App\Models\UserUpdates;
 use App\Models\WorkoutsGroups;
-use App\Models\Workoutsperformances;
+use App\Models\WorkoutsPerformances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -154,7 +154,7 @@ class SystemController extends BaseController
         $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
         return Auth::check() ? match (Auth::user()->userType) {
                 "Trainer" => redirect()->route("trainerWorkouts",['userName' => $username])->with("message", $message),
-                "Trainee" => redirect()->route("traineeWorkouts",['userName' => $username])->with("message", $message),
+                "Trainee" => redirect()->route("traineeWorkouts")->with("message", $message),
                 default => redirect()->route("home")->with("message", $message),
             } : redirect()->route("home")->with("message", $message);
     }
@@ -538,7 +538,7 @@ class SystemController extends BaseController
         Tasks::where("userId", $userId)->forceDelete();
         UserUpdates::where("userId", $userId)->forceDelete();
         Weights::where("userId", $userId)->forceDelete();
-        Workoutsperformances::where("userId", $userId)->delete();
+        WorkoutsPerformances::where("userId", $userId)->delete();
 
         $workouts = Workouts::where("userId", $userId)->get();
         foreach ($workouts as $workout) {

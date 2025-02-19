@@ -39,7 +39,7 @@ class Clients extends Model
 
     public function lastWorkoutPerformedFromTrainer($trainerId)
     {
-        $workoutPerformance = Workoutsperformances::where("userId", $this->userId)
+        $workoutPerformance = WorkoutsPerformances::where("userId", $this->userId)
             ->where("forTrainer", $trainerId)
             ->orderBy("created_at", "Desc")
             ->first();
