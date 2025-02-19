@@ -13,6 +13,7 @@ use App\Models\Users;
 use App\Models\Invites;
 use App\Models\Notifications;
 use App\Models\Feeds;
+use Ramsey\Uuid\Uuid;
 
 class FriendsController extends BaseController
 {
@@ -222,7 +223,7 @@ class FriendsController extends BaseController
                 $invite = new Invites;
                 $invite->userId = Auth::id();
                 $invite->email = $request->get('email');
-                $invite->key = GUID::generate();
+                $invite->key = Uuid::uuid4()->toString();
                 $invite->type = "TraineeFriendRequest";
                 $invite->save();
                 $invite->sendInvite();

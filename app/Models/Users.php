@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Guid\Guid;
+use Ramsey\Uuid\Uuid;
 use Stripe\Stripe;
 use Stripe\Subscription;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -191,7 +192,7 @@ class Users extends Authenticatable {
     }
 
     public function sendActivationEmail(){
-        $guid = GUID::generate();
+        $guid = Uuid::uuid4()->toString();
         $this->token = $guid;
         $this->save();
 
@@ -206,7 +207,7 @@ class Users extends Authenticatable {
     }
 
     public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail){
-        $guid = GUID::generate();
+        $guid = Uuid::uuid4()->toString();
         $this->token = $guid;
         $password = "";
         if($this->activated == "" and $this->created_at == $this->updated_at) {
@@ -321,7 +322,7 @@ class Users extends Authenticatable {
                 $invite->firstName = $user->firstName;
                 $invite->lastName = $user->lastName;
                 $invite->email = $user->email;
-                $invite->key = GUID::generate();
+                $invite->key = Uuid::uuid4()->toString();
                 if($type=="client"){
                     $invite->type = "ClientRequest";
                 } else {

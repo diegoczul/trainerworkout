@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use Ramsey\Uuid\Uuid;
 
 class ClientsController extends BaseController
 {
@@ -312,7 +313,7 @@ class ClientsController extends BaseController
                 $invite->firstName = $user->firstName;
                 $invite->lastName = $user->lastName;
                 $invite->email = $user->email;
-                $invite->key = GUID::generate();
+                $invite->key = Uuid::uuid4()->toString();
                 $invite->type = "ClientRequest";
                 $invite->save();
 

@@ -464,7 +464,7 @@ class Helper {
         //$thumb = Image::make($image);
 
 
-        $name = GUID::generate();
+        $name = Uuid::uuid4()->toString();
         $name_temp = storage_path()."/temp/".$name;
         $pathImg = $destination."/".$name.".png";
         $pathOriginal = $destination."/".$name."_original.png";
