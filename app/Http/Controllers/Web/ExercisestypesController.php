@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Libraries\Messages;
 use App\Models\Exercisestypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Messages;
 
 class ExercisestypesController extends BaseController
 {

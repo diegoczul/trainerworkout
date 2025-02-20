@@ -463,8 +463,7 @@ class SystemController extends BaseController
     public function fixExercisesTranslations() {
         $previous_locale = App::getLocale();
         $outputToPrint = [];
-
-        $exercises = Exercises::all();
+        $exercises = Exercises::all()->toArray();
         foreach ($exercises as $exercise) {
             $name = "";
             $has = [];

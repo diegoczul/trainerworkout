@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Libraries\Helper;
+use App\Http\Libraries\Messages;
 use App\Models\Equipments;
 use App\Models\Users;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
-use Messages;
 
 class EquipmentsController extends BaseController
 {
@@ -128,21 +128,21 @@ class EquipmentsController extends BaseController
             $equipment->thumb = $images["thumb"];
         }
 
-        if ($request->hasFile("image2")) {
-            $images = Helper::saveImageGreenScreen(
-                $request->file("image2"),
-                Config::get("constants.moreExercises"),
-                $request->get("light"),
-                $request->get("modulation"),
-                $request->get("feather"),
-                $request->get("algo"),
-                $request->get("replacer"),
-                $request->get("color1"),
-                $request->get("color2")
-            );
-            $equipment->image2 = $images["image"];
-            $equipment->thumb2 = $images["thumb"];
-        }
+//        if ($request->hasFile("image2")) {
+//            $images = Helper::saveImageGreenScreen(
+//                $request->file("image2"),
+//                Config::get("constants.moreExercises"),
+//                $request->get("light"),
+//                $request->get("modulation"),
+//                $request->get("feather"),
+//                $request->get("algo"),
+//                $request->get("replacer"),
+//                $request->get("color1"),
+//                $request->get("color2")
+//            );
+//            $equipment->image2 = $images["image"];
+//            $equipment->thumb2 = $images["thumb"];
+//        }
     }
 
     private function processImages(Request $request, $equipment)
@@ -153,10 +153,10 @@ class EquipmentsController extends BaseController
             $equipment->thumb = $images["thumb"];
         }
 
-        if ($request->hasFile("image2")) {
-            $images = Helper::saveImage($request->file("image2"), Config::get("constants.moreExercises"));
-            $equipment->image2 = $images["image"];
-            $equipment->thumb2 = $images["thumb"];
-        }
+//        if ($request->hasFile("image2")) {
+//            $images = Helper::saveImage($request->file("image2"), Config::get("constants.moreExercises"));
+//            $equipment->image2 = $images["image"];
+//            $equipment->thumb2 = $images["thumb"];
+//        }
     }
 }

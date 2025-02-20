@@ -19,7 +19,7 @@ class Exercises extends Model implements TranslatableContract
 {
     use SoftDeletes, Translatable;
 
-    protected $fillable = [];
+    protected $fillable = ['used'];
     public $translatedAttributes = ['name', 'description', 'nameEngine'];
     public $useTranslationFallback = true;
 

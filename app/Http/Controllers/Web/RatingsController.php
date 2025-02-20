@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Libraries\Messages;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use App\Models\Users;
 use App\Models\Ratings;
 use Illuminate\Http\Request;
-use Messages;
 
 class RatingsController extends BaseController
 {
@@ -35,7 +35,7 @@ class RatingsController extends BaseController
     public function _AddEdit(Request $request)
     {
         if ($request->filled("hiddenId")) {
-            return $this->_update($request->get("hiddenId"));
+            return $this->_update($request->get("hiddenId"),$request);
         } else {
             return $this->_create($request);
         }

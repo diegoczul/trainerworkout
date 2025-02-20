@@ -683,7 +683,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('ControlPanel/managerExercises/{search}', [ExercisesController::class, 'managerExercises']);
         Route::post('ControlPanel/managerExercises/{search}', [ExercisesController::class, 'managerExercises']);
         Route::post('ControlPanel/exercises', [ExercisesController::class, 'controlPanelExercises']);
-        Route::get('ControlPanel/errors', [ControlPanelController::class, 'indexErrors']);
+        Route::get('ControlPanel/errors', [ControlPanelController::class, 'indexErrors'])->name('ControlPanelErrors');
 
         Route::post('ControlPanel/fixExercisesTranslations', [SystemController::class, 'fixExercisesTranslations']);
         Route::post('ControlPanel/fixUsedExercises', [SystemController::class, 'fixUsedExercises']);
