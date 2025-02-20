@@ -10,7 +10,8 @@ class ExercisesBodyGroups extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [];  // Add any attributes that should be mass assignable
+    protected $table = 'exercises_bodygroups';
+    protected $fillable = ['exerciseId'];  // Add any attributes that should be mass assignable
     protected $dates = ['deleted_at']; // Ensure the 'deleted_at' field is treated as a date
 
     public static $rules = [
@@ -24,6 +25,6 @@ class ExercisesBodyGroups extends Model
 
     public function bodygroup()
     {
-        return $this->hasOne("App\Models\Bodygroups", "id", "bodygroupId");
+        return $this->hasOne(BodyGroups::class, "id", "bodygroupId");
     }
 }

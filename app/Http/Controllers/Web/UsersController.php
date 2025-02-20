@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use App\Http\Libraries\Helper;
+use App\Http\Libraries\Messages;
 use App\Models\Exercises;
 use App\Models\Feeds;
 use App\Models\Groups;
@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Event;
 use Intervention\Image\Facades\Image;
 use UsersSettings;
 
-class UsersController extends Controller
+class UsersController extends BaseController
 {
     public function index()
     {
@@ -1401,7 +1401,7 @@ class UsersController extends Controller
 
     public function _index()
     {
-        return View::make('ControlPanel/Users');
+        return View::make('ControlPanel.Users');
     }
 
     public function _ApiList()
@@ -1411,7 +1411,11 @@ class UsersController extends Controller
 
     public function _AddEdit(Request $request)
     {
-        return $request->has("hiddenId") && $request->get("hiddenId") !== "" ? $this->_update($request->get("hiddenId")) : $this->_create();
+        if ($request->has("hiddenId") && !empty($request->get("hiddenId"))){
+            return $this->_update($request->get("hiddenId"),$request);
+        }else{
+            return $this->_create($request);
+        }
     }
 
     public function _create(Request $request)
@@ -1443,7 +1447,8 @@ class UsersController extends Controller
 
     public function _show($user)
     {
-        return Users::find($user);
+        $user = Users::find($user);
+        return $user;
     }
 
     public function _update($id,Request $request)
@@ -1464,7 +1469,7 @@ class UsersController extends Controller
         }
 
         $user = Users::find($id);
-        $user->fill($request->except('password'));
+        $user->update($request->except('password'));
 
         if ($request->get("password")) {
             $user->password = Hash::make($request->get("password"));
@@ -1497,7 +1502,7 @@ class UsersController extends Controller
 
             if (Auth::user()->userType === "Trainer") {
                 Tasks::dailyReminderChecker();
-                return redirect()->route('Trainer', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
+                return redirect()->route('Trainer', ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
                     ->with("message", Lang::get("messages.Welcome"));
             }
 

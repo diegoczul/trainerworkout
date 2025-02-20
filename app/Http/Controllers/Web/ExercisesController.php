@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Libraries\Helper;
+use App\Http\Libraries\Messages;
 use App\Models\ExercisesBodyGroups;
 use App\Models\ExercisesImages;
 use App\Models\Feeds;
@@ -25,7 +26,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\Facades\Image;
-use Messages;
 
 class ExercisesController extends BaseController
 {
@@ -721,9 +721,9 @@ class ExercisesController extends BaseController
     public function _AddEdit(Request $request)
     {
         if ($request->has("hiddenId") && $request->get("hiddenId") != "") {
-            return $this->_update($request->get("hiddenId"));
+            return $this->_update($request->get("hiddenId"),$request);
         } else {
-            return $this->_create();
+            return $this->_create($request);
         }
     }
 
@@ -786,7 +786,7 @@ class ExercisesController extends BaseController
                 $ex->save();
             }
 
-            $this->saveExerciseEquipments($exercise);
+            $this->updateExerciseEquipments($exercise->id,$request);
 
             return $this::responseJson(Messages::showControlPanel("ExerciseCreated"));
         }

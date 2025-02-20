@@ -3,7 +3,7 @@
 
 @section('content')
                 
-                <div class-"col-lg-12">
+                <div class="col-lg-12">
                     <h1 class="page-header">Exercises Management</h1>
                 </div>
                 <div class="row add" id="w_exercises_add" style="display:none">
@@ -35,15 +35,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>BodyGroup</label>
-                                    {{  FORM::select("bodygroupId",array(""=>"")+$bodygroups,"",array("id"=>"bodygroupId","placeholder"=>"BodyGroup", "class"=>" chosen-select", "style"=>"width:200px")) }}
+                                    {{  FORM::select("bodygroupId",array(""=>"")+$bodygroups->toArray(),"",array("id"=>"bodygroupId","placeholder"=>"BodyGroup", "class"=>" chosen-select", "style"=>"width:200px")) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Extra Bodygroups</label>
-                                    {{  FORM::select("bodygroupsOptional[]",array(""=>"")+$bodygroups,"",array("id"=>"bodygroupsOptional","placeholder"=>"Bodygroups", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
+                                    {{  FORM::select("bodygroupsOptional[]",array(""=>"")+$bodygroups->toArray(),"",array("id"=>"bodygroupsOptional","placeholder"=>"Bodygroups", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Exercise Type</label>
-                                    {{  FORM::select("exercisesTypesId[]",array(""=>"")+$exercisesTypes,"",array("id"=>"exercisesTypesId","placeholder"=>"Exercises Types", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
+                                    {{  FORM::select("exercisesTypesId[]",array(""=>"")+$exercisesTypes->toArray(),"",array("id"=>"exercisesTypesId","placeholder"=>"Exercises Types", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Video</label>
@@ -59,16 +59,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Equipment Required</label>
-                                    {{  FORM::select("equipment[]",$equipments,"",array("id"=>"equipment","placeholder"=>"Equipment", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
+                                    {{  FORM::select("equipment[]",$equipments->toArray(),"",array("id"=>"equipment","placeholder"=>"Equipment", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Equipment Optional</label>
-                                    {{  FORM::select("equipmentOptional[]",array(""=>"")+$equipments,"",array("id"=>"equipmentOptional","placeholder"=>"Equipment", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
+                                    {{  FORM::select("equipmentOptional[]",array(""=>"")+$equipments->toArray(),"",array("id"=>"equipmentOptional","placeholder"=>"Equipment", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
                                 </div>
 
                                 <div class="form-group">
                                     <label>Equipment Hidden</label>
-                                    {{  FORM::select("equipmentHidden[]",array(""=>"")+$equipments,"",array("id"=>"equipmentHidden","placeholder"=>"Equipment", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
+                                    {{  FORM::select("equipmentHidden[]",array(""=>"")+$equipments->toArray(),"",array("id"=>"equipmentHidden","placeholder"=>"Equipment", "class"=>"chosen-select form-control","multiple"=>"","size"=>8)) }}
                                 </div>
                                 <div class="form-group">
                                     <label>Views</label>
@@ -91,13 +91,13 @@
                                 <div class="form-group">
                                     <label>Image 1</label>
                                     {{ Form::file('image1',array('id'=>'image1','class'=>'')) }}
-                                     <p class="help-block imageHolder" style="display:none"><img id="imageImage" src="/img/placeholder.png"  style="max-width:600px;"/></p>
+                                     <p class="help-block imageHolder" style="display:none"><img id="imageImage" src="{{asset('assets/img/placeholder.png')}}"  style="max-width:600px;"/></p>
                                      <p><a href="javascript:void(0)" onclick="removeImage('imageImage')"> remove image </a></p>
                                 </div>
                                 <div class="form-group">
                                     <label>Image 2</label>
                                     {{ Form::file('image2',array('id'=>'image2','class'=>'')) }}
-                                     <p class="help-block imageHolder" style="display:none"><img id="image2Image" src="/img/placeholder.png" style="max-width:600px;"></p>
+                                     <p class="help-block imageHolder" style="display:none"><img id="image2Image" src="{{asset('assets/img/placeholder.png')}}" style="max-width:600px;"></p>
                                      <p><a href="javascript:void(0)" onclick="removeImage('image2Image')"> remove image </a></p>
                                 </div>
                                 

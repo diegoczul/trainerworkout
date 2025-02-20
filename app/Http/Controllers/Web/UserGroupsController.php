@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Libraries\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Models\UserGroups;
 use App\Models\Users;
-use Messages;
-
 class UserGroupsController extends BaseController
 {
     public $pageSize = 6;

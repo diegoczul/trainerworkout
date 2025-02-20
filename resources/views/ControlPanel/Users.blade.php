@@ -2,7 +2,7 @@
 
 @section('content')
                 
-                <div class-"col-lg-12">
+                <div class="col-lg-12">
                     <h1 class="page-header">Users Management</h1>
                 </div>
                 <div class="row add" id="w_users_add" style="display:none">

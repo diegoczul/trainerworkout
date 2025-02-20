@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Libraries\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Groups;
 use App\Models\Users;
 use App\Models\UserGroups;
-use Messages;
 
 class GroupsController extends BaseController
 {

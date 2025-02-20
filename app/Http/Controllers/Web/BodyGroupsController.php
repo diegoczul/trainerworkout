@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Libraries\Helper;
+use App\Http\Libraries\Messages;
 use App\Models\Bodygroups;
 use App\Models\Exercises;
 use App\Models\TemplateSets;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Messages;
 
 class BodyGroupsController extends BaseController
 {

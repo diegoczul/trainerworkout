@@ -264,7 +264,7 @@ class Exercises extends Model implements TranslatableContract
 
     public static function getBodyGroupsList()
     {
-        return DB::table("bodygroups")->orderBy("name")->pluck("name", "id");
+        return BodyGroups::orderBy("name")->pluck("name", "id");
     }
 
     public function bodygroup()

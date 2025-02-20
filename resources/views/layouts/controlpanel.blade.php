@@ -10,23 +10,23 @@
     <meta name="author" content="">
 
     <title>SB Admin - Bootstrap Admin Template</title>
-    {{ HTML::style('css/ControlPanel/bootstrap.min.css') }}
-    {{ HTML::style('css/ControlPanel/sb-admin-2.css') }}
-    {{ HTML::style('fw/font-awesome-4.1.0/css/font-awesome.min.css'); }}
-    {{ HTML::style('fw/datatables/media/css/jquery.dataTables.css'); }}
-    {{ HTML::style('fw/metisMenu/dist/metisMenu.min.css'); }}
+    {{ HTML::style(asset('assets/css/ControlPanel/bootstrap.min.css')) }}
+    {{ HTML::style(asset('assets/css/ControlPanel/sb-admin-2.css')) }}
+    {{ HTML::style(asset('assets/fw/font-awesome-4.1.0/css/font-awesome.min.css')) }}
+    {{ HTML::style(asset('assets/fw/datatables/media/css/jquery.dataTables.css')) }}
+    {{ HTML::style(asset('assets/fw/metisMenu/dist/metisMenu.min.css')) }}
 
 
-    {{ HTML::style('fw/jquery-ui-1.11.1.custom/jquery-ui.min.css'); }}
-    {{ HTML::style('fw/fancybox/source/jquery.fancybox.css?v=2.1.5'); }}
-    {{ HTML::style('fw/lightbox/css/lightbox.css'); }}
-    {{ HTML::style('fw/chosen_v1/docsupport/prism.css'); }}
-    {{ HTML::style('fw/chosen_v1/chosen.css'); }}
+    {{ HTML::style(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.css')) }}
+    {{ HTML::style(asset('assets/fw/fancybox/source/jquery.fancybox.css?v=2.1.5')) }}
+    {{ HTML::style(asset('assets/fw/lightbox/css/lightbox.css')) }}
+    {{ HTML::style(asset('assets/fw/chosen_v1/docsupport/prism.css')) }}
+    {{ HTML::style(asset('assets/fw/chosen_v1/chosen.css')) }}
 
-    {{ HTML::style('fw/fancybox/source/jquery.fancybox.css'); }}
+    {{ HTML::style(asset('assets/fw/fancybox/source/jquery.fancybox.css')) }}
     <!-- jQuery Version 1.11.0 -->
-    {{ HTML::script('js/jquery-1.11.0.js'); }}
-    {{ HTML::script('js/jquery-ui.js'); }}
+    {{ HTML::script(asset('assets/js/jquery-1.11.0.js')) }}
+    {{ HTML::script(asset('assets/js/jquery-ui.js')) }}
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -130,14 +130,14 @@
 
     </div>
 
-    {{ HTML::script('js/ControlPanel/bootstrap.min.js'); }}
-    {{ HTML::script('js/ControlPanel/global.js'); }}
-    {{ HTML::script('fw/datatables/media/js/jquery.dataTables.js'); }}
-    {{ HTML::script('fw/metisMenu/dist/metisMenu.min.js'); }}
-    {{ HTML::script('fw/ckeditor/ckeditor.js'); }}
-    {{ HTML::script('fw/fancybox/source/jquery.fancybox.pack.js'); }}
-    {{ HTML::script('fw/chosen_v1/chosen.jquery.js'); }}
-    {{ HTML::script('fw/chosen_v1/docsupport/prism.js'); }}
+    {{ HTML::script(asset('assets/js/ControlPanel/bootstrap.min.js')) }}
+    {{ HTML::script(asset('assets/js/ControlPanel/global.js')) }}
+    {{ HTML::script(asset('assets/fw/datatables/media/js/jquery.dataTables.js')) }}
+    {{ HTML::script(asset('assets/fw/metisMenu/dist/metisMenu.min.js')) }}
+    {{ HTML::script(asset('assets/fw/ckeditor/ckeditor.js')) }}
+    {{ HTML::script(asset('assets/fw/fancybox/source/jquery.fancybox.pack.js')) }}
+    {{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js')) }}
+    {{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js')) }}
 
     <script type="text/javascript">
     var config = {

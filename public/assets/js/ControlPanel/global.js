@@ -3,7 +3,7 @@
 //GLOBAL VARIABLES
 
 var arrayDataTables = {};
-var imgLoad = $('<img />', { src : '/img/ajax-loader.gif' });
+var imgLoad = $('<img />', { src : '/assets/img/ajax-loader.gif' });
 var loadingIcon = null;
 
 function toggle(id,idToClear){
