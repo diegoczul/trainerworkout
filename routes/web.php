@@ -359,7 +359,7 @@ use Illuminate\Support\Facades\Route;
 
 // ONBOARDING
     Route::middleware('auth')->group(function () {
-        Route::post(__('routes./onboarding/message/{param1}'), [OnBoardingController::class, 'messageChat']);
+        Route::post(__('routes./onboarding/message/').'{param1}', [OnBoardingController::class, 'messageChat']);
         Route::get(__('routes./Trainer/onBoarding/skipDemo'), [OnBoardingController::class, 'skipDemo']);
         Route::get(__('routes./Trainer/onBoarding/start'), [OnBoardingController::class, 'start']);
         Route::get(__('routes./Trainer/onBoarding/stop'), [OnBoardingController::class, 'skipDemo']);
@@ -711,8 +711,8 @@ use Illuminate\Support\Facades\Route;
     });
 
     // TRAINER
-    Route::get(__('routes./TrainerSignUp/Workout/{key}'), [UsersController::class, 'TrainerInviteWithWorkout']);
-    Route::get(__('routes./TrainerSignUp/{key}'), [UsersController::class, 'TrainerInvite']);
+    Route::get(__('routes./TrainerSignUp/Workout/').'{key}', [UsersController::class, 'TrainerInviteWithWorkout']);
+    Route::get(__('routes./TrainerSignUp/').'{key}', [UsersController::class, 'TrainerInvite']);
     Route::get(__('routes./trainerGetStartedPaid'), [UsersController::class, 'trainerGetStartedPaid'])->name('TrainerSignUp');
     Route::get(__('routes./TrainerSignUp'), [UsersController::class, 'trainerGetStarted'])->name('TrainerSignUp');
     Route::post(__('routes./Trainer/SignUp'), [UsersController::class, 'TrainerFreeTrialSignUp'])->name('TrainerSignUpPost');
