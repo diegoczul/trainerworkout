@@ -1,5 +1,6 @@
 @php
     use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Messages;
 @endphp
     <!-- widget/full/exercises.blade.php  THIS IS WIDGET THAT POPULATES THE EXERCISE PAGE  -->
 
@@ -60,7 +61,7 @@
         </script>
 
     @else
-        {{ Messages::showEmptyMessage("ExercisesEmpty",$permissions["self"]) }}
+        {!! Messages::showEmptyMessage("ExercisesEmpty",$permissions["self"]) !!}
     @endif
 
     @if($total > count($exercises))

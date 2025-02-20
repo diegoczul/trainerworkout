@@ -153,7 +153,7 @@ class SystemController extends BaseController
         $message = __("messages.thankyoufeedback");
         $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
         return Auth::check() ? match (Auth::user()->userType) {
-                "Trainer" => redirect()->route("trainerWorkouts",['userName' => $username])->with("message", $message),
+                "Trainer" => redirect()->route("trainerWorkouts")->with("message", $message),
                 "Trainee" => redirect()->route("traineeWorkouts")->with("message", $message),
                 default => redirect()->route("home")->with("message", $message),
             } : redirect()->route("home")->with("message", $message);

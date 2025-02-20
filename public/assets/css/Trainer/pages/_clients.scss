@@ -205,7 +205,7 @@
 		text-decoration: underline;
 
 		&::before {
-			content: url("/img/svg/backArrow.svg");
+			content: url("/assets/img/svg/backArrow.svg");
 			height: 22px;
 			position: absolute;
 			left: -15px;
@@ -232,7 +232,7 @@
 		margin: auto auto;
 
 		&::before {
-			content: url("/img/svg/onboardingCWarrow3.svg");
+			content: url("/assets/img/svg/onboardingCWarrow3.svg");
 			display: block;
 			position: static;
 
@@ -247,7 +247,7 @@
 		margin: 120px auto;
 
 			&::after {
-		    	content: url("/img/svg/onboardingCWarrow3.svg");
+		    	content: url("/assets/img/svg/onboardingCWarrow3.svg");
 		    	display: inline-block;
 		    	margin-left: 10px;
 		    	position: absolute;

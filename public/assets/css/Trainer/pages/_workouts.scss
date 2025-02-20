@@ -986,7 +986,7 @@
 		text-align: center;
 
 		&::after {
-			content: url("/img/svg/onboardingCWarrow3.svg");
+			content: url("/assets/img/svg/onboardingCWarrow3.svg");
 		    display: block;
 		    position: fixed;
 		    bottom: 66px;
@@ -1001,7 +1001,7 @@
 		    }
 
 		    @media (min-width: $onboardingBreakOne) {
-		    	content: url("/img/svg/onboardingCWarrow4.svg");
+		    	content: url("/assets/img/svg/onboardingCWarrow4.svg");
 		    	position: static;
 		    	@include transform(none);
 		    	display: inline-block;
@@ -1009,7 +1009,7 @@
 	    	}		
 
 	    	@media (min-width: $onboardingBreakTwo) {
-	    		content: url("/img/svg/onboardingCWarrow4.svg");
+	    		content: url("/assets/img/svg/onboardingCWarrow4.svg");
 		    	position: absolute;
 	    	    right: 79px;
 			    bottom: 45%;
@@ -1033,7 +1033,7 @@
     	}
 
 		&::after {
-			content: url("/img/svg/onboardingCWarrow3.svg");
+			content: url("/assets/img/svg/onboardingCWarrow3.svg");
 			display: block;
 		    position: fixed;
 		    bottom: 8px;
@@ -1087,7 +1087,7 @@
 			}
 
 			@media (min-width: $onboardingBreakOne) {
-	    		content: url("/img/svg/onboardingCWarrow4.svg");
+	    		content: url("/assets/img/svg/onboardingCWarrow4.svg");
 	    		display: inline-block;
 	    		position: static;
 	    		@include transform(none);

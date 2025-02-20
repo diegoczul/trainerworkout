@@ -1,3 +1,5 @@
+@use('App\Http\Libraries\Helper')
+@use('App\Http\Libraries\Messages')
 <div class="calendar_navigation">
 	<div class="calendarDays">
 	<?php
@@ -98,7 +100,7 @@
 				<div class="hide">
 					<div class="calendarPerformanceContainer">
 						<div onclick="closePop()" class="close">
-							<img src="/img/svg/closeDark.svg">							
+							<img src="/assets/img/svg/closeDark.svg">
 						</div>
 						<div class="calendarPerformanceHeader">
 							@if(count($data["performance"]) > 1)

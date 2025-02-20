@@ -2578,7 +2578,7 @@ nav {
     margin: auto auto;
     text-align: center; }
     .onboardingCreateWorkoutContainer a.noWorkout::after {
-      content: url("/img/svg/onboardingCWarrow3.svg");
+      content: url("/assets/img/svg/onboardingCWarrow3.svg");
       display: block;
       position: fixed;
       bottom: 66px;
@@ -2600,7 +2600,7 @@ nav {
           transform: translateX(-50%) rotate(120deg); } }
       @media (min-width: 650px) {
         .onboardingCreateWorkoutContainer a.noWorkout::after {
-          content: url("/img/svg/onboardingCWarrow4.svg");
+          content: url("/assets/img/svg/onboardingCWarrow4.svg");
           position: static;
           -webkit-transform: none;
           -moz-transform: none;
@@ -2611,7 +2611,7 @@ nav {
           margin-left: 10px; } }
       @media (min-width: 769px) {
         .onboardingCreateWorkoutContainer a.noWorkout::after {
-          content: url("/img/svg/onboardingCWarrow4.svg");
+          content: url("/assets/img/svg/onboardingCWarrow4.svg");
           position: absolute;
           right: 79px;
           bottom: 45%;
@@ -2628,7 +2628,7 @@ nav {
       .onboardingCreateWorkoutContainer a.oneWorkout {
         margin: 30px auto auto auto; } }
     .onboardingCreateWorkoutContainer a.oneWorkout::after {
-      content: url("/img/svg/onboardingCWarrow3.svg");
+      content: url("/assets/img/svg/onboardingCWarrow3.svg");
       display: block;
       position: fixed;
       bottom: 8px;
@@ -2685,7 +2685,7 @@ nav {
           right: 67%; } }
       @media (min-width: 650px) {
         .onboardingCreateWorkoutContainer a.twoWorkout::after {
-          content: url("/img/svg/onboardingCWarrow4.svg");
+          content: url("/assets/img/svg/onboardingCWarrow4.svg");
           display: inline-block;
           position: static;
           -webkit-transform: none;
@@ -8242,7 +8242,7 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
     max-width: 650px;
     margin: auto auto; }
     .noClients p::before {
-      content: url("/img/svg/onboardingCWarrow3.svg");
+      content: url("/assets/img/svg/onboardingCWarrow3.svg");
       display: block;
       position: static; }
       @media (min-width: 650px) {
@@ -8252,7 +8252,7 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
       .noClients p {
         margin: 120px auto; }
         .noClients p::after {
-          content: url("/img/svg/onboardingCWarrow3.svg");
+          content: url("/assets/img/svg/onboardingCWarrow3.svg");
           display: inline-block;
           margin-left: 10px;
           position: absolute;

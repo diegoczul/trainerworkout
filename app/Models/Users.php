@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Guid\Guid;
@@ -387,4 +388,82 @@ class Users extends Authenticatable {
         return $this->subscriptions()->where('userId', $user->id)->first();
     }
 
+    public function updateToMembership($membershipId){
+        $stripeMemberhsip = null;
+        $twMembership = null;
+        $today = date("Y-m-d");
+        $interval = "months";
+        $quantity = 1;
+
+
+        //Check to what membership should I update;
+        $membership = Memberships::find($membershipId);
+
+        if($membership){
+            if($membership->durationType == "yearly"){
+                $interval = "years";
+            }elseif ($membership->durationType == "monthly"){
+                $interval = "months";
+            } else {
+                $interval = "days";
+            }
+            //Check if I am upgrading to Stripe or to Fre
+            if($membership->free == 1){
+                //Check if there is a strip membership IN PLACE and CANCEL IT
+                $mem = MembershipsUsers::where("userId",$this->id)->first();
+
+                if($mem){
+                    $stripeMemberhsip = $this->getStripeSubscription();
+                    if($stripeMemberhsip){
+                        //$sub->cancel();
+                        Log::error("CANCEL MEMBERSHIP STRIPE");
+                    }
+
+                    if(date($mem->expiry) < date("Y-m-d")){
+                        $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
+                        $mem->renewedTimes = $mem->renewedTimes+1;
+                        $mem->save();
+                    }
+                } else {
+                    $mem = new MembershipsUsers();
+                    $mem->membershipId = $membershipId;
+                    $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
+                    $mem->registrationDate = date("Y-m-d");
+                    $mem->userId = $this->id;
+                    $mem->save();
+                }
+
+            } else {
+                $stripeMemberhsip = $this->getStripeSubscription();
+                $mem = MembershipUsers::where("userId",$this->id)->first();
+
+                if($this->stripeCheckoutToken == "" or $stripeMemberhsip == null){
+                    if(date($mem->expiry) < date("Y-m-d")){
+                        $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
+                        $mem->renewedTimes = $mem->renewedTimes+1;
+                        $mem->save();
+                    }
+                } else {
+
+                    if($membership->idAPI == $stripeMemberhsip->plan->id){
+                        //UPDATE THE EXPIRY DATE;
+                        $mem->membershipId = $membershipId;
+                        $mem->expiry = date('Y-m-d', $stripeMemberhsip->current_period_end);
+                        $mem->renewedTimes = $mem->renewedTimes+1;
+                        $mem->save();
+                    } else {
+                        //CHANGE STRIPE PLANS
+                        $stripeMemberhsip->plan->id = $membership->idAPI;
+                        $subscription->save();
+
+                        $mem->membershipId = $membershipId;
+                        $mem->expiry = date('Y-m-d', $stripeMemberhsip->current_period_end);
+                        $mem->save();
+                    }
+
+                }
+            }
+
+        }
+    }
 }

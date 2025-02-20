@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
+use ZipArchive;
 
 class WorkoutsController extends BaseController {
 

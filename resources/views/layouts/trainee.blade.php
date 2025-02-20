@@ -1,7 +1,7 @@
 @php
     use App\Http\Libraries\Helper;
 @endphp
-        <!doctype html>
+<!doctype html>
 <!--[if lt IE 7 ]>
 <html class="ie ie6 no-js" lang="en"> <![endif]-->
 <!--[if IE 7 ]>
@@ -253,9 +253,9 @@
 @yield('scripts')
 
 @if($errors->any())
-    {{$message = "";}}
+    {{$message = ""}}
     @foreach ($errors->all() as $error)
-        {{$message .= $error."</br>"; }}
+        {{$message .= $error."</br>" }}
     @endforeach
     <script>errorMessage("{{ $message }}")</script>
 @endif
@@ -270,7 +270,7 @@
 
 @if(!Config::get("app.debug"))
 
-    {{ HTML::script('js/thirdParty.js'); }}
+    {{ HTML::script(asset('assets/js/thirdParty.js')) }}
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
@@ -293,11 +293,6 @@
         @endif
     </script>
 @endif
-
-
-
-
-
 
 <script type="text/javascript">
 

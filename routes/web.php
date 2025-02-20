@@ -383,7 +383,7 @@ use Illuminate\Support\Facades\Route;
         Route::get(__('routes./Trainer/CreateWorkout'), [WorkoutsController::class, 'createNewWorkoutTrainer'])->name('trainerCreateWorkout');
         Route::post(__('routes./Trainer/autoSaveWorkout'), [WorkoutsController::class, 'autoSaveWorkout']);
         Route::get(__('routes./Trainer/CreateWorkout2'), [WorkoutsController::class, 'createNewWorkoutTrainer']);
-        Route::get(__('routes./Trainer/Workouts').'/{userName}', [WorkoutsController::class, 'indexWorkoutsTrainer'])->name('trainerWorkouts');
+        Route::get(__('routes./Trainer/Workouts').'/{userName?}', [WorkoutsController::class, 'indexWorkoutsTrainer'])->name('trainerWorkouts');
         Route::get(__('routes./Trainer/Workouts'), [WorkoutsController::class, 'indexWorkoutsTrainer'])->name('trainerWorkouts2');
         Route::post(__('routes./Trainer/CreateWorkout'), [WorkoutsController::class, 'createNewWorkoutAddEditTrainer']);
         Route::post(__('routes./Trainer/CreateWorkout/').'{param1}', [WorkoutsController::class, 'createNewWorkoutAddEditTrainer']);

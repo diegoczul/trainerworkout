@@ -16,9 +16,9 @@ class MembershipsController extends BaseController
 {
     public function indexMembershipManagement()
     {
-//        if (!Auth::user()->membership) {
-//            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
-//        }
+        if (!Auth::user()->membership) {
+            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
+        }
 
         return View::make("MembershipManagement");
     }
