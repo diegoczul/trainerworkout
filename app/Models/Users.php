@@ -197,15 +197,15 @@ class Users extends Authenticatable {
     }
 
     public function membershipValidButAtLimit(){
-//        $membershipUser = MembershipsUsers::where("userId",Auth::user()->id)->first();
-//        if($membershipUser){
-//            $membership = $membershipUser->membership;
-//            if(date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) < $membership->workoutsAllowed){
-//                return true;
-//            }
-//        } else {
-//            if(count($this->workoutsReleased) < Config::get("constants.maxFreeWorkouts")) return true;
-//        }
+        $membershipUser = MembershipsUsers::where("userId",Auth::user()->id)->first();
+        if($membershipUser){
+            $membership = $membershipUser->membership;
+            if(date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) < $membership->workoutsAllowed){
+                return true;
+            }
+        } else {
+            if(count($this->workoutsReleased) < Config::get("constants.maxFreeWorkouts")) return true;
+        }
         return false;
     }
 
