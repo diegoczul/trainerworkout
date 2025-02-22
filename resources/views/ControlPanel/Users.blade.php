@@ -174,44 +174,47 @@ $(document).ready(function(){
 });
 
 function List(){
-        dtUsers = $('#dtUsers').dataTable( {
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/Users",
-                    "type": "POST",
-                },
-                 "fnServerParams": function ( aoData ) {
-                      aoData.push( 
-                                    { "name": "type", "value":  "Data" }
-                                );
-                },
-                "columns": [
-                            { "data": "thumb" },
-                            { "data": "id" },
-                            { "data": "firstName" },
-                            { "data": "lastName" },
-                            { "data": "phone" },
-                            { "data": "email" },
-                            { "data": "userType" },
-                            { "data": "created_at" },
-                            { "data": "id" },
-                            { "data": "id" },
-                            { "data": "id" }
-                        ],
-                "columnDefs": [ 
-                    { "render": function ( data, type, row ) { return image(data,100); },"targets": 0 }, 
-                    { "render": function ( data, type, row ) { return echoLoginUser(data); },"targets": -3 }, 
-                    { "render": function ( data, type, row ) { return echoEdit(data); },"targets": -2 }, 
-                    { "render": function ( data, type, row ) { return echoRemove(data); },"targets": -1 }, 
+    let dtUsers = $("#dtUsers").DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        info: true,
+        lengthChange: true,
+        lengthMenu: [
+            [10, 25, 50],
+            ['10 rows', '25 rows', '50 rows']
+        ],
+        buttons: [
+            'pageLength'
+        ],
+        ajax: {
+            url: "/ControlPanel/Users",
+            type: "POST",
+            dataType: 'json',
+            data: function (f) {
+                f.type = "Data";
+            },
+            error: function () {
+                dataTableError();
+            }
+        },
+        columns: [
+            { title: "Profile Image", data: "thumb", class: "text-center", render: function (data) { return image(data, 100); } },
+            { title: "ID", data: "id", class: "text-center" },
+            { title: "First Name", data: "firstName" },
+            { title: "Last Name", data: "lastName" },
+            { title: "Phone", data: "phone", class: "text-center" },
+            { title: "Email", data: "email" },
+            { title: "User Type", data: "userType" },
+            { title: "Created At", data: "created_at", class: "text-center" },
+            { title: "Login", data: "id", class: "text-center", orderable: false, render: function (data) { return echoLoginUser(data); } },
+            { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+            { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
+        ],
+        order: []
+    });
 
-                    { orderable: false, targets: -1 },
-                    { orderable: false, targets: -2 }
-                ],
-                 "aaSorting": []
-         });
-        arrayDataTables["dtUsers"] = dtUsers;
+    arrayDataTables["dtUsers"] = dtUsers;
 
     }
 

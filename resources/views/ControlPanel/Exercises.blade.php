@@ -169,55 +169,64 @@ $(document).ready(function(){
 });
 
 function List(){
-        dtExercises = $('#dtExercises').dataTable( {
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/Exercises",
-                    "type": "POST",
-                },
-                 "fnServerParams": function ( aoData ) {
-                      aoData.push( 
-                                    { "name": "type", "value":  "Data" }
-                                );
-                },
-                "columns": [
-                            { "data": "thumb" },
-                            { "data": "thumb2" },
-                            { "data": "id" },
-                            { "data": "name" },
-                            { "data": "bodygroup" },
-                            { "data": "bodygroups_optional" },
-                            { "data": "exercises_types" },
-                            { "data": "nameEngine" },
-                            { "data": "equipments" },
-                            { "data": "equipments_optional" },
-                            { "data": "views" },
-                            { "data": "userId" },
-                            { "data": "authorId" },
-                            { "data": "created_at" },
-                            { "data": "id" },
-                            { "data": "id" }
-                        ],
-                "columnDefs": [ 
-                    { "render": function ( data, type, row ) { if(data !== null){ return data.name; } else { return ""; } },"targets": 4 }, 
-               
-                    { "render": function ( data, type, row ) { if(data !== null){ return showNamesB(data); } else { return ""; } },"targets": 5 }, 
-                    { "render": function ( data, type, row ) { if(data !== null){ return showNamesT(data); } else { return ""; } },"targets": 6 }, 
-                    { "render": function ( data, type, row ) { if(data !== null){ return showNames(data); } else { return ""; } },"targets": 8 }, 
-                    { "render": function ( data, type, row ) { if(data !== null){ return showNames(data); } else { return ""; } },"targets": 9 }, 
-                    { "render": function ( data, type, row ) { return imageRotate1Switch(data,row.id); },"targets": 0 }, 
-                    { "render": function ( data, type, row ) { return imageRotate2Switch(data,row.id); },"targets": 1 }, 
-                    { "render": function ( data, type, row ) { return echoEdit(data); },"targets": -2 }, 
-                    { "render": function ( data, type, row ) { return echoRemoveRow(data); },"targets": -1 }, 
+    let dtExercises = $("#dtExercises").DataTable({
+        processing: true,
+        serverSide: true,
+        info: true,
+        lengthMenu: [
+            [10, 25, 50],
+            ['10 rows', '25 rows', '50 rows']
+        ],
+        language: {
+            search: '',
+            searchPlaceholder: "Search Here",
+            processing: "Loading",
+            paginate: {
+                next: '<i class="fa fa-angle-right">',
+                previous: '<i class="fa fa-angle-left">'
+            }
+        },
+        responsive: {
+            breakpoints: [
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet', width: 1024 },
+                { name: 'fablet', width: 768 },
+                { name: 'phone', width: 480 }
+            ]
+        },
+        buttons: [
+            'pageLength', 'excel', 'pdf', 'print', 'colvis'
+        ],
+        ajax: {
+            url: "/ControlPanel/Exercises",
+            type: "POST",
+            dataType: 'json',
+            data: function (f) {
+                f.type = "Data";
+            },
+        },
+        columns: [
+            { title: "Thumbnail", data: "thumb", class: "text-center", render: function (data, type, row) { return imageRotate1Switch(data, row.id); } },
+            { title: "Thumbnail 2", data: "thumb2", class: "text-center", render: function (data, type, row) { return imageRotate2Switch(data, row.id); } },
+            { title: "ID", data: "id", class: "text-center" },
+            { title: "Name", data: "name" },
+            { title: "Body Group", data: "bodygroup", render: function (data) { return data ? data.name : ""; } },
+            { title: "Optional Body Groups", data: "bodygroups_optional", render: function (data) { return data ? showNamesB(data) : ""; } },
+            { title: "Exercise Types", data: "exercises_types", render: function (data) { return data ? showNamesT(data) : ""; } },
+            { title: "Engine Name", data: "nameEngine" },
+            { title: "Equipment", data: "equipments", render: function (data) { return data ? showNames(data) : ""; } },
+            { title: "Optional Equipment", data: "equipments_optional", render: function (data) { return data ? showNames(data) : ""; } },
+            { title: "Views", data: "views", class: "text-center" },
+            { title: "User ID", data: "userId", class: "text-center" },
+            { title: "Author ID", data: "authorId", class: "text-center" },
+            { title: "Created At", data: "created_at", class: "text-center" },
+            { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+            { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemoveRow(data); } }
+        ],
+        order: []
+    });
 
-                    { orderable: false, targets: -1 },
-                    { orderable: false, targets: -2 }
-                ],
-                 "aaSorting": []
-         });
-        arrayDataTables["dtExercises"] = dtExercises;
+    arrayDataTables["dtExercises"] = dtExercises;
 
     }
 

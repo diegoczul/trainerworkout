@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Groups;
 use App\Models\Users;
 use App\Models\UserGroups;
+use Yajra\DataTables\Facades\DataTables;
 
 class GroupsController extends BaseController
 {
@@ -122,9 +123,12 @@ class GroupsController extends BaseController
             ->with('users', Users::select(DB::raw("concat(firstname,' ',lastName,' ',email) as fullName"), 'id')->orderBy('firstName')->orderBy('lastName')->pluck('fullName', 'id'));
     }
 
-    public function _ApiList()
+    public function _ApiList(Request $request)
     {
-        return $this::responseJson(['data' => Groups::orderBy('name', 'ASC')->get()]);
+        $response = Groups::orderBy('name', 'ASC')->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

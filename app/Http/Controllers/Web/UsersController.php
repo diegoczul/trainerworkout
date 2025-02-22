@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Event;
 use Intervention\Image\Facades\Image;
 use UsersSettings;
+use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends BaseController
 {
@@ -1404,9 +1405,12 @@ class UsersController extends BaseController
         return View::make('ControlPanel.Users');
     }
 
-    public function _ApiList()
+    public function _ApiList(Request $request)
     {
-        return $this->responseJson(["data" => Users::orderBy("id", "DESC")->get()]);
+        $response = Users::orderBy("id", "DESC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\Facades\DataTables;
 
 class ExercisesController extends BaseController
 {
@@ -713,9 +714,12 @@ class ExercisesController extends BaseController
         return view('ControlPanel.Exercises')->with("bodygroups", Exercises::getBodyGroupsList())->with("exercisesTypes", Exercisestypes::orderBy("name", "ASC")->pluck("name", "id"))->with("equipments", Equipments::orderBy("name", "ASC")->pluck("name", "id"))->with("users", Users::select(DB::raw("concat('id: ', id, ' - ', firstName, ' ', lastName) as name"), "id")->orderBy("firstName", "ASC")->orderBy("lastName", "ASC")->pluck("name", "id"));
     }
 
-    public function _ApiList()
+    public function _ApiList(Request $request)
     {
-        return $this::responseJson(["data" => Exercises::with(["bodygroup", "exercisesTypes", "bodygroupsOptional", "equipments", "equipmentsOptional", "user", "author"])->orderBy("name", "ASC")->get()]);
+        $response = Exercises::with(["bodygroup", "exercisesTypes", "bodygroupsOptional", "equipments", "equipmentsOptional", "user", "author"])->orderBy("name", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

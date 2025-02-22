@@ -1,274 +1,271 @@
- @extends('layouts.controlpanel')
-
-
+@extends('layouts.controlpanel')
 @section('content')
-                
-                <div class-"col-lg-12">
-                    <h1 class="page-header">Groups</h1>
+    <div class="col-lg-12">
+        <h1 class="page-header">Groups</h1>
+    </div>
+    <div class="row add" id="w_add" style="display:none">
+        {{ Form::open(array("url"=>"ControlPanel/Groups/AddEdit/")) }}
+        <input type="hidden" name="hiddenId" value = "" id="hiddenId" />
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel panel-heading">
+                    <div class="form-group" style="margin-bottom:0px;">
+                        Insert / Edit User Group
+                    </div>
                 </div>
-                <div class="row add" id="w_add" style="display:none">
-                {{ Form::open(array("url"=>"ControlPanel/Groups/AddEdit/")) }}
-                <input type="hidden" name="hiddenId" value = "" id="hiddenId" />
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel panel-heading">
-                                <div class="form-group" style="margin-bottom:0px;">
-                                    Insert / Edit User Group
-                                </div>
-                            </div>
-                            <div class="panel panel-body">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    {{  FORM::text("name","",array("id"=>"name","placeholder"=>"Name", "class"=>"form-control")) }}
-                                </div>
+                <div class="panel panel-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        {{  FORM::text("name","",array("id"=>"name","placeholder"=>"Name", "class"=>"form-control")) }}
+                    </div>
 
-                                <button class="btn btn-primary ajaxSave">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                {{ Form::close() }}
+                    <button class="btn btn-primary ajaxSave">Save</button>
                 </div>
-                <div class="row add" id="w_addUser" style="display:none">
-                {{ Form::open(array("url"=>"ControlPanel/UserGroups/AddEdit/")) }}
-                <input type="hidden" name="hiddenId" value = "" id="hiddenUserId" />
-                <input type="hidden" name="hiddenGroupId" value = "" id="hiddenGroupId" class="noErase" />
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel panel-heading">
-                                <div class="form-group" style="margin-bottom:0px;">
-                                    Insert / Edit User
-                                </div>
-                            </div>
-                            <div class="panel panel-body">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    {{  FORM::select("userId",$users,"",array("id"=>"userId","placeholder"=>"User", "class"=>"form-control chosen-select")) }}
-                                </div>
-                                <div class="form-group">
-                                    <label>Role</label>
-                                    {{  FORM::select("role",array("Owner"=>"Owner","Admin"=>"Admin","Member"=>"Member"),"",array("id"=>"role","placeholder"=>"Role", "class"=>"form-control chosen-select")) }}
-                                </div>
+            </div>
+        </div>
+        {{ Form::close() }}
+    </div>
+    <div class="row add" id="w_addUser" style="display:none">
+        {{ Form::open(array("url"=>"ControlPanel/UserGroups/AddEdit/")) }}
+        <input type="hidden" name="hiddenId" value = "" id="hiddenUserId" />
+        <input type="hidden" name="hiddenGroupId" value = "" id="hiddenGroupId" class="noErase" />
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel panel-heading">
+                    <div class="form-group" style="margin-bottom:0px;">
+                        Insert / Edit User
+                    </div>
+                </div>
+                <div class="panel panel-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        {{  FORM::select("userId",$users,"",array("id"=>"userId","placeholder"=>"User", "class"=>"form-control chosen-select")) }}
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        {{  FORM::select("role",array("Owner"=>"Owner","Admin"=>"Admin","Member"=>"Member"),"",array("id"=>"role","placeholder"=>"Role", "class"=>"form-control chosen-select")) }}
+                    </div>
 
-                                <button class="btn btn-primary ajaxSave">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                {{ Form::close() }}
+                    <button class="btn btn-primary ajaxSave">Save</button>
                 </div>
-                <div class="row" id="w_userGroups" style="display:none">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel panel-heading">
-                                <div class="form-group" style="margin-bottom:0px;">
-                                    <button onclick="toggleAndClear('w_addUser')" type="button" class="btn btn-info">New User</button>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover" id="dtTable2" >
-                                        <thead>
-                                            <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                <th>User Id</th>
-                                                <th>Updated</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+        </div>
+        {{ Form::close() }}
+    </div>
+    <div class="row" id="w_userGroups" style="display:none">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel panel-heading">
+                    <div class="form-group" style="margin-bottom:0px;">
+                        <button onclick="toggleAndClear('w_addUser')" type="button" class="btn btn-info">New User</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel panel-heading">
-                                <div class="form-group" style="margin-bottom:0px;">
-                                    <button onClick="toggleAndClear('w_add')" type="button" class="btn btn-info">New Group</button>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover" id="dtTable1" >
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Updated</th>
-                                                <th>Manage Group</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="dtTable2" >
+                            <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>User Id</th>
+                                <th>Updated</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel panel-heading">
+                    <div class="form-group" style="margin-bottom:0px;">
+                        <button onClick="toggleAndClear('w_add')" type="button" class="btn btn-info">New Group</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="dtTable1" >
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Updated</th>
+                                <th>Manage Group</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 @endsection
-
 @section("scripts")
+    <script>
 
+        var generalGroup = 0;
 
-<script>
+        $(document).ready(function(){
+            List();
+            List2(generalGroup);
+        });
 
-var generalGroup = 0;
-
-$(document).ready(function(){
-    List();
-    List2(generalGroup);
-
-});
-
-function List(){
-        dtTable1 = $('#dtTable1').dataTable( {
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/Groups",
-                    "type": "POST",
-                },
-                 "fnServerParams": function ( aoData ) {
-                      aoData.push( 
-                                    { "name": "type", "value":  "Data" }
-                                );
-                },
-                "columns": [
-                            { "data": "name" },
-                            { "data": "updated_at" },
-                            { "data": "id" },
-                            { "data": "id" },
-                            { "data": "id" }
-                        ],
-                "columnDefs": [  
-                    { "render": function ( data, type, row ) { return echoCustomFunction(data,"manageGroup","Manage Group"); },"targets": -3 }, 
-                    { "render": function ( data, type, row ) { return echoEdit(data); },"targets": -2 }, 
-                    { "render": function ( data, type, row ) { return echoRemoveRow(data); },"targets": -1 }, 
-
-                    { orderable: false, targets: -1 },
-                    { orderable: false, targets: -2 }
+        function List(){
+            let dtTable1 = $("#dtTable1").DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                info: true,
+                lengthChange: true,
+                lengthMenu: [
+                    [10, 25, 50],
+                    ['10 rows', '25 rows', '50 rows']
                 ],
-                 "aaSorting": []
-         });
-        arrayDataTables["dtTable1"] = dtTable1;
-
-    }
-
-function List2(groupId){
-        dtTable2 = $('#dtTable2').dataTable( {
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/UserGroups",
-                    "type": "POST",
-                },
-                 "fnServerParams": function ( aoData ) {
-                      aoData.push( 
-                                    { "name": "groupId", "value":  generalGroup  }
-                                );
-                },
-                "columns": [
-                            { "data": "user.firstName" },
-                            { "data": "user.lastName" },
-                            { "data": "user.email" },
-                            { "data": "role" },
-                            { "data": "id" },
-                            { "data": "updated_at" },
-                            { "data": "id" },
-                            { "data": "id" }
-                        ],
-                "columnDefs": [  
-                    { "render": function ( data, type, row ) { return echoEdit(data,"editUser"); },"targets": -2 }, 
-                    { "render": function ( data, type, row ) { return echoRemoveRow(data,"delUser"); },"targets": -1 }, 
-
-                    { orderable: false, targets: -1 },
-                    { orderable: false, targets: -2 }
+                buttons: [
+                    'pageLength', 'excel', 'pdf', 'print', 'colvis'
                 ],
-                 "aaSorting": []
-         });
-        arrayDataTables["dtTable2"] = dtTable2;
+                ajax: {
+                    url: "/ControlPanel/Groups",
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (f) {
+                        f.type = "Data";
+                    },
+                    error: function () {
+                        dataTableError();
+                    }
+                },
+                columns: [
+                    { title: "Group Name", data: "name" },
+                    { title: "Last Updated", data: "updated_at", class: "text-center" },
+                    { title: "Manage", data: "id", class: "text-center", orderable: false, render: function (data) { return echoCustomFunction(data, "manageGroup", "Manage Group"); } },
+                    { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+                    { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemoveRow(data); } }
+                ],
+                order: []
+            });
 
-    }
+            arrayDataTables["dtTable1"] = dtTable1;
 
-    function manageGroup(id,button){
-        generalGroup = id;
-        $.ajax(
+        }
+
+        function List2(groupId){
+            let dtTable2 = $("#dtTable2").DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                info: true,
+                lengthChange: true,
+                lengthMenu: [
+                    [10, 25, 50],
+                    ['10 rows', '25 rows', '50 rows']
+                ],
+                buttons: [
+                    'pageLength'
+                ],
+                ajax: {
+                    url: "/ControlPanel/UserGroups",
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (f) {
+                        f.groupId = generalGroup;
+                    },
+                    error: function () {
+                        dataTableError();
+                    }
+                },
+                columns: [
+                    { title: "First Name", data: "user.firstName" },
+                    { title: "Last Name", data: "user.lastName" },
+                    { title: "Email", data: "user.email" },
+                    { title: "Role", data: "role" },
+                    { title: "ID", data: "id", class: "text-center" },
+                    { title: "Last Updated", data: "updated_at", class: "text-center" },
+                    { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data, "editUser"); } },
+                    { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemoveRow(data, "delUser"); } }
+                ],
+                order: []
+            });
+
+            arrayDataTables["dtTable2"] = dtTable2;
+        }
+
+        function manageGroup(id,button){
+            generalGroup = id;
+            $.ajax({
+                url : "/ControlPanel/UserGroups/"+id,
+                type: "GET",
+                success:function(data, textStatus, jqXHR)
                 {
-                    url : "/ControlPanel/UserGroups/"+id,
-                    type: "GET",
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        
-                        $("#name").val(data.name);
-                        $("#hiddenId").val(data.id);                         
-                        $("#hiddenGroupId").val(id); 
-                         arrayDataTables["dtTable2"].api().ajax.reload();                        
-                        down('w_userGroups');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        errorMessage(jqXHR.responseText +" "+errorThrown);
-                    },
-                });
-    }
 
-     function edit(id){
-          $.ajax(
+                    $("#name").val(data.name);
+                    $("#hiddenId").val(data.id);
+                    $("#hiddenGroupId").val(id);
+                    arrayDataTables["dtTable2"].api().ajax.reload();
+                    down('w_userGroups');
+                },
+                error: function(jqXHR, textStatus, errorThrown)
                 {
-                    url : "/ControlPanel/Groups/"+id,
-                    type: "GET",
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        $("#name").val(data.name);
-                        $("#hiddenId").val(data.id);                         
-                        down('w_add');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        errorMessage(jqXHR.responseText +" "+errorThrown);
-                    },
-                });
-    }
+                    errorMessage(jqXHR.responseText +" "+errorThrown);
+                },
+            });
+        }
 
-     function editUser(id){
-          $.ajax(
+        function edit(id){
+            $.ajax({
+                url : "/ControlPanel/Groups/"+id,
+                type: "GET",
+                success:function(data, textStatus, jqXHR)
                 {
-                    url : "/ControlPanel/UserGroups/"+id,
-                    type: "GET",
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        $("#name").val(data.name);
-                        $("#hiddenUserId").val(data.id);   
-                        $("#userId").val(data.userId);   
-                        $("#role").val(data.role);   
-                        $("#userId").trigger("chosen:updated");                      
-                        $("#role").trigger("chosen:updated");                      
-                        down('w_addUser');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        errorMessage(jqXHR.responseText +" "+errorThrown);
-                    },
-                });
-    }
+                    $("#name").val(data.name);
+                    $("#hiddenId").val(data.id);
+                    down('w_add');
+                },
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    errorMessage(jqXHR.responseText +" "+errorThrown);
+                },
+            });
+        }
 
-    function del(obj,id){
-        if(confirm("Are you sure?")){
-          $.ajax(
+        function editUser(id){
+            $.ajax({
+                url : "/ControlPanel/UserGroups/"+id,
+                type: "GET",
+                success:function(data, textStatus, jqXHR)
                 {
+                    $("#name").val(data.name);
+                    $("#hiddenUserId").val(data.id);
+                    $("#userId").val(data.userId);
+                    $("#role").val(data.role);
+                    $("#userId").trigger("chosen:updated");
+                    $("#role").trigger("chosen:updated");
+                    down('w_addUser');
+                },
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    errorMessage(jqXHR.responseText +" "+errorThrown);
+                },
+            });
+        }
+
+        function del(obj,id){
+            if(confirm("Are you sure?")){
+                $.ajax({
                     url : "/ControlPanel/Groups/"+id,
                     type: "DELETE",
 
-                    success:function(data, textStatus, jqXHR) 
+                    success:function(data, textStatus, jqXHR)
                     {
                         successMessage(data);
 
@@ -278,23 +275,22 @@ function List2(groupId){
                         obj.closest('tr').remove();
 
                     },
-                    error: function(jqXHR, textStatus, errorThrown) 
+                    error: function(jqXHR, textStatus, errorThrown)
                     {
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
-      }
-    }
+            }
+        }
 
 
-    function delUser(obj,id){
-        if(confirm("Are you sure?")){
-          $.ajax(
-                {
+        function delUser(obj,id){
+            if(confirm("Are you sure?")){
+                $.ajax({
                     url : "/ControlPanel/UserGroups/"+id,
                     type: "DELETE",
 
-                    success:function(data, textStatus, jqXHR) 
+                    success:function(data, textStatus, jqXHR)
                     {
                         successMessage(data);
 
@@ -304,25 +300,21 @@ function List2(groupId){
                         obj.closest('tr').remove();
 
                     },
-                    error: function(jqXHR, textStatus, errorThrown) 
+                    error: function(jqXHR, textStatus, errorThrown)
                     {
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
-      }
-    }
+            }
+        }
 
-
-   
-
-function delRow(obj,id){
-        if(confirm("Are you sure?")){
-          $.ajax(
-                {
+        function delRow(obj,id){
+            if(confirm("Are you sure?")){
+                $.ajax({
                     url : "/ControlPanel/Groups/"+id,
                     type: "DELETE",
 
-                    success:function(data, textStatus, jqXHR) 
+                    success:function(data, textStatus, jqXHR)
                     {
                         successMessage(data);
 
@@ -331,15 +323,12 @@ function delRow(obj,id){
                         obj.closest('tr').remove();
 
                     },
-                    error: function(jqXHR, textStatus, errorThrown) 
+                    error: function(jqXHR, textStatus, errorThrown)
                     {
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
-      }
-    }
-
-</script>
-
-
+            }
+        }
+    </script>
 @endsection
