@@ -745,6 +745,9 @@ use Illuminate\Support\Facades\Route;
     Route::get(__('routes./TermsAndConditions'), function () {
         return view('TermsAndConditions');
     })->name('TermsAndConditions');
+    Route::get('PrivacyPolicy', function () {
+        return view('PrivacyPolicy');
+    })->name('PrivacyPolicy');
 
     Route::get('/', function () {
         return view(Helper::translateOverride('index'));

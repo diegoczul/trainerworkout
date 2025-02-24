@@ -159,128 +159,114 @@
 @section("scripts")
 
 <script>
+    var dtUsers;
+    $(document).ready(function(){
 
-$(document).ready(function(){
-    List();
-    
-    // Replace the <textarea id="editor1"> with a CKEditor
-    // instance, using default configuration.
-    CKEDITOR.config.toolbar = [
-   ['Styles','Font','FontSize'],
-   ['Bold','Italic','Underline','StrikeThrough','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-','Outdent','Indent','-','Print'],
-   ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-   ['TextColor','BGColor','Source']];
-    CKEDITOR.config.scayt_autoStartup = true;
-});
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.config.toolbar = [
+       ['Styles','Font','FontSize'],
+       ['Bold','Italic','Underline','StrikeThrough','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-','Outdent','Indent','-','Print'],
+       ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+       ['TextColor','BGColor','Source']];
+        CKEDITOR.config.scayt_autoStartup = true;
 
-function List(){
-    let dtUsers = $("#dtUsers").DataTable({
-        processing: true,
-        serverSide: true,
-        responsive: true,
-        info: true,
-        lengthChange: true,
-        lengthMenu: [
-            [10, 25, 50, -1],
-            ['10 rows', '25 rows', '50 rows', 'All']
-        ],
-        buttons: [
-            'pageLength'
-        ],
-        ajax: {
-            url: "/ControlPanel/Users",
-            type: "POST",
-            dataType: 'json',
-            data: function (f) {
-                f.type = "Data";
+        dtUsers = $("#dtUsers").DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            info: true,
+            lengthChange: true,
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10 rows', '25 rows', '50 rows', 'All']
+            ],
+            buttons: [
+                'pageLength'
+            ],
+            ajax: {
+                url: "/ControlPanel/Users",
+                type: "POST",
+                dataType: 'json',
+                data: function (f) {
+                    f.type = "Data";
+                },
+                error: function () {
+                    dataTableError();
+                }
             },
-            error: function () {
-                dataTableError();
-            }
-        },
-        columns: [
-            { title: "Profile Image", data: "thumb", class: "text-center", render: function (data) { return image(data, 100); } },
-            { title: "ID", data: "id", class: "text-center" },
-            { title: "First Name", data: "firstName" },
-            { title: "Last Name", data: "lastName" },
-            { title: "Phone", data: "phone", class: "text-center" },
-            { title: "Email", data: "email" },
-            { title: "User Type", data: "userType" },
-            { title: "Created At", data: "created_at", class: "text-center" },
-            { title: "Login", data: "id", class: "text-center", orderable: false, render: function (data) { return echoLoginUser(data); } },
-            { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
-            { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
-        ],
-        order: []
+            columns: [
+                { title: "Profile Image", data: "thumb", class: "text-center", render: function (data) { return image(data, 100); } },
+                { title: "ID", data: "id", class: "text-center" },
+                { title: "First Name", data: "firstName" },
+                { title: "Last Name", data: "lastName" },
+                { title: "Phone", data: "phone", class: "text-center" },
+                { title: "Email", data: "email" },
+                { title: "User Type", data: "userType" },
+                { title: "Created At", data: "created_at", class: "text-center" },
+                { title: "Login", data: "id", class: "text-center", orderable: false, render: function (data) { return echoLoginUser(data); } },
+                { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+                { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
+            ],
+            order: []
+        });
+
+        arrayDataTables["dtUsers"] = dtUsers;
+
     });
 
-    arrayDataTables["dtUsers"] = dtUsers;
-
-    }
-
-     function edit(id){
-          $.ajax(
-                {
-                    url : "/ControlPanel/Users/"+id,
-                    type: "GET",
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        $("#firstName").val(data.firstName);
-                        $("#lastName").val(data.lastName);
-                        $("#email").val(data.email);
-                        $("#address").val(data.address);
-                        $("#phone").val(data.phone);
-                        $("#street").val(data.street);
-                        $("#suite").val(data.suite);
-                        $("#city").val(data.city);
-                        $("#province").val(data.province);
-                        $("#country").val(data.country);
-                        $("#userType").val(data.userType);
-                        $("#userType").trigger("chosen:updated");
-                        $("#password").val(data.password);
-                        $("#fbUserName").val(data.fbUserName);
-                        if(data.appInstalled == "1"){ $('#appInstalled').prop('checked',true); } else { $('#appInstalled').prop('checked',false);  }
-                        if(data.demoApp == "1"){ $('#demoApp').prop('checked',true); } else { $('#demoApp').prop('checked',false);  }
-                        $("#timezone").val(data.timezone);
-                        $("#birthday").val(data.birthday);
-                        $("#certifications").val(data.certifications);
-                        $("#specialitites").val(data.specialitites);
-                        $("#past_experience").val(data.past_experience);
-                        $("#word").val(data.word);
-                        $("#videoLink").val(data.videoLink);
-                        if(data.demoApp == "1"){ $('#demoApp').prop('checked',true); } else { $('#demoApp').prop('checked',false);  }
-                        $("#hiddenId").val(data.id);
-
-                        down('w_users_add');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        errorMessage(jqXHR.responseText +" "+errorThrown);
-                    },
-                });
+    function edit(id){
+        $.ajax({
+            url : "/ControlPanel/Users/"+id,
+            type: "GET",
+            success:function(data, textStatus, jqXHR){
+                $("#firstName").val(data.firstName);
+                $("#lastName").val(data.lastName);
+                $("#email").val(data.email);
+                $("#address").val(data.address);
+                $("#phone").val(data.phone);
+                $("#street").val(data.street);
+                $("#suite").val(data.suite);
+                $("#city").val(data.city);
+                $("#province").val(data.province);
+                $("#country").val(data.country);
+                $("#userType").val(data.userType);
+                $("#userType").trigger("chosen:updated");
+                $("#password").val(data.password);
+                $("#fbUserName").val(data.fbUserName);
+                if(data.appInstalled == "1"){ $('#appInstalled').prop('checked',true); } else { $('#appInstalled').prop('checked',false);  }
+                if(data.demoApp == "1"){ $('#demoApp').prop('checked',true); } else { $('#demoApp').prop('checked',false);  }
+                $("#timezone").val(data.timezone);
+                $("#birthday").val(data.birthday);
+                $("#certifications").val(data.certifications);
+                $("#specialitites").val(data.specialitites);
+                $("#past_experience").val(data.past_experience);
+                $("#word").val(data.word);
+                $("#videoLink").val(data.videoLink);
+                if(data.demoApp == "1"){ $('#demoApp').prop('checked',true); } else { $('#demoApp').prop('checked',false);  }
+                $("#hiddenId").val(data.id);
+                down('w_users_add');
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                errorMessage(jqXHR.responseText +" "+errorThrown);
+            },
+        });
     }
 
     function del(id){
         if(confirm("Are you sure?")){
-          $.ajax(
-                {
-                    url : "/ControlPanel/Users/"+id,
-                    type: "DELETE",
-
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        successMessage(data);
-                        arrayDataTables["dtUsers"].api().ajax.reload();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        errorMessage(jqXHR.responseText +" "+errorThrown);
-                    },
-                });
-      }
+            $.ajax({
+                url : "/ControlPanel/Users/"+id,
+                type: "DELETE",
+                success:function(data, textStatus, jqXHR){
+                    successMessage(data);
+                    dtUsers.ajax.reload();
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    errorMessage(jqXHR.responseText +" "+errorThrown);
+                },
+            });
+        }
     }
-
 </script>
-
-
 @endsection
