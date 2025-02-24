@@ -171,7 +171,7 @@
        ['TextColor','BGColor','Source']];
         CKEDITOR.config.scayt_autoStartup = true;
 
-        dtUsers = $("#dtUsers").DataTable({
+        arrayDataTables["dtUsers"] = dtUsers = $("#dtUsers").DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
@@ -210,9 +210,6 @@
             ],
             order: []
         });
-
-        arrayDataTables["dtUsers"] = dtUsers;
-
     });
 
     function edit(id){

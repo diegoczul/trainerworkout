@@ -187,7 +187,7 @@ function upAndClearAddImage(){
 	    	});
     	}
     	$(".chosen-select").trigger("chosen:updated");
-    	$(obj).find('form')[0].reset();
+    	$(obje).find('form')[0].reset();
 
     	for ( instance in CKEDITOR.instances ){
 	    	CKEDITOR.instances[instance].setData('');
@@ -231,7 +231,7 @@ function clearAddScopeForm(obj){
 
 function refreshAllDataTables(){
 	for (var key in arrayDataTables) {
-		arrayDataTables[key].api().ajax.reload();;
+		arrayDataTables[key].ajax.reload();
 	}
 }
 

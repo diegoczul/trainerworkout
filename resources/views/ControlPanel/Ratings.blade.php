@@ -64,12 +64,9 @@
 
 @section("scripts")
     <script>
+        var dtTable;
         $(document).ready(function () {
-            List();
-        });
-
-        function List() {
-            let dtTable = $("#dtTable").DataTable({
+            arrayDataTables["dtTable"] =  dtTable = $("#dtTable").DataTable({
                 processing: true,
                 serverSide: true,
                 info: true,
@@ -85,9 +82,6 @@
                     dataType: 'json',
                     data: function (f) {
                         f.type = "Data";
-                    },
-                    error: function () {
-                        dataTableError();
                     }
                 },
                 columns: [
@@ -107,10 +101,7 @@
                 ],
                 order: []
             });
-
-            arrayDataTables["dtTable"] = dtTable;
-
-        }
+        });
 
         function edit(id) {
             $.ajax({
@@ -138,10 +129,7 @@
                     type: "DELETE",
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        var table = arrayDataTables["dtTable"];
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
+                        dtTable.ajax.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);
@@ -157,9 +145,7 @@
                     type: "DELETE",
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
+                        dtTable.ajax.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);

@@ -57,12 +57,9 @@
 @endsection
 @section("scripts")
     <script>
+        var dtTable;
         $(document).ready(function(){
-            List();
-        });
-
-        function List(){
-            let dtTable = $("#dtTable").DataTable({
+            arrayDataTables["dtTable"] = dtTable = $("#dtTable").DataTable({
                 processing: true,
                 serverSide: true,
                 info: true,
@@ -94,24 +91,19 @@
                 ],
                 order: []
             });
-            arrayDataTables["dtTable"] = dtTable;
-        }
+        });
 
         function edit(id){
             $.ajax({
                 url : "/ControlPanel/BodyGroups/"+id,
                 type: "GET",
-                success:function(data, textStatus, jqXHR)
-                {
+                success:function(data, textStatus, jqXHR){
                     $("#name").val(data.name);
                     $("#description").val(data.description);
                     $("#hiddenId").val(data.id);
-
-
                     down('w_widget_add');
                 },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
+                error: function(jqXHR, textStatus, errorThrown){
                     errorMessage(jqXHR.responseText +" "+errorThrown);
                 },
             });
@@ -122,19 +114,11 @@
                 $.ajax({
                     url : "/ControlPanel/BodyGroups/"+id,
                     type: "DELETE",
-
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        var table = arrayDataTables["dtTable"];
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtTable.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
@@ -146,18 +130,11 @@
                 $.ajax({
                     url : "/ControlPanel/BodyGroups/"+id,
                     type: "DELETE",
-
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtTable.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });

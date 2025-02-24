@@ -153,9 +153,11 @@
             <li class="c-menu__item">
                 <a href="javascript:void(0)" onclick="moveFeedbackUp();" class="c-menu__link">{{ Lang::get("content.CMSendFeedback") }}</a>
             </li>
-            <li class="c-menu__item logout">
-                <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
-            </li>
+            @if(Auth::user()->userType == "Trainee" )
+                <li class="c-menu__item logout">
+                    <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
+                </li>
+            @endif
             <li class="c-menu__item logout">
                 <a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
             </li>

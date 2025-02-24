@@ -112,16 +112,11 @@
 @endsection
 @section("scripts")
     <script>
-
         var generalGroup = 0;
-
+        var dtTable1;
+        var dtTable2;
         $(document).ready(function(){
-            List();
-            List2(generalGroup);
-        });
-
-        function List(){
-            let dtTable1 = $("#dtTable1").DataTable({
+            arrayDataTables["dtTable1"] = dtTable1 = $("#dtTable1").DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -154,13 +149,7 @@
                 ],
                 order: []
             });
-
-            arrayDataTables["dtTable1"] = dtTable1;
-
-        }
-
-        function List2(groupId){
-            let dtTable2 = $("#dtTable2").DataTable({
+            arrayDataTables["dtTable2"] = dtTable2 = $("#dtTable2").DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -196,26 +185,21 @@
                 ],
                 order: []
             });
-
-            arrayDataTables["dtTable2"] = dtTable2;
-        }
+        });
 
         function manageGroup(id,button){
             generalGroup = id;
             $.ajax({
                 url : "/ControlPanel/UserGroups/"+id,
                 type: "GET",
-                success:function(data, textStatus, jqXHR)
-                {
-
+                success:function(data, textStatus, jqXHR){
                     $("#name").val(data.name);
                     $("#hiddenId").val(data.id);
                     $("#hiddenGroupId").val(id);
-                    arrayDataTables["dtTable2"].api().ajax.reload();
+                    dtTable2.ajax.reload();
                     down('w_userGroups');
                 },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
+                error: function(jqXHR, textStatus, errorThrown){
                     errorMessage(jqXHR.responseText +" "+errorThrown);
                 },
             });
@@ -225,14 +209,12 @@
             $.ajax({
                 url : "/ControlPanel/Groups/"+id,
                 type: "GET",
-                success:function(data, textStatus, jqXHR)
-                {
+                success:function(data, textStatus, jqXHR){
                     $("#name").val(data.name);
                     $("#hiddenId").val(data.id);
                     down('w_add');
                 },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
+                error: function(jqXHR, textStatus, errorThrown){
                     errorMessage(jqXHR.responseText +" "+errorThrown);
                 },
             });
@@ -242,8 +224,7 @@
             $.ajax({
                 url : "/ControlPanel/UserGroups/"+id,
                 type: "GET",
-                success:function(data, textStatus, jqXHR)
-                {
+                success:function(data, textStatus, jqXHR){
                     $("#name").val(data.name);
                     $("#hiddenUserId").val(data.id);
                     $("#userId").val(data.userId);
@@ -252,8 +233,7 @@
                     $("#role").trigger("chosen:updated");
                     down('w_addUser');
                 },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
+                error: function(jqXHR, textStatus, errorThrown){
                     errorMessage(jqXHR.responseText +" "+errorThrown);
                 },
             });
@@ -265,43 +245,27 @@
                     url : "/ControlPanel/Groups/"+id,
                     type: "DELETE",
 
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        var table = arrayDataTables["dtTable1"];
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtTable1.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
             }
         }
 
-
         function delUser(obj,id){
             if(confirm("Are you sure?")){
                 $.ajax({
                     url : "/ControlPanel/UserGroups/"+id,
                     type: "DELETE",
-
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        var table = arrayDataTables["dtTable2"];
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtTable2.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
@@ -314,17 +278,11 @@
                     url : "/ControlPanel/Groups/"+id,
                     type: "DELETE",
 
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtTable1.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });

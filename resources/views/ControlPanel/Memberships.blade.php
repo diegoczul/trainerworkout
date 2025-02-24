@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel panel-heading">
-                    <div class="form-group" style="margin-bottom:0px;">
+                    <div class="form-group" style="margin-bottom: 0px;">
                         Insert / Edit Membership
                     </div>
                 </div>
@@ -44,16 +44,16 @@
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover" id="dtTable" >
                             <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Membership</th>
-                                <th>Expiry</th>
-                                <th>Created</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Membership</th>
+                                    <th>Expiry</th>
+                                    <th>Created</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -64,11 +64,9 @@
 @endsection
 @section("scripts")
     <script>
+        var dtTable;
         $(document).ready(function(){
-            List();
-        });
-        function List(){
-            let dtTable = $("#dtTable").DataTable({
+            arrayDataTables["dtTable"] = dtTable = $("#dtTable").DataTable({
                 processing: true,
                 serverSide: true,
                 info: true,
@@ -84,9 +82,6 @@
                     dataType: "json",
                     data: function (f) {
                         f.type = "Data";
-                    },
-                    error: function () {
-                        dataTableError();
                     }
                 },
                 columns: [
@@ -101,14 +96,13 @@
                 ],
                 order: []
             });
-            arrayDataTables["dtTable"] = dtTable;
-        }
+        });
+
         function edit(id){
             $.ajax({
                 url : "/ControlPanel/Memberships/"+id,
                 type: "GET",
-                success:function(data, textStatus, jqXHR)
-                {
+                success:function(data, textStatus, jqXHR) {
                     $("#userId").val(data.userId);
                     $("#membershipId").val(data.membershipId);
                     $("#membershipId").trigger("chosen:updated");
@@ -117,47 +111,42 @@
                     $("#hiddenId").val(data.id);
                     down('w_widget_add');
                 },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
+                error: function(jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText +" "+errorThrown);
                 },
             });
         }
+
         function del(obj,id){
             if(confirm("Are you sure?")){
                 $.ajax({
                     url : "/ControlPanel/Memberships/"+id,
                     type: "DELETE",
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR) {
                         successMessage(data);
-                        var table = arrayDataTables["dtTable"];
-                        obj.closest('tr').remove();
+                        dtTable.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
             }
         }
+
         function delRow(obj,id){
             if(confirm("Are you sure?")){
                 $.ajax({
                     url : "/ControlPanel/Memberships/"+id,
                     type: "DELETE",
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-                        obj.closest('tr').remove();
+                        dtTable.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
             }
         }
     </script>
-
 @endsection

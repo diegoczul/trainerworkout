@@ -165,36 +165,35 @@
         </div>
         <ul class="c-menu__items">
             <div class="menu-section">
-                <li class="c-menu__item"><a
-                        href="{{ Lang::get("routes./Trainer/Workouts")."/".Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName) }}"
-                        class="c-menu__link menu_workouts">{{ Lang::get("content.TWorkouts") }}</a></li>
-                <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Exercises") }}"
-                                            class="c-menu__link menu_exercises">{{ Lang::get("content.TExercises") }}</a>
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get("routes./Trainer/Workouts")."/".Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName) }}" class="c-menu__link menu_workouts">{{ Lang::get("content.TWorkouts") }}</a>
+                </li>
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get("routes./Trainer/Exercises") }}" class="c-menu__link menu_exercises">{{ Lang::get("content.TExercises") }}</a>
                 </li>
             </div>
             <div class="menu-section">
-                <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Clients") }}"
-                                            class="c-menu__link menu_clients">{{ Lang::get("content.TClients") }}</a></li>
-                <li class="c-menu__item"><a href="{{ Lang::get('routes./Trainer/Reports/WorkoutsPerformanceClients') }}"
-                                            class="c-menu__link menu_clientsReports">{{ Lang::get("content.TClientReport") }}</a>
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get("routes./Trainer/Clients") }}" class="c-menu__link menu_clients">{{ Lang::get("content.TClients") }}</a>
+                </li>
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get('routes./Trainer/Reports/WorkoutsPerformanceClients') }}" class="c-menu__link menu_clientsReports">{{ Lang::get("content.TClientReport") }}</a>
                 </li>
             </div>
+            @if(Auth::user()->group and (Auth::user()->group->role == "Owner" or Auth::user()->group->role == "Admin"))
             <div class="menu-section">
-                @if(Auth::user()->group and (Auth::user()->group->role == "Owner" or Auth::user()->group->role == "Admin"))
-                    <li class="c-menu__item">
-                        <a href="{{ Lang::get("routes./employeeManagement") }}"
-                           class="c-menu__link menu_employee">{{ Lang::get("content.EmployeeManagement") }}</a>
-                    </li>
-                @endif
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get("routes./employeeManagement") }}" class="c-menu__link menu_employee">{{ Lang::get("content.EmployeeManagement") }}</a>
+                </li>
             </div>
+            @endif
             <div class="menu-section">
-                <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Profile") }}"
-                                            class="c-menu__link menu_profile">{{ Lang::get("content.TProfile") }}</a>
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get("routes./Trainer/Profile") }}" class="c-menu__link menu_profile">{{ Lang::get("content.TProfile") }}</a>
                 </li>
                 @if(!(Auth::user()->group and Auth::user()->group->role == "Member"))
                     <li class="c-menu__item">
-                        <a href="{{ Lang::get("routes./MembershipManagement") }}"
-                           class="c-menu__link menu_membership">{{ Lang::get("content.TMembership") }}</a>
+                        <a href="{{ Lang::get("routes./MembershipManagement") }}" class="c-menu__link menu_membership">{{ Lang::get("content.TMembership") }}</a>
                     </li>
                 @endif
             </div>
@@ -202,9 +201,11 @@
                 <li class="c-menu__item">
                     <a href="javascript:void(0);" onclick="moveFeedbackUp();" class="c-menu__link">{{ Lang::get("content.CMSendFeedback") }}</a>
                 </li>
-                <li class="c-menu__item logout">
-                    <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
-                </li>
+                @if(Auth::user()->userType == "Trainer" )
+                    <li class="c-menu__item logout">
+                        <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
+                    </li>
+                @endif
                 <li class="c-menu__item logout">
                     <a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
                 </li>

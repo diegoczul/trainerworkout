@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
-use Ramsey\Uuid\Guid\Guid;
 use Ramsey\Uuid\Uuid;
 
 class Helper {

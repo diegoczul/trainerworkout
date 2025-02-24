@@ -62,11 +62,9 @@
 @endsection
 @section("scripts")
     <script>
+        var dtTable;
         $(document).ready(function(){
-            List();
-        });
-        function List(){
-            let dtTable = $("#dtTable").DataTable({
+            arrayDataTables["dtTable"] = dtTable = $("#dtTable").DataTable({
                 processing: true,
                 serverSide: true,
                 info: true,
@@ -100,56 +98,51 @@
                 order: []
             });
             arrayDataTables["dtTable"] = dtTable;
-        }
+        });
+
         function edit(id){
             $.ajax({
                 url : "/ControlPanel/MembershipsTypes/"+id,
                 type: "GET",
-                success:function(data, textStatus, jqXHR)
-                {
+                success:function(data, textStatus, jqXHR){
                     $("#name").val(data.name);
                     $("#description").val(data.description);
                     $("#features").val(data.features);
                     $("#hiddenId").val(data.id);
                     down('w_widget_add');
                 },
-                error: function(jqXHR, textStatus, errorThrown)
-                {
+                error: function(jqXHR, textStatus, errorThrown){
                     errorMessage(jqXHR.responseText +" "+errorThrown);
                 },
             });
         }
+
         function del(obj,id){
             if(confirm("Are you sure?")){
                 $.ajax({
                     url : "/ControlPanel/MembershipsTypes/"+id,
                     type: "DELETE",
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-                        var table = arrayDataTables["dtTable"];
-                        obj.closest('tr').remove();
+                        dtTable.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });
             }
         }
+
         function delRow(obj,id){
             if(confirm("Are you sure?")){
                 $.ajax({
                     url : "/ControlPanel/MembershipsTypes/"+id,
                     type: "DELETE",
-
-                    success:function(data, textStatus, jqXHR)
-                    {
+                    success:function(data, textStatus, jqXHR){
                         successMessage(data);
-                        obj.closest('tr').remove();
+                        dtTable.ajax.reload();
                     },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
+                    error: function(jqXHR, textStatus, errorThrown){
                         errorMessage(jqXHR.responseText +" "+errorThrown);
                     },
                 });

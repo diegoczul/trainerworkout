@@ -5,77 +5,77 @@
     </div>
     <div class="row add" id="w_equipments_add" style="display:none">
         {{ Form::open(array("url"=>"ControlPanel/Equipments/AddEdit/")) }}
-        <input type="hidden" name="hiddenId" value="" id="hiddenId"/>
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel panel-heading">
-                    <div class="form-group" style="margin-bottom:0px;">
-                        Insert / Edit Equipment
+            <input type="hidden" name="hiddenId" value="" id="hiddenId"/>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading">
+                        <div class="form-group" style="margin-bottom:0px;">
+                            Insert / Edit Equipment
+                        </div>
                     </div>
-                </div>
-                <div class="panel panel-body">
-                    <div class="form-group">
-                        <label>Name</label>
-                        {{  FORM::text("name","NO NAME",array("id"=>"name","placeholder"=>"Name", "class"=>"form-control")) }}
+                    <div class="panel panel-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            {{  FORM::text("name","NO NAME",array("id"=>"name","placeholder"=>"Name", "class"=>"form-control")) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Name Engine</label>
+                            {{  FORM::text("nameEngine","",array("id"=>"nameEngine","placeholder"=>"Name Engine", "class"=>"form-control")) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Image 1</label>
+                            {{ Form::file('image1',array('id'=>'image1','class'=>'')) }}
+                            <p class="help-block imageHolder" style="display:none">
+                                <img id="imageImage" src="{{asset('assets/img/placeholder.png')}}" style="max-width:600px;"/>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label>Image 2</label>
+                            {{ Form::file('image2',array('id'=>'image2','class'=>'')) }}
+                            <p class="help-block imageHolder" style="display:none">
+                                <img id="image2Image" src="{{asset('assets/img/placeholder.png')}}" style="max-width:600px;">
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label>Remove Green Screen
+                                <input type="checkbox" name="removeGreenScreen" id="removeGreenScreen" checked="checked" value="Yes" class="noErase" onclick="this.value = 'Yes'">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Modulation / Masking</label>
+                            <input type="text" name="modulation" id="modulation" value="53.3" class="noErase form-control">
+                            <p>Default: 53.3</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Feather</label>
+                            <input type="text" name="feather" id="feather" value="5" class="noErase form-control">
+                            <p>Default: 5</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Replacer color deviation</label>
+                            <input type="text" name="replacer" id="replacer" value="8" class="noErase form-control">
+                            <p>Default: 8</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Light</label>
+                            <input type="text" name="light" id="light" value="130" class="noErase form-control">
+                            <p>Default: 130</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Colors</label>
+                            <input type="text" name="color1" id="color1" value="509F64,006C1B,149545,078732,5EC590,3D8C40,3AAF6B" class="noErase" style="width:100%">
+                            <p>Default: 509F64,006C1B,149545,078732,5EC590,3D8C40,3AAF6B</p>
+                            <p>Default with MATT: 509F64,149545,078732,5EC590,3D8C40,3AAF6B</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Algorithm</label>
+                            <input type="radio" name="algo" value="1" class="noErase" id="algo1" onclick="this.value = 1"/> 1
+                            <input type="radio" name="algo" value="2" checked="checked" class="noErase" id="algo2" onclick="this.value = 2"/> 2
+                        </div>
+                        <button class="btn btn-primary ajaxSaveImage">Save</button>
                     </div>
-                    <div class="form-group">
-                        <label>Name Engine</label>
-                        {{  FORM::text("nameEngine","",array("id"=>"nameEngine","placeholder"=>"Name Engine", "class"=>"form-control")) }}
-                    </div>
-                    <div class="form-group">
-                        <label>Image 1</label>
-                        {{ Form::file('image1',array('id'=>'image1','class'=>'')) }}
-                        <p class="help-block imageHolder" style="display:none">
-                            <img id="imageImage" src="{{asset('assets/img/placeholder.png')}}" style="max-width:600px;"/>
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label>Image 2</label>
-                        {{ Form::file('image2',array('id'=>'image2','class'=>'')) }}
-                        <p class="help-block imageHolder" style="display:none">
-                            <img id="image2Image" src="{{asset('assets/img/placeholder.png')}}" style="max-width:600px;">
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label>Remove Green Screen
-                            <input type="checkbox" name="removeGreenScreen" id="removeGreenScreen" checked="checked" value="Yes" class="noErase" onclick="this.value = 'Yes'">
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>Modulation / Masking</label>
-                        <input type="text" name="modulation" id="modulation" value="53.3" class="noErase form-control">
-                        <p>Default: 53.3</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Feather</label>
-                        <input type="text" name="feather" id="feather" value="5" class="noErase form-control">
-                        <p>Default: 5</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Replacer color deviation</label>
-                        <input type="text" name="replacer" id="replacer" value="8" class="noErase form-control">
-                        <p>Default: 8</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Light</label>
-                        <input type="text" name="light" id="light" value="130" class="noErase form-control">
-                        <p>Default: 130</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Colors</label>
-                        <input type="text" name="color1" id="color1" value="509F64,006C1B,149545,078732,5EC590,3D8C40,3AAF6B" class="noErase" style="width:100%">
-                        <p>Default: 509F64,006C1B,149545,078732,5EC590,3D8C40,3AAF6B</p>
-                        <p>Default with MATT: 509F64,149545,078732,5EC590,3D8C40,3AAF6B</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Algorithm</label>
-                        <input type="radio" name="algo" value="1" class="noErase" id="algo1" onclick="this.value = 1"/> 1
-                        <input type="radio" name="algo" value="2" checked="checked" class="noErase" id="algo2" onclick="this.value = 2"/> 2
-                    </div>
-                    <button class="btn btn-primary ajaxSaveImage">Save</button>
                 </div>
             </div>
-        </div>
         {{ Form::close() }}
     </div>
     <div class="row">
@@ -111,12 +111,9 @@
 @endsection
 @section("scripts")
     <script>
+        var dtEquipments;
         $(document).ready(function () {
-            List();
-        });
-
-        function List() {
-            let dtEquipments = $("#dtEquipments").DataTable({
+            arrayDataTables["dtEquipments"] = dtEquipments = $("#dtEquipments").DataTable({
                 processing: true,
                 serverSide: true,
                 info: true,
@@ -125,9 +122,7 @@
                     [10, 25, 50, -1],
                     ['10 rows', '25 rows', '50 rows', 'All']
                 ],
-                buttons: [
-                    'pageLength'
-                ],
+                buttons: [ 'pageLength' ],
                 ajax: {
                     url: "/ControlPanel/Equipments",
                     type: "POST",
@@ -150,10 +145,7 @@
                 ],
                 order: []
             });
-
-            arrayDataTables["dtEquipments"] = dtEquipments;
-
-        }
+        });
 
         function edit(id) {
             $.ajax({
@@ -170,8 +162,6 @@
                     if (data.image2 != null) {
                         $("#image2Image").attr("src", "/" + data.image2);
                     }
-
-
                     down('w_equipments_add');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -188,12 +178,7 @@
 
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        var table = arrayDataTables["dtEquipments"];
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtEquipments.ajax.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);
@@ -207,14 +192,9 @@
                 $.ajax({
                     url: "/ControlPanel/Equipments/" + id,
                     type: "DELETE",
-
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
-
+                        dtEquipments.ajax.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);
@@ -231,7 +211,6 @@
                 success: function (data, textStatus, jqXHR) {
                     successMessage(data);
                     refreshImages("#dtEquipments");
-
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText);
@@ -240,10 +219,7 @@
                     500: function () {
                         if (jqXHR.responseText != "") {
                             errorMessage(jqXHR.responseText);
-                        } else {
-
                         }
-
                     }
                 }
             });
@@ -265,10 +241,7 @@
                     500: function () {
                         if (jqXHR.responseText != "") {
                             errorMessage(jqXHR.responseText);
-                        } else {
-
                         }
-
                     }
                 }
             });

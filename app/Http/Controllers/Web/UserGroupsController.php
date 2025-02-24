@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Libraries\Messages;
+use App\Models\Groups;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Models\UserGroups;
 use App\Models\Users;
+use Yajra\DataTables\Facades\DataTables;
+
 class UserGroupsController extends BaseController
 {
     public $pageSize = 6;
@@ -24,12 +27,15 @@ class UserGroupsController extends BaseController
 
     public function _ApiList(Request $request)
     {
-        $response = UserGroups::with("user")->orderBy("updated_at", "DESC");
-        if ($request->get("groupId") != "") {
-            $response->where("groupId", $request->get("groupId"));
-        }
-
-        return $this::responseJson(["data" => $response->get()]);
+        $response = UserGroups::when($request->has('groupId') && !empty($request->get("groupId")), function ($q) use($request){
+                $q->where("groupId", $request->get("groupId"));
+            })
+            ->with("user")
+            ->orderBy("updated_at", "DESC")
+            ->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

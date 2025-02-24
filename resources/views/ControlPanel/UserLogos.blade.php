@@ -66,12 +66,9 @@
 @endsection
 @section("scripts")
     <script>
+        var dtLogos;
         $(document).ready(function () {
-            List();
-        });
-
-        function List() {
-            let dtLogos = $("#dtLogos").DataTable({
+            arrayDataTables["dtLogos"] = dtLogos = $("#dtLogos").DataTable({
                 processing: true,
                 serverSide: true,
                 lengthChange: true,
@@ -81,7 +78,7 @@
                     ['10 rows', '25 rows', '50 rows', 'All']
                 ],
                 buttons: [
-                    'pageLength', 'excel', 'pdf', 'print', 'colvis'
+                    'pageLength'
                 ],
                 ajax: {
                     url: "/ControlPanel/UserLogos",
@@ -89,9 +86,6 @@
                     dataType: "json",
                     data: function (d) {
                         d.type = "Data";
-                    },
-                    error: function () {
-                        dataTableError();
                     }
                 },
                 columns: [
@@ -104,8 +98,7 @@
                 ],
                 order: []
             });
-            arrayDataTables["dtLogos"] = dtLogos;
-        }
+        });
 
         function edit(id) {
             $.ajax({
@@ -139,10 +132,7 @@
                     type: "DELETE",
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        var table = arrayDataTables["dtLogos"];
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
+                        dtLogos.ajax.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);
@@ -202,9 +192,7 @@
                     type: "DELETE",
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-                        //arrayDataTables["dtExercises"].api().ajax.reload();
-                        //table.row(obj.closest('tr')).remove().draw(false);
-                        obj.closest('tr').remove();
+                        dtLogos.ajax.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);
