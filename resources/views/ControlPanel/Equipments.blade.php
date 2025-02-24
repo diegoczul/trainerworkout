@@ -116,55 +116,41 @@
         });
 
         function List() {
-            dtEquipments = $('#dtEquipments').dataTable({
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/Equipments",
-                    "type": "POST",
-                },
-                "fnServerParams": function (aoData) {
-                    aoData.push(
-                        {"name": "type", "value": "Data"}
-                    );
-                },
-                "columns": [
-                    {"data": "thumb"},
-                    {"data": "thumb2"},
-                    {"data": "name"},
-                    {"data": "nameEngine"},
-                    {"data": "created_at"},
-                    {"data": "id"},
-                    {"data": "id"}
+            let dtEquipments = $("#dtEquipments").DataTable({
+                processing: true,
+                serverSide: true,
+                info: true,
+                lengthChange: true,
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10 rows', '25 rows', '50 rows', 'All']
                 ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return imageRotate(data, row.id);
-                        }, "targets": 0
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return imageRotate(data, row.id);
-                        }, "targets": 1
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return echoEdit(data);
-                        }, "targets": -2
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return echoRemoveRow(data);
-                        }, "targets": -1
-                    },
-
-                    {orderable: false, targets: -1},
-                    {orderable: false, targets: -2}
+                buttons: [
+                    'pageLength'
                 ],
-                "aaSorting": []
+                ajax: {
+                    url: "/ControlPanel/Equipments",
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (f) {
+                        f.type = "Data";
+                    },
+                    error: function () {
+                        dataTableError();
+                    }
+                },
+                columns: [
+                    { title: "Thumb", data: "thumb", class: "text-center", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
+                    { title: "Thumb2", data: "thumb2", class: "text-center", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
+                    { title: "Name", data: "name" },
+                    { title: "Name Engine", data: "nameEngine" },
+                    { title: "Created At", data: "created_at", class: "text-center" },
+                    { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+                    { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemoveRow(data); } }
+                ],
+                order: []
             });
+
             arrayDataTables["dtEquipments"] = dtEquipments;
 
         }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Users;
 use App\Models\Ratings;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class RatingsController extends BaseController
 {
@@ -27,9 +28,10 @@ class RatingsController extends BaseController
 
     public function _ApiList()
     {
-        return $this::responseJson([
-            "data" => Ratings::with("trainer")->orderBy("name", "ASC")->get()
-        ]);
+        $response = Ratings::with("trainer")->orderBy("name", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

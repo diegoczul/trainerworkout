@@ -645,6 +645,8 @@ use Illuminate\Support\Facades\Route;
         Route::delete('ControlPanel/UserLogos/{user}', [UserLogosController::class, '_destroy']);
         Route::post('ControlPanel/UserLogos', [UserLogosController::class, '_ApiList']);
         Route::post('ControlPanel/UserLogos/AddEdit/', [UserLogosController::class, '_AddEdit']);
+        Route::post('UserLogos/Rotate/Right', [UserLogosController::class, 'rotateRight']);
+        Route::post('UserLogos/Rotate/Left', [UserLogosController::class, 'rotateLeft']);
 
         // Groups
         Route::get('ControlPanel/Groups', [GroupsController::class, '_index']);

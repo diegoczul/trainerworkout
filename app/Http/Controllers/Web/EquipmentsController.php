@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class EquipmentsController extends BaseController
 {
@@ -29,7 +30,10 @@ class EquipmentsController extends BaseController
 
     public function _ApiList()
     {
-        return $this::responseJson(["data" => Equipments::orderBy("name", "ASC")->get()]);
+        $response = Equipments::orderBy("name", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

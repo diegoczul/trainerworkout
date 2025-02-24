@@ -1,6 +1,4 @@
 @extends('layouts.controlpanel')
-
-
 @section('content')
     <div class="col-lg-12">
     <h1 class="page-header">User Logos</h1>
@@ -66,7 +64,6 @@
         </div>
     </div>
 @endsection
-
 @section("scripts")
     <script>
         $(document).ready(function () {
@@ -74,67 +71,40 @@
         });
 
         function List() {
-            dtLogos = $('#dtLogos').dataTable({
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/UserLogos",
-                    "type": "POST",
-                },
-                "fnServerParams": function (aoData) {
-                    aoData.push(
-                        {"name": "type", "value": "Data"}
-                    );
-                },
-                "columns": [
-                    {"data": "thumb"},
-                    {"data": "user"},
-                    {"data": "active"},
-                    {"data": "updated_at"},
-                    {"data": "id"},
-                    {"data": "id"}
+            let dtLogos = $("#dtLogos").DataTable({
+                processing: true,
+                serverSide: true,
+                lengthChange: true,
+                info: true,
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10 rows', '25 rows', '50 rows', 'All']
                 ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return imageRotate(data, row.id);
-                        }, "targets": 0
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            if(data.hasOwnProperty('firstName') && data.hasOwnProperty('lastName')){
-                                return `${data.firstName} ${data.lastName}`;
-                            }else{
-                                return "N/A";
-                            }
-                        }, "targets": 1
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            if (data == 1) {
-                                return "Default";
-                            } else return ""
-                        }, "targets": 2
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return echoEdit(data);
-                        }, "targets": -2
-                    },
-                    {
-                        "render": function (data, type, row) {
-                            return echoRemoveRow(data);
-                        }, "targets": -1
-                    },
-
-                    {orderable: false, targets: -1},
-                    {orderable: false, targets: -2}
+                buttons: [
+                    'pageLength', 'excel', 'pdf', 'print', 'colvis'
                 ],
-                "aaSorting": []
+                ajax: {
+                    url: "/ControlPanel/UserLogos",
+                    type: "POST",
+                    dataType: "json",
+                    data: function (d) {
+                        d.type = "Data";
+                    },
+                    error: function () {
+                        dataTableError();
+                    }
+                },
+                columns: [
+                    { title: "Logo", data: "thumb", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
+                    { title: "User", data: "user", render: function (data) { return (data && data.firstName && data.lastName) ? `${data.firstName} ${data.lastName}` : "N/A"; } },
+                    { title: "Status", data: "active", render: function (data) { return data == 1 ? "Default" : ""; } },
+                    { title: "Updated At", data: "updated_at" },
+                    { title: "Edit", data: "id", orderable: false, render: function (data) { return echoEdit(data); } },
+                    { title: "Delete", data: "id", orderable: false, render: function (data) { return echoRemoveRow(data); } }
+                ],
+                order: []
             });
             arrayDataTables["dtLogos"] = dtLogos;
-
         }
 
         function edit(id) {
@@ -167,15 +137,12 @@
                 $.ajax({
                     url: "/ControlPanel/UserLogos/" + id,
                     type: "DELETE",
-
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-
                         //arrayDataTables["dtExercises"].api().ajax.reload();
                         var table = arrayDataTables["dtLogos"];
                         //table.row(obj.closest('tr')).remove().draw(false);
                         obj.closest('tr').remove();
-
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);
@@ -183,7 +150,6 @@
                 });
             }
         }
-
 
         function rotateLeft(id) {
             $.ajax({
@@ -193,7 +159,6 @@
                 success: function (data, textStatus, jqXHR) {
                     successMessage(data);
                     refreshImages("#dtLogos");
-
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText);
@@ -202,10 +167,7 @@
                     500: function () {
                         if (jqXHR.responseText != "") {
                             errorMessage(jqXHR.responseText);
-                        } else {
-
                         }
-
                     }
                 }
             });
@@ -227,10 +189,7 @@
                     500: function () {
                         if (jqXHR.responseText != "") {
                             errorMessage(jqXHR.responseText);
-                        } else {
-
                         }
-
                     }
                 }
             });
@@ -241,14 +200,11 @@
                 $.ajax({
                     url: "/ControlPanel/UserLogos/" + id,
                     type: "DELETE",
-
                     success: function (data, textStatus, jqXHR) {
                         successMessage(data);
-
                         //arrayDataTables["dtExercises"].api().ajax.reload();
                         //table.row(obj.closest('tr')).remove().draw(false);
                         obj.closest('tr').remove();
-
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);

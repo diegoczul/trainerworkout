@@ -69,53 +69,45 @@
         });
 
         function List() {
-            dtTable = $('#dtTable').dataTable({
-                "processing": true,
-                "serverSide": false,
-                "iDisplayLength": 25,
-                "ajax": {
-                    "url": "/ControlPanel/Ratings",
-                    "type": "POST",
-                },
-                "fnServerParams": function (aoData) {
-                    aoData.push(
-                        {"name": "type", "value": "Data"}
-                    );
-                },
-                "columns": [
-                    {"data": "name"},
-                    {"data": "trainer"},
-                    {"data": "value"},
-                    {"data": "created_at"},
-                    {"data": "id"},
-                    {"data": "id"}
+            let dtTable = $("#dtTable").DataTable({
+                processing: true,
+                serverSide: true,
+                info: true,
+                lengthChange: true,
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10 rows', '25 rows', '50 rows', 'All']
                 ],
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            if (data !== undefined && data !== null) {
-                                return data.firstName + ' ' + data.lastName;
-                            } else {
-                                return "";
-                            }
-                        }, "targets": 1
+                buttons: [ 'pageLength' ],
+                ajax: {
+                    url: "/ControlPanel/Ratings",
+                    type: "POST",
+                    dataType: 'json',
+                    data: function (f) {
+                        f.type = "Data";
                     },
+                    error: function () {
+                        dataTableError();
+                    }
+                },
+                columns: [
+                    { title: "Name", data: "name" },
                     {
-                        "render": function (data, type, row) {
-                            return echoEdit(data);
-                        }, "targets": -2
+                        title: "Trainer",
+                        data: "trainer",
+                        class: "text-center",
+                        render: function (data, type, row) {
+                            return (data && data.firstName && data.lastName) ? `${data.firstName} ${data.lastName}` : "";
+                        }
                     },
-                    {
-                        "render": function (data, type, row) {
-                            return echoRemoveRow(data);
-                        }, "targets": -1
-                    },
-
-                    {orderable: false, targets: -1},
-                    {orderable: false, targets: -2}
+                    { title: "Rating", data: "value", class: "text-center" },
+                    { title: "Created At", data: "created_at", class: "text-center" },
+                    { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+                    { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemoveRow(data); } }
                 ],
-                "aaSorting": []
+                order: []
             });
+
             arrayDataTables["dtTable"] = dtTable;
 
         }

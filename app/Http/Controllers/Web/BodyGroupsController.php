@@ -10,6 +10,7 @@ use App\Models\TemplateSets;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class BodyGroupsController extends BaseController
 {
@@ -28,7 +29,10 @@ class BodyGroupsController extends BaseController
 
     public function _ApiList()
     {
-        return $this->responseJson(['data' => Bodygroups::orderBy('name', 'ASC')->get()]);
+        $response = Bodygroups::orderBy('name', 'ASC')->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

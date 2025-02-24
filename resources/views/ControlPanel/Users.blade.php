@@ -181,8 +181,8 @@ function List(){
         info: true,
         lengthChange: true,
         lengthMenu: [
-            [10, 25, 50],
-            ['10 rows', '25 rows', '50 rows']
+            [10, 25, 50, -1],
+            ['10 rows', '25 rows', '50 rows', 'All']
         ],
         buttons: [
             'pageLength'

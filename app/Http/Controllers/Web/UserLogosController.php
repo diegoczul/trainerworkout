@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Models\UserLogos;
 use App\Models\Users;
-use Messages;
+use Intervention\Image\Facades\Image;
+use App\Http\Libraries\Messages;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserLogosController extends BaseController
 {
@@ -33,7 +35,10 @@ class UserLogosController extends BaseController
 
     public function _ApiList()
     {
-        return $this::responseJson(["data" => UserLogos::with("user")->orderBy("id", "ASC")->get()]);
+        $response = UserLogos::with("user")->orderBy("id", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

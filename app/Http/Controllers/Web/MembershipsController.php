@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\Memberships;
 use App\Models\MembershipsUsers;
 use App\Models\Users;
+use Yajra\DataTables\Facades\DataTables;
 
 class MembershipsController extends BaseController
 {
@@ -67,7 +68,10 @@ class MembershipsController extends BaseController
 
     public function _ApiListUsers()
     {
-        return $this::responseJson(["data" => MembershipsUsers::with("users")->with("membership")->orderBy("expiry", "ASC")->get()]);
+        $response = MembershipsUsers::with("users")->with("membership")->orderBy("expiry", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEditUsers(Request $request)
@@ -131,7 +135,10 @@ class MembershipsController extends BaseController
 
     public function _ApiList()
     {
-        return $this::responseJson(["data" => Memberships::orderBy("name", "ASC")->get()]);
+        $response = Memberships::orderBy("name", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)

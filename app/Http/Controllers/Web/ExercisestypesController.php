@@ -6,6 +6,7 @@ use App\Http\Libraries\Messages;
 use App\Models\Exercisestypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Yajra\DataTables\Facades\DataTables;
 
 class ExercisestypesController extends BaseController
 {
@@ -24,7 +25,10 @@ class ExercisestypesController extends BaseController
 
     public function _ApiList()
     {
-        return $this->responseJson(["data" => Exercisestypes::orderBy("name", "ASC")->get()]);
+        $response = Exercisestypes::orderBy("name", "ASC")->latest();
+        return DataTables::eloquent($response)
+            ->addIndexColumn()
+            ->make(true);
     }
 
     public function _AddEdit(Request $request)
