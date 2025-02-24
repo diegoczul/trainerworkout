@@ -7,6 +7,7 @@ return array(
 	"/user/confirmation" => "/user/confirmation",
 	"/login" => "/login",
 	"/logout" => "/logout",
+	"/delete-account" => "/delete-account",
 	"/registerNewsletter" => "/registerNewsletter",
 	"/login/facebook" => "/login/facebook",
 	"/login/trainee/facebook" => "/login/trainee/facebook",

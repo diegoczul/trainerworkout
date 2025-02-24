@@ -447,6 +447,14 @@ class UsersController extends BaseController
         return View::make('trainer.profile', ['user' => $user, 'logo' => $logo, 'permissions' => $permissions]);
     }
 
+    public function indexDeleteAccount($id)
+    {
+        $user = Users::find($id);
+        $user->delete();
+
+        return $this->responseJson(Messages::showControlPanel("UserDeleted"));
+    }
+
     public function ApiList()
     {
         return $this::responseJson(Users::getList());

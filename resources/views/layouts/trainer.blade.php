@@ -199,10 +199,15 @@
                 @endif
             </div>
             <div class="menu-section">
-                <li class="c-menu__item"><a href="javascript:void(0)" onclick="moveFeedbackUp();"
-                                            class="c-menu__link">{{ Lang::get("content.CMSendFeedback") }}</a></li>
-                <li class="c-menu__item logout"><a href="{{ Lang::get("routes./logout") }}"
-                                                   class="c-menu__link">{{ Lang::get("content.Logout") }}</a></li>
+                <li class="c-menu__item">
+                    <a href="javascript:void(0);" onclick="moveFeedbackUp();" class="c-menu__link">{{ Lang::get("content.CMSendFeedback") }}</a>
+                </li>
+                <li class="c-menu__item logout">
+                    <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
+                </li>
+                <li class="c-menu__item logout">
+                    <a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
+                </li>
             </div>
         </ul>
         <div class="socialIcons_container">
@@ -352,6 +357,21 @@
         $(".fb_overlay").removeClass("fb_up");
     }
 
+    function deleteAccount() {
+        if(confirm("Are You Sure You Want To Delete Your Account ?")){
+            $.ajax({
+                url: "{{Lang::get("routes./delete-account")}}/{{auth()->user()->id}}",
+                type: "DELETE",
+                success: function (data, textStatus, jqXHR) {
+                    successMessage(data);
+                    window.location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText + " " + errorThrown);
+                },
+            });
+        }
+    }
 </script>
 @yield('scripts')
 @if($errors->any())

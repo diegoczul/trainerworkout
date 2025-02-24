@@ -7,35 +7,35 @@
 <html class="no-js" lang="en">
 <!--<![endif]-->
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
 
-<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="description" content="{{ Lang::get("content.frontEnd/description") }}" />
-<meta name="keywords" content="{{ Lang::get("content.frontEnd/keywords") }}" />
-<meta name="google-site-verification" content="" />
-<!-- don't forget to set the site up: https://google.com/webmasters -->
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="{{ Lang::get("content.frontEnd/description") }}" />
+    <meta name="keywords" content="{{ Lang::get("content.frontEnd/keywords") }}" />
+    <meta name="google-site-verification" content="" />
+    <!-- don't forget to set the site up: https://google.com/webmasters -->
 
-<meta name="author" content="TrainerWorkout.com" />
-<meta name="robots" content="all"/>
-<meta name="distribution" content="global"/>
-<meta name="resource-type" content="document"/>
-<meta name="language" content="en-us"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
-<meta name="viewport" content="width=1024" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="TrainerWorkout.com" />
+    <meta name="robots" content="all"/>
+    <meta name="distribution" content="global"/>
+    <meta name="resource-type" content="document"/>
+    <meta name="language" content="en-us"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+    <meta name="viewport" content="width=1024" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="shortcut icon" href="/img/favicon.ico">
-<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-<!-- The is the icon for iOS's Web Clip.
-         - size: 57x57 for older iPhones, 72x72 for iPads, 114x114 for iPhone4's retina display (IMHO, just go ahead and use the biggest one)
-         - To prevent iOS from applying its styles to the icon name it thusly: apple-touch-icon-precomposed.png
-         - Transparency is not recommended (iOS will put a black BG behind the icon) -->
-<title>{{ Lang::get("content.frontEnd/title") }}</title>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <!-- The is the icon for iOS's Web Clip.
+             - size: 57x57 for older iPhones, 72x72 for iPads, 114x114 for iPhone4's retina display (IMHO, just go ahead and use the biggest one)
+             - To prevent iOS from applying its styles to the icon name it thusly: apple-touch-icon-precomposed.png
+             - Transparency is not recommended (iOS will put a black BG behind the icon) -->
+    <title>{{ Lang::get("content.frontEnd/title") }}</title>
     <!-- Reset Settings of CSS -->
     {{ HTML::style('/css/fw/normalize.css'); }}
-<!--     {{ HTML::style('css/timeline.css') }} -->
+    <!--     {{ HTML::style('css/timeline.css') }} -->
     {{ HTML::style('css/fw/OpenSans.css'); }}
     {{ HTML::style('css/Trainer/mobileInnerstyle.css'); }}
     {{ HTML::style('css/lang/styles_'.Config::get('app.locale').'.css'); }}
@@ -44,59 +44,59 @@
     <!-- {{ HTML::script('js/jquery-1.11.0.js'); }} -->
     {{ HTML::script('fw/jquery-ui-1.11.1.custom/jquery-ui.min.js'); }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    
+
 </head>
 <body>
 
 <div id="o-wrapper" class="o-wrapper">
-<div class="systemMessages"></div>
-<div class="main_header">
-    <div class="contentContainer">
-        <nav>
-            <div class="navItem navBurger" id="c-button--push-left">
-                <svg width="39" height="35" viewBox="0 0 39 25" xmlns="https://www.w3.org/2000/svg">
-                    <title>
-                        Mobile Menu Icon
-                    </title>
-                    <g transform="translate(2)" fill="#FFF" fill-rule="evenodd">
-                        <rect width="35" height="3" rx="2"/></rect>
-                        <rect y="18" width="35" height="3" rx="2"/></rect>
-                        <rect y="9" width="35" height="3" rx="2"/></rect>
-                    </g>
-                </svg>
-            </div>
-            <div class="navItem" id="headerLogo">
-                <svg width="54" height="33" viewBox="0 0 54 33" xmlns="https://www.w3.org/2000/svg">
-                    <title>
-                        Logo TW Mobile
-                    </title>
-                    <path d="M7.27 12.983c1.297 0 2.177-.438 3.05-.897-3.906.74-7.762-1.987-8.32-6.54l6.473-.098.27-1.713L13.1 0h3.737l-.88 5.28s2.962-.092 5.124 0c1.33.168 2.883.656 3.53 1.425.81.77 1.686 2.398 2.11 5.03.165.808.438 2.336.544 3.403l4.35-9.507c1.408-.674 4.578-1.024 7.408-.085l1.374 11.06 7.87-12.87 2.783-.948.95 2.758L41.876 27.9c-2.483.794-5.065.567-6.552 0l-1.862-11.144S28.61 26.816 27.946 27.9c-2.25.794-5.485.482-6.51 0 0-.93 0-10.99-.507-12.572 0 0-.274-2.954-2.01-3.242h-4.06s-1.626 8.842-1.435 9.126c.13.4.364.45.598.648.943.188 1.15.356 4.662-.514v5.44c-2.017 1.305-4.604 2.517-8.865 1.908-2.37-.432-4.16-1.682-4.262-4.847.185-2.377.876-5.42 1.712-10.864z" fill="#FFF" fill-rule="evenodd"/>
-                </svg>
-            </div>
-            <div class="navItem navOptions">
-               <!--  <button>upgrade</button> -->
-                <div class="navLang">
-                    <a href="/lang/en">{{ (App::getLocale() == "en") ? "<strong>EN</strong>" : "EN" }}</a>
-                        <span>|</span>
-                    <a href="/lang/fr">{{ (App::getLocale() == "fr") ? "<strong>FR</strong>" : "FR" }}</a>
+    <div class="systemMessages"></div>
+    <div class="main_header">
+        <div class="contentContainer">
+            <nav>
+                <div class="navItem navBurger" id="c-button--push-left">
+                    <svg width="39" height="35" viewBox="0 0 39 25" xmlns="https://www.w3.org/2000/svg">
+                        <title>
+                            Mobile Menu Icon
+                        </title>
+                        <g transform="translate(2)" fill="#FFF" fill-rule="evenodd">
+                            <rect width="35" height="3" rx="2"/></rect>
+                            <rect y="18" width="35" height="3" rx="2"/></rect>
+                            <rect y="9" width="35" height="3" rx="2"/></rect>
+                        </g>
+                    </svg>
                 </div>
-            </div>
-        </nav>
-    </div> 
-</div>
+                <div class="navItem" id="headerLogo">
+                    <svg width="54" height="33" viewBox="0 0 54 33" xmlns="https://www.w3.org/2000/svg">
+                        <title>
+                            Logo TW Mobile
+                        </title>
+                        <path d="M7.27 12.983c1.297 0 2.177-.438 3.05-.897-3.906.74-7.762-1.987-8.32-6.54l6.473-.098.27-1.713L13.1 0h3.737l-.88 5.28s2.962-.092 5.124 0c1.33.168 2.883.656 3.53 1.425.81.77 1.686 2.398 2.11 5.03.165.808.438 2.336.544 3.403l4.35-9.507c1.408-.674 4.578-1.024 7.408-.085l1.374 11.06 7.87-12.87 2.783-.948.95 2.758L41.876 27.9c-2.483.794-5.065.567-6.552 0l-1.862-11.144S28.61 26.816 27.946 27.9c-2.25.794-5.485.482-6.51 0 0-.93 0-10.99-.507-12.572 0 0-.274-2.954-2.01-3.242h-4.06s-1.626 8.842-1.435 9.126c.13.4.364.45.598.648.943.188 1.15.356 4.662-.514v5.44c-2.017 1.305-4.604 2.517-8.865 1.908-2.37-.432-4.16-1.682-4.262-4.847.185-2.377.876-5.42 1.712-10.864z" fill="#FFF" fill-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="navItem navOptions">
+                    <!--  <button>upgrade</button> -->
+                    <div class="navLang">
+                        <a href="/lang/en">{{ (App::getLocale() == "en") ? "<strong>EN</strong>" : "EN" }}</a>
+                        <span>|</span>
+                        <a href="/lang/fr">{{ (App::getLocale() == "fr") ? "<strong>FR</strong>" : "FR" }}</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
 
 
     @yield("content")
 
 
-<footer>
+    <footer>
 
 
-</footer>
+    </footer>
 
 
 
-<!-- SIDE MENU  Needs to stay below FOOTER and outsode of O-wrapper  -->
+    <!-- SIDE MENU  Needs to stay below FOOTER and outsode of O-wrapper  -->
 </div> <!-- End of O-wrapper -->
 <nav id="c-menu--push-left" class="c-menu c-menu--push-left">
     <svg class="c-menu__close" width="15" height="15" viewBox="0 0 15 15" xmlns="https://www.w3.org/2000/svg">
@@ -105,8 +105,8 @@
         </title>
         <path class="closeIcon" d="M7.5 4.865L3.536.9a1.874 1.874 0 0 0-2.65 2.65L4.85 7.516.916 11.45a1.874 1.874 0 1 0 2.65 2.65L7.5 10.166l3.934 3.934a1.874 1.874 0 1 0 2.65-2.65L10.15 7.514l3.965-3.964A1.874 1.874 0 0 0 11.465.9L7.5 4.865z" fill-opacity=".52" fill="#FFF" fill-rule="evenodd"/></path>
     </svg>
-    <div class="profile">  
-         <img src="/{{ Helper::image(Auth::check() ? Auth::user()->thumb : ""); }}" alt="profile image">  
+    <div class="profile">
+        <img src="/{{ Helper::image(Auth::check() ? Auth::user()->thumb : ""); }}" alt="profile image">
         <h2>{{ Auth::check() ? Auth::user()->firstName : "" }}</h2>
         <h4>{{ Auth::check() ? Auth::user()->lastName : "" }}</h4>
     </div>
@@ -170,10 +170,10 @@
         <h1>{{ Lang::get("content.feedback/ThankYou") }}</h1>
         <h2>{{ Lang::get("content.feedback/1") }}</h2>
         {{ Form::open(array('url' => Lang::get('routes./Feedback'))); }}
-            <label for="feedback">{{ Lang::get("content.feedback") }}</label>
-            <textarea type="text" placeholder="{{ Lang::get("content.feedback/2") }}" name="feedback" id="feedback"></textarea>
+        <label for="feedback">{{ Lang::get("content.feedback") }}</label>
+        <textarea type="text" placeholder="{{ Lang::get("content.feedback/2") }}" name="feedback" id="feedback"></textarea>
         <div class="btn_container">
-        <button>{{{ Lang::get("content.Send") }}}</button>
+            <button>{{{ Lang::get("content.Send") }}}</button>
         </div>
         {{ Form::close() }}
     </div>
@@ -188,47 +188,47 @@
 </html>
 
 
-    <!-- Bootstrap Core JavaScript -->
-    {{ HTML::script('js/bootstrap.min.js'); }}   
+<!-- Bootstrap Core JavaScript -->
+{{ HTML::script('js/bootstrap.min.js'); }}
 
-     {{ HTML::script('app/lang/'.App::getLocale().'/jsWords.js'); }}
+{{ HTML::script('app/lang/'.App::getLocale().'/jsWords.js'); }}
 
-    <!-- Home Page Javascript -->
-    {{ HTML::script('js/global.js'); }}
-    <!-- Menu Toggleing JavaScript -->
-    {{ HTML::script('js/menu.js'); }}
-
-
+<!-- Home Page Javascript -->
+{{ HTML::script('js/global.js'); }}
+<!-- Menu Toggleing JavaScript -->
+{{ HTML::script('js/menu.js'); }}
 
 
-    @yield('scripts')
 
-    @if($errors->has())
-       {{$message = "";}}
-       @foreach ($errors->all() as $error)
+
+@yield('scripts')
+
+@if($errors->has())
+    {{$message = "";}}
+    @foreach ($errors->all() as $error)
         {{$message .= $error."</br>"; }}
-      @endforeach
-      <script>errorMessage("{{ $message }}")</script>
-    @endif
+    @endforeach
+    <script>errorMessage("{!! $message !!}")</script>
+@endif
 
-    @if(Session::has("message"))
-      <script>successMessage("{{ Session::get("message") }}")</script>
-    @endif
+@if(Session::has("message"))
+    <script>successMessage("{!! Session::get("message") !!}")</script>
+@endif
 
-    @if(Session::has("error"))
-      <script>errorMessage("{{ Session::get("error") }}")</script>
-    @endif
+@if(Session::has("error"))
+    <script>errorMessage("{!! Session::get("error") !!}")</script>
+@endif
 
- @if(!Config::get("app.debug"))
-          <script>
+@if(!Config::get("app.debug"))
+    <script>
         //     window.intercomSettings = {
-          
+
         //   app_id: "af0obxyk"
         // };
-          </script>
-          
-          {{ HTML::script('js/thirdParty.js'); }}
-    @endif
+    </script>
+
+    {{ HTML::script('js/thirdParty.js'); }}
+@endif
 
 
 
@@ -240,66 +240,66 @@
 
 
 
-  /**
-   * Push right instantiation and action.
-  //  */
-  // var pushRight = new Menu({
-  //   wrapper: '#o-wrapper',
-  //   type: 'push-right',
-  //   menuOpenerClass: '.c-button',
-  //   maskId: '#c-mask'
-  // });
+    /**
+     * Push right instantiation and action.
+     //  */
+    // var pushRight = new Menu({
+    //   wrapper: '#o-wrapper',
+    //   type: 'push-right',
+    //   menuOpenerClass: '.c-button',
+    //   maskId: '#c-mask'
+    // });
 
-  // var pushRightBtn = document.querySelector('#c-button--push-right');
-  
-  // pushRightBtn.addEventListener('click', function(e) {
-  //   e.preventDefault;
-  //   pushRight.open();
-  // });
+    // var pushRightBtn = document.querySelector('#c-button--push-right');
+
+    // pushRightBtn.addEventListener('click', function(e) {
+    //   e.preventDefault;
+    //   pushRight.open();
+    // });
 
 
-  /**
-   * Push left instantiation and action.
-   */
-var pushLeft = new Menu({
-    wrapper: '#o-wrapper',
-    type: 'push-left',
-    menuOpenerClass: '.c-button',
-    maskId: '#c-mask'
-});
+    /**
+     * Push left instantiation and action.
+     */
+    var pushLeft = new Menu({
+        wrapper: '#o-wrapper',
+        type: 'push-left',
+        menuOpenerClass: '.c-button',
+        maskId: '#c-mask'
+    });
 
-var pushLeftBtn = document.querySelector('#c-button--push-left');
+    var pushLeftBtn = document.querySelector('#c-button--push-left');
 
     pushLeftBtn.addEventListener('click', function(e) {
-    e.preventDefault;
-    pushLeft.open();
-});
+        e.preventDefault;
+        pushLeft.open();
+    });
 
-function closeMenu() {
-    pushLeft.close();
-}
-
-
-
-
-//Open and Close the feedback Form. 
-function moveFeedbackUp() {
-    closeMenu();
-    $(".fb_overlay").addClass("fb_up");
-    
-}
-
-function moveFeedbackDown() {
-    closeMenu();
-    $(".fb_overlay").removeClass("fb_up");
-}
+    function closeMenu() {
+        pushLeft.close();
+    }
 
 
 
-//ALL AJAX FORMS SAVE
+
+    //Open and Close the feedback Form.
+    function moveFeedbackUp() {
+        closeMenu();
+        $(".fb_overlay").addClass("fb_up");
+
+    }
+
+    function moveFeedbackDown() {
+        closeMenu();
+        $(".fb_overlay").removeClass("fb_up");
+    }
+
+
+
+    //ALL AJAX FORMS SAVE
     $("body").on("click",".ajaxSaveNewsletter",function(event){
         //alert(1);
-        
+
         var handler = $(this);
         tForm = $(this).closest("form");
         widget = $(this).attr("widget");
@@ -311,48 +311,48 @@ function moveFeedbackDown() {
                 var formURL = $(this).attr("action");
                 var preload;
                 $.ajax(
-                {
-                    url : formURL,
-                    type: "POST",
-                    data: new FormData( this ),
-                    processData: false,
-                    contentType: false,
-                    beforeSend:function() 
                     {
-                                //preLoad = showLoadWithElement(handler);
-                    },
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        //hideLoadWithElement(preLoad);
-                        successMessage(data);
-                        //upAndClearAdd();
-                        
-                        //widgetsToReload.push(widget);
-                        //refreshWidgets();
-                        return false;
+                        url : formURL,
+                        type: "POST",
+                        data: new FormData( this ),
+                        processData: false,
+                        contentType: false,
+                        beforeSend:function()
+                        {
+                            //preLoad = showLoadWithElement(handler);
+                        },
+                        success:function(data, textStatus, jqXHR)
+                        {
+                            //hideLoadWithElement(preLoad);
+                            successMessage(data);
+                            //upAndClearAdd();
 
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        //hideLoadWithElement(preLoad);
-                        errorMessage(jqXHR.responseText);
-                        return false;
-                    },
-                    statusCode: {
-                        500: function() {
-                            if(jqXHR.responseText != ""){
-                                errorMessage(jqXHR.responseText);
+                            //widgetsToReload.push(widget);
+                            //refreshWidgets();
+                            return false;
+
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+                            //hideLoadWithElement(preLoad);
+                            errorMessage(jqXHR.responseText);
+                            return false;
+                        },
+                        statusCode: {
+                            500: function() {
+                                if(jqXHR.responseText != ""){
+                                    errorMessage(jqXHR.responseText);
+                                }
+
                             }
-                            
                         }
-                    }
-                });
-                
+                    });
+
             }
         );
     });
 
- 
+
 
 </script>
 

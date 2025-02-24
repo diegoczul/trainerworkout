@@ -154,6 +154,9 @@
                 <a href="javascript:void(0)" onclick="moveFeedbackUp();" class="c-menu__link">{{ Lang::get("content.CMSendFeedback") }}</a>
             </li>
             <li class="c-menu__item logout">
+                <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
+            </li>
+            <li class="c-menu__item logout">
                 <a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
             </li>
         </div>
@@ -257,15 +260,15 @@
     @foreach ($errors->all() as $error)
         {{$message .= $error."</br>" }}
     @endforeach
-    <script>errorMessage("{{ $message }}")</script>
+    <script>errorMessage("{!! $message !!}")</script>
 @endif
 
 @if(Session::has("message"))
-    <script>successMessage("{{ Session::get("message") }}")</script>
+    <script>successMessage("{!! Session::get("message") !!}")</script>
 @endif
 
 @if(Session::has("error"))
-    <script>errorMessage("{{ Session::get("error") }}")</script>
+    <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif
 
 @if(!Config::get("app.debug"))
@@ -406,4 +409,20 @@
             maxDisplayCount: 1
         });
     });
+
+    function deleteAccount() {
+        if(confirm("Are You Sure You Want To Delete Your Account ?")){
+            $.ajax({
+                url: "{{Lang::get("routes./delete-account")}}/{{auth()->user()->id}}",
+                type: "DELETE",
+                success: function (data, textStatus, jqXHR) {
+                    successMessage(data);
+                    window.location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText + " " + errorThrown);
+                },
+            });
+        }
+    }
 </script>

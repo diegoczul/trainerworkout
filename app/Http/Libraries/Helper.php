@@ -87,11 +87,11 @@ class Helper {
 
     public static function translateOverride($viewPath){
         $whitelabel = Config::get("app.whitelabel");
-//        if($whitelabel != "default"){
-//            return "whitelabels/".$whitelabel."/".$viewPath;
-//        } else {
+        if($whitelabel != "default"){
+            return "whitelabels/".$whitelabel."/".$viewPath;
+        } else {
             return $viewPath;
-//        }
+        }
     }
 
     public static function objectToArray($d) {

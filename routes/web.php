@@ -74,6 +74,7 @@ use Illuminate\Support\Facades\Route;
     // LOGIN VIEW
     Route::get(__('routes./login'), fn () => view(Helper::translateOverride('login')))->name('login');
     Route::get(__('routes./logout'), [UsersController::class, 'logout']);
+    Route::delete(__('routes./delete-account').'/{user}', [UsersController::class, 'destroy']);
     Route::post(__('routes./login'), [UsersController::class, 'login']);
     Route::post(__('routes./registerNewsletter'), [UsersController::class, 'registerNewsletter']);
     Route::get(__('routes./login/facebook'), [UsersController::class, 'loginFacebook']);
@@ -512,9 +513,11 @@ use Illuminate\Support\Facades\Route;
     });
 
     // Trainee
-    Route::get(__('routes./Trainee/SendFeedback'), [UsersController::class, 'sendFeedback']);
-    Route::get(__('routes./Trainee/ViewWorkout'), [UsersController::class, 'viewWorkoutTrainee']);
-    Route::get(__('routes./Trainee/Workouts'), [UsersController::class, 'viewWorkoutsTrainee'])->name('traineeWorkouts');
+    Route::middleware('auth')->group(function () {
+        Route::get(__('routes./Trainee/SendFeedback'), [UsersController::class, 'sendFeedback']);
+        Route::get(__('routes./Trainee/ViewWorkout'), [UsersController::class, 'viewWorkoutTrainee']);
+        Route::get(__('routes./Trainee/Workouts'), [UsersController::class, 'viewWorkoutsTrainee'])->name('traineeWorkouts');
+    });
 
     Route::middleware(['auth', 'userTypeChecker'])->group(function () {
         Route::get(__('routes./Trainee/Settings'), [UsersController::class, 'indexSettings'])->name('TraineeSettings');

@@ -264,15 +264,15 @@
     @foreach ($errors->all() as $error)
         {{$message .= $error."</br>" }}
     @endforeach
-    <script>errorMessage("{{ $message }}")</script>
+    <script>errorMessage("{!! $message !!}")</script>
 @endif
 
 @if(Session::has("message"))
-    <script>successMessage("{{ Session::get("message") }}")</script>
+    <script>successMessage("{!! Session::get("message") !!}")</script>
 @endif
 
 @if(Session::has("error"))
-    <script>errorMessage("{{ Session::get("error") }}")</script>
+    <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif
 
 @if(!Config::get("app.debug"))
