@@ -4028,7 +4028,7 @@ var rcheckableType = (/^(?:checkbox|radio)$/i);
 
 	// Support: Safari<=5.1
 	// Check state lost if the name is set (#11217)
-	// Support: Windows Web Apps (WWA)
+	// Support: Windows web Apps (WWA)
 	// `name` and `type` must use .setAttribute for WWA (#14901)
 	input.setAttribute( "type", "radio" );
 	input.setAttribute( "checked", "checked" );

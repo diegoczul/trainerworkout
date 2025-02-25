@@ -34,14 +34,14 @@
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}">
 
     <link rel="apple-touch-icon" href="{{asset('assets/img/apple-touch-icon.png')}}">
-    <!-- The is the icon for iOS's Web Clip.
+    <!-- The is the icon for iOS's web Clip.
        - size: 57x57 for older iPhones, 72x72 for iPads, 114x114 for iPhone4's retina display (IMHO, just go ahead and use the biggest one)
        - To prevent iOS from applying its styles to the icon name it thusly: apple-touch-icon-precomposed.png
        - Transparency is not recommended (iOS will put a black BG behind the icon) -->
 
     <meta name="google-site-verification" content="">
 
-    <title>TrainerWorkout Web-App</title>
+    <title>TrainerWorkout web-App</title>
 
     <meta name="title" content="">
     <meta name="description" content="">

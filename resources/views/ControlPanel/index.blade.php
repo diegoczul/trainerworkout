@@ -75,7 +75,7 @@
                                     <input type="checkbox"  name="demoApp" id="demoApp" value="Yes">Demo App
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox"  name="demoWeb" id="demoWeb" value="Yes">Onboarding Web
+                                    <input type="checkbox"  name="demoWeb" id="demoWeb" value="Yes">Onboarding web
                                 </label>
                                 </div>
                                 <div class="form-group">

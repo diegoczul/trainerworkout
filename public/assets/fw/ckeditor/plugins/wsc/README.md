@@ -1,7 +1,7 @@
 CKEditor WebSpellChecker Plugin
 ===============================
 
-This plugin brings Web Spell Checker (WSC) into CKEditor.
+This plugin brings web Spell Checker (WSC) into CKEditor.
 
 WSC is "installation-less", using the web-services of [WebSpellChecker.net](http://www.webspellchecker.net/). It's an out of the box solution.
 

@@ -19,6 +19,7 @@
         "laravelcollective/html": "^6.4",
         "ramsey/uuid": "^4.7",
         "stripe/stripe-php": "^16.5",
+        "tymon/jwt-auth": "^2.1",
         "yajra/laravel-datatables": "^10.0"
     },
     "require-dev": {

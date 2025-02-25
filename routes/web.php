@@ -1,38 +1,38 @@
 <?php
 
-use App\Http\Controllers\Web\AppointmentsController;
-use App\Http\Controllers\Web\AvailabilitiesController;
-use App\Http\Controllers\Web\BodyGroupsController;
-use App\Http\Controllers\Web\CalendarController;
-use App\Http\Controllers\Web\ClientsController;
-use App\Http\Controllers\Web\ControlPanelController;
-use App\Http\Controllers\Web\EquipmentsController;
-use App\Http\Controllers\Web\ExercisesController;
-use App\Http\Controllers\Web\ExercisestypesController;
-use App\Http\Controllers\Web\FeedsController;
-use App\Http\Controllers\Web\FriendsController;
-use App\Http\Controllers\Web\GroupsController;
-use App\Http\Controllers\Web\MeasurementsController;
-use App\Http\Controllers\Web\MembershipsController;
-use App\Http\Controllers\Web\NotificationsController;
-use App\Http\Controllers\Web\ObjectivesController;
-use App\Http\Controllers\Web\OnBoardingController;
-use App\Http\Controllers\Web\OrdersController;
-use App\Http\Controllers\Web\PicturesController;
-use App\Http\Controllers\Web\RatingsController;
-use App\Http\Controllers\Web\RemindersController;
-use App\Http\Controllers\Web\SessionsController;
-use App\Http\Controllers\Web\SystemController;
-use App\Http\Controllers\Web\TagsController;
-use App\Http\Controllers\Web\TasksController;
-use App\Http\Controllers\Web\TestimonialsController;
-use App\Http\Controllers\Web\UserGroupsController;
-use App\Http\Controllers\Web\UserLogosController;
-use App\Http\Controllers\Web\UserMessagesController;
-use App\Http\Controllers\Web\UsersController;
-use App\Http\Controllers\Web\WeightsController;
-use App\Http\Controllers\Web\WorkoutsController;
-use App\Http\Controllers\Web\WorkoutsPerformanceController;
+use App\Http\Controllers\web\AppointmentsController;
+use App\Http\Controllers\web\AvailabilitiesController;
+use App\Http\Controllers\web\BodyGroupsController;
+use App\Http\Controllers\web\CalendarController;
+use App\Http\Controllers\web\ClientsController;
+use App\Http\Controllers\web\ControlPanelController;
+use App\Http\Controllers\web\EquipmentsController;
+use App\Http\Controllers\web\ExercisesController;
+use App\Http\Controllers\web\ExercisestypesController;
+use App\Http\Controllers\web\FeedsController;
+use App\Http\Controllers\web\FriendsController;
+use App\Http\Controllers\web\GroupsController;
+use App\Http\Controllers\web\MeasurementsController;
+use App\Http\Controllers\web\MembershipsController;
+use App\Http\Controllers\web\NotificationsController;
+use App\Http\Controllers\web\ObjectivesController;
+use App\Http\Controllers\web\OnBoardingController;
+use App\Http\Controllers\web\OrdersController;
+use App\Http\Controllers\web\PicturesController;
+use App\Http\Controllers\web\RatingsController;
+use App\Http\Controllers\web\RemindersController;
+use App\Http\Controllers\web\SessionsController;
+use App\Http\Controllers\web\SystemController;
+use App\Http\Controllers\web\TagsController;
+use App\Http\Controllers\web\TasksController;
+use App\Http\Controllers\web\TestimonialsController;
+use App\Http\Controllers\web\UserGroupsController;
+use App\Http\Controllers\web\UserLogosController;
+use App\Http\Controllers\web\UserMessagesController;
+use App\Http\Controllers\web\UsersController;
+use App\Http\Controllers\web\WeightsController;
+use App\Http\Controllers\web\WorkoutsController;
+use App\Http\Controllers\web\WorkoutsPerformanceController;
 use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These

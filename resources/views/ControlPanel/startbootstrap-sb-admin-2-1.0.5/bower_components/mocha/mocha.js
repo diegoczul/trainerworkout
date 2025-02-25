@@ -742,7 +742,7 @@ exports.getWindowSize = function(){
   if ('innerHeight' in global) {
     return [global.innerHeight, global.innerWidth];
   } else {
-    // In a Web Worker, the DOM Window is not available.
+    // In a web Worker, the DOM Window is not available.
     return [640, 480];
   }
 };
@@ -5658,7 +5658,7 @@ exports.highlightTags = function(name) {
 };
 
 }); // module: utils.js
-// The global object is "self" in Web Workers.
+// The global object is "self" in web Workers.
 global = (function() { return this; })();
 
 /**
@@ -5796,7 +5796,7 @@ mocha.run = function(fn){
   if (query.invert) mocha.invert();
 
   return Mocha.prototype.run.call(mocha, function(){
-    // The DOM Document is not available in Web Workers.
+    // The DOM Document is not available in web Workers.
     if (global.document) {
       Mocha.utils.highlightTags('code');
     }
