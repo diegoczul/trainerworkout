@@ -22,9 +22,7 @@ class RemindersController extends BaseController
 
     public function postRemind(Request $request)
     {
-        $response = Password::sendResetLink(['email' => $request->get('email')], function ($message) {
-            $message->subject(Lang::get("messages.NewPassword"));
-        });
+        $response = Password::sendResetLink(['email' => $request->get('email')]);
 
         return match ($response) {
             Password::RESET_LINK_SENT => Redirect::route("home")->with('message', Lang::get($response)),
