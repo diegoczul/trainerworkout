@@ -159,9 +159,9 @@ class PicturesController extends BaseController
         }
 
         $this->pageSize = 999;
-
         return [
-            'data' => Pictures::where('userId', '=', $userId)->orderBy('recordDate', 'DESC')->take($this->pageSize)->get(),
+            'status' => 'ok',
+            'data' => Pictures::select("id","userId","title","recordDate","front as front_url","back as back_url","left as left_url","right as right_url","deleted_at","created_at","updated_at","thumbFront as thumb_front_url","thumbBack as thumb_back_url","thumbLeft as thumb_left_url","thumbRight as thumb_right_url","reminded",)->where('userId', '=', $userId)->orderBy('recordDate', 'DESC')->take($this->pageSize)->get(),
             'permissions' => $permissions,
             'total' => Pictures::where('userId', '=', $userId)->count(),
         ];
@@ -193,7 +193,7 @@ class PicturesController extends BaseController
 
         Helper::checkUserFolder($user->id);
 
-        $imageFields = ['image0', 'image1', 'image2', 'image3'];
+        $imageFields = ['front', 'back', 'left', 'right'];
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
                 $images = Helper::saveImage($request->file($field), $user->getPath() . Config::get('constants.picturesPath') . '/' . $pictures->id);
@@ -204,6 +204,9 @@ class PicturesController extends BaseController
 
         $pictures->save();
 
-        return ['message' => Lang::get('messages.PicturesAdded')];
+        return [
+            'status' => 'ok',
+            'message' => Lang::get('messages.PicturesAdded')
+        ];
     }
 }
