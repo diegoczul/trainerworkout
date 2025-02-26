@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use UsersSettings;
@@ -330,13 +331,13 @@ class UsersController extends BaseController
         return view('trainee.workouts')->with("user", Auth::user());
     }
 
-    public function indexVideoWord()
+    public function indexVideoWord(Request $request)
     {
         $userId = Auth::user()->id;
         $user = Auth::user();
         $permissions = null;
 
-        if (request()->has("userId")) {
+        if ($request->has("userId")) {
             $permissions = Helper::checkPremissions(Auth::user()->id, request("userId"));
             if ($permissions["view"]) {
                 $userId = request("userId");
@@ -349,13 +350,13 @@ class UsersController extends BaseController
         return view('widgets.full.videoWord')->with("permissions", $permissions)->with("user", $user);
     }
 
-    public function indexBioFull()
+    public function indexBioFull(Request $request)
     {
         $userId = Auth::user()->id;
         $user = Auth::user();
         $permissions = null;
 
-        if (request()->has("userId")) {
+        if ($request->has("userId")) {
             $permissions = Helper::checkPremissions(Auth::user()->id, request("userId"));
             if ($permissions["view"]) {
                 $userId = request("userId");
@@ -461,12 +462,12 @@ class UsersController extends BaseController
         return $this::responseJson(Users::getList());
     }
 
-    public function AddEdit()
+    public function AddEdit(Request $request)
     {
-        return request()->filled('hiddenUserId') ? $this->update(request('hiddenUserId')) : $this->create();
+        return $request->filled('hiddenUserId') ? $this->update(request('hiddenUserId')) : $this->create();
     }
 
-    public function AddEditBio()
+    public function AddEditBio(Request $request)
     {
         $rules = [
             'biography' => 'max:5000',
@@ -474,27 +475,27 @@ class UsersController extends BaseController
             'past_experience' => 'max:5000',
         ];
 
-        $validation = Validator::make(request()->all(), $rules);
+        $validation = Validator::make($request->all(), $rules);
 
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
         }
 
         $user = Auth::user();
-        $user->fill(request()->only('biography', 'certifications', 'past_experience'));
+        $user->fill($request->only('biography', 'certifications', 'past_experience'));
         $user->save();
 
         return $this::responseJson(Lang::get('messages.BioSaved'));
     }
 
-    public function AddEditVideoWord()
+    public function AddEditVideoWord(Request $request)
     {
         $rules = [
             'word' => 'max:5000',
             'videoLink' => 'url',
         ];
 
-        $validation = Validator::make(request()->all(), $rules);
+        $validation = Validator::make($request->all(), $rules);
 
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
@@ -509,16 +510,16 @@ class UsersController extends BaseController
         return $this::responseJson(Lang::get('messages.WordSaved'));
     }
 
-    public function TraineeSignUp()
+    public function TraineeSignUp(Request $request)
     {
         $user = null;
 
-        if (request()->has('invite')) {
+        if ($request->has('invite')) {
             $invite = Invites::where('key', request('invite'))->first();
             if ($invite) {
                 if (!empty($invite->fakeId)) {
                     $user = Users::find($invite->fakeId);
-                    $user->fill(request()->only('timezone'));
+                    $user->fill($request->only('timezone'));
                     $password = request('password') ?: 'TrainerWorkout';
                     $user->password = Hash::make($password);
                     $user->fill([
@@ -533,11 +534,11 @@ class UsersController extends BaseController
                     Auth::loginUsingId($user->id);
                     Event::dispatch('signUp', [$user]);
                 } else {
-                    $validation = Users::validate(request()->all());
+                    $validation = Users::validate($request->all());
                     if ($validation->fails()) {
                         return Redirect::back()->withInput()->withErrors($validation->messages());
                     }
-                    $user = new Users(request()->only('firstName', 'lastName', 'email'));
+                    $user = new Users($request->only('firstName', 'lastName', 'email'));
                     $user->phone = Helper::formatPhone(request('phoneNumber'));
                     $user->password = Hash::make(request('password'));
                     $user->userType = 'Trainee';
@@ -548,12 +549,12 @@ class UsersController extends BaseController
                 }
             }
         } else {
-            $validation = Users::validate(request()->all(), ['termsAndConditions' => 'required']);
+            $validation = Users::validate($request->all(), ['termsAndConditions' => 'required']);
             if ($validation->fails()) {
                 return Redirect::back()->withInput()->withErrors($validation->messages());
             }
 
-            $user = new Users(request()->only('firstName', 'lastName', 'email'));
+            $user = new Users($request->only('firstName', 'lastName', 'email'));
             $user->phone = Helper::formatPhone(request('phoneNumber'));
             $user->password = Hash::make(request('password'));
             $user->userType = 'Trainee';
@@ -561,7 +562,7 @@ class UsersController extends BaseController
             Auth::loginUsingId($user->id);
         }
 
-        if (request()->filled('workout')) {
+        if ($request->filled('workout')) {
             $workout = Workouts::find(request('workout'));
             $workoutNew = $workout->replicate(['shares', 'views', 'timesPerformed', 'availability']);
             $workoutNew->userId = Auth::user()->id;
@@ -1084,9 +1085,9 @@ class UsersController extends BaseController
         }
     }
 
-    public function loginTraineeFacebook($inviteKey = "")
+    public function loginTraineeFacebook($inviteKey = "",Request $request)
     {
-        $code = request()->get('code');
+        $code = $request->get('code');
         $fb = OAuth::consumer('Facebook');
 
         if (!empty($code)) {
@@ -1136,23 +1137,23 @@ class UsersController extends BaseController
     }
 
 
-    public function shareOnFacebook()
+    public function shareOnFacebook(Request $request)
     {
         $user = Auth::user();
         $message = "";
         $object = null;
-        $type = request()->get("type");
-        $url = request()->get("link");
+        $type = $request->get("type");
+        $url = $request->get("link");
         $url = URL::to($url);
         $name = "";
 
         if ($type == "Exercise") {
             $message = Messages::showFacebookMessage("ShareExercise");
-            $object = Exercises::find(request()->get("id"));
+            $object = Exercises::find($request->get("id"));
             Feeds::insertFeed("SharedExerciseFacebook", $user->id, $user->firstName, $user->lastName);
         } else if ($type == "Workout") {
             $message = Messages::showFacebookMessage("ShareWorkout");
-            $object = Workouts::find(request()->get("id"));
+            $object = Workouts::find($request->get("id"));
             Feeds::insertFeed("SharedWorkoutFacebook", $user->id, $user->firstName, $user->lastName);
         } else {
             $message = Messages::showFacebookMessage("GenericFacebook");
@@ -1166,26 +1167,26 @@ class UsersController extends BaseController
         }
     }
 
-    public function demoSignUp()
+    public function demoSignUp(Request $request)
     {
-        $accountType = request()->get("type");
+        $accountType = $request->get("type");
 
         $rules = ["email" => "required|email|unique:users,email,NULL,id,deleted_at,NULL"];
-        $validation = Validator::make(request()->all(), $rules);
+        $validation = Validator::make($request->all(), $rules);
         if ($validation->fails()) {
             return redirect()->back()->withInput()->withErrors($validation->messages());
         } else {
             $user = new Users;
-            $user->email = strtolower(request()->get("email"));
-            if (request()->get("timezone") != "") {
-                $user->timezone = request()->get("timezone");
+            $user->email = strtolower($request->get("email"));
+            if ($request->get("timezone") != "") {
+                $user->timezone = $request->get("timezone");
             }
             $user->userType = $accountType;
             $user->save();
 
             if ($user->userType == "Trainer") {
                 try {
-                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => request()->get("email"), 'email_address' => request()->get("status"), 'email' => "subscribed"]);
+                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1193,7 +1194,7 @@ class UsersController extends BaseController
             } else {
                 $user->freebesTrainee();
                 try {
-                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => request()->get("email"), 'email_address' => request()->get("status"), 'email' => "subscribed"]);
+                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1233,15 +1234,23 @@ class UsersController extends BaseController
     // API
     //=======================================================================================================================
 
-    public function APIRegistration()
+    public function APIRegistration(Request $request)
     {
-        if (request()->get("type") == "Trainer") {
-            $validation = Users::validate(request()->all(), ["termsAndConditions" => "required"]);
+        $validator = Validator::make($request->all(), [
+            'email' => ['required','email',Rule::unique('users','email')->whereNull('deleted_at')],
+            'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendValidationError($validator->errors());
+        }
+
+        if ($request->get("type") == "Trainer") {
+            $validation = Users::validate($request->all(), ["termsAndConditions" => "required"]);
             $user = new Users;
-            $user->firstName = ucfirst(request()->get("firstName"));
-            $user->lastName = ucfirst(request()->get("lastName"));
-            $user->email = strtolower(request()->get("email"));
-            $user->password = Hash::make(request()->get("password"));
+            $user->firstName = ucfirst($request->get("firstName"));
+            $user->lastName = ucfirst($request->get("lastName"));
+            $user->email = strtolower($request->get("email"));
+            $user->password = Hash::make($request->get("password"));
             $user->userType = "Trainer";
             $user->updated_at = now();
             $user->lastLogin = now();
@@ -1257,13 +1266,15 @@ class UsersController extends BaseController
             $result["message"] = Lang::get("messages.Welcome");
             $result["data"] = Auth::guard('api')->user();
             $result["data"]['token'] = $token;
+            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
+            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             return $result;
         } else {
             $user = new Users;
-            $user->firstName = ucfirst(request()->get("firstName"));
-            $user->lastName = ucfirst(request()->get("lastName"));
-            $user->email = strtolower(request()->get("email"));
-            $user->password = Hash::make(request()->get("password"));
+            $user->firstName = ucfirst($request->get("firstName"));
+            $user->lastName = ucfirst($request->get("lastName"));
+            $user->email = strtolower($request->get("email"));
+            $user->password = Hash::make($request->get("password"));
             $user->userType = "Trainee";
             $user->updated_at = now();
             $user->lastLogin = now();
@@ -1279,6 +1290,8 @@ class UsersController extends BaseController
             $result["message"] = Lang::get("messages.Welcome");
             $result["data"] = Auth::guard('api')->user();
             $result["data"]['token'] = $token;
+            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
+            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             return $result;
         }
     }
@@ -1301,7 +1314,7 @@ class UsersController extends BaseController
             "total" => ""
         ];
 
-        if ($token = Auth::guard('api')->attempt(['email' => request()->get("email"), 'password' => request()->get("password")], true)) {
+        if ($token = Auth::guard('api')->attempt(['email' => $request->get("email"), 'password' => $request->get("password")], true)) {
             Feeds::insertFeed("Welcome", Auth::guard('api')->user()->id, Auth::guard('api')->user()->firstName, Auth::guard('api')->user()->lastName);
             Event::dispatch('apiLogin', [Auth::guard('api')->user()]);
             $user = Auth::guard('api')->user();
@@ -1312,6 +1325,8 @@ class UsersController extends BaseController
             $user->save();
 
             $result["data"] = Auth::guard('api')->user()->toArray();
+            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
+            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             $result["data"]['token'] = $token;
             $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "desc")->get();
             $result["data"]["objectives"] = Objectives::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "desc")->get();
@@ -1351,6 +1366,8 @@ class UsersController extends BaseController
             Feeds::insertFeed("Welcome", Auth::guard('api')->user()->id, Auth::guard('api')->user()->firstName, Auth::guard('api')->user()->lastName);
 
             $result["data"] = Auth::guard('api')->user()->toArray();
+            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
+            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             $result["data"]["token"] = $token;
             $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "DESC")->get();
             $result["data"]["objectives"] = Objectives::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "DESC")->get();

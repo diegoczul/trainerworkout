@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\web\ExercisesController;
-use App\Http\Controllers\web\ExercisesImagesController;
 use App\Http\Controllers\web\ObjectivesController;
 use App\Http\Controllers\web\PicturesController;
 use App\Http\Controllers\web\UsersController;
@@ -78,18 +77,15 @@ Route::middleware('auth:api')->group(function (){
         Route::post('Workouts/saveSingleSet', 'APIsaveSingleSet');
         Route::post('Workouts/completeSet', 'APIcompleteSet');
         Route::post('Workouts/saveAllSets', 'APIsaveAllSets');
-        Route::post('Workouts/APIexerciseCompleted', 'APIexerciseCompleted');
+        Route::post('Workouts/APIexerciseCompleted', 'APIExerciseCompleted');
         Route::post('Workouts/workoutCompleted', 'APIworkoutCompleted');
+        Route::post('IOS/CreateWorkout','API_IOS_CreateWorkout')->middleware('auth');
     });
 
     // NIC CHANGES
     Route::controller(ExercisesController::class)->group(function (){
         Route::post('ExerciseModel','API_Exercise_Model');
     });
-
-    // IOS
-    Route::post('IOS/CreateWorkout', [WorkoutsController::class, 'API_IOS_CreateWorkout'])->middleware('auth');
-
 });
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Helper;
+use App\Http\Libraries\Messages;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Messages;
-use Users;
-
+use App\Http\Libraries\Helper;
 class Notifications extends Model
 {
     use SoftDeletes;

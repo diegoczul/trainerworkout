@@ -370,7 +370,7 @@ class WorkoutsController extends BaseController {
 		$total = 0;
 		if($workout){
 			if($request->get("subscribeToWorkout") == "true"){
-				$childWorkouts = Workouts::select("id")->where("master",$workout->id)->where("authorId",$workout->authorId)->lists("id");
+				$childWorkouts = Workouts::select("id")->where("master",$workout->id)->where("authorId",$workout->authorId)->pluck("id");
 				$updates = UserUpdates::where("trainerId",Auth::user()->id)->where(function($query) use($workout,$childWorkouts){ $query->orWhere("auxId", $workout->id); $query->orWhereIn("auxId",$childWorkouts); })->where("type","workout")->get();
 				foreach($updates as $update){
 					if($update){
@@ -394,7 +394,7 @@ class WorkoutsController extends BaseController {
 
 				return $this->responseJson(__("messages.SubscribedToWorkout",array("workouts"=>$total)));
 			} else{
-				$childWorkouts = Workouts::select("id")->where("master",$workout->id)->where("authorId",$workout->authorId)->lists("id");
+				$childWorkouts = Workouts::select("id")->where("master",$workout->id)->where("authorId",$workout->authorId)->pluck("id");
 				$updates = UserUpdates::where("trainerId",Auth::user()->id)->where(function($query) use($workout,$childWorkouts){ $query->orWhere("auxId", $workout->id); $query->orWhereIn("auxId",$childWorkouts); })->where("type","workout")->get();
 				foreach($updates as $update){
 					if($update){
@@ -1912,7 +1912,7 @@ class WorkoutsController extends BaseController {
 		}
 
 		if(!Notifications::checkIfTrainerNotifiedTodayWorkout($user->id,null)){
-			$trainers = Clients::where("userId",$user)->distinct()->lists("trainerId");
+			$trainers = Clients::where("userId",$user)->distinct()->pluck("trainerId");
 			if(count($trainers > 0)){
 				foreach($trainers as $trainer){
 					Notifications::insertDynamicNotification(__("messages.TraineeCompleted"),$trainer,$user->id,array(),false);
@@ -3036,7 +3036,7 @@ class WorkoutsController extends BaseController {
 	}
 
 
-	public function APIexerciseCompleted(Request $request){
+	public function APIExerciseCompleted(Request $request){
 		$user = Auth::user();
 		$workoutsExercisesId = $request->get("workoutsExercisesId");
 		$workoutExercise = WorkoutsExercises::find($workoutsExercisesId);
@@ -3046,14 +3046,13 @@ class WorkoutsController extends BaseController {
 			$setFetched = $set;
 			if($setFetched){
 
-				if(array_key_exists("weight",$set)) $setFetched->weight = $set["weight"];
-				if(array_key_exists("weight",$set)) $setFetched->weightKG = Helper::formatWeight($set["weight"]/2.2);
-				if(array_key_exists("reps",$set)) $setFetched->reps = $set["reps"];
-				if(array_key_exists("rest",$set)) $setFetched->rest = $set["rest"];
-
-				if(array_key_exists("speed",$set)) $setFetched->speed = $set["speed"];
-				if(array_key_exists("time",$set)) $setFetched->time = $set["time"];
-				if(array_key_exists("distance",$set)) $setFetched->distance = $set["distance"];
+				if(isset($set["weight"])) $setFetched->weight = $set["weight"];
+				if(isset($set["weight"])) $setFetched->weightKG = Helper::formatWeight($set["weight"]/2.2);
+				if(isset($set["reps"])) $setFetched->reps = $set["reps"];
+				if(isset($set["rest"])) $setFetched->rest = $set["rest"];
+				if(isset($set["speed"])) $setFetched->speed = $set["speed"];
+				if(isset($set["time"])) $setFetched->time = $set["time"];
+				if(isset($set["distance"])) $setFetched->distance = $set["distance"];
 				//$set->hr = $set["hr"];
 				$setFetched->save();
 
@@ -3087,8 +3086,8 @@ class WorkoutsController extends BaseController {
 		}
 
 		if(!Notifications::checkIfTrainerNotifiedTodayWorkout($user->id,null)){
-			$trainers = Clients::where("userId",$user)->distinct()->lists("trainerId");
-			if(count($trainers > 0)){
+			$trainers = Clients::where("userId",$user)->distinct()->pluck("trainerId")->toArray();
+			if(!empty($trainers)){
 				foreach($trainers as $trainer){
 					Notifications::insertDynamicNotification(__("messages.TraineeCompleted"),$trainer,$user->id,array(),false);
 				}
@@ -3098,7 +3097,6 @@ class WorkoutsController extends BaseController {
 		$result = Helper::APIOK();
 		$result["message"] = __("messages.ExerciseCompleted");
 		return $result;
-
 	}
 
 	public function APIworkoutCompleted(Request $request){

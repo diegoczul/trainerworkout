@@ -269,7 +269,7 @@ class Workouts extends Model
         $index = 0;
 
         foreach ($exercises as $exercise) {
-            $images[$index] = $exercise->exercises->image;
+            $images[$index] = asset($exercise->exercises->image);
             $index++;
             if ($index > 5) {
                 break;
