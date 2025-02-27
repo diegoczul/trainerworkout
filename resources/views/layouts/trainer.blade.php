@@ -378,18 +378,18 @@
 @if($errors->any())
         <?php $message = ""; ?>
     @foreach ($errors->all() as $error)
-            <?php $message .= $error . "</br>"; ?>
+        <?php $message .= $error . "</br>"; ?>
     @endforeach
-    <script>errorMessage("{{ $message }}")</script>
+    <script>errorMessage("{!! $message !!}")</script>
 @endif
 @if(Session::has("message"))
-    <script>successMessage("{{ Session::get("message") }}")</script>
+    <script>successMessage("{!! Session::get("message") !!}")</script>
 @endif
 @if(isset($message))
-    <script>successMessage("{{ $message }}")</script>
+    <script>successMessage("{!! $message !!}")</script>
 @endif
 @if(Session::has("error"))
-    <script>errorMessage("{{ Session::get("error") }}")</script>
+    <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif
 <script>
     @if(Config::get("app.debug"))

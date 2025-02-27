@@ -247,19 +247,19 @@
                         <div class="plan-b">
                             <h4>{{ Lang::get("content.Number of Employees") }}</h4>
                             <h2>{{ Lang::get("content.Per Trainer Pricing") }}</h2>
-                            <p>{{ Lang::get("content.The more trainer the less expensive it becomes") }}</p>
+                            <p>{!! Lang::get("content.The more trainer the less expensive it becomes") !!}</p>
                             <!-- <a href="{{ Lang::get("routes./TrainerSignUp") }}">{{ Lang::get("content.Start Free Trial") }}</a> -->
                         </div>
                         <div class="plan-a">
                             <h4>{{ Lang::get("content.Do you want control") }}?</h4>
                             <h2>{{ Lang::get("content.Management Module") }}</h2>
-                            <p>{{ Lang::get("content.Monthly Fixed Fee<br>(optional)") }}</p>
+                            <p>{!! Lang::get("content.Monthly Fixed Fee<br>(optional)") !!}</p>
                             <!-- <a href='mailto:corinne@trainerworkout.com'">Contact Us</a> -->
                         </div>
                         <div class="plan-b">
                             <h4>{{ Lang::get("content.Branding Options") }}</h4>
                             <h2>{{ Lang::get("content.Varies based on selected options") }}</h2>
-                            <p>{{ Lang::get("content.Options range from simple logo to full on white label<br>(optional)") }}</p>
+                            <p>{!! Lang::get("content.Options range from simple logo to full on white label<br>(optional)") !!}</p>
                             <!-- <a href="mailto:corinne@traierworkout.com">Contact Us</a> -->
                         </div>
                     </div>

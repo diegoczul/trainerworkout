@@ -2960,12 +2960,11 @@ class WorkoutsController extends BaseController {
 
 	public function APIsaveSingleSet(Request $request){
 		$set = Sets::find($request->get("id"));
-
 		if($set){
 			if($request->get("type") != "cardio"){
 				$set->weight = $request->get("weight");
 				$set->weightKG = Helper::formatWeight($set->weight/2.2);
-				$set->reps = $request->get("rep");
+				$set->reps = $request->get("reps");
 				$set->completed = 1;
 			} else {
 				$set->distance = $request->get("distance");

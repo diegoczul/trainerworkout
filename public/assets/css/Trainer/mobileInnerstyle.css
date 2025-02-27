@@ -2702,7 +2702,7 @@ nav {
           right: 68px; } }
       @media (min-width: 975px) {
         .onboardingCreateWorkoutContainer a.twoWorkout::after {
-          content: url("/img/svg/onboardingCWarrow2.svg");
+          content: url("/assets/img/svg/onboardingCWarrow2.svg");
           bottom: 64px; } }
 
 @media screen and (min-width: 650px) and (max-width: 975px) {
