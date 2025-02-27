@@ -15,7 +15,7 @@ use App\Models\Exercises;
 use App\Models\ExercisesEquipments;
 use App\Models\ExercisesUser;
 use App\Models\Equipments;
-use App\Models\Bodygroups;
+use App\Models\BodyGroups;
 use App\Models\Exercisestypes;
 use App\Models\Tags;
 use Illuminate\Support\Facades\Config;
@@ -44,7 +44,7 @@ class ExercisesController extends BaseController
 
         $tags = Tags::where("userId", $userId)->get();
 
-        return View::make(Helper::userTypeFolder(Auth::user()->userType) . ".addExercise")->with("bodygroups", Exercises::getBodyGroupsList())->with("equipments", Equipments::orderBy("name")->pluck("name", "id"))->with("tags", $tags)->with("bodyGroups", Bodygroups::select("id", "name")->orderBy("name")->get())->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())->with("exercisesTypes", Exercisestypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
+        return View::make(Helper::userTypeFolder(Auth::user()->userType) . ".addExercise")->with("bodygroups", Exercises::getBodyGroupsList())->with("equipments", Equipments::orderBy("name")->pluck("name", "id"))->with("tags", $tags)->with("bodyGroups", BodyGroups::select("id", "name")->orderBy("name")->get())->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())->with("exercisesTypes", Exercisestypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
     }
 
     public function editExercise(Request $request, $id)
@@ -62,7 +62,7 @@ class ExercisesController extends BaseController
 
             $tags = Tags::where("userId", $userId)->get();
 
-            return View::make(Helper::userTypeFolder(Auth::user()->userType) . ".editExercise")->with("bodygroups", Exercises::getBodyGroupsList())->with("equipments", Equipments::orderBy("name")->pluck("name", "id"))->with("tags", $tags)->with("exercise", $exercise)->with("equipmentsSelected", $equipmentsSelected)->with("equipmentsSelectedOptional", $equipmentsSelectedOptional)->with("bodyGroups", Bodygroups::select("id", "name")->orderBy("name")->get())->with("exercisesTypes", Exercisestypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
+            return View::make(Helper::userTypeFolder(Auth::user()->userType) . ".editExercise")->with("bodygroups", Exercises::getBodyGroupsList())->with("equipments", Equipments::orderBy("name")->pluck("name", "id"))->with("tags", $tags)->with("exercise", $exercise)->with("equipmentsSelected", $equipmentsSelected)->with("equipmentsSelectedOptional", $equipmentsSelectedOptional)->with("bodyGroups", BodyGroups::select("id", "name")->orderBy("name")->get())->with("exercisesTypes", Exercisestypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
         }
 
         return redirect()->back()->withErrors(Lang::get("messages.Oops"));
@@ -166,7 +166,7 @@ class ExercisesController extends BaseController
             $this->pageSize = $request->get("pageSize") + $this->pageSize;
         }
 
-        return View::make("trainer.exercises")->with("exercises", Exercises::where("userId", $userId)->orderBy('created_at', 'DESC')->take($this->pageSize)->get())->with("permissions", $permissions)->with("bodyGroups", Bodygroups::select("id", "name")->orderBy("name")->get())->with("bodygroups", Bodygroups::orderBy("name")->pluck("name", "id"))->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())->with("equipmentsList", Equipments::pluck("name", "id"))->with("exercisesTypes", Exercisestypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
+        return View::make("trainer.exercises")->with("exercises", Exercises::where("userId", $userId)->orderBy('created_at', 'DESC')->take($this->pageSize)->get())->with("permissions", $permissions)->with("bodyGroups", BodyGroups::select("id", "name")->orderBy("name")->get())->with("bodygroups", BodyGroups::orderBy("name")->pluck("name", "id"))->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())->with("equipmentsList", Equipments::pluck("name", "id"))->with("exercisesTypes", Exercisestypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
     }
 
     public function index(Request $request)

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Helper;
 use App\Http\Libraries\Messages;
-use App\Models\Bodygroups;
+use App\Models\BodyGroups;
 use App\Models\Exercises;
 use App\Models\TemplateSets;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +29,7 @@ class BodyGroupsController extends BaseController
 
     public function _ApiList()
     {
-        $response = Bodygroups::orderBy('name', 'ASC')->latest();
+        $response = BodyGroups::orderBy('name', 'ASC')->latest();
         return DataTables::eloquent($response)
             ->addIndexColumn()
             ->make(true);
@@ -45,12 +45,12 @@ class BodyGroupsController extends BaseController
 
     public function _create(Request $request)
     {
-        $validation = Bodygroups::validate($request->all());
+        $validation = BodyGroups::validate($request->all());
         if ($validation->fails()) {
             return $this->responseJsonErrorValidation($validation->messages());
         }
 
-        $bodygroup = new Bodygroups;
+        $bodygroup = new BodyGroups;
         $bodygroup->name = $request->get('name');
         $bodygroup->description = $request->get('description');
         $bodygroup->save();
@@ -60,17 +60,17 @@ class BodyGroupsController extends BaseController
 
     public function _show(int $bodygroup)
     {
-        return Bodygroups::find($bodygroup);
+        return BodyGroups::find($bodygroup);
     }
 
     public function _update(int $id)
     {
-        $validation = Bodygroups::validate(request()->all());
+        $validation = BodyGroups::validate(request()->all());
         if ($validation->fails()) {
             return $this->responseJsonErrorValidation($validation->messages());
         }
 
-        $bodygroup = Bodygroups::find($id);
+        $bodygroup = BodyGroups::find($id);
         $bodygroup->name = request('name');
         $bodygroup->description = request('description');
         $bodygroup->save();
@@ -80,7 +80,7 @@ class BodyGroupsController extends BaseController
 
     public function _destroy(int $id): JsonResponse
     {
-        $bodygroup = Bodygroups::find($id);
+        $bodygroup = BodyGroups::find($id);
         $bodygroup->delete();
 
         return $this->responseJson(Messages::showControlPanel('BodygroupDeleted'));

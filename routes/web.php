@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\auth\FacebookController;
 use App\Http\Controllers\web\AppointmentsController;
 use App\Http\Controllers\web\AvailabilitiesController;
 use App\Http\Controllers\web\BodyGroupsController;
@@ -763,5 +764,10 @@ use Illuminate\Support\Facades\Route;
 
     Route::get('translationtest', function () {
         return view('translation');
+    });
+
+    Route::controller(FacebookController::class)->group(function(){
+        Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
+//        Route::get('auth/facebook/callback', 'handleFacebookCallback');
     });
 //});

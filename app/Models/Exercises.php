@@ -269,7 +269,7 @@ class Exercises extends Model implements TranslatableContract
 
     public function bodygroup()
     {
-        return $this->belongsTo(Bodygroups::class, "bodygroupId", "id");
+        return $this->belongsTo(BodyGroups::class, "bodygroupId", "id");
     }
 
     public function exercisesTypes()

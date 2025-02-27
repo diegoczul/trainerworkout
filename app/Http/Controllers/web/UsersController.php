@@ -37,9 +37,9 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use UsersSettings;
 use Yajra\DataTables\Facades\DataTables;
 
