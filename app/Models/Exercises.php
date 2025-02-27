@@ -274,7 +274,7 @@ class Exercises extends Model implements TranslatableContract
 
     public function exercisesTypes()
     {
-        return $this->hasMany(ExercisesExercisestypes::class, "exerciseId", "id")->with("exercisestypes");
+        return $this->hasMany(ExercisesExercisesTypes::class, "exerciseId", "id")->with("exercisestypes");
     }
 
     public function bodygroupsOptional()

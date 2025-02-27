@@ -18,6 +18,9 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
+public/images
 public/images/*
-public/users/*
+public/public
 public/public/*
+docker
+docker/*

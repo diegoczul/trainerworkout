@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Messages;
-use App\Models\Exercisestypes;
+use App\Models\ExercisesTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,7 +25,7 @@ class ExercisestypesController extends BaseController
 
     public function _ApiList()
     {
-        $response = Exercisestypes::orderBy("name", "ASC")->latest();
+        $response = ExercisesTypes::orderBy("name", "ASC")->latest();
         return DataTables::eloquent($response)
             ->addIndexColumn()
             ->make(true);
@@ -42,11 +42,11 @@ class ExercisestypesController extends BaseController
 
     public function _create(Request $request)
     {
-        $validation = Exercisestypes::validate($request->all());
+        $validation = ExercisesTypes::validate($request->all());
         if ($validation->fails()) {
             return $this->responseJsonErrorValidation($validation->messages());
         } else {
-            $object = new Exercisestypes;
+            $object = new ExercisesTypes;
             $object->name = $request->get("name");
             $object->save();
 
@@ -56,16 +56,16 @@ class ExercisestypesController extends BaseController
 
     public function _show($object)
     {
-        return Exercisestypes::find($object);
+        return ExercisesTypes::find($object);
     }
 
     public function _update(Request $request, $id)
     {
-        $validation = Exercisestypes::validate($request->all());
+        $validation = ExercisesTypes::validate($request->all());
         if ($validation->fails()) {
             return $this->responseJsonErrorValidation($validation->messages());
         } else {
-            $object = Exercisestypes::find($id);
+            $object = ExercisesTypes::find($id);
             $object->name = $request->get("name");
             $object->save();
 
@@ -75,7 +75,7 @@ class ExercisestypesController extends BaseController
 
     public function _destroy($id)
     {
-        $object = Exercisestypes::find($id);
+        $object = ExercisesTypes::find($id);
         $object->delete();
 
         return $this->responseJson(Messages::showControlPanel("FieldDeleted"));

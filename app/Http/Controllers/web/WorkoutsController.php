@@ -1582,7 +1582,7 @@ class WorkoutsController extends BaseController {
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
-			->with("exercisesTypes",Exercisestypes::select("id","name")->orderBy("name")->get())
+			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
 			->with("total",Workouts::where("userId","=",$userId)->count());
 	}
 
@@ -1640,7 +1640,7 @@ class WorkoutsController extends BaseController {
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
 			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
-			->with("exercisesTypes",Exercisestypes::select("id","name")->orderBy("name")->get())
+			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
 			->with("total",Workouts::where("userId","=",$userId)->count());
 
 
@@ -1687,7 +1687,7 @@ class WorkoutsController extends BaseController {
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
 			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
-			->with("exercisesTypes",Exercisestypes::select("id","name")->orderBy("name")->get())
+			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
 			->with("total",Workouts::where("userId","=",$userId)->count());
 
 
@@ -1762,7 +1762,7 @@ class WorkoutsController extends BaseController {
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
-			->with("exercisesTypes",Exercisestypes::select("id","name")->orderBy("name")->get())
+			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
 			->with("total",Workouts::where("userId","=",$userId)->count());
 	}
 
