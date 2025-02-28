@@ -18,6 +18,7 @@
                 <form action="{{ __("routes./login") }}" method="post" id="login_form">
                     @csrf
                     <a href="{{ __('routes./login/facebook') }}" class="facebook">{{ __("content.frontEnd/facebooklogin") }}</a>
+                    <a href="{{ route('auth.google') }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
                     <div class="accountOr">
                         <hr><span>or</span><hr>
                     </div>

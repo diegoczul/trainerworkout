@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\auth\FacebookController;
+use App\Http\Controllers\auth\SocialOAuthController;
 use App\Http\Controllers\web\AppointmentsController;
 use App\Http\Controllers\web\AvailabilitiesController;
 use App\Http\Controllers\web\BodyGroupsController;
@@ -766,11 +766,12 @@ use Illuminate\Support\Facades\Route;
         return view('translation');
     });
 
-    Route::controller(FacebookController::class)->group(function(){
+    Route::controller(SocialOAuthController::class)->group(function(){
         Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
 //        Route::get('auth/facebook/callback', 'handleFacebookCallback');
 
         Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
+        Route::get('auth/google/callback', 'handleGoogleCallback')->name('auth.google-callback');
 
     });
 //});
