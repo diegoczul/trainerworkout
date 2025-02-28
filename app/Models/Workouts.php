@@ -234,7 +234,9 @@ class Workouts extends Model
 
     public function getExercises()
     {
-        return WorkoutsExercises::with("exercises")
+        return WorkoutsExercises::with(["exercises" => function ($query) {
+                $query->select("id", "bodygroupId", "userId", "name", "description", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
+            }])
             ->where("workoutId", $this->id)
             ->orderBy("order");
     }

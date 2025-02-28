@@ -31,6 +31,26 @@ class Exercises extends Model implements TranslatableContract
         "equipment" => "max:500",
     ];
 
+
+    public function getImageUrlAttribute($value)
+    {
+        return $value ? asset($value) : null;
+    }
+
+    public function getImage2UrlAttribute($value)
+    {
+        return $value ? asset($value) : null;
+    }
+    public function getThumbUrlAttribute($value)
+    {
+        return $value ? asset($value) : null;
+    }
+
+    public function getThumb2UrlAttribute($value)
+    {
+        return $value ? asset($value) : null;
+    }
+
     public function editPermissions($user = null)
     {
         if (!$user) $user = Auth::user();

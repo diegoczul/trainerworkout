@@ -3127,10 +3127,8 @@ class WorkoutsController extends BaseController {
 		$sets = $request->get("sets");
 
 		foreach($sets as $set){
-
-			$setFetched = Sets::find($set["idSet"]);
+			$setFetched = Sets::find($set["id"]);
 			if($setFetched){
-
 				if(array_key_exists("weight",$set)) $setFetched->weight = $set["weight"];
 				if(array_key_exists("weight",$set)) $setFetched->weightKG = Helper::formatWeight($set["weight"]/2.2);
 				if(array_key_exists("reps",$set)) $setFetched->reps = $set["reps"];
