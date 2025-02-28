@@ -12,4 +12,9 @@ class FacebookController extends Controller
     {
         return Socialite::driver('facebook')->redirect();
     }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
 }

@@ -769,5 +769,8 @@ use Illuminate\Support\Facades\Route;
     Route::controller(FacebookController::class)->group(function(){
         Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
 //        Route::get('auth/facebook/callback', 'handleFacebookCallback');
+
+        Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
+
     });
 //});
