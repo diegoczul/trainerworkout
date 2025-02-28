@@ -1266,6 +1266,7 @@ class UsersController extends BaseController
             $result["message"] = Lang::get("messages.Welcome");
             $result["data"] = Auth::guard('api')->user();
             $result["data"]['token'] = $token;
+            $result["data"]['remember_token'] = $token;
             $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
             $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             return $result;
@@ -1290,6 +1291,7 @@ class UsersController extends BaseController
             $result["message"] = Lang::get("messages.Welcome");
             $result["data"] = Auth::guard('api')->user();
             $result["data"]['token'] = $token;
+            $result["data"]['remember_token'] = $token;
             $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
             $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             return $result;
@@ -1328,6 +1330,7 @@ class UsersController extends BaseController
             $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
             $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             $result["data"]['token'] = $token;
+            $result["data"]['remember_token'] = $token;
             $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "desc")->get();
             $result["data"]["objectives"] = Objectives::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "desc")->get();
             $result["status"] = "ok";
@@ -1369,6 +1372,7 @@ class UsersController extends BaseController
             $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
             $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             $result["data"]["token"] = $token;
+            $result["data"]['remember_token'] = $token;
             $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "DESC")->get();
             $result["data"]["objectives"] = Objectives::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "DESC")->get();
             $result["status"] = "ok";
