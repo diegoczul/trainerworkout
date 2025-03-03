@@ -1,11 +1,13 @@
 <?php
 
+use Spatie\Newsletter\Drivers\MailChimpDriver;
+
 return [
 
     /*
      * The driver to use to interact with MailChimp API.
      */
-    'driver' => 'mailchimp',
+    'driver' => MailChimpDriver::class,
 
     /*
      * Mailchimp API settings
