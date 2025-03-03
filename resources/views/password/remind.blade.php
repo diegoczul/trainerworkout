@@ -14,7 +14,7 @@
                 <a href="javascript:void(0)" onclick="submitForm()" class="submit">{{ __("content.remind/get") }}</a>
                 <a href="{{ __("routes./login") }}" class="forgot_password">{{ __("content.remind/back") }} </a>
                 <a href="{{ __('routes./login/facebook') }}" class="facebook">{{ __("content.frontEnd/facebooklogin") }}</a>
-                <a href="{{ route('auth.google') }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
+                <a href="{{ route('auth.google',['agent' => \Jenssegers\Agent\Facades\Agent::deviceType()]) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
                 {{ Form::close() }}
             </div>
         </div>

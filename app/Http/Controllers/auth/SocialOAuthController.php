@@ -25,14 +25,19 @@ class SocialOAuthController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function redirectToGoogle()
+    public function redirectToGoogle($agent)
     {
-        return Socialite::driver('google')->with(['prompt' => 'select_account'])->redirect();
+        return Socialite::driver('google')
+            ->with(['prompt' => 'select_account', 'redirect_uri' => route('auth.google-callback',['agent' => $agent])])
+            ->redirect();
     }
 
-    public function handleGoogleCallback(Request $request)
+    public function handleGoogleCallback(Request $request,$agent)
     {
-        $socialAuth = Socialite::driver('google')->stateless()->user();
+        $socialAuth = Socialite::driver('google')
+            ->with(['prompt' => 'select_account', 'redirect_uri' => route('auth.google-callback',['agent' => $agent])])
+            ->stateless()
+            ->user();
 
         $user = Users::where('email', $socialAuth->user['email'])->first();
         if(!$user){
@@ -77,15 +82,25 @@ class SocialOAuthController extends Controller
             }
 
             if (Session::has('redirect') && Session::get('redirect') != '') {
-                if (!Auth::user()->membership) {
-                    Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                if($agent == 'phone' || $agent == 'tablet'){
+                    $email = $user->email;
+                    return redirect()->away("app://dev.trainer-workout.com/google-auth?email=$email");
+                }else{
+                    if (!Auth::user()->membership) {
+                        Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                    }
+                    return redirect()->route(Session::get('redirect'));
                 }
-                return redirect()->route(Session::get('redirect'));
             } else {
-                if (!Auth::user()->membership) {
-                    Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                if($agent == 'phone' || $agent == 'tablet'){
+                    $email = $user->email;
+                    return redirect()->away("app://dev.trainer-workout.com/google-auth?email=$email");
+                }else{
+                    if (!Auth::user()->membership) {
+                        Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                    }
+                    return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->with('message', __('messages.Welcome'));
                 }
-                return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->with('message', __('messages.Welcome'));
             }
         }else{
             Auth::loginUsingId($user->id);
@@ -101,8 +116,13 @@ class SocialOAuthController extends Controller
                 App::setLocale(Session::get('lang', 'en'));
             }
 
-            $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
-            return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+            if($agent == 'phone' || $agent == 'tablet'){
+                $email = $user->email;
+                return redirect()->away("app://dev.trainer-workout.com/google-auth?email=$email");
+            }else{
+                $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
+                return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+            }
         }
     }
 }

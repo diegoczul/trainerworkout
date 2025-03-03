@@ -16,7 +16,7 @@
             <div class="accountAction_container">
                 {{ Form::open(array('url' => Lang::get("routes./Trainer/SignUp"), "id"=>"login_form")) }}
                 <a href="{{ Lang::get('routes./login/facebook') }}" class="facebook">{{ Lang::get("content.frontEnd/facebooklogin") }}</a>
-                <a href="{{ route('auth.google') }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
+                <a href="{{ route('auth.google',['agent' => \Jenssegers\Agent\Facades\Agent::deviceType()]) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
                 <div class="accountOr"><hr><span>or</span><hr></div>
                 <label for="firstName">{{ Lang::get("content.First Name") }}</label>
                 <input type="text" name="firstName" id="firstName" required placeholder="{{ Lang::get("content.First Name") }}" value="{{ request()->old("firstName") }}"/>

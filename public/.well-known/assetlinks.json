@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.trainerworkout.app",
+      "sha256_cert_fingerprints":
+      ["6A:31:A2:4A:B0:CF:27:E4:33:24:9C:CD:2C:59:4C:4D:90:4C:AC:D4:02:FB:E0:DB:FE:2D:21:C7:F3:A2:76:76"]
+    }
+  }
+]
