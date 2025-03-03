@@ -25,3 +25,4 @@ public/public/*
 docker
 docker/*
 .dockerigonre
+.env.production

@@ -243,6 +243,7 @@ class WeightsController extends BaseController
                     Feeds::insertFeed("NewWeight", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
                     $return = Helper::APIOK();
                     $return["message"] = Lang::get("messages.WeightUpdated");
+                    $return['data'] = $weights;
                     return $return;
                 }
             }
@@ -293,6 +294,7 @@ class WeightsController extends BaseController
                 Feeds::insertFeed("NewWeight", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
                 $return = Helper::APIOK();
                 $return["message"] = Lang::get("messages.WeightAdded");
+                $return['data'] = $weights;
                 return $return;
             }
         } else {

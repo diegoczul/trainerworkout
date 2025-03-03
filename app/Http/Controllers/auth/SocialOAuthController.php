@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use Spatie\Newsletter\Facades\Newsletter;
 
 class SocialOAuthController extends Controller
 {
@@ -54,7 +55,8 @@ class SocialOAuthController extends Controller
 
             try {
                 if (!Config::get('app.debug')) {
-                    MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
+                    Newsletter::subscribe($user->email,[],'trainer');
+//                    MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
                 }
             } catch (Exception $e) {
                 Log::error("MAILCHIMP Error");

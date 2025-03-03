@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use Spatie\Newsletter\Facades\Newsletter;
 use UsersSettings;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -237,11 +238,13 @@ class UsersController extends BaseController
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
         } else {
-            MailchimpWrapper::lists()->subscribe(config("constants.mailChimpNewsletter"), [
-                'email' => request("email"),
-                'email_address' => request("status"),
-                'email' => "subscribed"
-            ]);
+            Newsletter::subscribe($request->get("email"),[],'trainer');
+
+//            MailchimpWrapper::lists()->subscribe(config("constants.mailChimpNewsletter"), [
+//                'email' => request("email"),
+//                'email_address' => request("status"),
+//                'email' => "subscribed"
+//            ]);
             return $this->responseJson(__('messages.newsletter'));
         }
     }
@@ -591,10 +594,11 @@ class UsersController extends BaseController
         Feeds::insertFeed('SignUp', Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
-            MailchimpWrapper::lists()->subscribe(config('constants.mailChimpTrainees'), [
-                'email' => request('email'),
-                'status' => 'subscribed',
-            ]);
+            Newsletter::subscribe($request->get("email"),[],'trainee');
+//            MailchimpWrapper::lists()->subscribe(config('constants.mailChimpTrainees'), [
+//                'email' => request('email'),
+//                'status' => 'subscribed',
+//            ]);
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -636,7 +640,8 @@ class UsersController extends BaseController
 
         try {
             if (!Config::get('app.debug')) {
-                MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
+                Newsletter::subscribe($user->email,[],'trainer');
+//                MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
             }
         } catch (Exception $e) {
             Log::error("MAILCHIMP Error");
@@ -748,10 +753,11 @@ class UsersController extends BaseController
         Feeds::insertFeed("SignUp", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
-            MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), [
-                'email' => $request->get('email'),
-                'status' => 'subscribed',
-            ]);
+            Newsletter::subscribe($request->get("email"),[],'trainer');
+//            MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), [
+//                'email' => $request->get('email'),
+//                'status' => 'subscribed',
+//            ]);
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -1188,7 +1194,8 @@ class UsersController extends BaseController
 
             if ($user->userType == "Trainer") {
                 try {
-                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
+                    Newsletter::subscribe($request->get("email"),[],'trainer');
+//                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1196,7 +1203,8 @@ class UsersController extends BaseController
             } else {
                 $user->freebesTrainee();
                 try {
-                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
+                    Newsletter::subscribe($request->get("email"),[],'trainee');
+//                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
                 } catch (Exception $e) {
                     Log::error($e);
                 }
