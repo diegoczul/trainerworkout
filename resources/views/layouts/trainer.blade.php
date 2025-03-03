@@ -385,9 +385,6 @@
 @if(Session::has("message"))
     <script>successMessage("{!! Session::get("message") !!}")</script>
 @endif
-@if(isset($message))
-    <script>successMessage("{!! $message !!}")</script>
-@endif
 @if(Session::has("error"))
     <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif

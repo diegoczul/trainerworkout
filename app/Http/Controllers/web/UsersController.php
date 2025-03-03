@@ -927,6 +927,8 @@ class UsersController extends BaseController
             "firstName" => "required|min:2",
             "lastName" => "required|min:2",
             "password" => "nullable",
+            "image" => "sometimes|image|mimes:jpeg,png,jpg",
+            "logo" => "sometimes|image|mimes:jpeg,png,jpg",
             "password_confirmation" => "same:password",
             "email" => Auth::user()->email != $request->get("email") ? "required|email|unique:users,email,NULL,id,deleted_at,NULL" : "required|email"
         ];

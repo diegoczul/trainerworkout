@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -144,6 +145,12 @@ class SystemController extends BaseController
 
     public function sendFeedback(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+           'feedback' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $feedback = $request->get("feedback");
         $date = now()->toDateString();
         $user = Auth::user();

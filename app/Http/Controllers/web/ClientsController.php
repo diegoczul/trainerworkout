@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Ramsey\Uuid\Uuid;
 
 class ClientsController extends BaseController
@@ -256,7 +257,10 @@ class ClientsController extends BaseController
 
     public function addClientTrainer(Request $request)
     {
-        $validation = Validator::make($request->all(), ["firstName" => "required"]);
+        $validation = Validator::make($request->all(), [
+            "firstName" => "required",
+            'email' => ['required','email',Rule::unique('users','email')->whereNull("deleted_at")],
+        ]);
 
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
