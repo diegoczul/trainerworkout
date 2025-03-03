@@ -299,7 +299,7 @@ class Exercises extends Model implements TranslatableContract
 
     public function bodygroupsOptional()
     {
-        return $this->hasMany(ExercisesBodygroups::class, "exerciseId", "id")->with("bodygroup");
+        return $this->hasMany(ExercisesBodyGroups::class, "exerciseId", "id")->with("bodygroup");
     }
 
     public static function getExercisesTypesList()

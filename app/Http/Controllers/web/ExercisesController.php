@@ -899,21 +899,21 @@ class ExercisesController extends BaseController
     private function updateBodyGroups($exerciseId, $request)
     {
         if ($request->has('bodygroupsOptional')) {
-            $currentBodyGroups = ExercisesBodygroups::where('exerciseId', $exerciseId)->pluck('bodygroupId')->toArray();
+            $currentBodyGroups = ExercisesBodyGroups::where('exerciseId', $exerciseId)->pluck('bodygroupId')->toArray();
 
             $newBodyGroups = $request->get('bodygroupsOptional');
             $toDelete = array_diff($currentBodyGroups, $newBodyGroups);
             $toAdd = array_diff($newBodyGroups, $currentBodyGroups);
 
-            ExercisesBodygroups::where('exerciseId', $exerciseId)->whereIn('bodygroupId', $toDelete)->delete();
+            ExercisesBodyGroups::where('exerciseId', $exerciseId)->whereIn('bodygroupId', $toDelete)->delete();
 
             foreach ($toAdd as $bodyGroup) {
                 if (!empty($bodyGroup) && $bodyGroup != 0) {
-                    ExercisesBodygroups::create(['exerciseId' => $exerciseId, 'bodygroupId' => $bodyGroup,]);
+                    ExercisesBodyGroups::create(['exerciseId' => $exerciseId, 'bodygroupId' => $bodyGroup,]);
                 }
             }
         } else {
-            ExercisesBodygroups::where('exerciseId', $exerciseId)->delete();
+            ExercisesBodyGroups::where('exerciseId', $exerciseId)->delete();
         }
     }
 
