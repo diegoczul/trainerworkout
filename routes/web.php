@@ -73,7 +73,7 @@ use Illuminate\Support\Facades\Route;
     //|--------------------------------------------------------------------------
 
     // LOGIN VIEW
-    Route::get(__('routes./login'), fn () => view(Helper::translateOverride('login')))->name('login');
+    Route::get(__('routes./login'), fn () => view(Helper::translateOverride('login')))->name('login')->middleware('guest');
     Route::get(__('routes./logout'), [UsersController::class, 'logout']);
     Route::delete(__('routes./delete-account').'/{user}', [UsersController::class, 'destroy']);
     Route::post(__('routes./login'), [UsersController::class, 'login']);
