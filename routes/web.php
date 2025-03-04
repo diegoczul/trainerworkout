@@ -772,7 +772,7 @@ use Illuminate\Support\Facades\Route;
 //        Route::get('auth/facebook/callback', 'handleFacebookCallback');
 
         Route::get('auth/google/agent/{agent}', 'redirectToGoogle')->name('auth.google');
-        Route::get('auth/google/callback/{agent}', 'handleGoogleCallback')->name('auth.google-callback');
+        Route::get('auth/google/callback/', 'handleGoogleCallback')->name('auth.google-callback');
 
     });
 //});
