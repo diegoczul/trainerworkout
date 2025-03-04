@@ -35,7 +35,6 @@ class SocialOAuthController extends Controller
     public function handleGoogleCallback(Request $request)
     {
         $socialAuth = Socialite::driver('google')
-            ->with(['prompt' => 'select_account'])
             ->stateless()
             ->user();
 
