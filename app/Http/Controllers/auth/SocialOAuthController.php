@@ -84,7 +84,7 @@ class SocialOAuthController extends Controller
             if (Session::has('redirect') && Session::get('redirect') != '') {
                 if($agent == 'phone' || $agent == 'tablet'){
                     $email = $user->email;
-                    return redirect()->away("app://dev.trainer-workout.com/google-auth?email=$email");
+                    return redirect()->away("intent://dev.trainer-workout.com/google-auth?email=$email");
                 }else{
                     if (!Auth::user()->membership) {
                         Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
@@ -94,7 +94,7 @@ class SocialOAuthController extends Controller
             } else {
                 if($agent == 'phone' || $agent == 'tablet'){
                     $email = $user->email;
-                    return redirect()->away("app://dev.trainer-workout.com/google-auth?email=$email");
+                    return redirect()->away("intent://dev.trainer-workout.com/google-auth?email=$email");
                 }else{
                     if (!Auth::user()->membership) {
                         Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
@@ -118,7 +118,7 @@ class SocialOAuthController extends Controller
 
             if($agent == 'phone' || $agent == 'tablet'){
                 $email = $user->email;
-                return redirect()->away("app://dev.trainer-workout.com/google-auth?email=$email");
+                return redirect()->away("intent://dev.trainer-workout.com/google-auth?email=$email");
             }else{
                 $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
                 return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
