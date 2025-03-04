@@ -837,6 +837,31 @@ class UsersController extends BaseController
         return redirect()->back()->withInput()->withErrors(__('messages.WrongLogin'));
     }
 
+
+    public function loginWithEmail(Request $request)
+    {
+        $email = $request->get('email');
+        $user = Users::where('email', $email)->first();
+        if (!$user) {
+            return redirect()->route('login')->with('clear_db',true);
+        }
+        Auth::loginUsingId($user->id);
+        $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
+
+        event('login', [$user]);
+
+        setcookie("TrainerWorkoutUserId", Crypt::encrypt($user->id), time() + (86400 * 30 * 7), "/");
+
+        if ($user->lang) {
+            App::setLocale($user->lang);
+        } else {
+            App::setLocale(Session::get('lang', 'en'));
+        }
+
+        $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
+        return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+    }
+
     public function store()
     {
         //

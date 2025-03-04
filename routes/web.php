@@ -77,6 +77,7 @@ use Illuminate\Support\Facades\Route;
     Route::get(__('routes./logout'), [UsersController::class, 'logout']);
     Route::delete(__('routes./delete-account').'/{user}', [UsersController::class, 'destroy']);
     Route::post(__('routes./login'), [UsersController::class, 'login']);
+    Route::get('login-with-email', [UsersController::class, 'loginWithEmail'])->name('login-with-email');
     Route::post(__('routes./registerNewsletter'), [UsersController::class, 'registerNewsletter']);
     Route::get(__('routes./login/facebook'), [UsersController::class, 'loginFacebook']);
     Route::get(__('routes./login/trainee/facebook').'/{param1}', [UsersController::class, 'loginTraineeFacebook']);

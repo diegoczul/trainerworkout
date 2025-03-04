@@ -185,7 +185,6 @@
     <script>callWidget("w_workouts");</script>
     <script>callWidget("w_tags");</script>
 
-
     <script>
 
         var archive = "false";

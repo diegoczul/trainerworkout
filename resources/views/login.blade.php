@@ -36,6 +36,69 @@
 
 @section('scripts')
     <script type="text/javascript">
+        function getEmail() {
+            let request = indexedDB.open("trainer_workout", 1);
+
+            request.onsuccess = function(event) {
+                let db = event.target.result;
+
+                // Check if the "users" object store exists
+                if (!db.objectStoreNames.contains("users")) {
+                    console.log("Object store 'users' does not exist. Deleting database...");
+                    db.close(); // Close the database before deleting
+                    let deleteRequest = indexedDB.deleteDatabase("trainer_workout");
+
+                    deleteRequest.onsuccess = function() {
+                        console.log("Database deleted successfully.");
+                    };
+
+                    deleteRequest.onerror = function(event) {
+                        console.error("Error deleting database: ", event.target.error);
+                    };
+                    return; // Exit function since the object store doesn't exist
+                }
+
+                let transaction = db.transaction("users", "readonly");
+                let store = transaction.objectStore("users");
+                let getAllRequest = store.getAll();
+
+                getAllRequest.onsuccess = function() {
+                    if (getAllRequest.result.length > 0) {
+                        let email = getAllRequest.result[getAllRequest.result.length - 1].email;
+                        window.location.href = "{{ route('login-with-email') }}?email=" + email;
+                    }
+                };
+
+                getAllRequest.onerror = function(event) {
+                    console.error("Error retrieving data: ", event.target.error);
+                };
+            };
+
+            request.onerror = function(event) {
+                console.error("Error opening IndexedDB: ", event.target.error);
+            };
+        }
+
+        function deleteIndexedDatabase() {
+            let request = indexedDB.deleteDatabase("trainer_workout");
+            request.onsuccess = function() {
+                console.log("Database deleted successfully.");
+            };
+            request.onerror = function(event) {
+                console.error("Error deleting database: ", event.target.error);
+            };
+            request.onblocked = function() {
+                console.error("Database deletion blocked. Close all connections and try again.");
+            };
+        }
+
+        // Call the function to get and alert the email
+        @if(session()->has('clear_db'))
+            deleteIndexedDatabase();
+        @else
+            getEmail();
+        @endif
+
         function submitForm() {
             var valid = true;
             var password = $("#password").val();
