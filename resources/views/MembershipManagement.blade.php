@@ -7,7 +7,7 @@
 @extends('layouts.trainer')
 
 @section("header")
-    {{ Helper::seo("membershipManagement") }}
+    {!! Helper::seo("membershipManagement") !!}
 @endsection
 
 @section('content')
