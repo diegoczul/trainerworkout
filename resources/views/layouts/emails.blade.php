@@ -116,22 +116,22 @@
                                     <tr class="socials">
                                         <td class="socialIcon mail" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
                                             <a href="mailto: info@trainerworkout.com" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                                <img width="30" height="30" src="https://www.trainerworkout.com/img/newsletter/social_email.png" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                                <img width="30" height="30" src="{{asset('assets/img/newsletter/social_email.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
                                             </a>
                                         </td>
                                         <td class="socialIcon facebook" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
                                             <a href="https://www.facebook.com/tworkout" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                                <img width="30" height="30" src="https://www.trainerworkout.com/img/newsletter/social_facebook.png" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                                <img width="30" height="30" src="{{asset('assets/img/newsletter/social_facebook.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
                                             </a>
                                         </td>
                                         <td class="socialIcon twitter" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
                                             <a href="https://twitter.com/trainerworkout" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                                <img width="30" height="30" src="https://www.trainerworkout.com/img/newsletter/social_twitter.png" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                                <img width="30" height="30" src="{{asset('assets/img/newsletter/social_twitter.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
                                             </a>
                                         </td>
                                         <td class="socialIcon instagram" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
                                             <a href="https://instagram.com/trainerworkout/" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                                <img width="30" height="30" src="https://www.trainerworkout.com/img/newsletter/social_instagram.png" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                                <img width="30" height="30" src="{{asset('assets/img/newsletter/social_instagram.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
                                             </a>
                                         </td>
                                     </tr>

@@ -709,8 +709,8 @@ use Illuminate\Support\Facades\Route;
 
     // STATIC SITE
     // TRAINEE
-    Route::get(__('routes./TraineeSignUp/', [], "en") . "{key}", [UsersController::class, 'TraineeInvite'])->name('TraineeSignUp');
-    Route::get(__('routes./TraineeSignUp', [], "fr"), [UsersController::class, 'TraineeInvite'])->name('TraineeSignUpNoKey');
+    Route::get('/TraineeSignUp/{key}', [UsersController::class, 'TraineeInvite'])->name('TraineeSignUp');
+//    Route::get(__('routes./TraineeSignUp', [], "fr"), [UsersController::class, 'TraineeInvite'])->name('TraineeSignUpNoKey');
     Route::post(__('routes./Trainee/SignUp'), [UsersController::class, 'TraineeSignUp'])->name('TraineeSignUpPost');
 
     Route::get('trainee/signup', function () {
@@ -771,8 +771,8 @@ use Illuminate\Support\Facades\Route;
 //        Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
 //        Route::get('auth/facebook/callback', 'handleFacebookCallback');
 
-        Route::get('auth/google/', 'redirectToGoogle')->name('auth.google');
-        Route::get('auth/google/callback/', 'handleGoogleCallback2')->name('auth.google-callback');
+        Route::get('auth/google/{role}', 'redirectToGoogle')->name('auth.google');
+        Route::get('auth/google/callback/{role}', 'handleGoogleCallback')->name('auth.google-callback');
 
     });
 //});

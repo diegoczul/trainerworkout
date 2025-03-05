@@ -65,8 +65,8 @@ class Sharings extends Model
         $workoutPDF = $newWorkout->getPrintPDF();
 //        $workoutScreeshot = $newWorkout->getImageScreenshot();
         $workoutScreeshot = "";
-        $workoutScreeshotPDF = $newWorkout->getImagePDF();
-
+//        $workoutScreeshotPDF = $newWorkout->getImagePDF(); // THIS THING IS CAUSING ERROR
+        $workoutScreeshotPDF = "";
 
         $toUser = Users::find($to_user);
         if ($toUser) {
@@ -82,7 +82,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
 
-                Mail::send(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
+                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
             } else {
                 $sharing = new Sharings();
                 $sharing->viewed = 0;
@@ -98,7 +98,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
 
-                Mail::send(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
+                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
             }
         }
     }

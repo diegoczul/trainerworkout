@@ -4,7 +4,6 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Libraries\Helper;
-use App\Mail\NewUserMail;
 use App\Models\Invites;
 use App\Models\Users;
 use Exception;
@@ -16,7 +15,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -29,16 +27,30 @@ class SocialOAuthController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function redirectToGoogle()
+    public function redirectToGoogle($role)
     {
         return Socialite::driver('google')
-            ->with(['prompt' => 'select_account'])
+            ->with([
+                'prompt' => 'select_account',
+                'redirect_uri' => route('auth.google-callback',['role' => $role]),
+            ])
             ->redirect();
     }
 
-    public function handleGoogleCallback(Request $request)
+    public function handleGoogleCallback($role,Request $request){
+        if ($role == 'Trainer')
+            return $this->handleGoogleCallbackTrainer($request);
+        else
+            return $this->handleGoogleCallbackTrainee($request);
+    }
+
+    public function handleGoogleCallbackTrainer(Request $request)
     {
         $socialAuth = Socialite::driver('google')
+            ->with([
+                'prompt' => 'select_account',
+                'redirect_uri' => route('auth.google-callback',['role' => "Trainer"]),
+            ])
             ->stateless()
             ->user();
 
@@ -53,7 +65,7 @@ class SocialOAuthController extends Controller
                 $user->timezone = $request->get('timezone');
             }
             $user->password = Hash::make("Admin@123");
-            $user->userType = "Trainee";
+            $user->userType = "Trainer";
             $user->lastLogin = date("Y-m-d");
             $user->save();
 
@@ -114,9 +126,13 @@ class SocialOAuthController extends Controller
         }
     }
 
-    public function handleGoogleCallback2(Request $request)
+    public function handleGoogleCallbackTrainee(Request $request)
     {
         $socialAuth = Socialite::driver('google')
+            ->with([
+                'prompt' => 'select_account',
+                'redirect_uri' => route('auth.google-callback',['role' => "Trainee"]),
+            ])
             ->stateless()
             ->user();
 
@@ -163,6 +179,8 @@ class SocialOAuthController extends Controller
                 'lastLogin' => now(),
                 'virtual' => 0,
             ]);
+
+            Invites::where("email", Auth::user()->email)->where("completed", 0)->update(["completed" => 1]);
 
             return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts') : redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"));
         }

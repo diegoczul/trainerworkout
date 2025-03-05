@@ -1443,7 +1443,7 @@ class UsersController extends BaseController
         $rules = [
             "firstName" => "required|min:2",
             "lastName" => "required|min:2",
-            "email" => "required|email",
+            "email" => ['required','email',Rule::unique('users')->ignore(Auth::guard('api')->user()->id)->whereNull('deleted_at')],
         ];
 
         if (Auth::check()) {
@@ -1476,6 +1476,9 @@ class UsersController extends BaseController
 
                 $result = Helper::APIOK();
                 $result["message"] = Lang::get("messages.ProfileSaved");
+                $result["data"] = Auth::guard('api')->user()->toArray();
+                $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
+                $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             }
         } else {
             $result["message"] = Lang::get("messages.LoginRequired");
