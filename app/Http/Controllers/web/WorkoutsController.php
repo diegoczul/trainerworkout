@@ -1449,11 +1449,10 @@ class WorkoutsController extends BaseController {
 					if($pdf){
 						$data = array();
 
-                        $html = file_get_contents(URL::to("Workout/PrintWorkoutInternal/".$workout->id));
+                        $html = $this->PrintWorkout($workout->id);
 						$pdf = Pdf::loadHTML($html);
 						$pdf->setOptions(array(
 							"orientation" => "landscape",
-
 						));
 
 						$pdfPath = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf";

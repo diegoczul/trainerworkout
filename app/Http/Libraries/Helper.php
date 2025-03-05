@@ -62,7 +62,18 @@ class Helper {
     public static function formatURLString($string) {
     	return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
     }
-
+    public static function imageToBase64($file)
+    {
+        $file = base64_encode(file_get_contents($file));
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+        return "data:image/{$ext};base64,{$file}";
+    }
+    public static function svgToBase64Img($file)
+    {
+        $file = base64_encode($file);
+        $dataUrl = "data:image/svg;base64,{$file}";
+        return '<img src="'.$dataUrl.'">';
+    }
     public static function image($image,$video="",$youtube="") {
     	if(file_exists($image)){
     		return $image;
