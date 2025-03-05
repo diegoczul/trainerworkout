@@ -859,7 +859,7 @@ class UsersController extends BaseController
         }
 
         $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
-        return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+        return redirect()->route($route)->with('message', __('messages.Welcome'));
     }
 
     public function store()

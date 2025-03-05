@@ -159,7 +159,7 @@
                 </li>
             @endif
             <li class="c-menu__item logout">
-                <a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
+                <a onclick="deleteIndexedDatabase();" href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
             </li>
         </div>
     </ul>
@@ -411,6 +411,61 @@
             maxDisplayCount: 1
         });
     });
+
+    function openDatabase() {
+        return new Promise((resolve, reject) => {
+            let request = indexedDB.open("trainer_workout", 1);
+
+            request.onupgradeneeded = function(event) {
+                let db = event.target.result;
+                if (!db.objectStoreNames.contains("users")) {
+                    db.createObjectStore("users", { keyPath: "id", autoIncrement: true });
+                }
+            };
+            request.onsuccess = function(event) {
+                resolve(event.target.result);
+            };
+            request.onerror = function(event) {
+                reject("Error opening IndexedDB: " + event.target.errorCode);
+            };
+        });
+    }
+
+    function storeEmail(email) {
+        openDatabase().then(db => {
+            let transaction = db.transaction("users", "readwrite");
+            let store = transaction.objectStore("users");
+            let clearRequest = store.clear();
+            clearRequest.onsuccess = function() {
+                let addRequest = store.add({ email: email });
+                addRequest.onsuccess = function() {
+                    console.log("Email stored successfully.");
+                };
+                addRequest.onerror = function(event) {
+                    console.error("Error storing email: ", event.target.error);
+                };
+            };
+            clearRequest.onerror = function(event) {
+                console.error("Error clearing object store: ", event.target.error);
+            };
+        }).catch(error => console.error(error));
+    }
+
+    function deleteIndexedDatabase() {
+        let request = indexedDB.deleteDatabase("trainer_workout");
+        request.onsuccess = function() {
+            console.log("Database deleted successfully.");
+        };
+        request.onerror = function(event) {
+            console.error("Error deleting database: ", event.target.error);
+        };
+        request.onblocked = function() {
+            console.error("Database deletion blocked. Close all connections and try again.");
+        };
+    }
+
+    // Example usage:
+    storeEmail("{{auth()->user()->email}}");
 
     function deleteAccount() {
         if(confirm("Are You Sure You Want To Delete Your Account ?")){

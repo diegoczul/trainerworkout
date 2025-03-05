@@ -4,6 +4,8 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Libraries\Helper;
+use App\Mail\NewUserMail;
+use App\Models\Invites;
 use App\Models\Users;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,7 +16,9 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Spatie\Newsletter\Facades\Newsletter;
 
@@ -49,7 +53,7 @@ class SocialOAuthController extends Controller
                 $user->timezone = $request->get('timezone');
             }
             $user->password = Hash::make("Admin@123");
-            $user->userType = "Trainer";
+            $user->userType = "Trainee";
             $user->lastLogin = date("Y-m-d");
             $user->save();
 
@@ -107,6 +111,60 @@ class SocialOAuthController extends Controller
 
             $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
             return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+        }
+    }
+
+    public function handleGoogleCallback2(Request $request)
+    {
+        $socialAuth = Socialite::driver('google')
+            ->stateless()
+            ->user();
+
+        $user = Users::where('email', $socialAuth->user['email'])->first();
+        if(!$user){
+            $user = new Users;
+            $password = Hash::make(Str::random(8));
+            $user->fill([
+                'firstName' => ucfirst($socialAuth->user['given_name']),
+                'lastName' => ucfirst($socialAuth->user['family_name']),
+                'email' => strtolower(trim($socialAuth->user['email'])),
+                'userType' => "Trainee",
+                'password' => $password
+            ]);
+            $image = $socialAuth->user['picture'];
+            $user->activated = now();
+            $user->save();
+
+//            $subject = __("messages.Emails_registerFB");
+//            Mail::to($user->email)
+////                ->cc(config("constants.activityEmail"))
+//                ->queue(new NewUserMail($user, $password, $subject));
+
+            Helper::checkUserFolder($user->id);
+            if (isset($image) && !empty($image)) {
+                $file = file_get_contents($image);
+                $images = Helper::saveImage($file, $user->getPath() . config("constants.profilePath") . "/" . $user->id, $image);
+                $user->update([
+                    'image' => $images["image"],
+                    'thumb' => $images["thumb"]
+                ]);
+            }
+
+            Auth::loginUsingId($user->id);
+            $user->update(['lastLogin' => now()]);
+            $user->freebesTrainer();
+
+            Invites::where("email", $user->email)->where("completed", 0)->update(["completed" => 1]);
+            return redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"))->with("newUser", true);
+        }else{
+            Auth::loginUsingId($user->id);
+            Auth::user()->update([
+                'updated_at' => now(),
+                'lastLogin' => now(),
+                'virtual' => 0,
+            ]);
+
+            return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts') : redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"));
         }
     }
 }
