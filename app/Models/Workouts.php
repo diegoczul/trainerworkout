@@ -451,6 +451,32 @@ class Workouts extends Model
 //
 //        $image = Image::make(URL::to($this->getURLImage()));
 //        dd(URL::to($this->getURLImage()));
+//        $workout = Workouts::find($this->id);
+//
+//        $user = Users::find($workout->userId);
+//        $tags = $workout->tags;
+//        $tagsArray = explode(",",$tags);
+//        $tags = Tags::whereIn("name",$tagsArray)->where("userId",$workout->userId)->get();
+//        $tagsClient = Tags::where("type","user")->where("userId",$workout->userId)->get();
+//        $tagsTags = Tags::where("type","tag")->where("userId",$workout->userId)->get();
+//        if($user->lang != "") {
+//            App::setLocale($user->lang);
+//        } else {
+//            App::setLocale('en');
+//        }
+//        if($workout){
+//            $workout->incrementViews();
+//            $html = view("workoutImage")
+//                ->with("workout",$workout)
+//                ->with("user",$user)
+//                ->with("tags",$tags)
+//                ->with("tagsTags",$tagsTags)
+//                ->with("tagsClient",$tagsClient)
+//                ->with("groups",$workout->getGroups()->get())
+//                ->with("exercises",$workout->getExercises()->get());
+//        } else {
+//            $html = "";
+//        }
         $url = URL::to($this->getURLImage());
         $html = file_get_contents($url);
         $pdf = PDF::loadHtml($html);

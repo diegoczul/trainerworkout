@@ -70,7 +70,6 @@ class Sharings extends Model
 
         $toUser = Users::find($to_user);
         if ($toUser) {
-
             if (self::where("access_link", $link)->count() > 0) {
                 $sharing = self::where("access_link", $link)->first();
                 $sharing->viewed = 0;

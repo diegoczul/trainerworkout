@@ -8,6 +8,7 @@ use App\Models\Equipments;
 use App\Models\Exercises;
 use App\Models\ExercisesTypes;
 use App\Models\Feeds;
+use App\Models\Invites;
 use App\Models\Memberships;
 use App\Models\Notifications;
 use App\Models\Ratings;
@@ -762,7 +763,6 @@ class WorkoutsController extends BaseController {
 			}
 		}
 		//DEFAULT AUTH
-
 		if($sharing){
 			$sharing->viewed = 1;
 			$sharing->save();
@@ -779,7 +779,7 @@ class WorkoutsController extends BaseController {
 
 				} else {
 					if(Auth::user()){
-						return redirect()->route('Trainee', array('userName' => Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName)))->withError(__("messages.WorkoutNotFound"));
+						return redirect()->route('Trainee', array('username' => Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName)))->withError(__("messages.WorkoutNotFound"));
 					} else{
 						return redirect()->route("home")->withError(__("messages.WorkoutNotFound"));
 					}

@@ -96,9 +96,9 @@ use Illuminate\Support\Facades\Route;
         Route::post(__('routes./widgets/clients/addEdit/'), [ClientsController::class, 'AddEdit']);
         Route::delete(__('routes./widgets/clients/').'{param}', [ClientsController::class, 'destroy']);
         Route::post(__('routes./Trainer/addClient'), [ClientsController::class, 'addClient'])->name('ProfileTrainer');
-        Route::post(__('routes./Trainer/addClientWithId'), [ClientsController::class, 'addClientWithId'])->name('ProfileTrainer');
-        Route::get(__('routes./Client/').'{id}/{username}', [ClientsController::class, 'clientProfile'])->name('Profile');
-        Route::get(__('routes./Client/').'{id}', [ClientsController::class, 'clientProfile'])->name('Profile');
+        Route::post(__('routes./Trainer/addClientWithId'), [ClientsController::class, 'addClientWithId']);
+        Route::get(__('routes./Client/').'{id}/{username}', [ClientsController::class, 'clientProfile']);
+        Route::get(__('routes./Client/').'{id}', [ClientsController::class, 'clientProfile']);
         Route::get(__('routes./Trainer/Clients'), [ClientsController::class, 'showClients'])->name('TrainerClients');
         Route::post(__('routes./Clients/AddClient'), [ClientsController::class, 'addClientTrainer']);
         Route::post(__('routes./Clients/ModifyClient'), [ClientsController::class, 'modifyClient']);
@@ -106,7 +106,7 @@ use Illuminate\Support\Facades\Route;
     });
 
     // No Authentication Required
-    Route::get(__('routes./Clients/Invitation/').'{invite}', [ClientsController::class, 'confirmClientByInvitation'])->name('ProfileTrainer');
+    Route::get(__('routes./Clients/Invitation/').'{invite}', [ClientsController::class, 'confirmClientByInvitation']);
 
 // REPORTS
     Route::middleware('auth')->group(function () {
@@ -415,12 +415,12 @@ use Illuminate\Support\Facades\Route;
     Route::post(__('routes./Workout/Performance/Start'), [WorkoutsController::class, 'startWorkoutPerformance']);
     Route::get(__('routes./Workout/Performance/showDetails') . "/{param}", [WorkoutsPerformanceController::class, 'workoutsPerformanceDetail']);
     Route::post(__('routes./Workout/Performance'), [WorkoutsController::class, 'performWorkout']);
-    Route::get(__('routes./WorkoutPDF/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutPDF'])->name('workout');
-    Route::get(__('routes./WorkoutImage/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutImage'])->name('workout');
-    Route::get(__('routes./Workout/Edit/') . "{id}", [WorkoutsController::class, 'editWorkout'])->middleware('auth')->name('workout');
-    Route::post(__('routes./Workout/Duplicate'), [WorkoutsController::class, 'duplicateWorkout'])->middleware('auth')->name('workout');
-    Route::post(__('routes./Workout/Edit/'), [WorkoutsController::class, 'saveEditWorkout'])->middleware('auth')->name('workout');
-    Route::post(__('routes./Workout/Duplicate/'), [WorkoutsController::class, 'duplicateWorkout'])->middleware('auth')->name('workout');
+    Route::get(__('routes./WorkoutPDF/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutPDF']);
+    Route::get(__('routes./WorkoutImage/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutImage']);
+    Route::get(__('routes./Workout/Edit/') . "{id}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');
+    Route::post(__('routes./Workout/Duplicate'), [WorkoutsController::class, 'duplicateWorkout'])->middleware('auth');
+    Route::post(__('routes./Workout/Edit/'), [WorkoutsController::class, 'saveEditWorkout'])->middleware('auth');
+    Route::post(__('routes./Workout/Duplicate/'), [WorkoutsController::class, 'duplicateWorkout'])->middleware('auth');
     Route::post(__('routes./Workout/saveSingleSet'), [WorkoutsController::class, 'saveSingleSet'])->middleware('auth');
     Route::post(__('routes./Workout/saveAllSets'), [WorkoutsController::class, 'saveAllSets'])->middleware('auth');
     Route::post(__('routes./Workout/addSets'), [WorkoutsController::class, 'addSets'])->middleware('auth');
@@ -442,27 +442,26 @@ use Illuminate\Support\Facades\Route;
     Route::get(__('routes./Workout/exercisePerformance/') . "{workoutexercise}", [WorkoutsController::class, 'exercisePerformance'])->middleware('auth');
     Route::post(__('routes./Workout/addCustomPicture/'), [WorkoutsController::class, 'addCustomPicture'])->middleware('auth');
     Route::post(__('routes./Workout/unit/update'), [WorkoutsController::class, 'updateUnitExerciseGroup'])->middleware('auth');
-    Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth')->name('workout');
-    Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth')->name('workout');
-    Route::get("Trainee/" . __('routes.Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth')->name('workout');
-    Route::get("Trainee/" . __('routes.Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth')->name('workout');
-    Route::get(__('routes./editWorkout/') . "{id}/{name}/{author}/{client}", [WorkoutsController::class, 'editWorkout'])->middleware('auth')->name('workout');
-    Route::get(__('routes./editWorkout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'editWorkout'])->middleware('auth')->name('workout');
-    Route::get(__('routes./editWorkout/') . "{id}//{author}", [WorkoutsController::class, 'editWorkout'])->middleware('auth')->name('workout');
-    Route::get(__('routes./editWorkout/') . "{id}", [WorkoutsController::class, 'editWorkout'])->middleware('auth')->name('workout');
-    Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth')->name('workout');
-    Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}/{param2}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth')->name('workout');
+    Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
+    Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
+    Route::get("Trainee/" . __('routes.Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth');
+    Route::get("Trainee/" . __('routes.Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth');
+    Route::get(__('routes./editWorkout/') . "{id}/{name}/{author}/{client}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');
+    Route::get(__('routes./editWorkout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');
+    Route::get(__('routes./editWorkout/') . "{id}//{author}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');
+    Route::get(__('routes./editWorkout/') . "{id}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');
+    Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
+    Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}/{param2}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
     Route::get(__('routes./Workouts/addWorkoutToClient') . "/{param1}/{param2}", [WorkoutsController::class, 'addToWorkoutClient'])->middleware('auth');
 
 // THIS CANNOT BE TRANSLATED
-    Route::get("/WorkoutInternal/{id}/{locale}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutInternal'])->name('workout');
-    Route::get("/WorkoutInternal/{id}/{locale}//{author}", [WorkoutsController::class, 'viewWorkoutInternal'])->name('workout');
-    Route::get("/WorkoutInternal/{id}/{locale}/{author}", [WorkoutsController::class, 'viewWorkoutInternal'])->name('workout');
+    Route::get("/WorkoutInternal/{id}/{locale}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutInternal']);
+    Route::get("/WorkoutInternal/{id}/{locale}//{author}", [WorkoutsController::class, 'viewWorkoutInternal']);
+    Route::get("/WorkoutInternal/{id}/{locale}/{author}", [WorkoutsController::class, 'viewWorkoutInternal']);
 
 // SHARING A WORKOUT
     Route::get(__('routes./Share/Workout/Accept/') . "{link}", [WorkoutsController::class, 'acceptWorkoutBySharingLink']);
-    Route::get(__('routes./Share/Workout/', [], 'fr') . "{link}", [WorkoutsController::class, 'openWorkoutBySharingLink']);
-    Route::get(__('routes./Share/Workout/', [], 'en') . "{link}", [WorkoutsController::class, 'openWorkoutBySharingLink']);
+    Route::get(__('routes./Share/Workout/') . "{link}", [WorkoutsController::class, 'openWorkoutBySharingLink'])->name('shareWorkout');
     Route::post(__('routes./Share/Facebook'), [UsersController::class, 'shareOnFacebook']);
 
 // FRIENDS
@@ -720,12 +719,12 @@ use Illuminate\Support\Facades\Route;
     // TRAINER
     Route::get(__('routes./TrainerSignUp/Workout/').'{key}', [UsersController::class, 'TrainerInviteWithWorkout']);
     Route::get(__('routes./TrainerSignUp/').'{key}', [UsersController::class, 'TrainerInvite']);
-    Route::get(__('routes./trainerGetStartedPaid'), [UsersController::class, 'trainerGetStartedPaid'])->name('TrainerSignUp');
-    Route::get(__('routes./TrainerSignUp'), [UsersController::class, 'trainerGetStarted'])->name('TrainerSignUp');
-    Route::post(__('routes./Trainer/SignUp'), [UsersController::class, 'TrainerFreeTrialSignUp'])->name('TrainerSignUpPost');
+    Route::get(__('routes./trainerGetStartedPaid'), [UsersController::class, 'trainerGetStartedPaid']);
+    Route::get(__('routes./TrainerSignUp'), [UsersController::class, 'trainerGetStarted']);
+    Route::post(__('routes./Trainer/SignUp'), [UsersController::class, 'TrainerFreeTrialSignUp']);
 
-    Route::get(__('routes./Gym'), [UsersController::class, 'gym'])->middleware('guest')->name('TrainerSignUpPost');
-    Route::get(__('routes./GymSignUp'), [UsersController::class, 'gymSignUp'])->name('TrainerSignUpPost');
+    Route::get(__('routes./Gym'), [UsersController::class, 'gym'])->middleware('guest');
+    Route::get(__('routes./GymSignUp'), [UsersController::class, 'gymSignUp']);
 
     Route::post(__('routes./SignUp'), [UsersController::class, 'demoSignUp']);
 
@@ -737,11 +736,11 @@ use Illuminate\Support\Facades\Route;
 
     Route::get(__('routes./WorkoutBuilderPrice'), function () {
         return view('price');
-    })->name('Price');
+    });
 
     Route::get('/thanksss', function () {
         return view('Store.thankYou');
-    })->name('Price');
+    });
 
     Route::get('/MobileGetStarted', function () {
         return view('MobileGetStarted');
