@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class InviteClientMail extends Mailable implements ShouldQueue
 {
@@ -37,7 +38,7 @@ class InviteClientMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject($this->subject)
-            ->view('emails.' . config("app.whitelabel") . '.user.' . app()->getLocale() . '.inviteClient')
+            ->view('emails.' . config("app.whitelabel") . '.user.' . App::getLocale() . '.inviteClient')
             ->with([
                 'comments' => $this->comments,
                 'password' => $this->password,

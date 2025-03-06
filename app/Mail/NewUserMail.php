@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class NewUserMail extends Mailable
 {
@@ -25,7 +26,7 @@ class NewUserMail extends Mailable
     public function build()
     {
         return $this->subject($this->subject)
-            ->view('emails.' . config("app.whitelabel") . '.user.' . app()->getLocale() . '.newFBUser')
+            ->view('emails.' . config("app.whitelabel") . '.user.' . App::getLocale() . '.newFBUser')
             ->with(['user' => $this->user,'password' => $this->password, 'name' => $this->user->firstName]);
     }
 }
