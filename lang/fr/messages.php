@@ -121,6 +121,7 @@ return array(
         "FacebookError"                 => "Vos programme d'entraînement n'a pu être publié. Réessayez",
         "NoFacebookUser"                => "Votre compte ".Config::get("app.brand")." n'est pas encore associé à votre compte Facebook, cliqué <a href='/login/facebook/'>ici</a> pour autoriser.",
         "ImageRotated"                  => "Votre image a été tourné",
+    "FailedToRotateImage"               => "Impossible de faire pivoter l'image, veuillez réessayer !",
         "ImageSwitched"                 => "Votre image a été déplacé",
         "CardDeclined"                  => "Votre carte est refusée",
         "ProblemCheckout"               => "Une erreur s'est produit lors du check-out, Réessayez",

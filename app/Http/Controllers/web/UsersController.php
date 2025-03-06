@@ -125,6 +125,9 @@ class UsersController extends BaseController
             $thumb->rotate(-90)->save();
 
             return response()->json(['message' => Lang::get('messages.ImageRotated')]);
+        }else{
+            // ERROR MESSAGE
+            return $this::responseJson(Lang::get('messages.FailedToRotateImage'));
         }
     }
 
@@ -138,6 +141,8 @@ class UsersController extends BaseController
             $thumb->rotate(90)->save();
 
             return response()->json(['message' => Lang::get('messages.ImageRotated')]);
+        }else{
+            return $this::responseJson(Lang::get('messages.FailedToRotateImage'));
         }
     }
 

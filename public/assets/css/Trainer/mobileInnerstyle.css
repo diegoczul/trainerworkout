@@ -8494,7 +8494,7 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
 input.input, .popup_container .share_content textarea.input {
   border: none;
   padding: 0;
-  color: white;
+  /*color: white;*/
   margin: 0; }
 
 .input {

@@ -2229,7 +2229,6 @@ class WorkoutsController extends BaseController {
 	}
 
 	public function createNewWorkoutAddEditTrainer(Request $request){
-
 		//DEFAULTS
 		$DEFAULT_REST = 0;
 		$DEFAULT_REPS = array("12","12","12");

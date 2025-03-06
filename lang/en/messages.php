@@ -121,6 +121,7 @@ return array(
         "FacebookError"                 => "Something went wrong when trying to post to facebook",
         "NoFacebookUser"                => "You haven't associated your account to facebook yet, click <a href='/login/facebook/'>here</a> to associate it.",
         "ImageRotated"                  => "Your image has been rotated",
+        "FailedToRotateImage"           => "Failed to rotate image, please try again !",
         "ImageSwitched"                 => "Your image has been switched",
         "CardDeclined"                  => "Your card has been declined",
         "ProblemCheckout"               => "Something went wrong in the checkout",

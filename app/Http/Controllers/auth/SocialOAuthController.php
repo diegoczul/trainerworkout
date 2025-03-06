@@ -31,13 +31,16 @@ class SocialOAuthController extends Controller
     {
         return Socialite::driver('google')
             ->with([
-                'prompt' => 'select_account',
+                'prompt' => 'consent',
                 'redirect_uri' => route('auth.google-callback',['role' => $role]),
             ])
             ->redirect();
     }
 
     public function handleGoogleCallback($role,Request $request){
+        if ($request->has('error')){
+            return redirect()->route('login');
+        }
         if ($role == 'Trainer')
             return $this->handleGoogleCallbackTrainer($request);
         else
