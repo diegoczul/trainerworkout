@@ -32,7 +32,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'success' => false,
                 'message' => "Database Exception",
-                'data' => $e->errorInfo
+                'data' => $e->getMessage()
             ],400);
         });
 

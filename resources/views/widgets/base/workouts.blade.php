@@ -1,6 +1,7 @@
 <!-- This page shows the workouts in the page workouts.  -->
 @php
     use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Messages;
 @endphp
 
 <?php $ids = 0; ?>
@@ -359,12 +360,12 @@
 
     @else
         @if(isset($search) and $search != "")
-            {{ Messages::showEmptyMessage("NothingFound",$permissions["self"]) }}
+        {!! Messages::showEmptyMessage("NothingFound",$permissions["self"]) !!}
         @endif
     @endif
 
 @else
-    {{ Messages::showEmptyMessage("NoPermissions") }}
+    {!! Messages::showEmptyMessage("NoPermissions") !!}
 @endif
 
 
