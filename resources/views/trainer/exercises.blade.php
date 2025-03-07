@@ -90,8 +90,7 @@
                         </div>
                     </div>
                 </div>
-                {{ Form::open(array('url' => Lang::get("routes./Exercises/AddExercise"), 'enctype' => 'multipart/form-data', "files"=>true, 'name' => 'exercise')); }}
-
+                {{ Form::open(array('url' => Lang::get("routes./Exercises/AddExercise"), 'enctype' => 'multipart/form-data', "files"=>true, 'name' => 'exercise')) }}
                 <p class="required">*{{ Lang::get("content.required") }}</p>
                 <div class="addexercise-stepContainer">
                     <div class="addexercise-step active">
@@ -190,6 +189,9 @@
 
 
     <script type="text/javascript">
+        @if($errors->any())
+            addExercise();
+        @endif
 
         $(document).ready(function () {
             var text_max = 500;

@@ -717,10 +717,10 @@ use Illuminate\Support\Facades\Route;
     });
 
     // TRAINER
-    Route::get(__('routes./TrainerSignUp/Workout/').'{key}', [UsersController::class, 'TrainerInviteWithWorkout']);
-    Route::get(__('routes./TrainerSignUp/').'{key}', [UsersController::class, 'TrainerInvite']);
+    Route::get(__('routes./TrainerSignUp/Workout/').'{key}', [UsersController::class, 'TrainerInviteWithWorkout'])->middleware('guest');
+    Route::get(__('routes./TrainerSignUp/').'{key}', [UsersController::class, 'TrainerInvite'])->middleware('guest');
     Route::get(__('routes./trainerGetStartedPaid'), [UsersController::class, 'trainerGetStartedPaid']);
-    Route::get(__('routes./TrainerSignUp'), [UsersController::class, 'trainerGetStarted']);
+    Route::get(__('routes./TrainerSignUp'), [UsersController::class, 'trainerGetStarted'])->middleware('guest');
     Route::post(__('routes./Trainer/SignUp'), [UsersController::class, 'TrainerFreeTrialSignUp']);
 
     Route::get(__('routes./Gym'), [UsersController::class, 'gym'])->middleware('guest');

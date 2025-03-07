@@ -285,7 +285,7 @@ class ExercisesController extends BaseController
 
         if ($validation->fails()) {
             if ($requestType == "") {
-                return Redirect::back()->withErrors($validation->messages())->withInput();
+                return Redirect::back()->withErrors($validation->messages()->first())->withInput();
             } else {
                 return $this::responseJsonError($validation->messages());
             }

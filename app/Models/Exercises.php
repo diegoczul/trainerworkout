@@ -28,7 +28,8 @@ class Exercises extends Model implements TranslatableContract
     public static $rules = [
         "name" => "required|min:2|max:500",
         "description" => "max:500",
-        "equipment" => "max:500",
+        "equipment" => "required|max:500",
+        "bodygroup" => "required",
     ];
 
 
