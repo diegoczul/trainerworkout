@@ -28,6 +28,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -1518,10 +1519,8 @@ class WorkoutsController extends BaseController {
 	public function createNewWorkoutTrainer(Request $request,$workoutId=""){
 		$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 		$create = true;
-		$workout = null;
 
 		$userId = Auth::user()->id;
-		$permissions = null;
 		if($request->has("userId")){
 			$permissions = Helper::checkPremissions(Auth::user()->id,$request->get("userId"));
 			if($permissions["view"]){
@@ -1530,14 +1529,13 @@ class WorkoutsController extends BaseController {
 		} else {
 			$permissions = Helper::checkPremissions(Auth::user()->id,null);
 		}
-		$workout = null;
 
 		//Session::forget("workoutIdInProgress");
 		//dd(Session::get("workoutIdInProgress"));
 
 		if($workoutId == ""){
 			if($pageWasRefreshed) {
-			 	if(Session::get("workoutIdInProgress") != ""){
+                if(Session::has("workoutIdInProgress") && !empty(Session::has("workoutIdInProgress"))){
 			   		$workout = Workouts::find(Session::get("workoutIdInProgress"));
 			   		if($workout){
 			   			$create = false;
@@ -2229,468 +2227,475 @@ class WorkoutsController extends BaseController {
 	}
 
 	public function createNewWorkoutAddEditTrainer(Request $request){
-		//DEFAULTS
-		$DEFAULT_REST = 0;
-		$DEFAULT_REPS = array("12","12","12");
-		$DEFAULT_WEIGHTS = array("","","");
-		$DEFAULT_ROUNDS = 1;
-		$DEFAULT_RESTBETWEENROUNDS = 60;
-		$DEFAULT_CIRCUIT_STYLE = "rounds";
-		$DEFAULT_CIRCUIT_INTERVALS = 1;
-		$DEFAULT_CIRCUIT_AMRAP = 1;
-		$DEFAULT_CIRCUIT_EMOM = 1;
-
-		$flag = false;
-
-		$client = $request->get("clientId");
-		$userId = Auth::user()->id;
-		$permissions = null;
-		if($request->has("userId")){
-			$permissions = Helper::checkPremissions(Auth::user()->id,$request->get("userId"));
-			if($permissions["view"]){
-				$userId = $request->get("userId");
-			}
-		} else {
-			$permissions = Helper::checkPremissions(Auth::user()->id,null);
-		}
-		$workout = null;
-		if($request->has("id") and $request->get("id") !=  ""){
-			$workout = Workouts::find($request->get("id"));
-			$workout->deleteWorkoutContents();
-		} else {
-
-			$workout = new Workouts();
-			$workout->version = Config::get("constants.version");
-			$flag = true;
-			$workout->sale = 0;
-			$workout->availability = "private";
-			$workout->shares = 0;
-			$workout->groupId = (Auth::user()->group) ? Auth::user()->group->id : null;
-			$workout->views = 0;
-			$workout->timesPerformed = 0;
-			$workout->userId = $userId;
-			$workout->authorId = $userId;
-		}
-		$workout->name = $request->get("workoutName");
-		//$workout->price = $workoutDetails["price"];
-
-
-		$workout->notes = $request->get("notes");
-
-		$workout->status = "Released";
-		$workout->exercises = $request->get("exercises");
-		$workout->exerciseGroup = $request->get("exerciseGroup");
-		$workout->exerciseGroupRest = $request->get("exerciseGroupsRest");
-
-
-		// $tags = json_decode($request->get("tags"),true);
-		// $tagOutput = array();
-		// foreach($tags as $tag){
-		// 	if(!array_key_exists($tag,$tagOutput)) array_push($tagOutput,$tag);
-		// 	if(Tags::where("name",$tag)->where("userId",Auth::user()->id)->count() == 0){
-		// 		$tagNew = new Tags;
-		// 		$tagNew->name = $tag;
-		// 		$tagNew->userId = Auth::user()->id;
-		// 		$tagNew->type = "tag";
-		// 		$tagNew->save();
-		// 	}
-		// }
-
-		//$workout->tags = implode(",",$tagOutput);
-		$workout->save();
-
-		if($flag){
-			$workout->master = $workout->id;
-			$workout->save();
-		}
-
-
-
-
-
-
-
-
-		$groups = json_decode($request->get("exerciseGroup"),true);
-		$groupsRest = json_decode($request->get("exerciseGroupsRest"),true);
-
-
-
-		$groupNumberCounter = 0;
-		$order = 0;
-		// Log::error("======================================================================================================");
-		// Log::error(Auth::user()->getCompleteName());
-		// Log::error($workout->name);
-		// Log::error($workout->exercises);
-		// Log::error($workout->exerciseGroup);
-		// Log::error($workout->exerciseGroupRest);
-		// Log::error("======================================================================================================");
-		$groupCounter = 0;
-		foreach($groups as $group){
-
-			$groupObject = new WorkoutsGroups();
-			$groupObject->groupNumber = $groupNumberCounter;
-			$groupObject->workoutId = $workout->id;
-
-			if((count($group) > 1 and is_array($groupsRest))  or (array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("type", $groupsRest[$groupNumberCounter]) and $groupsRest[$groupNumberCounter]["type"] == "circuit")){
-
-				$groupObject->type = "circuit";
-
-				$groupObject->circuitType = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitStyle", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitStyle"] : $DEFAULT_CIRCUIT_STYLE;
-				$circuitStyle = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitStyle", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitStyle"] : $DEFAULT_CIRCUIT_STYLE;
-
-				//IF THE CIRCUIT IS AMRAP
-				if($circuitStyle == "amrap"){
-
-					if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
-
-						$groupObject->maxTime = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitMaxTime", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitMaxTime"] : $DEFAULT_CIRCUIT_AMRAP;
-
-						$groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
-						$groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
-					} else {
-						$groupObject->maxTime = $DEFAULT_CIRCUIT_AMRAP;
-						$groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
-					}
-
-				//IF THE CIRCUIT IS EMOM
-				} else if($circuitStyle == "emom"){
-					if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
-						$groupObject->emom = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitEmom", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitEmom"] : $DEFAULT_CIRCUIT_EMOM;
-
-						$groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
-						$groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
-					} else {
-						$groupObject->emom = $DEFAULT_CIRCUIT_EMOM;
-						$groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
-					}
-
-				} else {
-				//IF THE CIRCUIT IS INTERVALS
-					if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
-						$groupObject->intervals = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRound", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRound"] : $DEFAULT_CIRCUIT_INTERVALS;
-
-						$groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
-						$groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
-					} else {
-						$groupObject->intervals = $DEFAULT_ROUNDS;
-						$groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
-					}
-				}
-			} else {
-				$groupObject->type = "regular";
-			}
-
-			if(is_array($groupsRest)){
-				$groupObject->restAfter = ((array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("restTime", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["restTime"] : 0);
-			} else {
-				$groupObject->restAfter = 0 ;
-			}
-			$groupObject->save();
-
-
-
-			foreach($group as $exercise){
-
-					//Log::error("=========================". $exercise["id"]."==========================");
-					//Log::error(print_r($exercise,true));
-					$exx = Exercises::find($exercise["exercise"]["id"]);
-					if($exx){
-						$exx->used = $exx->used+1;
-						$exx->save();
-					}
-
-					$workoutExercise = new WorkoutsExercises();
-
-					$workoutExercise->workoutId = $workout->id;
-					$workoutExercise->exerciseId = $exercise["exercise"]["id"];
-					$workoutExercise->equipmentId = $exercise["exercise"]["equipmentId"];
-					$workoutExercise->order = $order;
-					$workoutExercise->notes = $exercise["notes"];
-					$workoutExercise->tempo1 = (array_key_exists("tempo1", $exercise) && !empty($exercise["tempo1"])) ? $exercise["tempo1"] : null;
-					$workoutExercise->tempo2 = (array_key_exists("tempo2", $exercise) && !empty($exercise["tempo2"])) ? $exercise["tempo2"] : null;
-					$workoutExercise->tempo3 = (array_key_exists("tempo3", $exercise) && !empty($exercise["tempo3"])) ? $exercise["tempo3"] : null;
-					$workoutExercise->tempo4 = (array_key_exists("tempo4", $exercise) && !empty($exercise["tempo4"])) ? $exercise["tempo4"] : null;
-					$workoutExercise->groupId = $groupObject->id;
-					$workoutExercise->metric = (array_key_exists("repType", $exercise)) ? $exercise["repType"] : "";
-					if($exercise["exercise"]["bodygroupId"] == 18){
-
-						if(array_key_exists("times", $exercise)){
-							$workoutExercise->sets = count($exercise["times"]);
-						} else {
-							$workoutExercise->sets = 1;
-							$exercise["times"] = array(array("dist"=>"","time"=>"","speedbpm"=>"","bpm"=>""));
-
-						}
-
-					} else {
-
-						$workoutExercise->sets = count($exercise["repArray"]);
-					}
-
-					$typeEx = "";
-					if($exercise["exercise"]["bodygroupId"] == 18){
-						$typeEx = "intervals";
-					} else {
-						if(array_key_exists("type", $exercise)){
-							$typeEx = $exercise["type"];
-						} else {
-							$typeEx = "rep";
-						}
-					}
-
-					$workoutExercise->units = ucfirst((array_key_exists("metric", $exercise)) ? $exercise["metric"] : "imperial");
-					$workoutExercise->save();
-
-
-
-					$counter = 1;
-					$index = 0;
-
-					if($exercise["exercise"]["bodygroupId"] == 18){
-						if(count($exercise["times"]) > 0){
-							$metricVisual = "";
-							for($x = 0; $x < count($exercise["times"]); $x++){
-
-								$templateSet = new TemplateSets();
-								$templateSet->number = $counter;
-								$templateSet->exerciseId = $exercise["exercise"]["id"];
-								$templateSet->workoutsExercisesId = $workoutExercise->id;
-								$type = "cardio";
-
-								//Log::error($exercise);
-								if(array_key_exists($x,$exercise["times"]) and $exercise["times"][$x] != 0) $templateSet->time = $exercise["times"][$x];
-								if(array_key_exists($x,$exercise["hrs"]) and $exercise["hrs"][$x] != 0) $templateSet->bpm = $exercise["hrs"][$x];
-								if(array_key_exists($x,$exercise["distances"]) and $exercise["distances"][$x] != 0) $templateSet->distance = $exercise["distances"][$x];
-								if(array_key_exists($x,$exercise["speeds"]) and $exercise["speeds"][$x] != 0) $templateSet->speed = $exercise["speeds"][$x];
-
-
-								//$templateSet->tempo = $exercise["tempo"];
-								$templateSet->type = $type;
-								if(array_key_exists($x,$exercise["repsType"]) and $exercise["repsType"][$x] != "") $templateSet->metric = $exercise["repsType"][$x];
-								if(array_key_exists($x,$exercise["repsType"]) and $exercise["repsType"][$x] == "max") $templateSet->bpm = "max";
-
-								if(is_array($exercise["restBetweenSets"]) and array_key_exists($x, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$x] != ""){
-									$templateSet->rest = $exercise["restBetweenSets"][$x];
-								} else {
-									$templateSet->rest = null;
-								}
-
-
-								//$templateSet->notes = $rep["notes"];
-								$templateSet->workoutId = $workout->id;
-								$templateSet->units = $workoutExercise->units;
-
-								$templateSet->save();
-								$index++;
-								$counter++;
-
-								$flag = true;
-								$metricVisual = "";
-								foreach( $exercise["repsType"] as $me){
-									if($flag and $me != $metricVisual and $metricVisual != ""){
-										$flag = false;
-									} else {
-										$metricVisual = $me;
-									}
-								}
-								if($flag == false) $metricVisual = "Exercise Mode";
-								$workoutExercise->metricVisual = $metricVisual;
-								$workoutExercise->save();
-							}
-						} else {
-							$metricVisual = "";
-							foreach($exercise["intervals"] as $rep){
-
-								$templateSet = new TemplateSets();
-								$templateSet->number = $counter;
-								$templateSet->exerciseId = $exercise["exercise"]["id"];
-								$templateSet->workoutsExercisesId = $workoutExercise->id;
-								$type = "cardio";
-
-								if(array_key_exists("dist",$rep) and $rep["dist"] != 0) $templateSet->distance =$rep["dist"] ;
-								if(array_key_exists("time",$rep) and $rep["time"] != 0) $templateSet->time = $rep["time"] ;
-								if(array_key_exists("speed",$rep) and $rep["speed"] != 0) $templateSet->speed = $rep["speed"] ;
-								//if(array_key_exists("reps",$rep)) $templateSet->reps = $rep["reps"] ;
-								if(array_key_exists("bpm",$rep) and $rep["bpm"] != 0) $templateSet->bpm = $rep["bpm"] ;
-
-								if(is_array($exercise["restBetweenSets"]) and array_key_exists($index, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$index] != ""){
-									$templateSet->rest = $exercise["restBetweenSets"][$index];
-								} else {
-									$templateSet->rest = null;
-								}
-
-
-
-								//$templateSet->tempo = $exercise["tempo"];
-								$templateSet->type = $type;
-								if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] != ""){
-									$templateSet->metric = $exercise["repsType"][$index] ;
-								} else {
-									$templateSet->metric = $typeEx;
-								}
-
-								if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] == "max") $templateSet->bpm = "max";
-
-								//$templateSet->notes = $rep["notes"];
-								$templateSet->workoutId = $workout->id;
-								$templateSet->units = $workoutExercise->units;
-
-								$templateSet->save();
-								$index++;
-								$counter++;
-
-								$flag = true;
-								$metricVisual = "";
-								foreach( $exercise["repsType"] as $me){
-									if($flag and $me != $metricVisual and $metricVisual != ""){
-										$flag = false;
-									} else {
-										$metricVisual = $me;
-									}
-								}
-								if($flag == false) $metricVisual = "Exercise Mode";
-								$workoutExercise->metricVisual = $metricVisual;
-								$workoutExercise->save();
-							}
-						}
-					} else {
-						if(is_array($exercise["repArray"])){
-							$metricVisual = "";
-							foreach($exercise["repArray"] as $rep){
-
-								$templateSet = new TemplateSets();
-								$templateSet->number = $counter;
-								$templateSet->exerciseId = $exercise["exercise"]["id"];
-								$templateSet->workoutsExercisesId = $workoutExercise->id;
-								$type = "regular";
-
-
-
-
-								$templateSet->reps = $rep ;
-
-								if(array_key_exists("weights", $exercise) and array_key_exists($index, $exercise["weights"]) and $exercise["weights"][$index]!= ""){
-									$templateSet->weight = $exercise["weights"][$index];
-									$templateSet->weightKG = ($templateSet->weight != "") ? Helper::formatWeight($templateSet->weight/2.2) : "";
-								} else {
-									$templateSet->weight = 0;
-									$templateSet->weightKG = 0;
-								}
-								$templateSet->weightKG = ($templateSet->weight != "") ? Helper::formatWeight($templateSet->weight/2.2) : "";
-								$templateSet->rest = (array_key_exists("rest", $exercise)) ? $exercise["rest"] : $DEFAULT_REST ;
-
-								if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] != ""){
-										$templateSet->metric = $exercise["repsType"][$index] ;
-
-										if($templateSet->metric == "time"){
-											$templateSet->time = $rep ;
-										}
-									} else {
-										$templateSet->metric = $typeEx;
-									}
-
-
-
-								//$templateSet->tempo = $exercise["tempo"];
-								$templateSet->type = $type;
-								//$templateSet->notes = $exercise["notes"];
-								$templateSet->workoutId = $workout->id;
-								$templateSet->units = $workoutExercise->units;
-
-								if(is_array($exercise["restBetweenSets"]) and array_key_exists($index, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$index] != ""){
-									$templateSet->rest = $exercise["restBetweenSets"][$index];
-								} else {
-									$templateSet->rest = null;
-								}
-
-								$templateSet->save();
-								$index++;
-								$counter++;
-
-								$flag = true;
-								$metricVisual = "";
-								foreach( $exercise["repsType"] as $me){
-									if($flag and $me != $metricVisual and $metricVisual != ""){
-										$flag = false;
-									} else {
-										$metricVisual = $me;
-									}
-								}
-								if($flag == false) $metricVisual = "Exercise Mode";
-								$workoutExercise->metricVisual = $metricVisual;
-								$workoutExercise->save();
-							}
-						}
-				}
-			}
-			$groupNumberCounter++;
-			$order = 0;
-		}
-
-		//Log::error("|".$workout->groupsRest."|");
-		if($workout->exerciseGroupRest == ""){
-		//if($workout->exerciseGroupRest == ""){
-			$controller = new SystemController();
-			$controller->migrateWorkouts($workout->id);
-		}
-
-
-		$workout->createSets();
-
-		Event::dispatch('createAWorkout', array(Auth::user(),$workout->name));
-
-		Session::forget("workoutIdInProgress");
-
-		//if($workoutDetails["user"] != ""){
-		//	Notifications::insertDynamicNotification("WorkoutAddedByTrainer",$workoutDetails["user"],Auth::user()->id,array("firstName" => Auth::user()->firstName,"lastName" => Auth::user()->lastName ,"workoutName" => $workout->name,"workoutLink" => $workout->getURL()),true);
-		//}
-
-		//exit(0);
-
-
-
-		$membershipCheck = Memberships::checkMembership(Auth::user());
-		if( $membershipCheck == ""){
-			$workout->status = "Released";
-			$workout->save();
-		} else {
-			$workout->status = "Draft";
-			$workout->save();
-			return redirect()->route("trainerWorkouts")
-				->withError($membershipCheck)
-				->with("permissions",$permissions);
-		}
-
-
-
-		if($client != 0 and $client != ""){
-			Sharings::shareWorkout(Auth::user()->id,$client,$workout,"Workout",null,true,true,true,true,true,true);
-			$user = Users::find($client);
-			$client = Clients::where("userId",$user->id)->where("trainerId",Auth::user()->id)->first();
-			//Workouts::AddWorkoutToUser($workout->id,$client,null,true);
-			$name = ($user) ? $user->getCompleteName() : "";
-			if($client){
-					return redirect()->to("/Client/".$client->id."/".Helper::formatURLString($name))
-					->with("message",__("messages.CreatedAndShared"))
-					->with("permissions",$permissions);
-			} else {
-					return redirect()->route("trainerClients")
-					->with("message",__("messages.CreatedAndShared"))
-					->with("permissions",$permissions);
-			}
-		}
-
-
-
-		return redirect()->to($workout->getURL())
-			->with("message",__("messages.WorkoutCreated"))
-			->with("permissions",$permissions);
-
-		return redirect()->route("trainerWorkouts")
-			->with("message",__("messages.WorkoutCreated"))
-			->with("permissions",$permissions)
-			->with("total",Workouts::where("userId","=",$userId)->count());
+        try {
+            DB::beginTransaction();
+            //DEFAULTS
+            $DEFAULT_REST = 0;
+            $DEFAULT_REPS = array("12","12","12");
+            $DEFAULT_WEIGHTS = array("","","");
+            $DEFAULT_ROUNDS = 1;
+            $DEFAULT_RESTBETWEENROUNDS = 60;
+            $DEFAULT_CIRCUIT_STYLE = "rounds";
+            $DEFAULT_CIRCUIT_INTERVALS = 1;
+            $DEFAULT_CIRCUIT_AMRAP = 1;
+            $DEFAULT_CIRCUIT_EMOM = 1;
+
+            $flag = false;
+
+            $client = $request->get("clientId");
+            $userId = Auth::user()->id;
+            $permissions = null;
+            if($request->has("userId")){
+                $permissions = Helper::checkPremissions(Auth::user()->id,$request->get("userId"));
+                if($permissions["view"]){
+                    $userId = $request->get("userId");
+                }
+            } else {
+                $permissions = Helper::checkPremissions(Auth::user()->id,null);
+            }
+            $workout = null;
+            if($request->has("id") and $request->get("id") !=  ""){
+                $workout = Workouts::find($request->get("id"));
+                $workout->deleteWorkoutContents();
+            } else {
+
+                $workout = new Workouts();
+                $workout->version = Config::get("constants.version");
+                $flag = true;
+                $workout->sale = 0;
+                $workout->availability = "private";
+                $workout->shares = 0;
+                $workout->groupId = (Auth::user()->group) ? Auth::user()->group->id : null;
+                $workout->views = 0;
+                $workout->timesPerformed = 0;
+                $workout->userId = $userId;
+                $workout->authorId = $userId;
+            }
+            $workout->name = $request->get("workoutName");
+            //$workout->price = $workoutDetails["price"];
+
+
+            $workout->notes = $request->get("notes");
+
+            $workout->status = "Released";
+            $workout->exercises = $request->get("exercises");
+            $workout->exerciseGroup = $request->get("exerciseGroup");
+            $workout->exerciseGroupRest = $request->get("exerciseGroupsRest");
+
+
+            // $tags = json_decode($request->get("tags"),true);
+            // $tagOutput = array();
+            // foreach($tags as $tag){
+            // 	if(!array_key_exists($tag,$tagOutput)) array_push($tagOutput,$tag);
+            // 	if(Tags::where("name",$tag)->where("userId",Auth::user()->id)->count() == 0){
+            // 		$tagNew = new Tags;
+            // 		$tagNew->name = $tag;
+            // 		$tagNew->userId = Auth::user()->id;
+            // 		$tagNew->type = "tag";
+            // 		$tagNew->save();
+            // 	}
+            // }
+
+            //$workout->tags = implode(",",$tagOutput);
+            $workout->save();
+
+            if($flag){
+                $workout->master = $workout->id;
+                $workout->save();
+            }
+
+
+
+
+
+
+
+
+            $groups = json_decode($request->get("exerciseGroup"),true);
+            $groupsRest = json_decode($request->get("exerciseGroupsRest"),true);
+
+
+
+            $groupNumberCounter = 0;
+            $order = 0;
+            // Log::error("======================================================================================================");
+            // Log::error(Auth::user()->getCompleteName());
+            // Log::error($workout->name);
+            // Log::error($workout->exercises);
+            // Log::error($workout->exerciseGroup);
+            // Log::error($workout->exerciseGroupRest);
+            // Log::error("======================================================================================================");
+            $groupCounter = 0;
+            foreach($groups as $group){
+
+                $groupObject = new WorkoutsGroups();
+                $groupObject->groupNumber = $groupNumberCounter;
+                $groupObject->workoutId = $workout->id;
+
+                if((count($group) > 1 and is_array($groupsRest))  or (array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("type", $groupsRest[$groupNumberCounter]) and $groupsRest[$groupNumberCounter]["type"] == "circuit")){
+
+                    $groupObject->type = "circuit";
+
+                    $groupObject->circuitType = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitStyle", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitStyle"] : $DEFAULT_CIRCUIT_STYLE;
+                    $circuitStyle = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitStyle", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitStyle"] : $DEFAULT_CIRCUIT_STYLE;
+
+                    //IF THE CIRCUIT IS AMRAP
+                    if($circuitStyle == "amrap"){
+
+                        if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
+
+                            $groupObject->maxTime = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitMaxTime", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitMaxTime"] : $DEFAULT_CIRCUIT_AMRAP;
+
+                            $groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
+                            $groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
+                        } else {
+                            $groupObject->maxTime = $DEFAULT_CIRCUIT_AMRAP;
+                            $groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
+                        }
+
+                        //IF THE CIRCUIT IS EMOM
+                    } else if($circuitStyle == "emom"){
+                        if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
+                            $groupObject->emom = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitEmom", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitEmom"] : $DEFAULT_CIRCUIT_EMOM;
+
+                            $groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
+                            $groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
+                        } else {
+                            $groupObject->emom = $DEFAULT_CIRCUIT_EMOM;
+                            $groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
+                        }
+
+                    } else {
+                        //IF THE CIRCUIT IS INTERVALS
+                        if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
+                            $groupObject->intervals = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRound", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRound"] : $DEFAULT_CIRCUIT_INTERVALS;
+
+                            $groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
+                            $groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
+                        } else {
+                            $groupObject->intervals = $DEFAULT_ROUNDS;
+                            $groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
+                        }
+                    }
+                } else {
+                    $groupObject->type = "regular";
+                }
+
+                if(is_array($groupsRest)){
+                    $groupObject->restAfter = ((array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("restTime", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["restTime"] : 0);
+                } else {
+                    $groupObject->restAfter = 0 ;
+                }
+                $groupObject->save();
+
+
+
+                foreach($group as $exercise){
+
+                    //Log::error("=========================". $exercise["id"]."==========================");
+                    //Log::error(print_r($exercise,true));
+                    $exx = Exercises::find($exercise["exercise"]["id"]);
+                    if($exx){
+                        $exx->used = $exx->used+1;
+                        $exx->save();
+                    }
+
+                    $workoutExercise = new WorkoutsExercises();
+
+                    $workoutExercise->workoutId = $workout->id;
+                    $workoutExercise->exerciseId = $exercise["exercise"]["id"];
+                    $workoutExercise->equipmentId = $exercise["exercise"]["equipmentId"];
+                    $workoutExercise->order = $order;
+                    $workoutExercise->notes = $exercise["notes"];
+                    $workoutExercise->tempo1 = (array_key_exists("tempo1", $exercise) && !empty($exercise["tempo1"])) ? $exercise["tempo1"] : null;
+                    $workoutExercise->tempo2 = (array_key_exists("tempo2", $exercise) && !empty($exercise["tempo2"])) ? $exercise["tempo2"] : null;
+                    $workoutExercise->tempo3 = (array_key_exists("tempo3", $exercise) && !empty($exercise["tempo3"])) ? $exercise["tempo3"] : null;
+                    $workoutExercise->tempo4 = (array_key_exists("tempo4", $exercise) && !empty($exercise["tempo4"])) ? $exercise["tempo4"] : null;
+                    $workoutExercise->groupId = $groupObject->id;
+                    $workoutExercise->metric = (array_key_exists("repType", $exercise)) ? $exercise["repType"] : "";
+                    if($exercise["exercise"]["bodygroupId"] == 18){
+
+                        if(array_key_exists("times", $exercise)){
+                            $workoutExercise->sets = count($exercise["times"]);
+                        } else {
+                            $workoutExercise->sets = 1;
+                            $exercise["times"] = array(array("dist"=>"","time"=>"","speedbpm"=>"","bpm"=>""));
+
+                        }
+
+                    } else {
+
+                        $workoutExercise->sets = count($exercise["repArray"]);
+                    }
+
+                    $typeEx = "";
+                    if($exercise["exercise"]["bodygroupId"] == 18){
+                        $typeEx = "intervals";
+                    } else {
+                        if(array_key_exists("type", $exercise)){
+                            $typeEx = $exercise["type"];
+                        } else {
+                            $typeEx = "rep";
+                        }
+                    }
+
+                    $workoutExercise->units = ucfirst((array_key_exists("metric", $exercise)) ? $exercise["metric"] : "imperial");
+                    $workoutExercise->save();
+
+
+
+                    $counter = 1;
+                    $index = 0;
+
+                    if($exercise["exercise"]["bodygroupId"] == 18){
+                        if(count($exercise["times"]) > 0){
+                            $metricVisual = "";
+                            for($x = 0; $x < count($exercise["times"]); $x++){
+
+                                $templateSet = new TemplateSets();
+                                $templateSet->number = $counter;
+                                $templateSet->exerciseId = $exercise["exercise"]["id"];
+                                $templateSet->workoutsExercisesId = $workoutExercise->id;
+                                $type = "cardio";
+
+                                //Log::error($exercise);
+                                if(array_key_exists($x,$exercise["times"]) and $exercise["times"][$x] != 0) $templateSet->time = $exercise["times"][$x];
+                                if(array_key_exists($x,$exercise["hrs"]) and $exercise["hrs"][$x] != 0) $templateSet->bpm = $exercise["hrs"][$x];
+                                if(array_key_exists($x,$exercise["distances"]) and $exercise["distances"][$x] != 0) $templateSet->distance = $exercise["distances"][$x];
+                                if(array_key_exists($x,$exercise["speeds"]) and $exercise["speeds"][$x] != 0) $templateSet->speed = $exercise["speeds"][$x];
+
+
+                                //$templateSet->tempo = $exercise["tempo"];
+                                $templateSet->type = $type;
+                                if(array_key_exists($x,$exercise["repsType"]) and $exercise["repsType"][$x] != "") $templateSet->metric = $exercise["repsType"][$x];
+                                if(array_key_exists($x,$exercise["repsType"]) and $exercise["repsType"][$x] == "max") $templateSet->bpm = "max";
+
+                                if(is_array($exercise["restBetweenSets"]) and array_key_exists($x, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$x] != ""){
+                                    $templateSet->rest = $exercise["restBetweenSets"][$x];
+                                } else {
+                                    $templateSet->rest = null;
+                                }
+
+
+                                //$templateSet->notes = $rep["notes"];
+                                $templateSet->workoutId = $workout->id;
+                                $templateSet->units = $workoutExercise->units;
+
+                                $templateSet->save();
+                                $index++;
+                                $counter++;
+
+                                $flag = true;
+                                $metricVisual = "";
+                                foreach( $exercise["repsType"] as $me){
+                                    if($flag and $me != $metricVisual and $metricVisual != ""){
+                                        $flag = false;
+                                    } else {
+                                        $metricVisual = $me;
+                                    }
+                                }
+                                if($flag == false) $metricVisual = "Exercise Mode";
+                                $workoutExercise->metricVisual = $metricVisual;
+                                $workoutExercise->save();
+                            }
+                        } else {
+                            $metricVisual = "";
+                            foreach($exercise["intervals"] as $rep){
+
+                                $templateSet = new TemplateSets();
+                                $templateSet->number = $counter;
+                                $templateSet->exerciseId = $exercise["exercise"]["id"];
+                                $templateSet->workoutsExercisesId = $workoutExercise->id;
+                                $type = "cardio";
+
+                                if(array_key_exists("dist",$rep) and $rep["dist"] != 0) $templateSet->distance =$rep["dist"] ;
+                                if(array_key_exists("time",$rep) and $rep["time"] != 0) $templateSet->time = $rep["time"] ;
+                                if(array_key_exists("speed",$rep) and $rep["speed"] != 0) $templateSet->speed = $rep["speed"] ;
+                                //if(array_key_exists("reps",$rep)) $templateSet->reps = $rep["reps"] ;
+                                if(array_key_exists("bpm",$rep) and $rep["bpm"] != 0) $templateSet->bpm = $rep["bpm"] ;
+
+                                if(is_array($exercise["restBetweenSets"]) and array_key_exists($index, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$index] != ""){
+                                    $templateSet->rest = $exercise["restBetweenSets"][$index];
+                                } else {
+                                    $templateSet->rest = null;
+                                }
+
+
+
+                                //$templateSet->tempo = $exercise["tempo"];
+                                $templateSet->type = $type;
+                                if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] != ""){
+                                    $templateSet->metric = $exercise["repsType"][$index] ;
+                                } else {
+                                    $templateSet->metric = $typeEx;
+                                }
+
+                                if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] == "max") $templateSet->bpm = "max";
+
+                                //$templateSet->notes = $rep["notes"];
+                                $templateSet->workoutId = $workout->id;
+                                $templateSet->units = $workoutExercise->units;
+
+                                $templateSet->save();
+                                $index++;
+                                $counter++;
+
+                                $flag = true;
+                                $metricVisual = "";
+                                foreach( $exercise["repsType"] as $me){
+                                    if($flag and $me != $metricVisual and $metricVisual != ""){
+                                        $flag = false;
+                                    } else {
+                                        $metricVisual = $me;
+                                    }
+                                }
+                                if($flag == false) $metricVisual = "Exercise Mode";
+                                $workoutExercise->metricVisual = $metricVisual;
+                                $workoutExercise->save();
+                            }
+                        }
+                    } else {
+                        if(is_array($exercise["repArray"])){
+                            $metricVisual = "";
+                            foreach($exercise["repArray"] as $rep){
+
+                                $templateSet = new TemplateSets();
+                                $templateSet->number = $counter;
+                                $templateSet->exerciseId = $exercise["exercise"]["id"];
+                                $templateSet->workoutsExercisesId = $workoutExercise->id;
+                                $type = "regular";
+
+
+
+
+                                $templateSet->reps = $rep ;
+
+                                if(array_key_exists("weights", $exercise) and array_key_exists($index, $exercise["weights"]) and $exercise["weights"][$index]!= ""){
+                                    $templateSet->weight = $exercise["weights"][$index];
+                                    $templateSet->weightKG = ($templateSet->weight != "") ? Helper::formatWeight($templateSet->weight/2.2) : "";
+                                } else {
+                                    $templateSet->weight = 0;
+                                    $templateSet->weightKG = 0;
+                                }
+                                $templateSet->weightKG = ($templateSet->weight != "") ? Helper::formatWeight($templateSet->weight/2.2) : "";
+                                $templateSet->rest = (array_key_exists("rest", $exercise)) ? $exercise["rest"] : $DEFAULT_REST ;
+
+                                if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] != ""){
+                                    $templateSet->metric = $exercise["repsType"][$index] ;
+
+                                    if($templateSet->metric == "time"){
+                                        $templateSet->time = $rep ;
+                                    }
+                                } else {
+                                    $templateSet->metric = $typeEx;
+                                }
+
+
+
+                                //$templateSet->tempo = $exercise["tempo"];
+                                $templateSet->type = $type;
+                                //$templateSet->notes = $exercise["notes"];
+                                $templateSet->workoutId = $workout->id;
+                                $templateSet->units = $workoutExercise->units;
+
+                                if(is_array($exercise["restBetweenSets"]) and array_key_exists($index, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$index] != ""){
+                                    $templateSet->rest = $exercise["restBetweenSets"][$index];
+                                } else {
+                                    $templateSet->rest = null;
+                                }
+
+                                $templateSet->save();
+                                $index++;
+                                $counter++;
+
+                                $flag = true;
+                                $metricVisual = "";
+                                foreach( $exercise["repsType"] as $me){
+                                    if($flag and $me != $metricVisual and $metricVisual != ""){
+                                        $flag = false;
+                                    } else {
+                                        $metricVisual = $me;
+                                    }
+                                }
+                                if($flag == false) $metricVisual = "Exercise Mode";
+                                $workoutExercise->metricVisual = $metricVisual;
+                                $workoutExercise->save();
+                            }
+                        }
+                    }
+                }
+                $groupNumberCounter++;
+                $order = 0;
+            }
+
+            //Log::error("|".$workout->groupsRest."|");
+            if($workout->exerciseGroupRest == ""){
+                //if($workout->exerciseGroupRest == ""){
+                $controller = new SystemController();
+                $controller->migrateWorkouts($workout->id);
+            }
+
+
+            $workout->createSets();
+
+            Event::dispatch('createAWorkout', array(Auth::user(),$workout->name));
+
+            Session::forget("workoutIdInProgress");
+
+            //if($workoutDetails["user"] != ""){
+            //	Notifications::insertDynamicNotification("WorkoutAddedByTrainer",$workoutDetails["user"],Auth::user()->id,array("firstName" => Auth::user()->firstName,"lastName" => Auth::user()->lastName ,"workoutName" => $workout->name,"workoutLink" => $workout->getURL()),true);
+            //}
+
+            //exit(0);
+
+
+
+            $membershipCheck = Memberships::checkMembership(Auth::user());
+            if( $membershipCheck == ""){
+                $workout->status = "Released";
+                $workout->save();
+            } else {
+                $workout->status = "Draft";
+                $workout->save();
+                return redirect()->route("trainerWorkouts")
+                    ->withError($membershipCheck)
+                    ->with("permissions",$permissions);
+            }
+
+
+
+            if($client != 0 and $client != ""){
+                Sharings::shareWorkout(Auth::user()->id,$client,$workout,"Workout",null,true,true,true,true,true,true);
+                $user = Users::find($client);
+                $client = Clients::where("userId",$user->id)->where("trainerId",Auth::user()->id)->first();
+                //Workouts::AddWorkoutToUser($workout->id,$client,null,true);
+                $name = ($user) ? $user->getCompleteName() : "";
+                if($client){
+                    return redirect()->to("/Client/".$client->id."/".Helper::formatURLString($name))
+                        ->with("message",__("messages.CreatedAndShared"))
+                        ->with("permissions",$permissions);
+                } else {
+                    return redirect()->route("trainerClients")
+                        ->with("message",__("messages.CreatedAndShared"))
+                        ->with("permissions",$permissions);
+                }
+            }
+
+
+            DB::commit();
+            return redirect()->to($workout->getURL())
+                ->with("message",__("messages.WorkoutCreated"))
+                ->with("permissions",$permissions);
+//
+//            return redirect()->route("trainerWorkouts")
+//                ->with("message",__("messages.WorkoutCreated"))
+//                ->with("permissions",$permissions)
+//                ->with("total",Workouts::where("userId","=",$userId)->count());
+        }catch (\Exception $e){
+            DB::rollback();
+            return redirect()->back()->withErrors("Something went wrong !");
+//            return $this::responseJsonError();
+        }
 	}
 
 	public function assignWorkoutToClient($client,$workoutId,Request $request){

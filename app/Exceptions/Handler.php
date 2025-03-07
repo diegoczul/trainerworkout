@@ -2,11 +2,12 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -29,18 +30,51 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (QueryException $e, Request $request) {
-            return response()->json([
-                'success' => false,
-                'message' => "Database Exception",
-                'data' => $e->getMessage()
-            ],400);
+            Log::driver('query_exceptions_log')->error('Database Query Failed', [
+                'query' => $e->getSql(),
+                'bindings' => $e->getBindings(),
+                'error' => $e->getMessage(),
+                'uri' => $request->getRequestUri(),
+                'line' => $e->getLine(),
+            ]);
+
+            if($request->ajax() || !$request->isMethod('get')){
+                return response()->json([
+                    'success' => false,
+                    'message' => "Database Exception",
+                    'data' => $e->getMessage()
+                ],400);
+            }else{
+                abort(500);
+            }
         });
 
         $this->renderable(function (MethodNotAllowedHttpException $e, Request $request) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ],400);
+            if($request->ajax() || !$request->isMethod('get')){
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],400);
+            }else{
+                abort(500);
+            }
+        });
+
+        $this->renderable(function (Exception $e, Request $request) {
+            if($request->ajax() || !$request->isMethod('get')){
+                return response()->json([
+                    'success' => false,
+                    'message' => "Internal Server Error",
+                    'data' => $e->getMessage()
+                ],500);
+            }else{
+                Log::error("Exception",[
+                    'error' => $e->getMessage(),
+                    'uri' => $request->getRequestUri(),
+                    'line' => $e->getLine(),
+                ]);
+                abort(500);
+            }
         });
     }
 }

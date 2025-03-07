@@ -25,7 +25,7 @@
             @endif
         </div>
         <div class="cw-header-description">
-            <input type="text" placeholder="{{ Lang::get("content.createWorkout/name") }}" id="workout_name" name="workout_name" onkeyup="updateWorkoutName()" value="{{ $workout->name }}" />
+            <input type="text" placeholder="{{ Lang::get("content.createWorkout/name") }}" id="workout_name" name="workout_name" onkeyup="updateWorkoutName()" value="{{ $workout->name }}" required />
             <input type="hidden" id="client" name="client" value="{{ (isset($client) ? $client : "" ) }}" />
             <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
         </div>
@@ -247,11 +247,20 @@
                     <button onclick="showTempo(this)" class="addTempoButton">+ {{ Lang::get("content.add tempo") }}</button>
                     <div class="tempo-active hide">
                         <div>{{ Lang::get("content.Tempo") }}</div>
-                        <input class="tempo1" onChange="updateTempo(this)" value=""/>
-                        <input class="tempo2" onChange="updateTempo(this)" value=""/>
-                        <input class="tempo3" onChange="updateTempo(this)" value=""/>
-                        <input class="tempo4" onChange="updateTempo(this)" value=""/>
-                        <div onclick="hideTempo(this)"></div>
+                        <input type="number" class="tempo1" onChange="updateTempo(this)" value=""/>
+                        <input type="number" class="tempo2" onChange="updateTempo(this)" value=""/>
+                        <input type="number" class="tempo3" onChange="updateTempo(this)" value=""/>
+                        <input type="number" class="tempo4" onChange="updateTempo(this)" value=""/>
+                        <div onclick="hideTempo(this)" style="align-items: center;justify-content: center;display: flex;">
+                            <svg class="delete" width="17px" height="17px" viewBox="273 32 17 17" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+                                <!-- Delete -->
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(275.000000, 34.000000)" stroke-linecap="round">
+                                    <title>Delete</title>
+                                    <path d="M0.342105263,0.295454545 L12.6578947,12.7045455" stroke="#FFFFFF" stroke-width="2.25"></path>
+                                    <path d="M0.342105263,0.295454545 L12.6578947,12.7045455" stroke="#FFFFFF" stroke-width="2.25" transform="translate(6.500000, 6.500000) scale(-1, 1) translate(-6.500000, -6.500000) "></path>
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
@@ -282,7 +291,7 @@
                     <tbody>
                         <tr class="set muscleSet" setNumber="1">
                             <th scope="row"><p>1</p></th>
-                            <td class="weight lbs"><input onChange="updateField('weight',this)"></td>
+                            <td class="weight lbs"><input type="number" onChange="updateField('weight',this)"></td>
                             <!-- <td class="time bound sec"><input></td> -->
                             <td class="rep bound"><input value="8" onChange="updateField('rep',this)"></td>
                             <!-- <td class="range bound"><input> - <input></td> -->
@@ -627,11 +636,20 @@
                 <button onclick="showTempo(this)" class="addTempoButton">+ {{ Lang::get("content.add tempo") }}</button>
                 <div class="tempo-active hide">
                     <div>{{ Lang::get("content.Tempo") }}</div>
-                    <input class="tempo1" onChange="updateTempo(this)" value=""/>
-                    <input class="tempo2" onChange="updateTempo(this)" value=""/>
-                    <input class="tempo3" onChange="updateTempo(this)" value=""/>
-                    <input class="tempo4" onChange="updateTempo(this)" value=""/>
-                    <div onclick="hideTempo(this)"></div>
+                    <input type="number" class="tempo1" onChange="updateTempo(this)" value=""/>
+                    <input type="number" class="tempo2" onChange="updateTempo(this)" value=""/>
+                    <input type="number" class="tempo3" onChange="updateTempo(this)" value=""/>
+                    <input type="number" class="tempo4" onChange="updateTempo(this)" value=""/>
+                    <div onclick="hideTempo(this)" style="align-items: center;justify-content: center;display: flex;">
+                        <svg class="delete" width="17px" height="17px" viewBox="273 32 17 17" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+                            <!-- Delete -->
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(275.000000, 34.000000)" stroke-linecap="round">
+                                <title>Delete</title>
+                                <path d="M0.342105263,0.295454545 L12.6578947,12.7045455" stroke="#FFFFFF" stroke-width="2.25"></path>
+                                <path d="M0.342105263,0.295454545 L12.6578947,12.7045455" stroke="#FFFFFF" stroke-width="2.25" transform="translate(6.500000, 6.500000) scale(-1, 1) translate(-6.500000, -6.500000) "></path>
+                            </g>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
@@ -659,7 +677,7 @@
                     <tbody>
                         <tr class="set muscleSet" setnumber="1">
                             <th scope="row"><p>1</p></th>
-                            <td class="weight lbs"><input onChange="updateField('weight',this)"/></td>
+                            <td class="weight lbs"><input type="number" onChange="updateField('weight',this)"/></td>
                             <td class="rep bound"><input  onChange="updateField('rep',this)" value="8"/></td>
                             <td class="repStyleChoice" onclick="muscleBoundMenu(this,0)"><p>{{ Lang::get("content.rep") }}</p></td>
                         </tr>
@@ -667,9 +685,9 @@
                 </form>
             </table>
             <div class="setManagement">
-                   <button onclick="addingSet(this)" class="addSet">+ {{ Lang::get("content.Add Set") }}</button>
-                   <button onclick="removeSet(this)" class="removeSet">- {{ Lang::get("content.Remove Set") }}</button>
-                </div>
+               <button onclick="addingSet(this)" class="addSet">+ {{ Lang::get("content.Add Set") }}</button>
+               <button onclick="removeSet(this)" class="removeSet">- {{ Lang::get("content.Remove Set") }}</button>
+            </div>
         </div>
     </div>
 </div>
@@ -863,12 +881,12 @@
                     <fieldset class="circuitStyle-rounds">
                         <span class="optionId">2</span>
                         <div class="option">
-                            <input type="text" name="nbRounds" id="nbRounds" class="numberOfRounds likeNumber" value="1">
+                            <input type="number" name="nbRounds" id="nbRounds" class="numberOfRounds likeNumber" value="1">
                             <label for="nbRounds">{{ Lang::get("content.nb of Rounds") }}</label>
                         </div>
                         <span class="optionId">3</span>
                         <div class="option">
-                            <input type="text" name="restBtwRounds" id="restBtwRounds" class="numberOfRoundsRest likeNumber">
+                            <input type="number" name="restBtwRounds" id="restBtwRounds" class="numberOfRoundsRest likeNumber">
                             <label for="restBtwRounds">{{ Lang::get("content.sec rest between rounds (optional)") }}</label>
                         </div>
                     </fieldset>
@@ -876,19 +894,19 @@
                         <span class="optionId">2</span>
                         <div class="option">
 
-                            <input type="text" name="amrap" id="amrap" class="amrapValue likeNumber">
+                            <input type="number" name="amrap" id="amrap" class="amrapValue likeNumber">
                             <label for="amrap">{{ Lang::get("content.Total time (optional)") }}</label>
                         </div>
                         <span class="optionId">3</span>
                         <div class="option">
-                            <input type="text" name="restBtwRoundsAm" id="restBtwRoundsAm" class="likeNumber numberOfRoundsRestAm">
+                            <input type="number" name="restBtwRoundsAm" id="restBtwRoundsAm" class="likeNumber numberOfRoundsRestAm">
                             <label for="restBtwRoundsAm">{{ Lang::get("content.sec rest between rounds (optional)") }}</label>
                         </div>
                     </fieldset>
                     <fieldset class="circuitStyle-emom">
                         <span class="optionId">2</span>
                         <div class="option">
-                            <input type="text" name="emom" id="emom" class="emomValue likeNumber numberOfRoundsRestEmom" value="1">
+                            <input type="number" name="emom" id="emom" class="emomValue likeNumber numberOfRoundsRestEmom" value="1">
                             <label for="emom">{{ Lang::get("content.nb of minutes") }}</label>
                         </div>
                     </fieldset>
@@ -1469,7 +1487,7 @@ function addingSet(object) {
     //Make a rest set
     var muscleRest = '<tr class="restBtwSet">';
     muscleRest += '<th scope="row"><button onclick="addRestBetweenSets(this,'+nbSet+')">+</button><span>'+dict["rest"]+'</span></th>';
-    muscleRest += '<td colspan="' + nbTd +'" class="secRest"><p style="text-align:center;">'+dict["add rest between set"]+'</p><input class="restBetweenSets" onChange="addRestBetweenSetsInfo(this)" setNumber="'+nbSet+'"></input></td>';
+    muscleRest += '<td colspan="' + nbTd +'" class="secRest"><p style="text-align:center;">'+dict["add rest between set"]+'</p><input type="number" class="restBetweenSets" onChange="addRestBetweenSetsInfo(this)" setNumber="'+nbSet+'"></input></td>';
     muscleRest += '</tr>';
 
     //Add rest time to the table
@@ -1921,8 +1939,8 @@ function buildExerciseSets(id){
                     metric = 'kg';
                 }
                 html += "<td class='weight "+metric+"'>"+
-                       '<input onchange="updateField(\'weight\',this)" value="'+exerciseGroups[group][exNumber].weights[t]+'"/>'+
-                       '</td>';
+                        '<input type="number" onchange="updateField(\'weight\',this)" value="'+exerciseGroups[group][exNumber].weights[t]+'"/>'+
+                        '</td>';
                 var value=0;
                 if(exerciseGroups[group][exNumber].repType == "rep"){
                     value = exerciseGroups[group][exNumber].repArray[t];
@@ -2003,127 +2021,128 @@ function recreateWorkoutFromJson(){
 
 
         if(exerciseGroupsRest[u] && exerciseGroupsRest[u]["circuitStyle"] !== undefined){
-                circuit = true;
-            }
-            if(circuit){
-              newElement = $(".templateCircuit").clone().removeClass("templateCircuit").removeAttr("style").attr("group",u);
-              newElement.find(".exerciseHeader h1").text("Circuit");
-              newElement.find(".nbrounds p").text(exerciseGroupsRest[u]["circuitRound"]);
-              circuitType = exerciseGroupsRest[u]["circuitStyle"];
-              var cir = {};
-              cir["circuitStyle"] = "";
+            circuit = true;
+        }
+        if(circuit){
+          newElement = $(".templateCircuit").clone().removeClass("templateCircuit").removeAttr("style").attr("group",u);
+          newElement.find(".exerciseHeader h1").text("Circuit");
+          newElement.find(".nbrounds p").text(exerciseGroupsRest[u]["circuitRound"]);
+          circuitType = exerciseGroupsRest[u]["circuitStyle"];
+          var cir = {};
+          cir["circuitStyle"] = "";
 
-              newElement.find(".exerciseHeader").find(".nbrounds").hide();
-              newElement.find(".exerciseHeader").find(".amrap").hide();
-              newElement.find(".exerciseHeader").find(".emom").hide();
+          newElement.find(".exerciseHeader").find(".nbrounds").hide();
+          newElement.find(".exerciseHeader").find(".amrap").hide();
+          newElement.find(".exerciseHeader").find(".emom").hide();
 
-              cir = exerciseGroupsRest[u];
-              if(circuitType == "rounds"){
-                circuitType = "rounds";
-                newElement.find(".exerciseHeader").find(".nbrounds").show();
-                newElement.find(".exerciseHeader").find(".roundsMeasure").html(cir["circuitRound"]);
+          cir = exerciseGroupsRest[u];
+          if(circuitType == "rounds"){
+            circuitType = "rounds";
+            newElement.find(".exerciseHeader").find(".nbrounds").show();
+            newElement.find(".exerciseHeader").find(".roundsMeasure").html(cir["circuitRound"]);
 
-              }else if(circuitType == "amrap"){
-                circuitType = "amrap";
-                newElement.find(".exerciseHeader").find(".amrap").show();
-                newElement.find(".exerciseHeader").find(".amrapMeasure").html(cir["circuitMaxTime"]);
+          }else if(circuitType == "amrap"){
+            circuitType = "amrap";
+            newElement.find(".exerciseHeader").find(".amrap").show();
+            newElement.find(".exerciseHeader").find(".amrapMeasure").html(cir["circuitMaxTime"]);
 
-              } else if(circuitType == "emom") {
-                circuitType = "emom";
-                newElement.find(".exerciseHeader").find(".emom").show();
-                newElement.find(".exerciseHeader").find(".emomMeasure").html(cir["circuitEmom"]);
+          } else if(circuitType == "emom") {
+            circuitType = "emom";
+            newElement.find(".exerciseHeader").find(".emom").show();
+            newElement.find(".exerciseHeader").find(".emomMeasure").html(cir["circuitEmom"]);
 
-              }
+          }
 
-                newElement.find(".repeatCircuit").find(".restText").html(exerciseGroupsRest[u]["circuitRest"]);
-                console.log(newElement.find(".circuitContainer").find(".restText").text());
-                console.log(exerciseGroupsRest[u]["circuitRest"]);
+            newElement.find(".repeatCircuit").find(".restText").html(exerciseGroupsRest[u]["circuitRest"]);
+            console.log(newElement.find(".circuitContainer").find(".restText").text());
+            console.log(exerciseGroupsRest[u]["circuitRest"]);
 
-                newElement.find(".circuitEditing").removeClass("circuitEditing");
-                newElement.find(".circuit").find(".circuitExerciseOptions").addClass("rowStyle");
-                newElement.find(".circuit").find(".circuitSetUp").hide();
-                newElement.find(".circuit").find(".circuitDelete").hide();
-
-
-
-
-
-                $("#workout").append(newElement);
-
-                fillUpCircuit(u);
+            newElement.find(".circuitEditing").removeClass("circuitEditing");
+            newElement.find(".circuit").find(".circuitExerciseOptions").addClass("rowStyle");
+            newElement.find(".circuit").find(".circuitSetUp").hide();
+            newElement.find(".circuit").find(".circuitDelete").hide();
 
 
 
 
-            }
-            if( exerciseGroups[u] !== undefined){
-                for(o = 0; o < exerciseGroups[u].length; o++){
 
-                    if(circuit){
-                        if(o > 0) {
-                                var cssStyle = "";
-                                if(exerciseGroupsRest[u].circuitStyle == "emom") cssStyle = "display:none";
+            $("#workout").append(newElement);
 
-                                if(debug) console.log("add rest between exercises");
-                                otherElement = $(".templateRestBetweenExercises").clone().removeClass("templateRestBetweenExercises").removeAttr("style").attr("style",cssStyle);
-
-                                if(exerciseGroupsRest[u].restBetweenCircuitExercises === undefined) exerciseGroupsRest[u].restBetweenCircuitExercises = [];
-
-                                if(exerciseGroupsRest[u].restBetweenCircuitExercises[o-1] !== undefined){
-                                    console.log("h22ere");
-                                    otherElement.find(".restTime").val(exerciseGroupsRest[u].restBetweenCircuitExercises[o-1]);
-                                    $(otherElement).find(".addRest").hide();
-                                    $(otherElement).find(".btwExerciseRest-active").removeClass("hide");
-                                } else {
-
-                                }
-
-                                /*otherElement.find(".addRest").hide();
-                                otherElement.find(".btwExerciseRest-active").removeClass("hide");*/
+            fillUpCircuit(u);
 
 
 
-
-                                $(newElement).closest(".circuitContainer").find(".containerExerciseCircuit").append(otherElement);
-
-
-
-                        }
-
-                      if(debug) console.log("X: "+u+" "+"Y: "+o);
-                      var id = u+"_"+o+"_"+exerciseGroups[u][o].exercise.id+"_"+(exerciseGroups[u][o].exercise.equipmentId ? exerciseGroups[u][o].exercise.equipmentId : "" );
-                      var bodygroupId = exerciseGroups[u][o].exercise.bodygroupId;
-                      if(bodygroupId == 18){
-                          newElement = $(".templateCardioCircuit").clone().removeClass("templateCardioCircuit").removeAttr("style").attr("id",id);
-                          $("div[group='"+u+"']").find(".containerExerciseCircuit").append(newElement);
-                      } else {
-                          newElement = $(".templateMuscleCircuit").clone().removeClass("templateMuscleCircuit").removeAttr("style").attr("id",id);
-                          $("div[group='"+u+"']").find(".containerExerciseCircuit").append(newElement);
-                      }
-
-                      fillUpExerciseCircuit(id,exerciseGroups[u][o]);
-                      buildExerciseSets(id);
-                    } else {
-
-                      if(debug) console.log("X: "+u+" "+"Y: "+o);
-                      console.log(exerciseGroups[u]);
-                      var id = u+"_"+o+"_"+exerciseGroups[u][o].exercise.id+"_"+(exerciseGroups[u][o].exercise.equipmentId ? exerciseGroups[u][o].exercise.equipmentId : "" );
-                      var bodygroupId = exerciseGroups[u][o].exercise.bodygroupId;
-                      if(bodygroupId == 18){
-                          newElement = $(".templateCardio").clone().removeClass("templateCardio").removeAttr("style").attr("id",id).attr("group",u);
-                          $("#workout").append(newElement);
-                      } else {
-                          newElement = $(".templateMuscle").clone().removeClass("templateMuscle").removeAttr("style").attr("id",id).attr("group",u);
-                          $("#workout").append(newElement);
-                      }
-
-                      fillUpExercise(id,exerciseGroups[u][o]);
-                      buildExerciseSets(id);
-                    }
-                }
-            }
 
         }
+        if( exerciseGroups[u] !== undefined){
+            for(o = 0; o < exerciseGroups[u].length; o++){
+
+                if(circuit){
+                    if(o > 0) {
+                            var cssStyle = "";
+                            if(exerciseGroupsRest[u].circuitStyle == "emom") cssStyle = "display:none";
+
+                            if(debug) console.log("add rest between exercises");
+                            otherElement = $(".templateRestBetweenExercises").clone().removeClass("templateRestBetweenExercises").removeAttr("style").attr("style",cssStyle);
+
+                            if(exerciseGroupsRest[u].restBetweenCircuitExercises === undefined) exerciseGroupsRest[u].restBetweenCircuitExercises = [];
+
+                            if(exerciseGroupsRest[u].restBetweenCircuitExercises[o-1] !== undefined){
+                                console.log("h22ere");
+                                otherElement.find(".restTime").val(exerciseGroupsRest[u].restBetweenCircuitExercises[o-1]);
+                                $(otherElement).find(".addRest").hide();
+                                $(otherElement).find(".btwExerciseRest-active").removeClass("hide");
+                            } else {
+
+                            }
+
+                            /*otherElement.find(".addRest").hide();
+                            otherElement.find(".btwExerciseRest-active").removeClass("hide");*/
+
+
+
+
+                            $(newElement).closest(".circuitContainer").find(".containerExerciseCircuit").append(otherElement);
+
+
+
+                    }
+
+                  if(debug) console.log("X: "+u+" "+"Y: "+o);
+                  var id = u+"_"+o+"_"+exerciseGroups[u][o].exercise.id+"_"+(exerciseGroups[u][o].exercise.equipmentId ? exerciseGroups[u][o].exercise.equipmentId : "" );
+                  var bodygroupId = exerciseGroups[u][o].exercise.bodygroupId;
+                  if(bodygroupId == 18){
+                      newElement = $(".templateCardioCircuit").clone().removeClass("templateCardioCircuit").removeAttr("style").attr("id",id);
+                      $("div[group='"+u+"']").find(".containerExerciseCircuit").append(newElement);
+                  } else {
+                      newElement = $(".templateMuscleCircuit").clone().removeClass("templateMuscleCircuit").removeAttr("style").attr("id",id);
+                      $("div[group='"+u+"']").find(".containerExerciseCircuit").append(newElement);
+                  }
+
+                  fillUpExerciseCircuit(id,exerciseGroups[u][o]);
+                  buildExerciseSets(id);
+                }
+                else {
+
+                  if(debug) console.log("X: "+u+" "+"Y: "+o);
+                  console.log(exerciseGroups[u]);
+                  var id = u+"_"+o+"_"+exerciseGroups[u][o].exercise.id+"_"+(exerciseGroups[u][o].exercise.equipmentId ? exerciseGroups[u][o].exercise.equipmentId : "" );
+                  var bodygroupId = exerciseGroups[u][o].exercise.bodygroupId;
+                  if(bodygroupId == 18){
+                      newElement = $(".templateCardio").clone().removeClass("templateCardio").removeAttr("style").attr("id",id).attr("group",u);
+                      $("#workout").append(newElement);
+                  } else {
+                      newElement = $(".templateMuscle").clone().removeClass("templateMuscle").removeAttr("style").attr("id",id).attr("group",u);
+                      $("#workout").append(newElement);
+                  }
+
+                  fillUpExercise(id,exerciseGroups[u][o]);
+                  buildExerciseSets(id);
+                }
+            }
+        }
+
+    }
 }
 
 function fillUpExerciseRest(group){
@@ -2136,7 +2155,6 @@ function fillUpExerciseRestCircuit(number){
 
 function cleanUpArrays(){
     var arrayToDelete = [];
-
     for(x = 0; x < exerciseGroups.length; x++){
         if(exerciseGroups[x] !== undefined && exerciseGroups[x] !== null){
             for(y = 0; y < exerciseGroups[x].length; y++){
@@ -2629,13 +2647,16 @@ function createWorkout(){
   $("#workoutName").val($("#workout_name").val());
   $("#clientId").val($("#client").val());
   $("#noteToWorkoutForm").val($("#noteToWorkout").val());
+    if($("#workout_name").val() == ""){
+        errorMessage("{{ Lang::get("content.createWorkout/validation1") }}")
+    }else{
+      var $clone = $("#ptLogo").clone();
+      form.append($clone);
 
-  var $clone = $("#ptLogo").clone();
-  form.append($clone);
 
-
-  form.submit();
-  lightBoxLoadingTwSpinner();
+      form.submit();
+      lightBoxLoadingTwSpinner();
+    }
 
 }
 
@@ -2832,11 +2853,12 @@ function addToWorkout(exerciseId, bodgroupId,index){
         recreateWorkoutFromJson();
         hideSearch();
 
-    } else {
+    }
+    else {
 
         ex = response[index];
-            if(debug) console.log(addMode);
-            if(debug) console.log(activeGroup);
+        if(debug) console.log(addMode);
+        if(debug) console.log(activeGroup);
         if(addMode == "regular"){
             if(exerciseGroupsRest.length > 0){
                 var cssStyle = "";
@@ -3351,7 +3373,7 @@ function imageFilter(image,video,youtube){
     if(image !== undefined && image !== null){
         return image;
     }else if( (video !== undefined && video !== null) || (youtube !== undefined && youtube !== null)){
-        return "{{ Config::get("constants.videoPlaceholder") ; }}";
+        return "{{ Config::get("constants.videoPlaceholder") }}";
     } else  {
         return "{{ Helper::image(null) }}";
     }

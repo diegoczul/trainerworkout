@@ -31,7 +31,7 @@ class SocialOAuthController extends Controller
     {
         return Socialite::driver('google')
             ->with([
-                'prompt' => 'consent',
+                'prompt' => 'select_account',
                 'redirect_uri' => route('auth.google-callback',['role' => $role]),
             ])
             ->redirect();

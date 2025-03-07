@@ -9,7 +9,7 @@
    $sum_sets_2 = 0;
    $sum_time_2 = 0;
    $sum_reps_2 = 0;
-   
+
    ?>
 <section id="content" class="clearfix">
    <div class="wrapper">
@@ -74,16 +74,16 @@
                            <th>Set</th>
                            <th>Weight</th>
                            <th>Repetition</th>
-                           <?php 
-                              $sets = $workout->getSets($exercise->id); 
+                           <?php
+                              $sets = $workout->getSets($exercise->id);
                               $allDone = 1;
                               ?>
                            @foreach($sets as $set)
-                           <?php 
+                           <?php
                               if($set->completed != 1){
                                 $allDone = 0;
                               }
-                              
+
                               ?>
                            @endforeach
                            <th class="filters">
@@ -94,17 +94,17 @@
                            </th>
                         </tr>
                      </thead>
-                     <?php 
+                     <?php
                         $sum_sets += $exercise->sets;
-                        
+
                         ?>
-                     <!-- History -->   
+                     <!-- History -->
                      <!--                   <tr>
                         <td colspan="5" style="background-color:white">
                            <a class='bluebutton moreButton' href='javascript: void(0)' onclick='showMore("{{ $exercise->id }}",$(this))' status='hide'>History</a>
                         </td>
                         </tr> -->
-                     <?php  $counter = 0; 
+                     <?php  $counter = 0;
                         ?>
                      @foreach($sets as $set)
                      <?php
@@ -116,9 +116,9 @@
                           $sum_time += $set->rest;
                           $sum_reps += $set->reps;
                         }
-                        ?>                                 
+                        ?>
                      <tr class="set_{{ $exercise->id }} {{ ($counter >= count($sets) - $exercise->sets ? "last" : "hide" ) }}">
-                     <!-- Date -->  
+                     <!-- Date -->
                      @if($counter%$exercise->sets == 0)
                      <td rowspan='{{ $exercise->sets }}'>{{ ($counter >= count($sets) - $exercise->sets ? "Today" : Helper::date($set->updated_at) ) }}</td>
                      @endif
@@ -131,7 +131,7 @@
                         </span>
                         <div class="weight_input edit {{ ($set->completed == 1 ? "hide" : "") }}" >
                         <input name="set_weight[{{ $set->id }}]"  type="text" class="inputbox-small center input edit weight lbs_{{$sum_ex}}" value="{{ ($set->weight == "" ? 0.0 : Helper::formatWeight($set->weight)) }}"  />
-                        <!--                         <input name="set_weight[{{ $set->id }}]"  type="text"  class="inputbox-small center input edit weight hide kg_{{$sum_ex}}" value="{{ Helper::formatWeight($set->weightKG) }}"  />--> 
+                        <!--                         <input name="set_weight[{{ $set->id }}]"  type="text"  class="inputbox-small center input edit weight hide kg_{{$sum_ex}}" value="{{ Helper::formatWeight($set->weightKG) }}"  />-->
                         <span class="lbs_{{$sum_ex}} edit weight unselectable">Lbs</span>
                         <!--                         <span class="kg_{{$sum_ex}}  {{ ($set->completed == 1 ? "" : "hide") }} hide">Kg&nbsp;&nbsp;</span> -->
                </div>
@@ -195,16 +195,16 @@
                         <th>Heart Rate</th>
                         <th>Speed</th>
                         <th>Distance</th>
-                        <?php 
-                           $sets = $workout->getSets($exercise->id); 
+                        <?php
+                           $sets = $workout->getSets($exercise->id);
                            $allDone = 1;
                            ?>
                         @foreach($sets as $set)
-                        <?php 
+                        <?php
                            if($set->completed != 1){
                              $allDone = 0;
                            }
-                           
+
                            ?>
                         @endforeach
                         <th class="filters">
@@ -215,10 +215,10 @@
                         </th>
                      </tr>
                   </thead>
-                  <?php 
-                     $sets = $workout->getSets($exercise->id); 
+                  <?php
+                     $sets = $workout->getSets($exercise->id);
                      $sum_sets += $exercise->sets;
-                     $counter = 0; 
+                     $counter = 0;
                      ?>
                   @foreach($sets as $set)
                   <?php
@@ -230,7 +230,7 @@
                        $sum_time += $set->time;
                        $sum_reps += $set->reps;
                      }
-                     ?>                           
+                     ?>
                   <tr class="set_{{ $exercise->id }} {{ ($counter >= count($sets) - $exercise->sets ? "last" : "hide" ) }}">
                   <td rowspan='{{ $exercise->sets }}'>{{ ($counter >= count($sets) - $exercise->sets ? "Today" : Helper::date($set->updated_at) ) }}</td>
                   <!-- Heart Rate -->
@@ -296,30 +296,30 @@
 @endsection
 @section('scripts')
 <script type="text/javascript">
-   <?php 
+   <?php
       if ($sum_sets > 0)
       $sum_ex_2 = number_format($sum_reps_2/$sum_reps,0);
-      
+
       $sum_time = $sum_time / 60;
       if ($sum_time > 0)
       $sum_time = number_format($sum_time);
-      
+
       $sum_time_2 = $sum_time_2 / 60;
       if ($sum_time_2 > 0)
       $sum_time_2 = number_format($sum_time_2);
       ?>
-   
+
    $("#sum_ex").html(<?php echo $sum_ex; ?>);
    $("#sum_sets").html(<?php echo $sum_sets; ?>);
    $("#sum_reps").html(<?php echo $sum_reps; ?>);
    $("#sum_time").html('<?php echo $sum_time; ?> min' );
-   
+
    $("#sum_ex_2").html(<?php echo $sum_ex_2; ?>);
    $("#sum_sets_2").html(<?php echo $sum_sets_2; ?>);
    $("#sum_reps_2").html(<?php echo $sum_reps_2; ?>);
    $("#sum_time_2").html('<?php echo $sum_time_2; ?> min' );
-   
-   
+
+
    function showMore(exerciseId,obj){
      if($(obj).attr("status") == "hide"){
        $(obj).attr("status","visible");
@@ -330,11 +330,11 @@
        $(".set_"+exerciseId+".last").show();
        $(obj).attr("status","hide");
        $(obj).text("More");
-   
+
      }
-     
+
    }
-   
+
    function viewModeRow(obj){
        var tr = $(obj).closest("tr");
        $(tr).find(".view.reps").text($(tr).find(".edit.reps").val());
@@ -343,7 +343,7 @@
        $(tr).find(".edit.reps").hide();
        $(tr).find(".view.weight").show();
        $(tr).find(".edit.weight").hide();
-   
+
        $(tr).find(".view.speed").text($(tr).find(".edit.speed").val());
        $(tr).find(".view.distance").text($(tr).find(".edit.distance").val());
        $(tr).find(".view.time").text($(tr).find(".edit.time").val());
@@ -354,7 +354,7 @@
        $(tr).find(".edit.distance").hide();
        $(tr).find(".edit.speed").hide();
    }
-   
+
    function editModeRow(obj){
        var tr = $(obj).closest("tr");
        //$(tr).find(".view.reps").text($(tr).find(".edit.reps").val());
@@ -363,33 +363,33 @@
        $(tr).find(".edit.reps").show();
        $(tr).find(".view.weight").hide();
        $(tr).find(".edit.weight").show();
-   
+
        $(tr).find(".view.speed").hide();
        $(tr).find(".edit.speed").show();
        $(tr).find(".view.distance").hide();
        $(tr).find(".edit.distance").show();
        $(tr).find(".view.time").hide();
        $(tr).find(".edit.time").show();
-     
+
    }
-   
+
    function editModeAll(obj){
        $(obj).find(".view.reps").hide();
        $(obj).find(".edit.reps").show();
        $(obj).find(".view.weight").hide();
        $(obj).find(".edit.weight").show();
-   
+
        $(obj).find(".view.speed").hide();
        $(obj).find(".edit.speed").show();
        $(obj).find(".view.distance").hide();
        $(obj).find(".edit.distance").show();
        $(obj).find(".view.time").hide();
        $(obj).find(".edit.time").show();
-   
+
        //$(obj).find(".view.hr").hide();
        //$(obj).find(".edit.hr").show();
    }
-   
+
    function viewModeAll(exerciseId){
        $(".exerciseTable_"+exerciseId+" tr").each(function(i,obj){
          $(this).find(".view.reps").text($(this).find(".edit.reps").val());
@@ -398,11 +398,11 @@
          $(this).find(".edit.reps").hide();
          $(this).find(".view.weight").show();
          $(this).find(".edit.weight").hide();
-   
+
          $(this).find(".view.distance").text($(this).find(".edit.distance").val());
          $(this).find(".view.speed").text($(this).find(".edit.speed").val());
          $(this).find(".view.time").text($(this).find(".edit.time").val());
-    
+
          $(obj).find(".view.speed").show();
          $(obj).find(".edit.speed").hide();
          $(obj).find(".view.time").show();
@@ -411,10 +411,10 @@
          $(obj).find(".edit.distance").hide();
          //$(obj).find(".view.hr").show();
          //$(obj).find(".edit.hr").hide();
-   
+
        });
    }
-   
+
    function completeSingleSet(setId,obj){
      weight = $(obj).closest("tr").find(".edit.weight").val();
      reps = $(obj).closest("tr").find(".edit.reps").val();
@@ -430,18 +430,18 @@
                    reps:reps,
                    workoutId: {{ $workout->id }}
                },
-               success:function(data, textStatus, jqXHR) 
+               success:function(data, textStatus, jqXHR)
                {
                    successMessage(data);
                    viewModeRow(obj);
                },
-               error: function(jqXHR, textStatus, errorThrown) 
+               error: function(jqXHR, textStatus, errorThrown)
                {
                    errorMessage(jqXHR.responseText);
                },
            });
    }
-   
+
    function exerciseCompleted(exerciseWorkout,obj){
      var table = $(obj).closest(".dayitemsdetails").find(".setsInformation");
      $.ajax(
@@ -452,26 +452,26 @@
                    workoutsExercisesId: exerciseWorkout,
                    workoutId: {{ $workout->id }}
                },
-               success:function(data, textStatus, jqXHR) 
+               success:function(data, textStatus, jqXHR)
                {
                    successMessage(data);
                    viewModeRow(obj);
                    table.find("input[type=checkbox]").prop("checked",true);
                    viewModeAll(exerciseWorkout);
                },
-               error: function(jqXHR, textStatus, errorThrown) 
+               error: function(jqXHR, textStatus, errorThrown)
                {
                    errorMessage(jqXHR.responseText);
                },
            });
    }
-   
+
    function editModeAllSets(exerciseId,obj){
      var table = $(obj).closest(".dayitemsdetails").find(".setsInformation");
      var moreButton = table.find(".moreButton");
      showMore(exerciseId,moreButton);
      editModeAll(table);
-   
+
      if($(obj).attr("status") == "edit"){
          $(obj).attr("status","save");
          $(obj).attr("onClick","saveAll("+exerciseId+",$(this))");
@@ -482,34 +482,34 @@
          $(obj).text("Click to edit all");
      }
    }
-   
+
    function viewModeAllWorkout(){
          $(".workoutdays").find(".view.reps").text($(this).find(".edit.reps").val());
          $(".workoutdays").find(".view.weight").text($(this).find(".edit.weight").val());
-   
+
          $(".workoutdays").find(".view.distance").text($(this).find(".edit.distance").val());
          $(".workoutdays").find(".view.speed").text($(this).find(".edit.speed").val());
          $(".workoutdays").find(".view.time").text($(this).find(".edit.time").val());
-   
+
          $(".workoutdays").find(".view.reps").show();
          $(".workoutdays").find(".edit.reps").hide();
          $(".workoutdays").find(".view.weight").show();
          $(".workoutdays").find(".edit.weight").hide();
-   
+
          $(".workoutdays").find(".view.distance").show();
          $(".workoutdays").find(".edit.distance").hide();
          $(".workoutdays").find(".view.speed").show();
          $(".workoutdays").find(".edit.speed").hide();
          $(".workoutdays").find(".view.time").show();
          $(".workoutdays").find(".edit.time").hide();
-   
+
    }
-   
-   
+
+
    function saveAll(exerciseId,element){
      var data = [];
      var counter = 0;
-     
+
      $(".exerciseTable_"+exerciseId+" tr").each(function(i,obj){
        if(counter > 1){
          reps = $(this).find(".edit.reps").val();
@@ -523,7 +523,7 @@
          }
          var entry = {"reps":reps,"weight":weight,"rest":rest,"idSet":idSet};
          data.push(entry);
-         
+
        }
        counter++;
      });
@@ -536,7 +536,7 @@
                  exerciseId:exerciseId,
                  workoutId: {{ $workout->id }}
                },
-               success:function(data, textStatus, jqXHR) 
+               success:function(data, textStatus, jqXHR)
                {
                    successMessage(data);
                    viewModeAll(exerciseId);
@@ -544,14 +544,14 @@
                    $(element).attr("status","edit");
                    $(element).text("Click to edit all");
                },
-               error: function(jqXHR, textStatus, errorThrown) 
+               error: function(jqXHR, textStatus, errorThrown)
                {
                    errorMessage(jqXHR.responseText);
                },
            });
-   
+
    }
-   
+
    function addWorkoutToMe(el){
      var preLoad = showLoadWithElement(el, 0, 'center');
      $.ajax(
@@ -561,20 +561,20 @@
                data: {
                  workoutId: {{ $workout->id }}
                },
-               success:function(data, textStatus, jqXHR) 
+               success:function(data, textStatus, jqXHR)
                {
                    successMessage(data);
                    hideLoadWithElement(preLoad);
                },
-               error: function(jqXHR, textStatus, errorThrown) 
+               error: function(jqXHR, textStatus, errorThrown)
                {
                    errorMessage(jqXHR.responseText);
                    hideLoadWithElement(preLoad);
                },
            });
    }
-   
-   
+
+
 </script>
 <script type="text/javascript">
    $(document).ready(function(){ $("#m_workouts").addClass('active'); });
