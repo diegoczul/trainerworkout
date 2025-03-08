@@ -1,12 +1,10 @@
-@php
-    use App\Http\Libraries\Helper;
-@endphp
+@use('App\Http\Libraries\Helper')
+
 @extends("layouts.trainer")
 
 @section("header")
     {!! Helper::seo("exercises") !!}
 @endsection
-
 
 @section("content")
     <section id="content" class="clearfix">

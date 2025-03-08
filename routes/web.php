@@ -59,7 +59,7 @@ use Illuminate\Support\Facades\Route;
     Route::post(__('routes./payment'), [OrdersController::class, 'processPaymentNoLogin']);
     Route::get(__('routes./thankyou'), [OrdersController::class, 'thankyou'])->name('thankyouPayment');
 
-    Route::get('/user/confirmation/{param1}', [UsersController::class, 'confirmEmail']);
+    Route::get('/user/confirmation/{param1}', [UsersController::class, 'confirmEmail'])->name('confirmEmail');
 
     Route::get('/phpini', function (){ echo phpinfo(); });
 
@@ -356,8 +356,8 @@ use Illuminate\Support\Facades\Route;
 
 // TRAINER REPORTS
     Route::middleware('auth')->group(function () {
-        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'en'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex']);
-        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'fr'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex']);
+        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex'])->name('WorkoutsPerformanceClients');
+//        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'fr'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex']);
     });
 
 // ONBOARDING

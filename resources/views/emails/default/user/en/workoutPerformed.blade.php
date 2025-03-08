@@ -10,7 +10,7 @@
         }
     } ?>
 
-    <!-- Beign of message from Trainer -->
+            <!-- Beign of message from Trainer -->
     <tr>
         <td align="center" valign="top" id="mainActionContainer" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #369AD8;padding: 80px 40px;">
             <table border="0" cellpadding="0" cellspacing="0" width="520" id="mainActionBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
@@ -26,13 +26,13 @@
                 </tr>
                 <tr>
                     <td class="quote1" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 20px;vertical-align: top;padding-right: 5px;">
-                        <img src="http://www.beta.trainerworkout.com/img/newsletter/quote1.png" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                        <img src="{{asset('assets/img/newsletter/quote1.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
                     </td>
                     <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                         <h4 class="friendMessage" style="margin: 0;padding: 0;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 26px;font-weight: 300;line-height: 115%;text-align: center;word-break: break-all;">{{ $performance->comments}}</h4>
                     </td>
                     <td class="quote2" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 20px;vertical-align: bottom;padding-left: 5px;">
-                        <img src="http://www.beta.trainerworkout.com/img/newsletter/quote2.png" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                        <img src="{{asset('assets/img/newsletter/quote2.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
                     </td>
                 </tr>
             </table>
@@ -111,7 +111,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="actionButton" tyle="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                             <tr>
                                 <td align="center" valign="middle" class="actionButtonContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 20px;">
-                                    <a href="{{  URL::secure(Lang::get('routes./Trainer/Reports/WorkoutsPerformanceClients')) }}" target="_blank" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;background: #FBB147;display: inline-block;border-radius: 2px;color: #fff;padding: 10 18;text-decoration: none;box-shadow: 0 2 0 #EB9561;">View Report</a>
+                                    <a href="{{ route('WorkoutsPerformanceClients') }}" target="_blank" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;background: #FBB147;display: inline-block;border-radius: 2px;color: #fff;padding: 10 18;text-decoration: none;box-shadow: 0 2 0 #EB9561;">View Report</a>
                                 </td>
                             </tr>
                         </table>
@@ -120,13 +120,13 @@
                 <tr>
                     <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                         <p class="listItem" style="margin: 10px 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 20px;font-weight: 200;line-height: 115%;text-align: justify;">
-                            You can also have access to your report and view how all of your clients are performing by clicking <a class="hereLink" href="{{  URL::secure(Lang::get('routes./Trainer/Reports/WorkoutsPerformanceClients')) }}" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 20px;font-weight: 200;line-height: 115%;text-align: justify;">here</a> or by copy pasting the following link in your favorite browser.
+                            You can also have access to your report and view how all of your clients are performing by clicking <a class="hereLink" href="{{ route('WorkoutsPerformanceClients') }}" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 20px;font-weight: 200;line-height: 115%;text-align: justify;">here</a> or by copy pasting the following link in your favorite browser.
                         </p>
                     </td>
                 </tr>
                 <tr>
                     <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                        <p class="link" style="margin: 1em 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 20px;font-weight: 200;line-height: 115%;text-align: justify;text-decoration: underline;word-break: break-all;">{{  URL::secure(Lang::get('routes./Trainer/Reports/WorkoutsPerformanceClients')) }}</p>
+                        <p class="link" style="margin: 1em 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 20px;font-weight: 200;line-height: 115%;text-align: justify;text-decoration: underline;word-break: break-all;">{{ route('WorkoutsPerformanceClients') }}</p>
                     </td>
                 </tr>
             </table>
