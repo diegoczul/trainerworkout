@@ -616,12 +616,18 @@ class UsersController extends BaseController
     }
     public function TrainerFreeTrialSignUp(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'termsAndConditions' => 'required',
+            'email' => ['required','email',Rule::unique('users','email')->whereNull('deleted_at')],
+            'password' => 'required',
         ]);
 
         if (!$request->has('termsAndConditions')) {
             return redirect()->route('home')->withInput()->withErrors(__('messages.termsAndConditions'));
+        }
+
+        if($validator->fails()){
+            return redirect()->route('TrainerSignUp')->withInput()->withErrors($validator->errors());
         }
 
         $user = new Users;
@@ -821,6 +827,14 @@ class UsersController extends BaseController
     }
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator->errors());
+        }
+
         $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
 
         if (Auth::attempt($credentials, true)) {
