@@ -789,15 +789,14 @@ class UsersController extends BaseController
     public function TraineeInvite($key = "")
     {
         $invite = Invites::where('key', $key)->first();
-        if(Users::where(['email' => $invite->email])->whereNot('password',null)->exists()){
-            return redirect()->route('login');
-        }
         if ($invite) {
+            if(Users::where(['email' => $invite->email])->whereNot('password',null)->exists()){
+                return redirect()->route('login');
+            }
             $invite->viewed = 1;
             $invite->save();
             return View::make(Helper::translateOverride('TraineeSignUp'))->with(["key" => $key, "invite" => $invite]);
         }
-
         return View::make(Helper::translateOverride('TraineeSignUp'))->with("key", $key);
     }
 

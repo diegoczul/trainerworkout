@@ -73,7 +73,6 @@ class Handler extends ExceptionHandler
                     'uri' => $request->getRequestUri(),
                     'line' => $e->getLine(),
                 ]);
-                abort(500);
             }
         });
     }
