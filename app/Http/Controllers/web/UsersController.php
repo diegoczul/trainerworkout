@@ -838,7 +838,7 @@ class UsersController extends BaseController
 
         $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
 
-        if (Auth::attempt($credentials, true)) {
+        if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
             $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
