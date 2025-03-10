@@ -841,7 +841,7 @@ class UsersController extends BaseController
             if($user->password == null){
                 $invite = Invites::where('email', $request->get('email'))->first();
                 if($invite){
-                    return redirect()->route('TraineeSignUp',['key' => $invite->key]);
+                    return redirect()->route('TraineeSignUp',['key' => $invite->key])->withErrors('Please complete your registration !');
                 }
             }else{
                 $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
@@ -946,6 +946,8 @@ class UsersController extends BaseController
         $rules = [
             "firstName" => "required|min:2",
             "lastName" => "required|min:2",
+            "image" => "sometimes|image|mimes:jpeg,png,jpg",
+            "logo" => "sometimes|image|mimes:jpeg,png,jpg",
             "password" => "nullable",
             "password_confirmation" => "same:password",
             "email" => Auth::user()->email != $request->get("email") ? "required|email|unique:users,email,NULL,id,deleted_at,NULL" : "required|email"

@@ -450,7 +450,7 @@ class ExercisesController extends BaseController
         $validation = Exercises::validate($request->all());
         if ($validation->fails()) {
             if ($requestType == "") {
-                return back()->withErrors($validation->messages())->withInput();
+                return back()->withErrors($validation->messages()->first())->withInput();
             } else {
                 return $this->responseJsonError($validation->messages());
             }
