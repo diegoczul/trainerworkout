@@ -838,7 +838,7 @@ class UsersController extends BaseController
 
         $user = Users::where('email', $request->get('email'))->first();
         if($user){
-            if($user->first_name == null && $user->password == null){
+            if($user->password == null){
                 $invite = Invites::where('email', $request->get('email'))->first();
                 if($invite){
                     return redirect()->route('TraineeSignUp',['key' => $invite->key]);
