@@ -177,6 +177,11 @@ class SocialOAuthController extends Controller
             return redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"))->with("newUser", true);
         }else{
             Auth::loginUsingId($user->id);
+            if ($user->password == "") {
+                $password = Hash::make(Str::random(8));
+                $user->password = $password;
+                $user->save();
+            }
             Auth::user()->update([
                 'updated_at' => now(),
                 'lastLogin' => now(),
