@@ -260,6 +260,7 @@ class ClientsController extends BaseController
         $validation = Validator::make($request->all(), [
             "firstName" => "required",
             'email' => ['required','email',Rule::unique('users','email')->whereNull("deleted_at")],
+            'phone' => ['sometimes','required','regex:/^([0-9\s\-\+\(\)]*)$/','min:10'],
         ]);
 
         if ($validation->fails()) {

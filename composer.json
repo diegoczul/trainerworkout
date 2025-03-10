@@ -11,7 +11,6 @@
         "barryvdh/laravel-dompdf": "^3.1",
         "barryvdh/laravel-snappy": "^1.0",
         "daltcore/lara-pdf-merger": "^2.0",
-        "drewm/mailchimp-api": "^2.5",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "2.*",
         "jenssegers/agent": "^2.6",

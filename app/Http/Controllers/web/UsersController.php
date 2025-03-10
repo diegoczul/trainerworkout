@@ -244,7 +244,7 @@ class UsersController extends BaseController
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
         } else {
-            Newsletter::subscribe($request->get("email"),[],'trainer');
+//            Newsletter::subscribe($request->get("email"),[],'trainer');
 
 //            MailchimpWrapper::lists()->subscribe(config("constants.mailChimpNewsletter"), [
 //                'email' => request("email"),
@@ -600,7 +600,7 @@ class UsersController extends BaseController
         Feeds::insertFeed('SignUp', Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
-            Newsletter::subscribe($request->get("email"),[],'trainee');
+//            Newsletter::subscribe($request->get("email"),[],'trainee');
 //            MailchimpWrapper::lists()->subscribe(config('constants.mailChimpTrainees'), [
 //                'email' => request('email'),
 //                'status' => 'subscribed',
@@ -652,7 +652,7 @@ class UsersController extends BaseController
 
         try {
             if (!Config::get('app.debug')) {
-                Newsletter::subscribe($user->email,[],'trainer');
+//                Newsletter::subscribe($user->email,[],'trainer');
 //                $sendGridService = new SendGridSubscriptionService();
 //                $sendGridService->subscribeToList(['email' => $user->email],Config::get('constants.mailChimpTrainers'));
             }
@@ -766,7 +766,7 @@ class UsersController extends BaseController
         Feeds::insertFeed("SignUp", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
-            Newsletter::subscribe($request->get("email"),[],'trainer');
+//            Newsletter::subscribe($request->get("email"),[],'trainer');
 //            MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), [
 //                'email' => $request->get('email'),
 //                'status' => 'subscribed',
@@ -1242,7 +1242,7 @@ class UsersController extends BaseController
 
             if ($user->userType == "Trainer") {
                 try {
-                    Newsletter::subscribe($request->get("email"),[],'trainer');
+//                    Newsletter::subscribe($request->get("email"),[],'trainer');
 //                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
                 } catch (Exception $e) {
                     Log::error($e);
@@ -1251,7 +1251,7 @@ class UsersController extends BaseController
             } else {
                 $user->freebesTrainee();
                 try {
-                    Newsletter::subscribe($request->get("email"),[],'trainee');
+//                    Newsletter::subscribe($request->get("email"),[],'trainee');
 //                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
                 } catch (Exception $e) {
                     Log::error($e);
