@@ -836,25 +836,35 @@ class UsersController extends BaseController
             return redirect()->back()->withInput()->withErrors($validator->errors());
         }
 
-        $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
+        $user = Users::where('email', $request->get('email'))->first();
+        if($user){
+            if($user->first_name == null && $user->password == null){
+                $invite = Invites::where('email', $request->get('email'))->first();
+                if($invite){
+                    return redirect()->route('TraineeSignUp',['key' => $invite->key]);
+                }
+            }else{
+                $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+                if (Auth::attempt($credentials)) {
+                    $user = Auth::user();
 
-            $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
+                    $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
 
-            event('login', [$user]);
+                    event('login', [$user]);
 
-            setcookie("TrainerWorkoutUserId", Crypt::encrypt($user->id), time() + (86400 * 30 * 7), "/");
+                    setcookie("TrainerWorkoutUserId", Crypt::encrypt($user->id), time() + (86400 * 30 * 7), "/");
 
-            if ($user->lang) {
-                App::setLocale($user->lang);
-            } else {
-                App::setLocale(Session::get('lang', 'en'));
+                    if ($user->lang) {
+                        App::setLocale($user->lang);
+                    } else {
+                        App::setLocale(Session::get('lang', 'en'));
+                    }
+
+                    $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
+                    return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+                }
             }
-
-            $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
-            return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
         }
 
         return redirect()->back()->withInput()->withErrors(__('messages.WrongLogin'));
