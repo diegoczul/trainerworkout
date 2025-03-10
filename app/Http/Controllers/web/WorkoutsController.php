@@ -2305,12 +2305,6 @@ class WorkoutsController extends BaseController {
             }
 
 
-
-
-
-
-
-
             $groups = json_decode($request->get("exerciseGroup"),true);
             $groupsRest = json_decode($request->get("exerciseGroupsRest"),true);
 
@@ -2327,7 +2321,6 @@ class WorkoutsController extends BaseController {
             // Log::error("======================================================================================================");
             $groupCounter = 0;
             foreach($groups as $group){
-
                 $groupObject = new WorkoutsGroups();
                 $groupObject->groupNumber = $groupNumberCounter;
                 $groupObject->workoutId = $workout->id;
@@ -2339,52 +2332,52 @@ class WorkoutsController extends BaseController {
                     $groupObject->circuitType = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitStyle", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitStyle"] : $DEFAULT_CIRCUIT_STYLE;
                     $circuitStyle = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitStyle", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitStyle"] : $DEFAULT_CIRCUIT_STYLE;
 
-                    //IF THE CIRCUIT IS AMRAP
                     if($circuitStyle == "amrap"){
-
-                        if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
-
-                            $groupObject->maxTime = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitMaxTime", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitMaxTime"] : $DEFAULT_CIRCUIT_AMRAP;
-
-                            $groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
-                            $groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
+                        //IF THE CIRCUIT IS AMRAP
+                        if (is_array($groupsRest) && array_key_exists($groupNumberCounter, $groupsRest) && is_array($groupsRest[$groupNumberCounter])) {
+                            $currentGroup = $groupsRest[$groupNumberCounter]??[];
+                            $groupObject->maxTime = (isset($currentGroup['circuitMaxTime']) && !empty($currentGroup['circuitMaxTime']) && is_numeric($currentGroup['circuitMaxTime'])) ? $currentGroup['circuitMaxTime'] : $DEFAULT_CIRCUIT_AMRAP;
+                            $groupObject->rest = (isset($currentGroup['circuitRest']) && !empty($currentGroup['circuitRest']) && is_numeric($currentGroup['circuitRest'])) ? $currentGroup['circuitRest'] : $DEFAULT_RESTBETWEENROUNDS;
+                            $groupObject->restBetweenCircuitExercises = (isset($currentGroup['restBetweenCircuitExercises']) && !empty($currentGroup['restBetweenCircuitExercises']) && is_array($currentGroup['restBetweenCircuitExercises'])) ? serialize($currentGroup['restBetweenCircuitExercises']) : serialize([]);
                         } else {
                             $groupObject->maxTime = $DEFAULT_CIRCUIT_AMRAP;
                             $groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
+                            $groupObject->restBetweenCircuitExercises = serialize([]);
                         }
-
-                        //IF THE CIRCUIT IS EMOM
                     } else if($circuitStyle == "emom"){
-                        if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
-                            $groupObject->emom = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitEmom", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitEmom"] : $DEFAULT_CIRCUIT_EMOM;
-
-                            $groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
-                            $groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
+                        //IF THE CIRCUIT IS EMOM
+                        if (is_array($groupsRest) && array_key_exists($groupNumberCounter, $groupsRest) && is_array($groupsRest[$groupNumberCounter])) {
+                            $currentGroup = $groupsRest[$groupNumberCounter];
+                            $groupObject->emom = (isset($currentGroup['circuitEmom']) && !empty($currentGroup['circuitEmom']) && is_numeric($currentGroup['circuitEmom'])) ? $currentGroup['circuitEmom'] : $DEFAULT_CIRCUIT_EMOM;
+                            $groupObject->rest = (isset($currentGroup['circuitRest']) && !empty($currentGroup['circuitRest']) && is_numeric($currentGroup['circuitRest'])) ? $currentGroup['circuitRest'] : 0;
+                            $groupObject->restBetweenCircuitExercises = (isset($currentGroup['restBetweenCircuitExercises']) && !empty($currentGroup['restBetweenCircuitExercises']) && is_array($currentGroup['restBetweenCircuitExercises'])) ? serialize($currentGroup['restBetweenCircuitExercises']) : serialize([]);
                         } else {
                             $groupObject->emom = $DEFAULT_CIRCUIT_EMOM;
                             $groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
+                            $groupObject->restBetweenCircuitExercises = serialize([]);
                         }
 
                     } else {
                         //IF THE CIRCUIT IS INTERVALS
-                        if(array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter])){
-                            $groupObject->intervals = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRound", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRound"] : $DEFAULT_CIRCUIT_INTERVALS;
-
-                            $groupObject->rest = (is_array($groupsRest) and array_key_exists($groupNumberCounter,$groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("circuitRest", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["circuitRest"] : 0;
-                            $groupObject->restBetweenCircuitExercises = array_key_exists("restBetweenCircuitExercises",$groupsRest[$groupNumberCounter]) ? serialize($groupsRest[$groupNumberCounter]["restBetweenCircuitExercises"]) : serialize(array());
+                        if (is_array($groupsRest) && array_key_exists($groupNumberCounter, $groupsRest) && is_array($groupsRest[$groupNumberCounter])) {
+                            $currentGroup = $groupsRest[$groupNumberCounter];
+                            $groupObject->intervals = (isset($currentGroup['circuitRound']) && !empty($currentGroup['circuitRound']) && is_numeric($currentGroup['circuitRound'])) ? $currentGroup['circuitRound'] : $DEFAULT_CIRCUIT_INTERVALS;
+                            $groupObject->rest = (isset($currentGroup['circuitRest']) && !empty($currentGroup['circuitRest']) && is_numeric($currentGroup['circuitRest'])) ? $currentGroup['circuitRest'] : 0;
+                            $groupObject->restBetweenCircuitExercises = (isset($currentGroup['restBetweenCircuitExercises']) && !empty($currentGroup['restBetweenCircuitExercises']) && is_array($currentGroup['restBetweenCircuitExercises'])) ? serialize($currentGroup['restBetweenCircuitExercises']) : serialize([]);
                         } else {
                             $groupObject->intervals = $DEFAULT_ROUNDS;
                             $groupObject->rest = $DEFAULT_RESTBETWEENROUNDS;
+                            $groupObject->restBetweenCircuitExercises = serialize([]);
                         }
                     }
                 } else {
                     $groupObject->type = "regular";
                 }
 
-                if(is_array($groupsRest)){
-                    $groupObject->restAfter = ((array_key_exists($groupNumberCounter, $groupsRest) and is_array($groupsRest[$groupNumberCounter]) and array_key_exists("restTime", $groupsRest[$groupNumberCounter])) ? $groupsRest[$groupNumberCounter]["restTime"] : 0);
+                if (is_array($groupsRest) && array_key_exists($groupNumberCounter, $groupsRest) && is_array($groupsRest[$groupNumberCounter])) {
+                    $groupObject->restAfter = (isset($groupsRest[$groupNumberCounter]['restTime']) && !empty($groupsRest[$groupNumberCounter]['restTime']) && is_numeric($groupsRest[$groupNumberCounter]['restTime'])) ? $groupsRest[$groupNumberCounter]['restTime'] : 0;
                 } else {
-                    $groupObject->restAfter = 0 ;
+                    $groupObject->restAfter = 0;
                 }
                 $groupObject->save();
 
@@ -2403,36 +2396,32 @@ class WorkoutsController extends BaseController {
                     $workoutExercise = new WorkoutsExercises();
 
                     $workoutExercise->workoutId = $workout->id;
-                    $workoutExercise->exerciseId = $exercise["exercise"]["id"];
-                    $workoutExercise->equipmentId = $exercise["exercise"]["equipmentId"];
+                    $workoutExercise->exerciseId = $exercise["exercise"]["id"]??0;
+                    $workoutExercise->equipmentId = $exercise["exercise"]["equipmentId"]??0;
                     $workoutExercise->order = $order;
-                    $workoutExercise->notes = $exercise["notes"];
-                    $workoutExercise->tempo1 = (array_key_exists("tempo1", $exercise) && !empty($exercise["tempo1"])) ? $exercise["tempo1"] : null;
-                    $workoutExercise->tempo2 = (array_key_exists("tempo2", $exercise) && !empty($exercise["tempo2"])) ? $exercise["tempo2"] : null;
-                    $workoutExercise->tempo3 = (array_key_exists("tempo3", $exercise) && !empty($exercise["tempo3"])) ? $exercise["tempo3"] : null;
-                    $workoutExercise->tempo4 = (array_key_exists("tempo4", $exercise) && !empty($exercise["tempo4"])) ? $exercise["tempo4"] : null;
+                    $workoutExercise->notes = $exercise["notes"]??null;
+                    $workoutExercise->tempo1 = (isset($exercise["tempo1"]) && !empty($exercise["tempo1"]) && is_numeric($exercise["tempo1"])) ? (int)$exercise["tempo1"] : null;
+                    $workoutExercise->tempo2 = (isset($exercise["tempo2"]) && !empty($exercise["tempo2"]) && is_numeric($exercise["tempo2"])) ? (int)$exercise["tempo2"] : null;
+                    $workoutExercise->tempo3 = (isset($exercise["tempo3"]) && !empty($exercise["tempo3"]) && is_numeric($exercise["tempo3"])) ? (int)$exercise["tempo3"] : null;
+                    $workoutExercise->tempo4 = (isset($exercise["tempo4"]) && !empty($exercise["tempo4"]) && is_numeric($exercise["tempo4"])) ? (int)$exercise["tempo4"] : null;
                     $workoutExercise->groupId = $groupObject->id;
-                    $workoutExercise->metric = (array_key_exists("repType", $exercise)) ? $exercise["repType"] : "";
-                    if($exercise["exercise"]["bodygroupId"] == 18){
-
-                        if(array_key_exists("times", $exercise)){
+                    $workoutExercise->metric = (isset($exercise["repType"]) && !empty($exercise["repType"])) ? $exercise["repType"] : "";
+                    if(isset($exercise["exercise"]["bodygroupId"]) && $exercise["exercise"]["bodygroupId"] == 18){
+                        if(isset($exercise["times"]) && !empty($exercise["times"]) && is_array($exercise["times"])){
                             $workoutExercise->sets = count($exercise["times"]);
                         } else {
                             $workoutExercise->sets = 1;
                             $exercise["times"] = array(array("dist"=>"","time"=>"","speedbpm"=>"","bpm"=>""));
-
                         }
-
                     } else {
-
-                        $workoutExercise->sets = count($exercise["repArray"]);
+                        $workoutExercise->sets = count($exercise["repArray"]??[]);
                     }
 
                     $typeEx = "";
-                    if($exercise["exercise"]["bodygroupId"] == 18){
+                    if(isset($exercise["exercise"]["bodygroupId"]) && $exercise["exercise"]["bodygroupId"] == 18){
                         $typeEx = "intervals";
                     } else {
-                        if(array_key_exists("type", $exercise)){
+                        if(isset($exercise["type"]) && !empty($exercise["type"])){
                             $typeEx = $exercise["type"];
                         } else {
                             $typeEx = "rep";
@@ -2448,176 +2437,130 @@ class WorkoutsController extends BaseController {
                     $index = 0;
 
                     if($exercise["exercise"]["bodygroupId"] == 18){
-                        if(count($exercise["times"]) > 0){
-                            $metricVisual = "";
-                            for($x = 0; $x < count($exercise["times"]); $x++){
+                        $metricVisual = "";
+                        $isIntervalsEmpty = (isset($exercise['times']) && count($exercise['times']) === 0);
+                        $entries = $isIntervalsEmpty ? $exercise['intervals'] : $exercise['times'];
 
-                                $templateSet = new TemplateSets();
-                                $templateSet->number = $counter;
-                                $templateSet->exerciseId = $exercise["exercise"]["id"];
-                                $templateSet->workoutsExercisesId = $workoutExercise->id;
-                                $type = "cardio";
+                        foreach ($entries as $x => $entry) {
+                            $templateSet = new TemplateSets();
+                            $templateSet->number = $counter;
+                            $templateSet->exerciseId = $exercise['exercise']['id'];
+                            $templateSet->workoutsExercisesId = $workoutExercise->id;
+                            $templateSet->type = "cardio";
 
-                                //Log::error($exercise);
-                                if(array_key_exists($x,$exercise["times"]) and $exercise["times"][$x] != 0) $templateSet->time = $exercise["times"][$x];
-                                if(array_key_exists($x,$exercise["hrs"]) and $exercise["hrs"][$x] != 0) $templateSet->bpm = $exercise["hrs"][$x];
-                                if(array_key_exists($x,$exercise["distances"]) and $exercise["distances"][$x] != 0) $templateSet->distance = $exercise["distances"][$x];
-                                if(array_key_exists($x,$exercise["speeds"]) and $exercise["speeds"][$x] != 0) $templateSet->speed = $exercise["speeds"][$x];
-
-
-                                //$templateSet->tempo = $exercise["tempo"];
-                                $templateSet->type = $type;
-                                if(array_key_exists($x,$exercise["repsType"]) and $exercise["repsType"][$x] != "") $templateSet->metric = $exercise["repsType"][$x];
-                                if(array_key_exists($x,$exercise["repsType"]) and $exercise["repsType"][$x] == "max") $templateSet->bpm = "max";
-
-                                if(is_array($exercise["restBetweenSets"]) and array_key_exists($x, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$x] != ""){
-                                    $templateSet->rest = $exercise["restBetweenSets"][$x];
-                                } else {
-                                    $templateSet->rest = null;
-                                }
-
-
-                                //$templateSet->notes = $rep["notes"];
-                                $templateSet->workoutId = $workout->id;
-                                $templateSet->units = $workoutExercise->units;
-
-                                $templateSet->save();
-                                $index++;
-                                $counter++;
-
-                                $flag = true;
-                                $metricVisual = "";
-                                foreach( $exercise["repsType"] as $me){
-                                    if($flag and $me != $metricVisual and $metricVisual != ""){
-                                        $flag = false;
-                                    } else {
-                                        $metricVisual = $me;
-                                    }
-                                }
-                                if($flag == false) $metricVisual = "Exercise Mode";
-                                $workoutExercise->metricVisual = $metricVisual;
-                                $workoutExercise->save();
+                            if ($isIntervalsEmpty) {
+                                // Handle intervals
+                                $templateSet->distance = (isset($entry['dist']) && !empty($entry['dist']) && is_numeric($entry['dist'])) ? $entry['dist'] : null;
+                                $templateSet->time = (isset($entry['time']) && !empty($entry['time']) && is_numeric($entry['time'])) ? $entry['time'] : null;
+                                $templateSet->speed = (isset($entry['speed']) && !empty($entry['speed']) && is_numeric($entry['speed'])) ? $entry['speed'] : null;
+                                $templateSet->bpm = (isset($entry['bpm']) && !empty($entry['bpm']) && is_numeric($entry['bpm'])) ? $entry['bpm'] : null;
+                            } else {
+                                // Handle times
+                                $templateSet->time = (isset($exercise['times'][$x]) && !empty($exercise['times'][$x]) && is_numeric($exercise['times'][$x])) ? $exercise['times'][$x] : null;
+                                $templateSet->bpm = (isset($exercise['hrs'][$x]) && !empty($exercise['hrs'][$x]) && is_numeric($exercise['hrs'][$x])) ? $exercise['hrs'][$x] : null;
+                                $templateSet->distance = (isset($exercise['distances'][$x]) && !empty($exercise['distances'][$x]) && is_numeric($exercise['distances'][$x])) ? $exercise['distances'][$x] : null;
+                                $templateSet->speed = (isset($exercise['speeds'][$x]) && !empty($exercise['speeds'][$x]) && is_numeric($exercise['speeds'][$x])) ? $exercise['speeds'][$x] : null;
                             }
-                        } else {
-                            $metricVisual = "";
-                            foreach($exercise["intervals"] as $rep){
 
-                                $templateSet = new TemplateSets();
-                                $templateSet->number = $counter;
-                                $templateSet->exerciseId = $exercise["exercise"]["id"];
-                                $templateSet->workoutsExercisesId = $workoutExercise->id;
-                                $type = "cardio";
-
-                                if(array_key_exists("dist",$rep) and $rep["dist"] != 0) $templateSet->distance =$rep["dist"] ;
-                                if(array_key_exists("time",$rep) and $rep["time"] != 0) $templateSet->time = $rep["time"] ;
-                                if(array_key_exists("speed",$rep) and $rep["speed"] != 0) $templateSet->speed = $rep["speed"] ;
-                                //if(array_key_exists("reps",$rep)) $templateSet->reps = $rep["reps"] ;
-                                if(array_key_exists("bpm",$rep) and $rep["bpm"] != 0) $templateSet->bpm = $rep["bpm"] ;
-
-                                if(is_array($exercise["restBetweenSets"]) and array_key_exists($index, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$index] != ""){
-                                    $templateSet->rest = $exercise["restBetweenSets"][$index];
-                                } else {
-                                    $templateSet->rest = null;
-                                }
-
-
-
-                                //$templateSet->tempo = $exercise["tempo"];
-                                $templateSet->type = $type;
-                                if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] != ""){
-                                    $templateSet->metric = $exercise["repsType"][$index] ;
-                                } else {
-                                    $templateSet->metric = $typeEx;
-                                }
-
-                                if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] == "max") $templateSet->bpm = "max";
-
-                                //$templateSet->notes = $rep["notes"];
-                                $templateSet->workoutId = $workout->id;
-                                $templateSet->units = $workoutExercise->units;
-
-                                $templateSet->save();
-                                $index++;
-                                $counter++;
-
-                                $flag = true;
-                                $metricVisual = "";
-                                foreach( $exercise["repsType"] as $me){
-                                    if($flag and $me != $metricVisual and $metricVisual != ""){
-                                        $flag = false;
-                                    } else {
-                                        $metricVisual = $me;
-                                    }
-                                }
-                                if($flag == false) $metricVisual = "Exercise Mode";
-                                $workoutExercise->metricVisual = $metricVisual;
-                                $workoutExercise->save();
+                            // Handle rest
+                            if (isset($exercise['restBetweenSets']) && is_array($exercise['restBetweenSets']) && isset($exercise['restBetweenSets'][$x]) && !empty($exercise['restBetweenSets'][$x])) {
+                                $templateSet->rest = $exercise['restBetweenSets'][$x];
+                            } else {
+                                $templateSet->rest = null;
                             }
+
+                            // Handle metric type
+                            $templateSet->metric = (isset($exercise['repsType']) && is_array($exercise['repsType']) && isset($exercise['repsType'][$x]) && !empty($exercise['repsType'][$x])) ? $exercise['repsType'][$x] : ($isIntervalsEmpty ? $typeEx : null);
+
+                            if (isset($exercise['repsType']) && isset($exercise['repsType'][$x]) && $exercise['repsType'][$x] == "max") {
+                                $templateSet->bpm = "max";
+                            }
+
+                            // Set remaining properties
+                            $templateSet->workoutId = $workout->id;
+                            $templateSet->units = $workoutExercise->units;
+                            $templateSet->save();
+
+                            $index++;
+                            $counter++;
                         }
+
+                        // Determine metric visualization
+                        $uniqueMetrics = array_unique($exercise['repsType']);
+                        $workoutExercise->metricVisual = (count($uniqueMetrics) > 1) ? "Exercise Mode" : reset($uniqueMetrics);
+                        $workoutExercise->save();
                     } else {
-                        if(is_array($exercise["repArray"])){
+                        if(isset($exercise["repArray"]) && !empty($exercise["repArray"]) && is_array($exercise["repArray"])){
                             $metricVisual = "";
                             foreach($exercise["repArray"] as $rep){
 
                                 $templateSet = new TemplateSets();
                                 $templateSet->number = $counter;
-                                $templateSet->exerciseId = $exercise["exercise"]["id"];
+                                $templateSet->exerciseId = $exercise["exercise"]["id"]??0;
                                 $templateSet->workoutsExercisesId = $workoutExercise->id;
                                 $type = "regular";
 
+                                // Set reps
+                                $templateSet->reps = $rep;
 
-
-
-                                $templateSet->reps = $rep ;
-
-                                if(array_key_exists("weights", $exercise) and array_key_exists($index, $exercise["weights"]) and $exercise["weights"][$index]!= ""){
-                                    $templateSet->weight = $exercise["weights"][$index];
-                                    $templateSet->weightKG = ($templateSet->weight != "") ? Helper::formatWeight($templateSet->weight/2.2) : "";
+                                // Handle weights and weightKG
+                                if (isset($exercise['weights']) && isset($exercise['weights'][$index]) && !empty($exercise['weights'][$index]) && is_numeric($exercise['weights'][$index])) {
+                                    $templateSet->weight = $exercise['weights'][$index];
                                 } else {
                                     $templateSet->weight = 0;
-                                    $templateSet->weightKG = 0;
                                 }
-                                $templateSet->weightKG = ($templateSet->weight != "") ? Helper::formatWeight($templateSet->weight/2.2) : "";
-                                $templateSet->rest = (array_key_exists("rest", $exercise)) ? $exercise["rest"] : $DEFAULT_REST ;
 
-                                if(array_key_exists($index,$exercise["repsType"]) and $exercise["repsType"][$index] != ""){
-                                    $templateSet->metric = $exercise["repsType"][$index] ;
+                                $templateSet->weightKG = (isset($templateSet->weight) && !empty($templateSet->weight)) ? Helper::formatWeight($templateSet->weight / 2.2) : 0;
 
-                                    if($templateSet->metric == "time"){
-                                        $templateSet->time = $rep ;
+                                // Set rest time
+                                $templateSet->rest = (isset($exercise['rest']) && !empty($exercise['rest']) && is_numeric($exercise['rest'])) ? $exercise['rest'] : $DEFAULT_REST;
+
+                                // Handle metric and time
+                                if (isset($exercise['repsType']) && isset($exercise['repsType'][$index]) && !empty($exercise['repsType'][$index])) {
+                                    $templateSet->metric = $exercise['repsType'][$index];
+
+                                    if ($templateSet->metric == "time") {
+                                        $templateSet->time = $rep;
                                     }
                                 } else {
                                     $templateSet->metric = $typeEx;
                                 }
 
-
-
-                                //$templateSet->tempo = $exercise["tempo"];
+                                // Set additional properties
                                 $templateSet->type = $type;
-                                //$templateSet->notes = $exercise["notes"];
                                 $templateSet->workoutId = $workout->id;
                                 $templateSet->units = $workoutExercise->units;
 
-                                if(is_array($exercise["restBetweenSets"]) and array_key_exists($index, $exercise["restBetweenSets"]) and $exercise["restBetweenSets"][$index] != ""){
-                                    $templateSet->rest = $exercise["restBetweenSets"][$index];
+                                // Handle rest between sets
+                                if (isset($exercise['restBetweenSets']) &&  is_array($exercise['restBetweenSets']) && isset($exercise['restBetweenSets'][$index]) && !empty($exercise['restBetweenSets'][$index])){
+                                    $templateSet->rest = $exercise['restBetweenSets'][$index];
                                 } else {
                                     $templateSet->rest = null;
                                 }
 
+                                // Save the template set
                                 $templateSet->save();
+
+                                // Manage the counter and index
                                 $index++;
                                 $counter++;
 
+                                // Determine visual representation for the metric
                                 $flag = true;
                                 $metricVisual = "";
-                                foreach( $exercise["repsType"] as $me){
-                                    if($flag and $me != $metricVisual and $metricVisual != ""){
+                                foreach ($exercise['repsType']??[] as $me) {
+                                    if ($flag && $me != $metricVisual && $metricVisual != "") {
                                         $flag = false;
                                     } else {
                                         $metricVisual = $me;
                                     }
                                 }
-                                if($flag == false) $metricVisual = "Exercise Mode";
+
+                                if (!$flag) {
+                                    $metricVisual = "Exercise Mode";
+                                }
+
+                                // Save workout exercise metric visual
                                 $workoutExercise->metricVisual = $metricVisual;
                                 $workoutExercise->save();
                             }

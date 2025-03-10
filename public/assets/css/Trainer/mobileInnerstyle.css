@@ -6984,7 +6984,7 @@ th.bound,
     margin-right: 8px;
     box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.5); }
   .circuitSetUp input[type=radio]:checked + label span, .circuitSetUp .popup_container .share_content textarea[type=radio]:checked + label span, .popup_container .share_content .circuitSetUp textarea[type=radio]:checked + label span {
-    background: url("/img/svg/selected.svg");
+    background: url("/assets/img/svg/selected.svg");
     background-position: center center;
     background-size: 6px;
     background-repeat: no-repeat; }
