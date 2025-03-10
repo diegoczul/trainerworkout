@@ -287,7 +287,7 @@ class ExercisesController extends BaseController
             if ($requestType == "") {
                 return Redirect::back()->withErrors($validation->messages()->first())->withInput();
             } else {
-                return $this::responseJsonError($validation->messages());
+                return $this::responseJsonError($validation->messages()->first());
             }
         } else {
             $exercise = new Exercises;
@@ -452,7 +452,7 @@ class ExercisesController extends BaseController
             if ($requestType == "") {
                 return back()->withErrors($validation->messages()->first())->withInput();
             } else {
-                return $this->responseJsonError($validation->messages());
+                return $this->responseJsonError($validation->messages()->first());
             }
         } else {
             $exercise = Exercises::find($id);
