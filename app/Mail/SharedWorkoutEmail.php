@@ -2,7 +2,6 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\App;
 
 class SharedWorkoutEmail extends Mailable
 {
@@ -18,7 +17,8 @@ class SharedWorkoutEmail extends Mailable
         $subject,
         $copyMe,
         $copyView,
-        $copyPrint
+        $copyPrint,
+        $lang
     ) {
         // Initialize the properties
         $this->sharing = $sharing;
@@ -33,11 +33,12 @@ class SharedWorkoutEmail extends Mailable
         $this->copyMe = $copyMe;
         $this->copyView = $copyView;
         $this->copyPrint = $copyPrint;
+        $this->lang = $lang;
     }
 
     public function build()
     {
-        $this->view('emails.' . config('app.whitelabel') . '.user.' . App::getLocale() . '.sharedWorkout')
+        $this->view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout')
             ->subject($this->subject)
             ->to($this->toUser->email)
             ->with([

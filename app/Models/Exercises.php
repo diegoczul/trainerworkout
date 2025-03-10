@@ -30,6 +30,9 @@ class Exercises extends Model implements TranslatableContract
         "description" => "max:500",
         "equipment" => "required|max:500",
         "bodygroup" => "required",
+        "image1" => 'sometimes|mimes:jpg,png,jpeg,gif',
+        "image2" => 'sometimes|mimes:jpg,png,jpeg,gif',
+        "video" => 'sometimes|mimes:mp4',
     ];
 
 

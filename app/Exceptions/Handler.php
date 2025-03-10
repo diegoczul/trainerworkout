@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Exception $e, Request $request) {
-            if($request->ajax() || !$request->isMethod('get')){
+            if($request->ajax() && !$request->isMethod('get')){
                 return response()->json([
                     'success' => false,
                     'message' => "Internal Server Error",

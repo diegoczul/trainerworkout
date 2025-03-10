@@ -16,15 +16,17 @@ class ActivationEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+    public $lang;
 
-    public function __construct($user)
+    public function __construct($user,$lang)
     {
         $this->user = $user;
+        $this->lang = $lang;
     }
 
     public function build()
     {
-        return $this->view('emails.' . Config::get("app.whitelabel") . '.user.' . App::getLocale() . '.activateEmail')
+        return $this->view('emails.' . Config::get("app.whitelabel") . '.user.' . $this->lang . '.activateEmail')
             ->with(['user' => $this->user])
             ->subject(__('messages.TrainerWorkoutEmailConfirmation'));
     }

@@ -7,6 +7,7 @@ use App\Mail\InviteFriendMail;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +46,8 @@ class Invites extends Model
             "lastName" => $user->lastName
         ]);
 
-        Mail::to($this->email)->queue(new InviteFriendMail($subject,$this,$user,$name));
+        $lang = App::getLocale();
+        Mail::to($this->email)->queue(new InviteFriendMail($subject,$this,$user,$name,$lang));
     }
 
     public function sendInviteClient($comments = "")
@@ -62,7 +64,8 @@ class Invites extends Model
             "lastName" => $user->lastName
         ]);
 
-        Mail::to($email)->queue(new InviteClientMail($subject,$comments,$this,$user,$fake));
+        $lang = App::getLocale();
+        Mail::to($email)->queue(new InviteClientMail($subject,$comments,$this,$user,$fake,$lang));
     }
 
     public function completeInvite()

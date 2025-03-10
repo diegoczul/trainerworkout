@@ -16,16 +16,18 @@ class InviteFriendMail extends Mailable implements ShouldQueue
     public $user;
     public $name;
     public $subject;
+    public $lang;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($subject,$invite, $user, $name)
+    public function __construct($subject,$invite, $user, $name, $lang)
     {
         $this->invite = $invite;
         $this->user = $user;
         $this->name = $name;
         $this->subject = $subject;
+        $this->lang = $lang;
     }
 
     /**
@@ -34,7 +36,7 @@ class InviteFriendMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject($this->subject)
-            ->view('emails.' . config("app.whitelabel") . '.user.' . App::getLocale() . '.inviteFriend')
+            ->view('emails.' . config("app.whitelabel") . '.user.' .$this->lang. '.inviteFriend')
             ->with([
                 'invite' => $this->invite,
                 'user' => $this->user,

@@ -12,9 +12,9 @@ class WorkoutPerformedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject, $toUser, $fromUser, $workout, $performance, $rating, $ratingString;
+    public $subject, $toUser, $fromUser, $workout, $performance, $rating, $ratingString,$lang;
 
-    public function __construct($subject,$toUser, $fromUser, $workout, $performance, $rating, $ratingString)
+    public function __construct($subject,$toUser, $fromUser, $workout, $performance, $rating, $ratingString,$lang)
     {
         $this->toUser = $toUser;
         $this->fromUser = $fromUser;
@@ -23,12 +23,13 @@ class WorkoutPerformedMail extends Mailable
         $this->rating = $rating;
         $this->ratingString = $ratingString;
         $this->subject = $subject;
+        $this->lang = $lang;
     }
 
     public function build()
     {
         return $this->subject($this->subject)
-            ->view('emails.' . Config::get('app.whitelabel') . '.user.' . App::getLocale() . '.workoutPerformed')
+            ->view('emails.' . Config::get('app.whitelabel') . '.user.' . $this->lang . '.workoutPerformed')
             ->with([
                 'toUser' => $this->toUser,
                 'fromUser' => $this->fromUser,

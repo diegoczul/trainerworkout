@@ -415,45 +415,45 @@ function echoSelectedClassIfRequestMatches($requestUri)
         }
     </script>
     <script>
-        // window.intercomSettings = {
-        //   //The current logged in user's full name
-        //   name: "{{{ Auth::user()->getCompleteName() }}}",
-        //   //The current logged in user's email address.
-        //   email: "{{{ Auth::user()->email }}}",
-        //   user_id: "{{{ Auth::user()->id }}}",
-        //   //The current logged in user's sign-up date as a Unix timestamp.
-        //   created_at: {{ Helper::dateToUnix(Auth::user()->created_at) }},
-        //   //UserType
-        //   "userType": "trainer",
-        //   //Language
-        //   "lang": "{{{ Auth::user()->lang }}}",
-        //   //Memberhsip type
-        //   "membership_plan": "{{{ (Auth::user()->getTrainerWorkoutMembership() and Auth::user()->getTrainerWorkoutMembership()->membership) ? Auth::user()->getTrainerWorkoutMembership()->membership->name : "" }}}",
-        //   // Nb of clients
-        //   "number_of_clients": "{{{ Auth::user()->getNumberOfClients() }}}",
-        //   //Nb of workouts in account
-        //   "number_of_workouts": "{{{ Auth::user()->getNumberOfWorkouts() }}}",
-        //   //Nb of exercise created
-        //   "number_of_exercises": "{{{ Auth::user()->getNumberOfExercises() }}}",
+        {{--// window.intercomSettings = {--}}
+        {{--//   //The current logged in user's full name--}}
+        {{--//   name: "{{{ Auth::user()->getCompleteName() }}}",--}}
+        {{--//   //The current logged in user's email address.--}}
+        {{--//   email: "{{{ Auth::user()->email }}}",--}}
+        {{--//   user_id: "{{{ Auth::user()->id }}}",--}}
+        {{--//   //The current logged in user's sign-up date as a Unix timestamp.--}}
+        {{--//   created_at: {{ Helper::dateToUnix(Auth::user()->created_at) }},--}}
+        {{--//   //UserType--}}
+        {{--//   "userType": "trainer",--}}
+        {{--//   //Language--}}
+        {{--//   "lang": "{{{ Auth::user()->lang }}}",--}}
+        {{--//   //Memberhsip type--}}
+        {{--//   "membership_plan": "{{{ (Auth::user()->getTrainerWorkoutMembership() and Auth::user()->getTrainerWorkoutMembership()->membership) ? Auth::user()->getTrainerWorkoutMembership()->membership->name : "" }}}",--}}
+        {{--//   // Nb of clients--}}
+        {{--//   "number_of_clients": "{{{ Auth::user()->getNumberOfClients() }}}",--}}
+        {{--//   //Nb of workouts in account--}}
+        {{--//   "number_of_workouts": "{{{ Auth::user()->getNumberOfWorkouts() }}}",--}}
+        {{--//   //Nb of exercise created--}}
+        {{--//   "number_of_exercises": "{{{ Auth::user()->getNumberOfExercises() }}}",--}}
 
-        //   // HIDE INTERCOM CHAT ICON ON Create Workout page
-        //   "hide_default_launcher": onPage,
+        {{--//   // HIDE INTERCOM CHAT ICON ON Create Workout page--}}
+        {{--//   "hide_default_launcher": onPage,--}}
 
-        //   //Where did the user come from
-        //   <?php
-                 //     $params = explode("&",Auth::user()->marketing);
-                 //     foreach($params as $param){
-                 //       $pa = explode("=",$param);
-                 //       if($pa > 1 and count($pa) > 1){
-                 //         echo '"'.$pa[0].'":"'.$pa[1].'",';
-                 //       }
-                 //     }
-                 //     ?>
-        //   //Our app ID
-        //   app_id: "af0obxyk",
-        //   //Class click that launches our intercom messenger
-        //   custom_launcher_selector: '#intercomWindow',
-        // };
+        {{--//   //Where did the user come from--}}
+        {{--//   <?php--}}
+        {{--         //     $params = explode("&",Auth::user()->marketing);--}}
+        {{--         //     foreach($params as $param){--}}
+        {{--         //       $pa = explode("=",$param);--}}
+        {{--         //       if($pa > 1 and count($pa) > 1){--}}
+        {{--         //         echo '"'.$pa[0].'":"'.$pa[1].'",';--}}
+        {{--         //       }--}}
+        {{--         //     }--}}
+        {{--         //     ?>--}}
+        {{--//   //Our app ID--}}
+        {{--//   app_id: "af0obxyk",--}}
+        {{--//   //Class click that launches our intercom messenger--}}
+        {{--//   custom_launcher_selector: '#intercomWindow',--}}
+        {{--// };--}}
 
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         (function () {

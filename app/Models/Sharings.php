@@ -80,8 +80,8 @@ class Sharings extends Model
 
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
-
-                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
+                $lang = App::getLocale();
+                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
             } else {
                 $sharing = new Sharings();
                 $sharing->viewed = 0;
@@ -96,8 +96,8 @@ class Sharings extends Model
 
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
-
-                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint));
+                $lang = App::getLocale();
+                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
             }
         }
     }

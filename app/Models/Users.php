@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Http\Libraries\Helper;
+use App\Mail\ActivationEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
@@ -237,7 +238,8 @@ class Users extends Authenticatable implements JWTSubject
         $this->save();
 
         $user = Users::find($this->id);
-
+        $lang = App::getLocale();
+        Mail::queue(new ActivationEmail($user,$lang));
 //        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.activateEmail', array("user"=>serialize($user)), function($message) use ($user)
 //        {
 //            $message->to($user->email)
@@ -504,5 +506,20 @@ class Users extends Authenticatable implements JWTSubject
             }
 
         }
+    }
+
+    public function getTrainerWorkoutMembership(){
+        $membership = MembershipsUsers::where("userId",$this->id)->first();
+        if($membership) return $membership;
+
+        $membership = new MembershipsUsers;
+        $membership->userId = $this->id;
+        //DEFAULT MEMBERSHIP
+        $membership->membershipId = Config::get("constants.defaultMembership");
+        $membership->registrationDate = date("Y-m-d H:i:s");
+        $membership->expiry = date('Y-m-d H:i:s', strtotime('+1 year'));
+        $membership->save();
+
+        return $membership;
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
 
 class InviteClientMail extends Mailable implements ShouldQueue
 {
@@ -18,11 +17,12 @@ class InviteClientMail extends Mailable implements ShouldQueue
     public $user;
     public $fake;
     public $subject;
+    public $lang;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($subject,$comments, $invite, $user, $fake)
+    public function __construct($subject,$comments, $invite, $user, $fake,$lang)
     {
         $this->comments = $comments;
         $this->password = null;
@@ -30,6 +30,7 @@ class InviteClientMail extends Mailable implements ShouldQueue
         $this->user = serialize($user);
         $this->fake = serialize($fake);
         $this->subject = $subject;
+        $this->lang = $lang;
     }
 
     /**
@@ -38,7 +39,7 @@ class InviteClientMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject($this->subject)
-            ->view('emails.' . config("app.whitelabel") . '.user.' . App::getLocale() . '.inviteClient')
+            ->view('emails.' . config("app.whitelabel") . '.user.' . $this->lang . '.inviteClient')
             ->with([
                 'comments' => $this->comments,
                 'password' => $this->password,

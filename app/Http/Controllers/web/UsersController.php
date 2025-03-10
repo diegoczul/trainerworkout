@@ -21,6 +21,7 @@ use App\Models\Friends;
 use App\Models\Weights;
 use App\Models\Workouts;
 use App\Models\WorkoutsExercises;
+use App\Services\SendGridSubscriptionService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -652,7 +653,8 @@ class UsersController extends BaseController
         try {
             if (!Config::get('app.debug')) {
                 Newsletter::subscribe($user->email,[],'trainer');
-//                MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
+//                $sendGridService = new SendGridSubscriptionService();
+//                $sendGridService->subscribeToList(['email' => $user->email],Config::get('constants.mailChimpTrainers'));
             }
         } catch (Exception $e) {
             Log::error("MAILCHIMP Error");

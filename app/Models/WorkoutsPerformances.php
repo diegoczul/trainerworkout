@@ -67,8 +67,8 @@ class WorkoutsPerformances extends Model
                 'name' => $name,
                 'workout' => $workout->name,
             ]);
-
-            Mail::to($toUser->email)->queue(new WorkoutPerformedMail($subject,$toUser, $fromUser, $workout, $workoutPerformance, $rating, $ratingString));
+            $lang = App::getLocale();
+            Mail::to($toUser->email)->queue(new WorkoutPerformedMail($subject,$toUser, $fromUser, $workout, $workoutPerformance, $rating, $ratingString, $lang));
             Event::dispatch('notifyActivity', [Auth::user(), $toUser]);
         }
     }
