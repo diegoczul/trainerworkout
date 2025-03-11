@@ -1456,28 +1456,28 @@ class WorkoutsController extends BaseController {
 
 				if($workout){
 
-                    if ($jpeg) {
-                        try {
-                            $imageData = $this->PrintWorkoutImage($workout->id);
-                            $image = App::make('snappy.image');
-                            $image->setTimeout(300);
-                            $image->setOption('enable-local-file-access', true);
-                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
-                            $image->generateFromHtml($imageData, $imagePath);
-                        } catch (ProcessTimedOutException $e) {
-                            Log::error("Snappy image generation timed out: " . $e->getMessage());
-                            throw $e;
-                        } catch (\Exception $e) {
-                            Log::error("Image generation failed: " . $e->getMessage());
-                            throw $e;
-                        }
-
-                        // Add the image to the ZIP file
-                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
-
-                        // Add the PDF to the ZIP file
-                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
-                    }
+//                    if ($jpeg) {
+//                        try {
+//                            $imageData = $this->PrintWorkoutImage($workout->id);
+//                            $image = App::make('snappy.image');
+//                            $image->setTimeout(300);
+//                            $image->setOption('enable-local-file-access', true);
+//                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
+//                            $image->generateFromHtml($imageData, $imagePath);
+//                        } catch (ProcessTimedOutException $e) {
+//                            Log::error("Snappy image generation timed out: " . $e->getMessage());
+//                            throw $e;
+//                        } catch (\Exception $e) {
+//                            Log::error("Image generation failed: " . $e->getMessage());
+//                            throw $e;
+//                        }
+//
+//                        // Add the image to the ZIP file
+//                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
+//
+//                        // Add the PDF to the ZIP file
+//                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
+//                    }
 
 					if($pdf){
 						$data = array();
