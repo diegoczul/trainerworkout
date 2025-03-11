@@ -58,7 +58,9 @@ class RemindersController extends BaseController
 
         return match ($response) {
             Password::PASSWORD_RESET => Redirect::to('/')->with('message', Lang::get("messages.PasswordReset")),
-            Password::INVALID_PASSWORD, Password::INVALID_TOKEN, Password::INVALID_USER => Redirect::back()->with('error', Lang::get($response)),
+            Password::INVALID_TOKEN,
+            Password::INVALID_USER => Redirect::back()->with('error', Lang::get($response)),
+            default => throw new \UnhandledMatchError("Unhandled password response: {$response}"),
         };
     }
 }
