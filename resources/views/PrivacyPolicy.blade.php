@@ -11,7 +11,7 @@
     <section id="privacyPolicy" style="font-family: Arial, sans-serif; line-height: 1.8; margin: 20px; margin-top: 60px">
         <div class="privacyWrapper" style="max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
             <p style="text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 10px;"><strong>Privacy Policy</strong></p>
-            <p style="text-align: center; font-size: 14px; color: #555;"><strong>Effective Date:</strong> [Insert Date]</p>
+            <p style="text-align: center; font-size: 14px; color: #555;"><strong>Effective Date:</strong> 11/03/2025</p>
 
             <h2 style="margin-top: 20px; color: #2c3e50;">1. Introduction</h2>
             <p style="margin-bottom: 15px;">
@@ -78,7 +78,7 @@
 
             <h2 style="margin-top: 20px; color: #2c3e50;">10. Contact Us</h2>
             <p style="margin-bottom: 15px;">
-                For any privacy concerns, contact us at <a href="mailto:[Insert Support Email]" style="color: #2c3e50;">[Insert Support Email]</a>.
+                For any privacy concerns, contact us at <a href="mailto:support@trainer-workout.com" style="color: #2c3e50;">support@trainer-workout.com</a>.
             </p>
         </div>
     </section>
