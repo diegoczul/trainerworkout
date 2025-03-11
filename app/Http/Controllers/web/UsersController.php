@@ -653,8 +653,8 @@ class UsersController extends BaseController
         try {
             if (!Config::get('app.debug')) {
 //                Newsletter::subscribe($user->email,[],'trainer');
-//                $sendGridService = new SendGridSubscriptionService();
-//                $sendGridService->subscribeToList(['email' => $user->email],Config::get('constants.mailChimpTrainers'));
+                $sendGridService = new SendGridSubscriptionService();
+                $sendGridService->subscribeToList(['email' => $user->email],'trainer');
             }
         } catch (Exception $e) {
             Log::error("MAILCHIMP Error");

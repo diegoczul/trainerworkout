@@ -50,19 +50,19 @@
                     <fieldset class="exerice_images">
                         <div class="col image">
                             <label for="img1" onclick="updateName(this)">{{ Lang::get("content.Uploadpicture") }}1</label>
-                            <input id="img1" onclick="updateName(this)" type="file" name="image1" placeholder="" class="imageInput">
+                            <input id="img1" onclick="updateName(this)" type="file" name="image1" placeholder="" class="imageInput" accept="image/png, image/gif, image/jpeg">
                             <label for="img1" onclick="updateName(this)" class="button">{{ Lang::get("content.selecteimage")}} 1</label>
                         </div>
                         <div class="col image">
                             <label for="img2" onclick="updateName(this)">{{ Lang::get("content.Uploadpicture") }}2</label>
-                            <input id="img2" onclick="updateName(this)" type="file" name="image2" placeholder="" class="imageInput">
+                            <input id="img2" onclick="updateName(this)" type="file" name="image2" placeholder="" class="imageInput" accept="image/png, image/gif, image/jpeg">
                             <label for="img2" onclick="updateName(this)" class="button">{{ Lang::get("content.selecteimage")}} 2</label>
                         </div>
                     </fieldset>
                     <fieldset class="exercise_video">
                         <div class="video uploadVideo image">
                             <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }}*{{ Lang::get("content.Max Size") }}: 256mb</label>
-                            <input id="video1" onclick="updateName(this)" type="file" name="video" placeholder="" class="imageInput">
+                            <input id="video1" onclick="updateName(this)" type="file" name="video" placeholder="" class="imageInput" accept="video/mp4, video/mkv">
                             <label for="video1" onclick="updateName(this)" class="button">{{ Lang::get("content.selectVideo")}}</label>
                         </div>
                         <div class="video youtubeVideo">

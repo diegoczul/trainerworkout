@@ -247,10 +247,10 @@
                     <button onclick="showTempo(this)" class="addTempoButton">+ {{ Lang::get("content.add tempo") }}</button>
                     <div class="tempo-active hide">
                         <div>{{ Lang::get("content.Tempo") }}</div>
-                        <input type="number" inputmode="decimal" class="tempo1" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
-                        <input type="number" inputmode="decimal" class="tempo2" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
-                        <input type="number" inputmode="decimal" class="tempo3" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
-                        <input type="number" inputmode="decimal" class="tempo4" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
+                        <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo1" onChange="updateTempo(this)" value=""/>
+                        <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo2" onChange="updateTempo(this)" value=""/>
+                        <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo3" onChange="updateTempo(this)" value=""/>
+                        <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo4" onChange="updateTempo(this)" value=""/>
                         <div onclick="hideTempo(this)" style="align-items: center;justify-content: center;display: flex;">
                             <svg class="delete" width="17px" height="17px" viewBox="273 32 17 17" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
                                 <!-- Delete -->
@@ -291,7 +291,7 @@
                     <tbody>
                         <tr class="set muscleSet" setNumber="1">
                             <th scope="row"><p>1</p></th>
-                            <td class="weight lbs"><input type="number" inputmode="decimal" onfocus="numberOnly(this);" onChange="updateField('weight',this)"></td>
+                            <td class="weight lbs"><input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" onChange="updateField('weight',this)"></td>
                             <!-- <td class="time bound sec"><input></td> -->
                             <td class="rep bound"><input value="8" onChange="updateField('rep',this)"></td>
                             <!-- <td class="range bound"><input> - <input></td> -->
@@ -336,7 +336,7 @@
         </svg>
         <div class="btwExerciseRest-time">
             <label for="restTime">{{ Lang::get("content.rest time") }}</label>
-            <input id="" class="restTime" onfocus="numberOnly(this);" onChange="saveRestTime(this)" type="number" inputmode="decimal">
+            <input id="" class="restTime" type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" onChange="saveRestTime(this)" inputmode="decimal">
             <label for="restTime">{{ Lang::get("content.sec") }}</label>
         </div>
         <svg onclick="closeRestBetweenExercise(this)" width="15" height="15" viewBox="0 0 15 15" xmlns="https://www.w3.org/2000/svg">
@@ -373,7 +373,7 @@
         </svg>
         <div class="btwExerciseRest-time">
             <label for="restTime">{{ Lang::get("content.rest time") }}</label>
-            <input id="" class="restTime" onfocus="numberOnly(this);" onChange="saveRestTimeBetweenGroups(this)" type="number" inputmode="decimal">
+            <input id="" class="restTime" type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" onChange="saveRestTimeBetweenGroups(this)" inputmode="decimal">
             <label for="restTime">{{ Lang::get("content.sec") }}</label>
         </div>
         <svg onclick="closeRestBetweenExercise(this)" width="15" height="15" viewBox="0 0 15 15" xmlns="https://www.w3.org/2000/svg">
@@ -636,10 +636,10 @@
                 <button onclick="showTempo(this)" class="addTempoButton">+ {{ Lang::get("content.add tempo") }}</button>
                 <div class="tempo-active hide">
                     <div>{{ Lang::get("content.Tempo") }}</div>
-                    <input type="number" inputmode="decimal" class="tempo1" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
-                    <input type="number" inputmode="decimal" class="tempo2" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
-                    <input type="number" inputmode="decimal" class="tempo3" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
-                    <input type="number" inputmode="decimal" class="tempo4" onfocus="numberOnly(this);" onChange="updateTempo(this)" value=""/>
+                    <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo1" onChange="updateTempo(this)" value=""/>
+                    <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo2" onChange="updateTempo(this)" value=""/>
+                    <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo3" onChange="updateTempo(this)" value=""/>
+                    <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="tempo4" onChange="updateTempo(this)" value=""/>
                     <div onclick="hideTempo(this)" style="align-items: center;justify-content: center;display: flex;">
                         <svg class="delete" width="17px" height="17px" viewBox="273 32 17 17" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
                             <!-- Delete -->
@@ -677,7 +677,7 @@
                     <tbody>
                         <tr class="set muscleSet" setnumber="1">
                             <th scope="row"><p>1</p></th>
-                            <td class="weight lbs"><input type="number" inputmode="decimal" onfocus="numberOnly(this);" onChange="updateField('weight',this)"/></td>
+                            <td class="weight lbs"><input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" onChange="updateField('weight',this)"/></td>
                             <td class="rep bound"><input  onChange="updateField('rep',this)" value="8"/></td>
                             <td class="repStyleChoice" onclick="muscleBoundMenu(this,0)"><p>{{ Lang::get("content.rep") }}</p></td>
                         </tr>
@@ -881,12 +881,12 @@
                     <fieldset class="circuitStyle-rounds">
                         <span class="optionId">2</span>
                         <div class="option">
-                            <input type="number" inputmode="decimal" onfocus="numberOnly(this);" name="nbRounds" id="nbRounds" class="numberOfRounds likeNumber" value="1">
+                            <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" name="nbRounds" id="nbRounds" class="numberOfRounds likeNumber" value="1">
                             <label for="nbRounds">{{ Lang::get("content.nb of Rounds") }}</label>
                         </div>
                         <span class="optionId">3</span>
                         <div class="option">
-                            <input type="number" inputmode="decimal" onfocus="numberOnly(this);" name="restBtwRounds" id="restBtwRounds" class="numberOfRoundsRest likeNumber">
+                            <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" name="restBtwRounds" id="restBtwRounds" class="numberOfRoundsRest likeNumber">
                             <label for="restBtwRounds">{{ Lang::get("content.sec rest between rounds (optional)") }}</label>
                         </div>
                     </fieldset>
@@ -894,19 +894,19 @@
                         <span class="optionId">2</span>
                         <div class="option">
 
-                            <input type="number" inputmode="decimal" onfocus="numberOnly(this);" name="amrap" id="amrap" class="amrapValue likeNumber">
+                            <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" name="amrap" id="amrap" class="amrapValue likeNumber">
                             <label for="amrap">{{ Lang::get("content.Total time (optional)") }}</label>
                         </div>
                         <span class="optionId">3</span>
                         <div class="option">
-                            <input type="number" inputmode="decimal" onfocus="numberOnly(this);" name="restBtwRoundsAm" id="restBtwRoundsAm" class="likeNumber numberOfRoundsRestAm">
+                            <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" name="restBtwRoundsAm" id="restBtwRoundsAm" class="likeNumber numberOfRoundsRestAm">
                             <label for="restBtwRoundsAm">{{ Lang::get("content.sec rest between rounds (optional)") }}</label>
                         </div>
                     </fieldset>
                     <fieldset class="circuitStyle-emom">
                         <span class="optionId">2</span>
                         <div class="option">
-                            <input type="number" inputmode="decimal" onfocus="numberOnly(this);" name="emom" id="emom" class="emomValue likeNumber numberOfRoundsRestEmom" value="1">
+                            <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" name="emom" id="emom" class="emomValue likeNumber numberOfRoundsRestEmom" value="1">
                             <label for="emom">{{ Lang::get("content.nb of minutes") }}</label>
                         </div>
                     </fieldset>
@@ -1503,7 +1503,7 @@ function addingSet(object) {
     //Make a rest set
     var muscleRest = '<tr class="restBtwSet">';
     muscleRest += '<th scope="row"><button onclick="addRestBetweenSets(this,'+nbSet+')">+</button><span>'+dict["rest"]+'</span></th>';
-    muscleRest += '<td colspan="' + nbTd +'" class="secRest"><p style="text-align:center;">'+dict["add rest between set"]+'</p><input type="number" inputmode="decimal" class="restBetweenSets" onfocus="numberOnly(this);" onChange="addRestBetweenSetsInfo(this)" setNumber="'+nbSet+'"></input></td>';
+    muscleRest += `<td colspan="${nbTd}" class="secRest"><p style="text-align:center;">${dict["add rest between set"]}</p><input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" inputmode="decimal" class="restBetweenSets" onChange="addRestBetweenSetsInfo(this)" setNumber="${nbSet}" /></td>'`;
     muscleRest += '</tr>';
 
     //Add rest time to the table
@@ -1954,9 +1954,11 @@ function buildExerciseSets(id){
                 if(exerciseGroups[group][exNumber].metric == "metric"){
                     metric = 'kg';
                 }
-                html += "<td class='weight "+metric+"'>"+
-                        '<input type="number" inputmode="decimal" onfocus="numberOnly(this);" onchange="updateField(\'weight\',this)" value="'+exerciseGroups[group][exNumber].weights[t]+'"/>'+
-                        '</td>';
+
+                html += `<td class='weight ${metric}'>
+                            <input type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, ')" inputmode="decimal" onchange="updateField(\'weight\',this)" value="${exerciseGroups[group][exNumber].weights[t]}"/>
+                        </td>`;
+
                 var value=0;
                 if(exerciseGroups[group][exNumber].repType == "rep"){
                     value = exerciseGroups[group][exNumber].repArray[t];

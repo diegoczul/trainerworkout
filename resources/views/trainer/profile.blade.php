@@ -23,14 +23,14 @@ use App\Http\Libraries\Helper;
                             <a href="javascript:void(0)" onClick="rotateRight($(this)); arguments[0].stopPropagation(); return false;" class="rotate_right"><img src="{{asset('assets/img/rotate_right.png')}}"/></a>
                         </div>
 
-                        <input type="file" class="profileImg profileImg1" name="image"></input>
+                        <input type="file" class="profileImg profileImg1" name="image" accept="image/png, image/gif, image/jpeg" />
                     </div>
                 </label>
                 <label for="logo">{{ Lang::get("content.logo") }}
                     <div class="img logoProfileContainer">
                         <img class="logoProfile" src="/{{ Helper::image(((isset($logo) and $logo) ? $logo->thumb : "")) }}" alt="profile image">
                         <p id="editImgLogo">{{ Lang::get("content.TEditImgLogo") }}</p>
-                        <input type="file" class="profileImg profileImgLogo" name="logo"></input>
+                        <input type="file" class="profileImg profileImgLogo" name="logo" accept="image/png, image/gif, image/jpeg" />
                     </div>
                 </label>
             </div>
@@ -40,7 +40,7 @@ use App\Http\Libraries\Helper;
                 <label for="lname">{{ Lang::get("content.TLastName") }}<!-- <img src="/img/editIcon.svg" alt="edit last name"> --></label>
                 <input type="text" placeholder="{{ $user->lastName }}" name="lastName" id="lname" value="{{ $user->lastName }}" class="showInput">
                 <label for="phone">{{ Lang::get("content.TphoneNumber") }}<!-- <img src="/img/editIcon.svg" alt="edit phone number"> --></label>
-                <input type="tel" placeholder="1 (514) 555-4444" name="phone" id="phone" value="{{ $user->phone }}" class="showInput">
+                <input type="tel" oninput="this.value = this.value.replace(/[^0-9\s\-\+\(\).]*/g, '')" placeholder="1 (514) 555-4444" name="phone" id="phone" value="{{ $user->phone }}" class="showInput">
                 <label for="email">{{ Lang::get("content.Temail") }}<!-- <img src="/img/editIcon.svg" alt="edit email"> --></label>
                 <input type="email" placeholder="{{ $user->email }}" name="email" id="email" value="{{ $user->email }}" class="showInput">
 

@@ -155,7 +155,7 @@
             </li>
             @if(Auth::user()->userType == "Trainee" )
                 <li class="c-menu__item logout">
-                    <a onclick="deleteAccount();deleteIndexedDatabase();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
+                    <a onclick="deleteAccount();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.DeleteAccount") }}</a>
                 </li>
             @endif
             <li class="c-menu__item logout">
@@ -474,6 +474,7 @@
                 type: "DELETE",
                 success: function (data, textStatus, jqXHR) {
                     successMessage(data);
+                    deleteIndexedDatabase();
                     window.location.reload();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
