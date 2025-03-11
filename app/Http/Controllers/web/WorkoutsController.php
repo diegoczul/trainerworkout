@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
+use RuntimeException;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use ZipArchive;
 
 class WorkoutsController extends BaseController {
@@ -713,6 +715,33 @@ class WorkoutsController extends BaseController {
 			->with("workout",$workout)
 			->with("groups",$workout->getGroups()->get())
 			->with("exercises",$workout->getExercises()->get());
+	}
+    public function PrintWorkoutImage($workoutId,$locale="en"){
+        $workout = Workouts::find($workoutId);
+
+
+        $user = Users::find($workout->userId);
+        $tags = $workout->tags;
+        $tagsArray = explode(",",$tags);
+        $tags = Tags::whereIn("name",$tagsArray)->where("userId",$workout->userId)->get();
+        $tagsClient = Tags::where("type","user")->where("userId",$workout->userId)->get();
+        $tagsTags = Tags::where("type","tag")->where("userId",$workout->userId)->get();
+        if($user->lang != "") {
+            App::setLocale($user->lang);
+        } else {
+            App::setLocale($locale);
+        }
+        if($workout){
+            $workout->incrementViews();
+            return view("workoutImage")
+                ->with("workout",$workout)
+                ->with("user",$user)
+                ->with("tags",$tags)
+                ->with("tagsTags",$tagsTags)
+                ->with("tagsClient",$tagsClient)
+                ->with("groups",$workout->getGroups()->get())
+                ->with("exercises",$workout->getExercises()->get());
+        }
 	}
 
 	public function PrintWorkoutPDF($workoutId){
@@ -1427,25 +1456,28 @@ class WorkoutsController extends BaseController {
 
 				if($workout){
 
+                    if ($jpeg) {
+                        try {
+                            $imageData = $this->PrintWorkoutImage($workout->id);
+                            $image = App::make('snappy.image');
+                            $image->setTimeout(300);
+                            $image->setOption('enable-local-file-access', true);
+                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
+                            $image->generateFromHtml($imageData, $imagePath);
+                        } catch (ProcessTimedOutException $e) {
+                            Log::error("Snappy image generation timed out: " . $e->getMessage());
+                            throw $e;
+                        } catch (\Exception $e) {
+                            Log::error("Image generation failed: " . $e->getMessage());
+                            throw $e;
+                        }
 
+                        // Add the image to the ZIP file
+                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
 
-//                    if ($jpeg) {
-//                        // Load the image using Intervention Image
-//                        $imageData = file_get_contents(URL::to($workout->getURLImage()));
-//                        $image = Image::make($imageData);
-//
-//                        // Define the image path
-//                        $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
-//
-//                        // Save the image
-//                        $image->save($imagePath);
-//
-//                        // Add the image to the ZIP file
-//                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
-//
-//                        // Add the PDF to the ZIP file
-//                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
-//                    }
+                        // Add the PDF to the ZIP file
+                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
+                    }
 
 					if($pdf){
 						$data = array();

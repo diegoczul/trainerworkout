@@ -772,7 +772,7 @@ body.has-active-menu {
 }
 
 .trainerWorkoutMessage:after {
-	content: url(/img/Trainee/bubbleTail.svg);
+	content: url(/assets/img/Trainee/bubbleTail.svg);
 	position: absolute;
 	bottom: -9px;
 	left: 17px;

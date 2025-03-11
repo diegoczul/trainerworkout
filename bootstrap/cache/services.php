@@ -49,10 +49,11 @@
     45 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     46 => 'Collective\\Html\\HtmlServiceProvider',
     47 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
-    48 => 'App\\Providers\\AppServiceProvider',
-    49 => 'App\\Providers\\AuthServiceProvider',
-    50 => 'App\\Providers\\EventServiceProvider',
-    51 => 'App\\Providers\\RouteServiceProvider',
+    48 => 'Barryvdh\\Snappy\\ServiceProvider',
+    49 => 'App\\Providers\\AppServiceProvider',
+    50 => 'App\\Providers\\AuthServiceProvider',
+    51 => 'App\\Providers\\EventServiceProvider',
+    52 => 'App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -87,10 +88,11 @@
     28 => 'Yajra\\DataTables\\HtmlServiceProvider',
     29 => 'Yajra\\DataTables\\DataTablesServiceProvider',
     30 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
-    31 => 'App\\Providers\\AppServiceProvider',
-    32 => 'App\\Providers\\AuthServiceProvider',
-    33 => 'App\\Providers\\EventServiceProvider',
-    34 => 'App\\Providers\\RouteServiceProvider',
+    31 => 'Barryvdh\\Snappy\\ServiceProvider',
+    32 => 'App\\Providers\\AppServiceProvider',
+    33 => 'App\\Providers\\AuthServiceProvider',
+    34 => 'App\\Providers\\EventServiceProvider',
+    35 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (

@@ -141,7 +141,7 @@
                                             @if(count($images) > 0)
                                                 <div class="circuitImg">
                                                     @foreach($images as $image)
-                                                        <img src="/{{ Helper::image($image) }}">
+                                                        <img src="{{ Helper::imageToBase64(Helper::image($image)) }}">
                                                     @endforeach
                                                 </div>
                                             @endif
@@ -162,12 +162,12 @@
                                         <div class="cExercise_header">
                                             <div class="cExercise_header_top">
                                                 <div class="cExercise_header_icon">
-                                                    <img class="svgImg" src="/img/svg/play.svg">
+                                                    <img class="svgImg" src="{{Helper::imageToBase64(public_path('assets/img/svg/play.svg'))}}">
                                                 </div>
                                                 <div class="cExercise_header_info">
                                                     <p>{{ $circuitCount }}<span>/{{ count($exercises) }}</span></p>
                                                     @if($exercise->equipmentId != "")
-                                                        <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
+                                                        <img class="equip_img" src="{{ Helper::imageToBase64(public_path($exercise->equipment->thumb)) }}">
                                                     @endif
                                                     <h5>{{ $exercise->exercises->name }}
                                                         @if($exercise->equipmentId != "")
@@ -194,9 +194,13 @@
                                         <div class="respExeContainer">
                                             <!-- EXERCISE IMAGE -->
                                             <div class="exercise_image_container">
-                                                <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                <a href="{{ asset(Helper::image($exercise->exercises->image)) }}" data-lightbox="ex_{{ $exercise->id }}" >
+                                                    <img src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image))}}" alt="{{ $exercise->exercises->name }}">
+                                                </a>
                                                 @if($exercise->exercises->image2 != "")
-                                                    <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image2) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                    <a href="{{ asset(Helper::image($exercise->exercises->image2)) }}" data-lightbox="ex_{{ $exercise->id }}" >
+                                                        <img src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image2))}}" alt="{{ $exercise->exercises->name }}">
+                                                    </a>
                                                 @endif
                                             </div>
 
@@ -278,7 +282,7 @@
                                         @if(is_array($restTimeBetweenExercises) and array_key_exists($circuitExercisesCounter,$restTimeBetweenExercises) and $restTimeBetweenExercises[$circuitExercisesCounter] != "" and $restTimeBetweenExercises[$circuitExercisesCounter] != 0)
                                             <!-- Rest Between Exercise in Circuit -->
                                             <div class="circuitRestBtwExe">
-                                                <img class="svgImg" src="/img/svg/pauseBlue.svg">
+                                                <img class="svgImg" src="{{Helper::imageToBase64(public_path('assets/img/svg/pauseBlue.svg'))}}">
                                                 <p>{{ $restTimeBetweenExercises[$circuitExercisesCounter] }} {{ Lang::get("content.secrest") }}</p>
                                             </div>
                                         @endif
@@ -296,12 +300,12 @@
                                         <div class="cExercise_header">
                                             <div class="cExercise_header_top">
                                                 <div class="cExercise_header_icon">
-                                                    <img class="svgImg" src="/img/svg/play.svg">
+                                                    <img class="svgImg" src="{{Helper::imageToBase64(public_path('assets/img/svg/play.svg'))}}">
                                                 </div>
                                                 <div class="cExercise_header_info">
                                                     <p>{{ $circuitCount }}<span>/{{ count($exercises) }}</span></p>
                                                     @if($exercise->equipmentId != "")
-                                                        <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
+                                                        <img class="equip_img" src="{{Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb))}}}">
                                                     @endif
                                                     <h5>{{ $exercise->exercises->name }}
                                                         @if($exercise->equipmentId != "")
@@ -327,9 +331,11 @@
                                         <!-- EXERCISE IMAGE -->
                                         <div class="respExeContainer">
                                             <div class="exercise_image_container">
-                                                <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                <a href="{{ asset(Helper::image($exercise->exercises->image)) }}" data-lightbox="ex_{{ $exercise->id }}" >
+                                                    <img  src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image)) }}" alt="{{ $exercise->exercises->name }}"></a>
                                                 @if($exercise->exercises->image2 != "")
-                                                    <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image2) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                    <a href="{{ asset(Helper::image($exercise->exercises->image2)) }}" data-lightbox="ex_{{ $exercise->id }}" >
+                                                        <img  src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image2)) }}" alt="{{ $exercise->exercises->name }}"></a>
                                                 @endif
                                             </div>
 
@@ -426,7 +432,7 @@
                                                 @if(is_array($restTimeBetweenExercises) and array_key_exists($circuitExercisesCounter,$restTimeBetweenExercises) and $restTimeBetweenExercises[$circuitExercisesCounter] != "" and $restTimeBetweenExercises[$circuitExercisesCounter] != 0)
                                                     <!-- Rest Between Exercise in Circuit -->
                                                     <div class="circuitRestBtwExe">
-                                                        <img class="svgImg" src="/img/svg/pauseBlue.svg">
+                                                        <img class="svgImg" src="{{Helper::imageToBase64(public_path('assets/img/svg/pauseBlue.svg'))}}">
                                                         <p>{{ $restTimeBetweenExercises[$circuitExercisesCounter] }} {{ Lang::get("content.secrest") }}</p>
                                                     </div>
                                                 @endif
@@ -441,7 +447,7 @@
 
                             <!-- Rewind Icons end of Circuit -->
                             <div class="endCircuit">
-                                <img class="svgImg" src="/img/svg/rewind.svg">
+                                <img class="svgImg" src="{{Helper::imageToBase64(public_path('assets/img/svg/rewind.svg'))}}">
                                 @if($group->circuitType == "emom")
                                     <p>Rest for the remainder of the minute</p>
                                 @elseif($group->rest == "")
@@ -465,7 +471,7 @@
                                     <div class="exercise_Header">
                                         <div class="exercise_Header_imgContainer">
                                             @if($exercise->equipmentId != "")
-                                                <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
+                                                <img class="equip_img" src="{{ Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb)) }}">
                                             @endif
                                         </div>
                                         <h5>{{ $exercise->exercises->name }} @if($exercise->equipmentId != "") {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
@@ -503,9 +509,9 @@
                                     <div class="respExeContainer">
                                         <!-- EXERCISE IMAGE -->
                                         <div class="exercise_image_container">
-                                            <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                            <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image)) }}" alt="{{ $exercise->exercises->name }}"></a>
                                             @if($exercise->exercises->image2 != "")
-                                                <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image2) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image2)) }}" alt="{{ $exercise->exercises->name }}"></a>
                                             @endif
                                         </div>
 
@@ -581,11 +587,11 @@
 
                                 <!------------------------ CARDIO EXERCISE ------------------------>
 
-                                <div class="exercise cardio" exercise"">
+                                <div class="exercise cardio" exercise="">
                                 <div class="exercise_Header">
                                     <div class="exercise_Header_imgContainer">
                                         @if($exercise->equipmentId != "")
-                                            <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
+                                            <img class="equip_img" src="{{ Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb)) }}">
                                         @endif
                                     </div>
                                     <h5>{{ $exercise->exercises->name }} @if($exercise->equipmentId != "") {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
@@ -613,9 +619,9 @@
 
                                 <div class="respExeContainer">
                                     <div class="exercise_image_container">
-                                        <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                        <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image)) }}" alt="{{ $exercise->exercises->name }}"></a>
                                         @if($exercise->exercises->image2 != "")
-                                            <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="/{{ Helper::image($exercise->exercises->image2) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                            <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}" ><img  src="{{ Helper::imageToBase64(Helper::image($exercise->exercises->image2)) }}" alt="{{ $exercise->exercises->name }}"></a>
                                         @endif
                                     </div>
 
@@ -689,7 +695,7 @@
             @endif
             @if($group->restAfter != 0 and $group->restAfter != "")
                 <div class="circuitRestBtwExe">
-                    <img class="svgImg" src="/img/svg/pauseBlue.svg">
+                    <img class="svgImg" src="{{Helper::imageToBase64(public_path('assets/img/svg/pauseBlue.svg'))}}">
                     <p>{{ $group->restAfter }} {{ Lang::get("content.secrest") }}</p>
                 </div>
             @endif

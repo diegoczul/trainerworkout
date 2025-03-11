@@ -64,9 +64,11 @@ class Helper {
     }
     public static function imageToBase64($file)
     {
-        $file = base64_encode(file_get_contents($file));
-        $ext = pathinfo($file, PATHINFO_EXTENSION);
-        return "data:image/{$ext};base64,{$file}";
+        if (is_file($file) && file_exists($file)){
+            $file = base64_encode(file_get_contents($file));
+            $ext = pathinfo($file, PATHINFO_EXTENSION);
+            return "data:image/{$ext};base64,{$file}";
+        }
     }
     public static function svgToBase64Img($file)
     {

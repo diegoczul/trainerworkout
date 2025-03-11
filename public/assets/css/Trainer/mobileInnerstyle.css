@@ -9088,7 +9088,7 @@ a.option-selected {
   word-break: break-all; }
 
 .trainerWorkoutMessage:after {
-  content: url(/img/Trainee/bubbleTail.svg);
+  content: url(/assets/img/Trainee/bubbleTail.svg);
   position: absolute;
   bottom: -7px;
   left: 17px; }
