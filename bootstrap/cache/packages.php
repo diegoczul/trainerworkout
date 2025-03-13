@@ -150,17 +150,6 @@
       0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
-  'spatie/laravel-newsletter' => 
-  array (
-    'aliases' => 
-    array (
-      'Newsletter' => 'Spatie\\Newsletter\\Facades\\Newsletter',
-    ),
-    'providers' => 
-    array (
-      0 => 'Spatie\\Newsletter\\NewsletterServiceProvider',
-    ),
-  ),
   'tymon/jwt-auth' => 
   array (
     'aliases' => 
