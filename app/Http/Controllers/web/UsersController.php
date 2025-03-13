@@ -42,7 +42,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
-use Spatie\Newsletter\Facades\Newsletter;
 use UsersSettings;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -1539,7 +1538,7 @@ class UsersController extends BaseController
     {
         try {
             $validator = Validator::make($request->all(),[
-                'email' => ['required','email',Rule::exists('users','email')->whereNull('deleted_at')],
+                'email' => ['required', 'email', Rule::exists('users','email')->whereNull('deleted_at')],
             ]);
             if ($validator->fails()) {
                 $result = [

@@ -27,3 +27,4 @@ docker/*
 .dockerigonre
 .env.production
 storage/*
+public/assets/fonts/installed-fonts.json

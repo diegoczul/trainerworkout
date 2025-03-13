@@ -37,8 +37,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
-use RuntimeException;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use ZipArchive;
 
 class WorkoutsController extends BaseController {
