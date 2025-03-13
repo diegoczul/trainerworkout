@@ -1530,7 +1530,11 @@ class UsersController extends BaseController
                 'email' => ['required','email',Rule::exists('users','email')->whereNull('deleted_at')],
             ]);
             if ($validator->fails()) {
-                return $this->sendValidationError($validator->errors());
+                $result = [
+                    "status" => "error",
+                    "message" => Lang::get($validator->errors()->first()),
+                ];
+                return $this->responseJson($result);
             }
 
             $response = Password::sendResetLink(['email' => $request->get('email')]);
