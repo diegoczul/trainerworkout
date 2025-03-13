@@ -1312,7 +1312,11 @@ class UsersController extends BaseController
             'password' => 'required',
         ]);
         if ($validator->fails()) {
-            return $this->sendValidationError($validator->errors());
+            $result = [
+                "status" => "error",
+                "message" => $validator->errors()->first(),
+            ];
+            return $this->responseJson($result);
         }
 
         if ($request->get("type") == "Trainer") {
@@ -1376,7 +1380,11 @@ class UsersController extends BaseController
             'password' => 'required',
         ]);
         if ($validator->fails()) {
-            return $this->sendValidationError($validator->errors());
+            $result = [
+                "status" => "error",
+                "message" => $validator->errors()->first(),
+            ];
+            return $this->responseJson($result);
         }
 
         $result = [
@@ -1417,7 +1425,11 @@ class UsersController extends BaseController
             'email' => 'required|email'
         ]);
         if ($validator->fails()) {
-            return $this->sendValidationError($validator->errors());
+            $result = [
+                "status" => "error",
+                "message" => $validator->errors()->first(),
+            ];
+            return $this->responseJson($result);
         }
 
         $result = [
