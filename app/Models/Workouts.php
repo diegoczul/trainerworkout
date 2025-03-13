@@ -5,6 +5,8 @@ namespace App\Models;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Libraries\Helper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
@@ -242,6 +244,11 @@ class Workouts extends Model
             }])
             ->where("workoutId", $this->id)
             ->orderBy("order");
+    }
+
+    public function exercises(): HasMany
+    {
+        return $this->hasMany(WorkoutsExercises::class, "workoutId", "id");
     }
 
     public function getGroups()

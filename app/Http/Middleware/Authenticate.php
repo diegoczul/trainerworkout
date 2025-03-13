@@ -14,10 +14,10 @@ class Authenticate extends Middleware
     {
 
         if( $request->is('api/*')){
-            return response()->json([
+            abort(response()->json([
                 'status' => false,
                 'message' => 'Unauthorized'
-            ], 401);
+            ], 401));
         }
         return route('login');
     }
