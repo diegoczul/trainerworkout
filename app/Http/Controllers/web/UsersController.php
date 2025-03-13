@@ -1532,7 +1532,7 @@ class UsersController extends BaseController
             if ($validator->fails()) {
                 $result = [
                     "status" => "error",
-                    "message" => Lang::get($validator->errors()->first()),
+                    "message" => $validator->errors()->first(),
                 ];
                 return $this->responseJson($result);
             }
