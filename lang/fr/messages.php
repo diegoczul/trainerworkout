@@ -314,7 +314,11 @@ return array(
         "RemovedFromFavorites"           => "Removed From Favorites",
         "NotControlAccount"           => "You do not control the account",
         "workoutAddedToClient"           => "Workout added to client",
-        "CreatedAndShared"           => "Le programme a été créé et partagé avec votre client"
+        "CreatedAndShared"           => "Le programme a été créé et partagé avec votre client",
+
+        //RESET PASSWORD ---------------------------------
+        "email_sent_success" => "L'e-mail de réinitialisation du mot de passe a été envoyé avec succès",
+        "email_sent_error" => "L'e-mail n'a pas été envoyé, veuillez réessayer"
 );
 
 ?>

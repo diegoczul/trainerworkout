@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -1368,7 +1369,6 @@ class UsersController extends BaseController
         }
     }
 
-
     public function APIlogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -1410,6 +1410,7 @@ class UsersController extends BaseController
             return $this->responseJson($result);
         }
     }
+
     public function APIloginAuto(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -1520,6 +1521,35 @@ class UsersController extends BaseController
         }
 
         return $result;
+    }
+
+    public function APIForgetPassword(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(),[
+                'email' => ['required','email',Rule::exists('users','email')->whereNull('deleted_at')],
+            ]);
+            if ($validator->fails()) {
+                return $this->sendValidationError($validator->errors());
+            }
+
+            $response = Password::sendResetLink(['email' => $request->get('email')]);
+            $result = [
+                "status" => "error",
+                "message" => Lang::get("messages.email_sent_error"),
+            ];
+            if ($response == Password::RESET_LINK_SENT) {
+                $result = [
+                    "status" => "ok",
+                    "message" => Lang::get("messages.email_sent_success"),
+                ];
+                return $this->responseJson($result);
+            }else{
+                return $this->responseJson($result);
+            }
+        }catch (Exception $e){
+            return $this->responseJsonError($e->getMessage());
+        }
     }
 
     public function _index()

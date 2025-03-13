@@ -316,8 +316,11 @@ return array(
         "removedFromFavorites"           => "Removed From Favorites",
         "NotControlAccount"           => "You do not control the account",
         "workoutAddedToClient"           => "Workout added to client",
-        "CreatedAndShared"           => "Workout has been created and shared with your client"
+        "CreatedAndShared"           => "Workout has been created and shared with your client",
 
+        //RESET PASSWORD ---------------------------------
+        "email_sent_success" => "Password reset email sent successfully",
+        'email_sent_error' => 'Email not sent, please try again'
         );
 
 

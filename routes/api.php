@@ -28,6 +28,7 @@ Route::controller(UsersController::class)->group(function (){
     Route::post('Users/Login', 'APILogin');
     Route::post('Users/Register', 'APIRegistration');
     Route::post('Users/LoginAuto', 'APILoginAuto');
+    Route::post('Users/ForgetPassword', 'APIForgetPassword');
 });
 
 Route::post('WorkoutsBasic', [WorkoutsController::class, 'API_Workouts_Basic']);
