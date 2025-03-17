@@ -834,9 +834,11 @@
                                                         <img class="equip_img" src="assets/{{ $exercise->equipment->thumb }}">
                                                     @endif
                                                 </div>
-                                                <h5>{{ $exercise->exercises->name }} @if($exercise->equipmentId != "" and $exercise->equipment)
+                                                <h5>{{ $exercise->exercises->name }}
+                                                    @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId) && isset($exercise->equipment) && !empty($exercise->equipment))
                                                         {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}
-                                                    @endif</h5>
+                                                    @endif
+                                                </h5>
                                             </div>
 
                                             <!-- EXERCISE DESCRIPTION -->
@@ -1058,16 +1060,18 @@
 
                                         <!------------------------ CARDIO EXERCISE ------------------------>
 
-                                        <div class="exercise cardio" exercise"">
+                                        <div class="exercise cardio" exercise="">
                                         <div class="exercise_Header">
                                             <div class="exercise_Header_imgContainer">
                                                 @if($exercise->equipmentId != "" and $exercise->equipment)
                                                     <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
                                                 @endif
                                             </div>
-                                            <h5>{{ $exercise->exercises->name }} @if($exercise->equipmentId != "" and $exercise->equipment)
+                                            <h5>{{ $exercise->exercises->name }}
+                                                @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId) && isset($exercise->equipment) && !empty($exercise->equipment))
                                                     {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}
-                                                @endif</h5>
+                                                @endif
+                                            </h5>
                                         </div>
                                         <div class="exeInfo">
 

@@ -513,7 +513,7 @@ class ExercisesController extends BaseController
 
             $this->saveExerciseImages($request, $exercise->id);
 
-            $exercise->save();
+//            $exercise->save();
 
             if ($exercise->getTranslation("en", false) == "") {
                 $ex = $exercise->translateOrNew("en");
