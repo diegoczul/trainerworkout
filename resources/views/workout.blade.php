@@ -26,7 +26,6 @@
 
     <section id="workoutView" class="clearfix">
 
-
         @if(Auth::user()->userType == "Trainer")
             <div class="Trainer">
                 <div class="wrapper">
@@ -184,49 +183,49 @@
                         </div>
                     </div>
                 </div>
-                @else
-                <div class="Trainee">
-                    <div class="workoutHeaderContainer">
-                        <div class="workoutHeaderWrapper">
-                            <div class="workoutHedaer">
-                                <h1>{{ $workout->name }}</h1>
-                                <!-- Message from the personal trainer about the workout -->
-                                @if($workout->notes != "")
-                                    <div class="trainerWorkoutMessageContainer">
-                                        <div class="trainerWorkoutMessage">
-                                            <p>{{ $workout->notes }}</p>
-                                        </div>
+        @else
+            <div class="Trainee">
+                <div class="workoutHeaderContainer">
+                    <div class="workoutHeaderWrapper">
+                        <div class="workoutHedaer">
+                            <h1>{{ $workout->name }}</h1>
+                            <!-- Message from the personal trainer about the workout -->
+                            @if($workout->notes != "")
+                                <div class="trainerWorkoutMessageContainer">
+                                    <div class="trainerWorkoutMessage">
+                                        <p>{{ $workout->notes }}</p>
                                     </div>
-                                @endif
-                                <div class="workoutData">
-                                    <div class="workoutPT">
-                                        <img src="/{{ ($workout->author) ? Helper::image($workout->author->thumb) : Helper::image("") }}">
-                                        <div class="workoutPTname">
-                                            <p>{{{ $workout->author->firstName??"N/A" }}}</p>
-                                            <p>{{{ $workout->author->lastName??"" }}}</p>
-                                        </div>
+                                </div>
+                            @endif
+                            <div class="workoutData">
+                                <div class="workoutPT">
+                                    <img src="/{{ ($workout->author) ? Helper::image($workout->author->thumb) : Helper::image("") }}">
+                                    <div class="workoutPTname">
+                                        <p>{{{ $workout->author->firstName??"N/A" }}}</p>
+                                        <p>{{{ $workout->author->lastName??"" }}}</p>
                                     </div>
-                                    <div class="workoutDate">
-                                        <p>{{ Lang::get("content.received") }} </p>
-                                        <p>{{ Helper::date($workout->created_at) }}</p>
-                                    </div>
+                                </div>
+                                <div class="workoutDate">
+                                    <p>{{ Lang::get("content.received") }} </p>
+                                    <p>{{ Helper::date($workout->created_at) }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Workout Legend -->
-                    <div class="lgContainer">
-                        <div class="lg-circuit">
-                            <h4>{{{ Lang::get("content.Circuit") }}}</h4>
-                        </div>
-                        <div class="lg-cardio">
-                            <h4>{{{ Lang::get("content.Cardio") }}}</h4>
-                        </div>
-                        <div class="lg-muscle">
-                            <h4>{{{ Lang::get("content.Muscle") }}}</h4>
-                        </div>
+                <!-- Workout Legend -->
+                <div class="lgContainer">
+                    <div class="lg-circuit">
+                        <h4>{{{ Lang::get("content.Circuit") }}}</h4>
                     </div>
+                    <div class="lg-cardio">
+                        <h4>{{{ Lang::get("content.Cardio") }}}</h4>
+                    </div>
+                    <div class="lg-muscle">
+                        <h4>{{{ Lang::get("content.Muscle") }}}</h4>
+                    </div>
+                </div>
 
         @endif
                 <div class="wrapper">
@@ -1325,9 +1324,7 @@
 
                 </div> <!--End Wrapper -->
 
-
         </div> <!--End Trainee / Trainer -->
-
 
     </section>
 

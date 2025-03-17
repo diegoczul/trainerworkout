@@ -2901,7 +2901,7 @@ class WorkoutsController extends BaseController {
 		$workouts = Workouts::where("userId",$userId)
             ->with('exercises')
             ->with(['exercises.exercises' => function($query) {
-                $query->select("id", "bodygroupId", "userId", "name", "description", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
+                $query->select("id", "bodygroupId", "userId", "name", "description", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video as video_url", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
             }])
             ->with('exercises.templateSets')
             ->with(['exercises.sets' => function($query) {
