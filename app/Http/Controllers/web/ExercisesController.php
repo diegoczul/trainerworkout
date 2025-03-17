@@ -205,6 +205,8 @@ class ExercisesController extends BaseController
             $this->searchSize += $request->get("pageSize");
         }
 
+        Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"));
+
         return $this->responseJson(["data" => Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters")), "total" => $this->searchSize + $request->get("pageSize")]);
     }
 

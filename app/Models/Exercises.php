@@ -105,9 +105,9 @@ class Exercises extends Model implements TranslatableContract
             ->leftJoin('exercises_users', function ($join) {
                 $join->on('exercises_users.exerciseId', '=', 'exercises.id')
                     ->where('exercises_users.locale', app()->getLocale())
-                    ->where('exercises_users.userId', Auth::id());
+                    ->where('exercises_users.userId', Auth::user()->id);
             })
-            ->select([
+            ->select(
                 'exercises_translations.name',
                 'exercises.id',
                 'exercises.bodygroupId',
@@ -125,76 +125,70 @@ class Exercises extends Model implements TranslatableContract
                 'exercises.type',
                 'authorId',
                 'exercises_users.favorite'
-            ])
+            )
             ->where('exercises_translations.locale', app()->getLocale())
             ->whereNull('exercises.deleted_at')
             ->whereNull('exercises_translations.deleted_at')
             ->where('exercises.equipmentRequired', 0);
 
-        // Add full-text search if search term is provided
-        if ($search !== '') {
-            // Using prepared statements with whereRaw for better security
+        if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->whereRaw("MATCH(exercises_translations.name) AGAINST(? IN BOOLEAN MODE)", [$search])
-                    ->orWhereRaw("MATCH(exercises_translations.nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search]);
+                $q->whereRaw("MATCH(exercises_translations.name) AGAINST(?)", [$search])
+                    ->orWhereRaw("MATCH(exercises_translations.nameEngine) AGAINST(?)", [$search]);
             });
         }
 
-        // Access control logic
-        $query->where(function ($q) use ($custom) {
-            if ($custom) {
+        if ($custom) {
+            $query->where(function ($q) {
                 $q->where('exercises_users.favorite', 1)
-                    ->orWhere(function ($subQ) {
-                        $subQ->where('exercises.type', 'private')
-                            ->where('exercises.authorId', Auth::id());
+                    ->orWhere(function ($q) {
+                        $q->where('exercises.type', 'private')
+                            ->where('exercises.authorId', Auth::user()->id);
                     })
-                    ->orWhere(function ($subQ) {
-                        $subQ->whereNull('exercises.type')
-                            ->where('exercises.authorId', Auth::id());
+                    ->orWhere(function ($q) {
+                        $q->whereNull('exercises.type')
+                            ->where('exercises.authorId', Auth::user()->id);
                     });
-            } else {
+            });
+        } else {
+            $query->where(function ($q) {
                 $q->where('exercises.type', 'public')
-                    ->orWhere(function ($subQ) {
-                        $subQ->where('exercises.type', 'private')
-                            ->where('exercises.authorId', Auth::id());
+                    ->orWhere(function ($q) {
+                        $q->where('exercises.type', 'private')
+                            ->where('exercises.authorId', Auth::user()->id);
                     })
-                    ->orWhere(function ($subQ) {
-                        $subQ->whereNull('exercises.type')
-                            ->where('exercises.authorId', Auth::id());
+                    ->orWhere(function ($q) {
+                        $q->whereNull('exercises.type')
+                            ->where('exercises.authorId', Auth::user()->id);
                     });
-            }
-        });
-
-        // Restrict to user if needed
-        if ($restrictToUser) {
-            $query->where('authorId', Auth::id());
+            });
         }
 
-        // Apply filters
+        if ($restrictToUser) {
+            $query->where('authorId', Auth::user()->id);
+        }
+
         if (!empty($filters)) {
             foreach ($filters as $filter) {
-                if (!isset($filter['type']) || !isset($filter['id'])) {
-                    continue;
-                }
-
-                switch ($filter['type']) {
-                    case 'type':
-                        $query->where('exercises.exercisestypesId', $filter['id']);
+                switch ($filter["type"]) {
+                    case "type":
+                        $query->whereIn('exercises.exercisestypesId', [$filter["id"]]);
                         break;
-                    case 'bodygroup':
-                        $query->where('bodygroups.id', $filter['id']);
+                    case "bodygroup":
+                        $query->whereIn('bodygroups.id', [$filter["id"]]);
                         break;
-                    case 'equipment':
-                        $query->where('equipmentId', $filter['id']);
+                    case "equipment":
+                        $query->whereIn('equipmentId', [$filter["id"]]);
                         break;
                 }
             }
         }
 
-        return $query->distinct()
-            ->limit($limit)
-            ->get();
+        $result = $query->distinct()->limit($limit)->get();
 
+        Log::error($query->toSql(), $query->getBindings());
+
+        return $result;
     }
 
     public static function searchExercisesCount($search, $count = null, $filters = null)
