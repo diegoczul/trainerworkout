@@ -519,12 +519,14 @@ class ExercisesController extends BaseController
             $exercise->save();
 
             if (!$exercise->hasTranslation('en')) {
-                Log::info("Exercise has no translation");
+                Log::info("Exercise has translation");
                 $ex = $exercise->translateOrNew('en');
                 $ex->name = ucfirst($request->get('name'));
                 $ex->exercises_id = $exercise->id;
                 $ex->created_at = now();
                 $ex->save();
+            }else{
+                Log::info("Exercise has no translation >>>>>>>>>");
             }
 
             Event::dispatch('addedAnExercise', [Auth::user(), $exercise->name]);
