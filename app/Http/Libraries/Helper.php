@@ -206,15 +206,24 @@ class Helper {
         return $diff;
     }
 
-    public static function extractYoutubeTag($url){
-            if (strpos($url,'v=') !== false) {
-                $my_array_of_vars = array();
-                parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
-                return $my_array_of_vars['v'];
-            } else {
-                return "";
-            }
+    public static function extractYoutubeTag($url)
+    {
+        if (empty($url)) {
+            return null;
+        }
 
+        $patterns = [
+            '/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/',
+            '/^(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/'
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $url, $matches)) {
+                return $matches[1];
+            }
+        }
+
+        return null;
     }
 
     public static function formatPrice($price){

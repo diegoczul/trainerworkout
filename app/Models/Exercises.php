@@ -26,6 +26,7 @@ class Exercises extends Model implements TranslatableContract
     protected $dates = ['deleted_at'];
 
     public static $rules = [
+        'youtube' => ['sometimes','nullable','url'],
         "name" => "required|min:2|max:500",
         "description" => "max:500",
         "equipment" => "required|max:500",
