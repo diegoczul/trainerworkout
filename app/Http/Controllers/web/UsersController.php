@@ -1497,7 +1497,7 @@ class UsersController extends BaseController
             $validation = Validator::make($request->all(), $rules);
 
             if ($validation->fails()) {
-                $result["message"] = $validation->messages();
+                $result["message"] = $validation->messages()->first();
             } else {
                 $user = Auth::user();
                 $user->firstName = ucfirst($request->get("firstName", $user->firstName));
