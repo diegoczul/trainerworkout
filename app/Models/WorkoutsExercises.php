@@ -27,6 +27,11 @@ class WorkoutsExercises extends Model
         return $this->hasMany(Sets::class, 'workoutsExercisesId', 'id')->orderBy('number', 'ASC');
     }
 
+    public function workout_sets()
+    {
+        return $this->hasMany(Sets::class, 'workoutsExercisesId', 'id')->orderBy('number', 'ASC');
+    }
+
     public function templateSets()
     {
         return $this->hasMany(TemplateSets::class, 'workoutsExercisesId', 'id')->orderBy('number', 'ASC');

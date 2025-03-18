@@ -2899,12 +2899,11 @@ class WorkoutsController extends BaseController {
 
 
 		$workouts = Workouts::where("userId",$userId)
-            ->with('exercises')
             ->with(['exercises.exercises' => function($query) {
-                $query->select("id", "bodygroupId", "userId", "name", "description", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video as video_url", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
+                $query->select("id", "bodygroupId", "userId",  "name", "description", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video as video_url", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
             }])
             ->with('exercises.templateSets')
-            ->with(['exercises.sets' => function($query) {
+            ->with(['exercises.workout_sets' => function($query) {
                 $query->with('workoutsExercises');
             }])
             ->orderBy("created_at","Desc")
@@ -2926,15 +2925,15 @@ class WorkoutsController extends BaseController {
                 foreach($exercises as $exercise){
                     $ex = array();
                     $template_sets_data = $exercise['template_sets'];
-                    $sets_data = $exercise['sets'];
+                    $sets_data = $exercise['workout_sets'];
                     unset($exercise['template_sets']);
-                    $exercise['sets'] = count($exercise['sets']);
                     $ex["exercise"] = $exercise;
                     $ex["sets"] = array();
                     $ex["templateSets"] = $template_sets_data;
                     foreach($sets_data as $set){
                         array_push($ex["sets"],$set);
                     }
+                    unset($ex["exercise"]['workout_sets']);
                     array_push($workoutAPI["exercises"],$ex);
                 }
             }

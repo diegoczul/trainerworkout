@@ -57,7 +57,7 @@ class Exercises extends Model implements TranslatableContract
         return $value ? asset($value) : null;
     }
 
-    public function getVieoUrlAttribute($value)
+    public function getVideoUrlAttribute($value)
     {
         return $value ? asset($value) : "";
     }
