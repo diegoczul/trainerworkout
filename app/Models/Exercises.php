@@ -59,7 +59,7 @@ class Exercises extends Model implements TranslatableContract
 
     public function getVieoUrlAttribute($value)
     {
-        return $value ? asset($value) : null;
+        return $value ? asset($value) : "";
     }
 
     public function editPermissions($user = null)
