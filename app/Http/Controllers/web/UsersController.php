@@ -1326,6 +1326,7 @@ class UsersController extends BaseController
             $user->email = strtolower($request->get("email"));
             $user->password = Hash::make($request->get("password"));
             $user->userType = "Trainer";
+            $user->appInstalled = 0;
             $user->updated_at = now();
             $user->lastLogin = now();
             $user->lastLoginApp = now();
@@ -1351,6 +1352,7 @@ class UsersController extends BaseController
             $user->email = strtolower($request->get("email"));
             $user->password = Hash::make($request->get("password"));
             $user->userType = "Trainee";
+            $user->appInstalled = 0;
             $user->updated_at = now();
             $user->lastLogin = now();
             $user->lastLoginApp = now();

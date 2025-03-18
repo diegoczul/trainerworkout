@@ -22,6 +22,7 @@ class Exercises extends Model implements TranslatableContract
     protected $fillable = ['used'];
     public $translatedAttributes = ['name', 'description', 'nameEngine'];
     public $useTranslationFallback = true;
+    public $translationForeignKey = 'exercises_id';
 
     protected $dates = ['deleted_at'];
 

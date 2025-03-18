@@ -40,6 +40,8 @@ class Users extends Authenticatable implements JWTSubject
         'timezone',
         'birthday',
         'fbUsername',
+        'appInstalled',
+        'demoApp',
         'biography',
         'certifications',
         'specialities',
