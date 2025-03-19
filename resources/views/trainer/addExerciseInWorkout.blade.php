@@ -35,7 +35,7 @@
                       <input name="action" value="addexercise" type="hidden" />
 
                       <label for="">{{ Lang::get("content.Musclegroups") }}*</label>
-                      <select name="bodygroup">
+                      <select name="bodygroup" class="chose-select">
                       @foreach($bodygroups as $bodygroup)
                         
                       @endforeach
