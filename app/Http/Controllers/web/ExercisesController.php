@@ -167,7 +167,15 @@ class ExercisesController extends BaseController
             $this->pageSize = $request->get("pageSize") + $this->pageSize;
         }
 
-        return View::make("trainer.exercises")->with("exercises", Exercises::where("userId", $userId)->orderBy('created_at', 'DESC')->take($this->pageSize)->get())->with("permissions", $permissions)->with("bodyGroups", BodyGroups::select("id", "name")->orderBy("name")->get())->with("bodygroups", BodyGroups::orderBy("name")->pluck("name", "id"))->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())->with("equipmentsList", Equipments::pluck("name", "id"))->with("exercisesTypes", ExercisesTypes::select("id", "name")->orderBy("name")->get())->with("total", Exercises::where("userId", $userId)->count());
+        return View::make("trainer.exercises")
+            ->with("exercises", Exercises::where("userId", $userId)->orderBy('created_at', 'DESC')->take($this->pageSize)->get())
+            ->with("permissions", $permissions)
+            ->with("bodyGroups", BodyGroups::select("id", "name")->orderBy("name")->get())
+            ->with("bodygroups", BodyGroups::orderBy("name")->pluck("name", "id"))
+            ->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())
+            ->with("equipmentsList", Equipments::orderBy("name")->pluck("name", "id"))
+            ->with("exercisesTypes", ExercisesTypes::select("id", "name")->orderBy("name")->get())
+            ->with("total", Exercises::where("userId", $userId)->count());
     }
 
     public function index(Request $request)

@@ -62,6 +62,15 @@ use Illuminate\Support\Facades\Route;
     Route::get('/user/confirmation/{param1}', [UsersController::class, 'confirmEmail'])->name('confirmEmail');
 
     Route::get('/phpini', function (){ echo phpinfo(); });
+    Route::get('/logs/{folder_name}/{dd}/{mm}/{yyyy}', function ($folder_name, $dd, $mm, $yyyy){
+        if (file_exists(storage_path("logs/$folder_name/laravel-$yyyy-$mm-$dd.log"))) {
+            $file = file_get_contents(storage_path("logs/$folder_name/laravel-$yyyy-$mm-$dd.log"));
+            echo "<pre>$file</pre>";
+            die;
+        }else{
+            echo("FILE NOT FOUND");
+        }
+    });
 
     // WEB ROUTES
     Route::get('/', function () {
