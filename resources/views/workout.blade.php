@@ -373,22 +373,29 @@
 
                                                     <div class="tabSwitcherParent exerciseVisualContainer">
                                                         <div class="tabSwitcherContainer">
-                                                                <?php $activeButton = "tabSelected"; ?>
-                                                                <?php $active = "showTab"; ?>
+                                                            <?php $activeButton = "tabSelected"; $active = "showTab"; ?>
                                                             @if($exercise->exercises->image != "")
-                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'images')" class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
-                                                                    <?php $activeButton = ""; ?>
-                                                                    <?php $active = "images"; ?>
+                                                                <?php $active = "images"; ?>
                                                             @endif
                                                             @if($exercise->exercises->video != "")
-                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'video')" class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
-                                                                    <?php $activeButton = ""; ?>
-                                                                    <?php $active = "video"; ?>
+                                                                <?php $active = "video"; ?>
                                                             @endif
                                                             @if($exercise->exercises->youtube != "")
-                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'youtube')" class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
-                                                                    <?php $activeButton = ""; ?>
-                                                                    <?php $active = "youtube"; ?>
+                                                                <?php $active = "youtube"; ?>
+                                                            @endif
+                                                            @if(($exercise->exercises->image != "" && $exercise->exercises->video != "") || ($exercise->exercises->video != "" && $exercise->exercises->youtube != "") || ($exercise->exercises->image != "" && $exercise->exercises->youtube != ""))
+                                                                @if($exercise->exercises->image != "")
+                                                                    <a href="javascript:void(0)" onclick="tabSwitcher(this,'images')" class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
+                                                                    <?php $activeButton = ""; $active = "images"; ?>
+                                                                @endif
+                                                                @if($exercise->exercises->video != "")
+                                                                    <a href="javascript:void(0)" onclick="tabSwitcher(this,'video')" class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
+                                                                    <?php $activeButton = ""; $active = "video"; ?>
+                                                                @endif
+                                                                @if($exercise->exercises->youtube != "")
+                                                                    <a href="javascript:void(0)" onclick="tabSwitcher(this,'youtube')" class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
+                                                                    <?php $activeButton = ""; $active = "youtube"; ?>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="exercise_image_container">
@@ -586,22 +593,29 @@
                                                 <div class="respExeContainer">
                                                     <div class="tabSwitcherParent exerciseVisualContainer">
                                                         <div class="tabSwitcherContainer">
-                                                                <?php $activeButton = "tabSelected"; ?>
-                                                                <?php $active = "showTab"; ?>
+                                                            <?php $activeButton = "tabSelected"; $active = "showTab"; ?>
                                                             @if($exercise->exercises->image != "")
-                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'images')" class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
-                                                                    <?php $activeButton = ""; ?>
-                                                                    <?php $active = "images"; ?>
+                                                                <?php $active = "images"; ?>
                                                             @endif
                                                             @if($exercise->exercises->video != "")
-                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'video')" class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
-                                                                    <?php $activeButton = ""; ?>
-                                                                    <?php $active = "video"; ?>
+                                                                <?php $active = "video"; ?>
                                                             @endif
                                                             @if($exercise->exercises->youtube != "")
-                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'youtube')" class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
-                                                                    <?php $activeButton = ""; ?>
-                                                                    <?php $active = "youtube"; ?>
+                                                                <?php $active = "youtube"; ?>
+                                                            @endif
+                                                            @if(($exercise->exercises->image != "" && $exercise->exercises->video != "") || ($exercise->exercises->video != "" && $exercise->exercises->youtube != "") || ($exercise->exercises->image != "" && $exercise->exercises->youtube != ""))
+                                                                @if($exercise->exercises->image != "")
+                                                                    <a href="javascript:void(0)" onclick="tabSwitcher(this,'images')" class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
+                                                                    <?php $activeButton = ""; $active = "images"; ?>
+                                                                @endif
+                                                                @if($exercise->exercises->video != "")
+                                                                    <a href="javascript:void(0)" onclick="tabSwitcher(this,'video')" class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
+                                                                    <?php $activeButton = ""; $active = "video"; ?>
+                                                                @endif
+                                                                @if($exercise->exercises->youtube != "")
+                                                                    <a href="javascript:void(0)" onclick="tabSwitcher(this,'youtube')" class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
+                                                                    <?php $activeButton = ""; $active = "youtube"; ?>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                         <div class="exercise_image_container">
@@ -891,28 +905,29 @@
 
                                                 <div class="tabSwitcherParent exerciseVisualContainer">
                                                     <div class="tabSwitcherContainer">
-                                                            <?php $activeButton = "tabSelected"; ?>
-                                                            <?php $active = "showTab"; ?>
+                                                        <?php $activeButton = "tabSelected"; $active = "showTab"; ?>
                                                         @if($exercise->exercises->image != "")
-                                                            <a href="javascript:void(0)"
-                                                               onclick="tabSwitcher(this,'images')"
-                                                               class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
-                                                                <?php $activeButton = ""; ?>
-                                                                <?php $active = "images"; ?>
+                                                            <?php $active = "images"; ?>
                                                         @endif
                                                         @if($exercise->exercises->video != "")
-                                                            <a href="javascript:void(0)"
-                                                               onclick="tabSwitcher(this,'video')"
-                                                               class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
-                                                                <?php $activeButton = ""; ?>
-                                                                <?php $active = "video"; ?>
+                                                            <?php $active = "video"; ?>
                                                         @endif
                                                         @if($exercise->exercises->youtube != "")
-                                                            <a href="javascript:void(0)"
-                                                               onclick="tabSwitcher(this,'youtube')"
-                                                               class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
-                                                                <?php $activeButton = ""; ?>
-                                                                <?php $active = "youtube"; ?>
+                                                            <?php $active = "youtube"; ?>
+                                                        @endif
+                                                        @if(($exercise->exercises->image != "" && $exercise->exercises->video != "") || ($exercise->exercises->video != "" && $exercise->exercises->youtube != "") || ($exercise->exercises->image != "" && $exercise->exercises->youtube != ""))
+                                                            @if($exercise->exercises->image != "")
+                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'images')" class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
+                                                                    <?php $activeButton = ""; $active = "images"; ?>
+                                                            @endif
+                                                            @if($exercise->exercises->video != "")
+                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'video')" class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
+                                                                    <?php $activeButton = ""; $active = "video"; ?>
+                                                            @endif
+                                                            @if($exercise->exercises->youtube != "")
+                                                                <a href="javascript:void(0)" onclick="tabSwitcher(this,'youtube')" class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
+                                                                    <?php $activeButton = ""; $active = "youtube"; ?>
+                                                            @endif
                                                         @endif
                                                     </div>
                                                     <div class="exercise_image_container">
@@ -1115,28 +1130,29 @@
                                         <div class="respExeContainer">
                                             <div class="tabSwitcherParent exerciseVisualContainer">
                                                 <div class="tabSwitcherContainer">
-                                                        <?php $activeButton = "tabSelected"; ?>
-                                                        <?php $active = "showTab"; ?>
+                                                    <?php $activeButton = "tabSelected"; $active = "showTab"; ?>
                                                     @if($exercise->exercises->image != "")
-                                                        <a href="javascript:void(0)"
-                                                           onclick="tabSwitcher(this,'images')"
-                                                           class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
-                                                            <?php $activeButton = ""; ?>
-                                                            <?php $active = "images"; ?>
+                                                        <?php $active = "images"; ?>
                                                     @endif
                                                     @if($exercise->exercises->video != "")
-                                                        <a href="javascript:void(0)"
-                                                           onclick="tabSwitcher(this,'video')"
-                                                           class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
-                                                            <?php $activeButton = ""; ?>
-                                                            <?php $active = "video"; ?>
+                                                        <?php $active = "video"; ?>
                                                     @endif
                                                     @if($exercise->exercises->youtube != "")
-                                                        <a href="javascript:void(0)"
-                                                           onclick="tabSwitcher(this,'youtube')"
-                                                           class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
-                                                            <?php $activeButton = ""; ?>
-                                                            <?php $active = "youtube"; ?>
+                                                        <?php $active = "youtube"; ?>
+                                                    @endif
+                                                    @if(($exercise->exercises->image != "" && $exercise->exercises->video != "") || ($exercise->exercises->video != "" && $exercise->exercises->youtube != "") || ($exercise->exercises->image != "" && $exercise->exercises->youtube != ""))
+                                                        @if($exercise->exercises->image != "")
+                                                            <a href="javascript:void(0)" onclick="tabSwitcher(this,'images')" class="tabBtn tabSelected tab_button_images {{ $activeButton }}">{{ Lang::get("content.Images") }}</a>
+                                                            <?php $activeButton = ""; $active = "images"; ?>
+                                                        @endif
+                                                        @if($exercise->exercises->video != "")
+                                                            <a href="javascript:void(0)" onclick="tabSwitcher(this,'video')" class="tabBtn tab_button_video {{ $activeButton }}">{{ Lang::get("content.Video") }}</a>
+                                                            <?php $activeButton = ""; $active = "video"; ?>
+                                                        @endif
+                                                        @if($exercise->exercises->youtube != "")
+                                                            <a href="javascript:void(0)" onclick="tabSwitcher(this,'youtube')" class="tabBtn tab_button_youtube {{ $activeButton }}">Youtube</a>
+                                                            <?php $activeButton = ""; $active = "youtube"; ?>
+                                                        @endif
                                                     @endif
                                                 </div>
 

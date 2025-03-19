@@ -444,6 +444,7 @@ use Illuminate\Support\Facades\Route;
     Route::post(__('routes./Workout/unit/update'), [WorkoutsController::class, 'updateUnitExerciseGroup'])->middleware('auth');
     Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
     Route::get(__('routes./Workout/') . "{id}/{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
+    Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
     Route::get("Trainee/" . __('routes.Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth');
     Route::get("Trainee/" . __('routes.Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth');
     Route::get(__('routes./editWorkout/') . "{id}/{name}/{author}/{client}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');
