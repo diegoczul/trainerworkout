@@ -68,11 +68,13 @@ class Handler extends ExceptionHandler
                     'data' => $e->getMessage()
                 ],500);
             }else{
-                Log::error("Exception",[
-                    'error' => $e->getMessage(),
-                    'uri' => $request->getRequestUri(),
-                    'line' => $e->getLine(),
-                ]);
+                if ($e->getCode() != 404){
+                    Log::error("Exception",[
+                        'error' => $e->getMessage(),
+                        'uri' => $request->getRequestUri(),
+                        'line' => $e->getLine(),
+                    ]);
+                }
             }
         });
     }
