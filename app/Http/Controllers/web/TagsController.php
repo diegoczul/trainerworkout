@@ -153,7 +153,11 @@ class TagsController extends BaseController
         if ($permissions["add"]) {
             $validation = Tags::validate($request->all());
             if ($validation->fails()) {
-                return $this::responseJsonErrorValidation($validation->messages());
+                if ($request->ajax()) {
+                    return $this::responseJsonErrorValidation($validation->messages());
+                }else{
+                    return redirect()->back()->withErrors($validation->messages());
+                }
             } else {
                 $tag = new Tags;
                 $tag->userId = Auth::user()->id;
@@ -185,11 +189,18 @@ class TagsController extends BaseController
                         $workout->save();
                     }
                 }
-
-                return $this::responseJson(Lang::get("messages.TagsAdded"));
+                if ($request->ajax()) {
+                    return $this::responseJson(Lang::get("messages.TagsAdded"));
+                }else{
+                    return redirect()->back()->with("message", Lang::get("messages.TagsAdded"));
+                }
             }
         } else {
-            return $this::responseJsonError(Lang::get("messages.Permissions"));
+            if ($request->ajax()){
+                return $this::responseJsonError(Lang::get("messages.Permissions"));
+            }else{
+                return redirect()->back()->with("message", Lang::get("messages.Permissions"));
+            }
         }
     }
 
