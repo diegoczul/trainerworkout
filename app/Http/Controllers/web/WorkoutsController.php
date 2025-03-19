@@ -561,7 +561,7 @@ class WorkoutsController extends BaseController {
 	public function ShareByEmail(Request $request){
 
 		$validation = Validator::make($request->all(),array("email" => "email|required"));
-		if(!$validation){
+		if($validation->fails()){
 			return $this->responseJsonError(__("messages.EmailNotValid"));
 		}
 

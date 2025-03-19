@@ -14,8 +14,9 @@ class Tags extends Model
     protected $dates = ['deleted_at'];
 
     public static $rules = [
-        'name' => 'required',
-        // Define validation rules here if needed
+        'tagNameTag' => 'sometimes',
+        'tagNameClient' => 'sometimes|required_if:tagNameTag,null',
+        'tagName' => 'sometimes',
     ];
 
     public static function validate($data)

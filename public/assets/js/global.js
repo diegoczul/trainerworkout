@@ -711,7 +711,7 @@ function restoreLoader(elements){
 
 function getLoadImage(width,uuid, position, el){
 	if (width === null || width === undefined) width = 23;
-    var itemP = $('<p />', { id: uuid, style: 'display: block; margin:auto; padding: 0; height: auto; width: ' + el.css('width') +'; text-align: center;' });
+    var itemP = $('<p />', { id: uuid, style: 'display: block; margin:auto; padding: 0; padding-top: 5px; height: auto; width: ' + el.css('width') +'; text-align: center;' });
     if (position == 'center'){
         itemP.append(imgLoad.clone());
         element = itemP;
