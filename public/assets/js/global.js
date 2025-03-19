@@ -306,7 +306,7 @@ function callWidget(wid,pageSize,userId,object,arrayData){
 		//loadingIcon = showLoadWithElement(object);
 		triggerLoading(object);
 	}
-    $.ajax({
+    return $.ajax({
         url :widgetsList[wid],
         type: "POST",
         data: {

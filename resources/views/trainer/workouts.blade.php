@@ -182,8 +182,11 @@
 @endsection
 
 @section('scripts')
-    <script>callWidget("w_workouts");</script>
-    <script>callWidget("w_tags");</script>
+    <script>
+        callWidget("w_workouts").done(function (){
+            callWidget("w_tags");
+        });
+    </script>
 
     <script>
 
