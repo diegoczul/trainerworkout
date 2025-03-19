@@ -1,131 +1,130 @@
 @php
-	use App\Http\Libraries\Helper;
+    use App\Http\Libraries\Helper;
     use App\Http\Libraries\Messages;
 @endphp
 <div class="workoutsContainer">
-@if (count($workouts) > 0)
-		@foreach($workouts as $workout)
-		<?php $images = $workout->getExercisesImagesWidget(); ?>
-			<div class="workout_main_container workoutContainer {{ ($workout->archived_at != "") ? "archived" : "" }}">
-			    <div class="workoutsHover">
-			        <div class="workoutsHover_status">
-				        <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
-				        <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
-				        <a class="WorkoutsHoverView" href="javascript:void(0)" onClick='window.location = "/{{ $workout->getURL() }}"'>{{ Lang::get("content.ViewWorkout") }}</a>
-				    </div>
+    @if (count($workouts) > 0)
+        @foreach($workouts as $workout)
+                <?php $images = $workout->getExercisesImagesWidget(); ?>
+            <div class="workout_main_container workoutContainer {{ ($workout->archived_at != "") ? "archived" : "" }}">
+                <div class="workoutsHover">
+                    <div class="workoutsHover_status">
+                        <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
+                        <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
+                        <a class="WorkoutsHoverView" href="javascript:void(0)" onClick='window.location = "/{{ $workout->getURL() }}"'>{{ Lang::get("content.ViewWorkout") }}</a>
+                    </div>
 
-			        <div class="workoutsHover_BTNsContainer">
+                    <div class="workoutsHover_BTNsContainer">
 
-			            <div class="workoutsHover">
-			                <div class="workoutsHover_status">
-			                    <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
-								<!-- *****  Workout Name   ****** -->
-			                    <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
-								<!-- ******  View Workout  *****-->
-			                    <a class="WorkoutsHoverView" href="javascript:void(0)" onClick='window.location = "/{{ $workout->getURL() }}"'>{{ Lang::get("content.ViewWorkout") }}</a>
-			                </div>
+                        <div class="workoutsHover">
+                            <div class="workoutsHover_status">
+                                <img src="{{asset('assets/img/exitPopup.svg')}}" class="hoverExit" onclick="showHover(this)">
+                                <!-- *****  Workout Name   ****** -->
+                                <p title="{{ $workout->name }}">{{ Helper::text($workout->name,50) }}</p>
+                                <!-- ******  View Workout  *****-->
+                                <a class="WorkoutsHoverView" href="javascript:void(0)" onClick='window.location = "/{{ $workout->getURL() }}"'>{{ Lang::get("content.ViewWorkout") }}</a>
+                            </div>
 
-			                <div class="workoutsHover_BTNsContainer">
-								<!-- ******  Archive  ***** -->
-			                    <div class="workoutsHover_BTNContainer hvr-grow {{ ($workout->status == "Draft") ? "disableDiv" : "" }}" onclick="event.cancelBubble = true;">
-			                        <a href="javascript:void(0)" onClick="{{ ($workout->archived_at) ? "un" : "" }}archiveWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">
-			                            <div class="workoutsHover_BTNimg">
-			                                <img src="{{asset('/assets/img/svg/archive.svg')}}">
-			                            </div>
-			                            <div class="workoutsHover_BTNtxt">
-			                                <span>{{ ($workout->archived_at) ? Lang::get("content.UnArchive") : Lang::get("content.Archive")  }}</span>
-			                            </div>
-			                        </a>
-			                    </div>
+                            <div class="workoutsHover_BTNsContainer">
+                                <!-- ******  Archive  ***** -->
+                                <div class="workoutsHover_BTNContainer hvr-grow {{ ($workout->status == "Draft") ? "disableDiv" : "" }}" onclick="event.cancelBubble = true;">
+                                    <a href="javascript:void(0)" onClick="{{ ($workout->archived_at) ? "un" : "" }}archiveWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">
+                                        <div class="workoutsHover_BTNimg">
+                                            <img src="{{asset('/assets/img/svg/archive.svg')}}">
+                                        </div>
+                                        <div class="workoutsHover_BTNtxt">
+                                            <span>{{ ($workout->archived_at) ? Lang::get("content.UnArchive") : Lang::get("content.Archive")  }}</span>
+                                        </div>
+                                    </a>
+                                </div>
 
-            					<!-- *****  Delete   ***** -->
-			                    <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
-			                        <a href="javascript:void(0)" onClick="deleteWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">
-			                            <div class="workoutsHover_BTNimg">
-			                                <img src="{{asset('/assets/img/deleteWorkoutIcon.svg')}}">
-			                            </div>
-			                            <div class="workoutsHover_BTNtxt">
-			                                <span>{{ Lang::get("content.Delete") }}</span>
-			                            </div>
-			                        </a>
-			                    </div>
+                                <!-- *****  Delete   ***** -->
+                                <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
+                                    <a href="javascript:void(0)" onClick="deleteWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">
+                                        <div class="workoutsHover_BTNimg">
+                                            <img src="{{asset('/assets/img/deleteWorkoutIcon.svg')}}">
+                                        </div>
+                                        <div class="workoutsHover_BTNtxt">
+                                            <span>{{ Lang::get("content.Delete") }}</span>
+                                        </div>
+                                    </a>
+                                </div>
 
 
-								<!-- ******   Select   ***** -->
-			                    <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
-			                        <a href="javascript:void(0)" class="workoutsHoverBTN" onclick="putAllWorkoutsOnSelectMode(this,event);event.stopPropagation(); ">
-			                            <div class="workoutsHover_BTNimg">
-			                                <img workoutid="{{ $workout->id }}" class="selectable" src="{{asset('/assets/img/selectableWorkoutIcon.svg')}}">
-			                            </div>
-			                            <div class="workoutsHover_BTNtxt">
-			                                <span>{{ Lang::get("content.Select") }}</span>
-			                            </div>
-			                        </a>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-		        <div class="deleting">
-			        <img src="{{asset('assets/img/tw-gif.gif')}}">
-			        <div class="deletingMessage">{{ Lang::get("content.deleting") }}</div>
-			    </div>
-				<div class="workout">
-					<div class="workoutImages">
-						<img src="/{{ Helper::image($images[0]) }}">
-						<img src="/{{ Helper::image($images[1]) }}">
-						<img src="/{{ Helper::image($images[2]) }}">
-					</div>
-					<div class="workoutInfo">
-						<h1 class="workout_title">{{{ Helper::text($workout->name,20) }}}</h1>
+                                <!-- ******   Select   ***** -->
+                                <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
+                                    <a href="javascript:void(0)" class="workoutsHoverBTN" onclick="putAllWorkoutsOnSelectMode(this,event);event.stopPropagation(); ">
+                                        <div class="workoutsHover_BTNimg">
+                                            <img workoutid="{{ $workout->id }}" class="selectable" src="{{asset('/assets/img/selectableWorkoutIcon.svg')}}">
+                                        </div>
+                                        <div class="workoutsHover_BTNtxt">
+                                            <span>{{ Lang::get("content.Select") }}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="deleting">
+                    <img src="{{asset('assets/img/tw-gif.gif')}}">
+                    <div class="deletingMessage">{{ Lang::get("content.deleting") }}</div>
+                </div>
+                <div class="workout">
+                    <div class="workoutImages">
+                        <img src="/{{ Helper::image($images[0]) }}">
+                        <img src="/{{ Helper::image($images[1]) }}">
+                        <img src="/{{ Helper::image($images[2]) }}">
+                    </div>
+                    <div class="workoutInfo">
+                        <h1 class="workout_title">{{{ Helper::text($workout->name,20) }}}</h1>
 
-						<p>{{{ Helper::date($workout->created_at) }}}</p>
-					</div>
-				</div>
-			</div>
-		@endforeach
+                        <p>{{{ Helper::date($workout->created_at) }}}</p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div class="viewMore_holder">
-    		@if($workoutsTotal > count($workouts))
+            @if($workoutsTotal > count($workouts))
                 <a href="javascript:void(0)" onclick="callWidget('w_workoutsTrainee',{{ count($workouts) }},null,$(this),{archive: '{{ ($archive) ? "true" : "false" }}', search:'{{{ (isset($search) ? $search : "") }}}'})" class="viewMore">{{ Lang::get("content.ViewMore") }}</a>
             @endif
         </div>
- @else
-    <div class="trendingworkout" style="position:relative">
-    {!! Messages::showEmptyMessage("TrendingWorkoutsEmptyTrainer") !!}
-    </div>
-@endif
+    @else
+        <div class="trendingworkout" style="position:relative">
+            {!! Messages::showEmptyMessage("TrendingWorkoutsEmptyTrainer") !!}
+        </div>
+    @endif
 
-@if(isset($countArchiveWorkouts) and $countArchiveWorkouts > 0)
-    <div class="viewMore_holder">
-        <a id="viewArchivedWorkouts" class="archive" href="javascript:void(0)" onClick="viewArchivedWorkouts()"  style="{{ ($archive) ? "display: none" : "" }}">{{ Lang::get("content.viewArchivedWorkouts") }}</a>
-        <a id="viewUnArchivedWorkouts"  class="archive" href="javascript:void(0)" onClick="viewUnArchivedWorkouts()" style="display: {{ ($archive) ? "inline-block" : "none" }}">{{ Lang::get("content.viewNotArchivedWorkouts") }}</a>
-    </div>
-@endif
+    @if(isset($countArchiveWorkouts) and $countArchiveWorkouts > 0)
+        <div class="viewMore_holder">
+            <a id="viewArchivedWorkouts" class="archive" href="javascript:void(0)" onClick="viewArchivedWorkouts()"  style="{{ ($archive) ? "display: none" : "" }}">{{ Lang::get("content.viewArchivedWorkouts") }}</a>
+            <a id="viewUnArchivedWorkouts"  class="archive" href="javascript:void(0)" onClick="viewUnArchivedWorkouts()" style="display: {{ ($archive) ? "inline-block" : "none" }}">{{ Lang::get("content.viewNotArchivedWorkouts") }}</a>
+        </div>
+    @endif
 </div>
 
 
 <script>
 
-function viewArchivedWorkouts(){
-    $("#viewUnArchivedWorkouts").show();
-    $("#viewArchivedWorkouts").hide();
-    callWidget("w_workoutsTrainee",null,null,null,{ archive:'true' });
+    function viewArchivedWorkouts(){
+        $("#viewUnArchivedWorkouts").show();
+        $("#viewArchivedWorkouts").hide();
+        callWidget("w_workoutsTrainee",null,null,null,{ archive:'true' });
 
-}
+    }
 
-function viewUnArchivedWorkouts(){
-    $("#viewUnArchivedWorkouts").hide();
-    $("#viewArchivedWorkouts").show();
-    callWidget("w_workoutsTrainee",null,null,null,null);
+    function viewUnArchivedWorkouts(){
+        $("#viewUnArchivedWorkouts").hide();
+        $("#viewArchivedWorkouts").show();
+        callWidget("w_workoutsTrainee",null,null,null,null);
 
-}
+    }
 
-function deleteWorkout(id,obj){
+    function deleteWorkout(id,obj){
         if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
-        $(obj).closest(".loadingParent").find(".loading").show();
-         $.ajax(
-            {
+            showTopLoader();
+            $.ajax({
                 url : "/widgets/workouts/"+id,
                 type: "DELETE",
 
@@ -147,11 +146,10 @@ function deleteWorkout(id,obj){
     function deleteWorkouts(){
         if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
 
-        count = $(".objectSelected").length;
-        $(".objectSelected").each( function(i) {
-            $(this).closest(".loadingParent").find(".loading").show();
-            $.ajax(
-                {
+            count = $(".objectSelected").length;
+            $(".objectSelected").each( function(i) {
+                showTopLoader();
+                $.ajax({
                     url : "/widgets/workouts/"+$(this).attr("workoutid"),
                     type: "DELETE",
 
@@ -173,7 +171,7 @@ function deleteWorkout(id,obj){
                         }
                     },
                 });
-         });
+            });
         }
     }
 
@@ -186,8 +184,8 @@ function deleteWorkout(id,obj){
         });
         var attr = $(object).find(".selectable").attr('selected');
         if (typeof attr !== typeof undefined && attr !== false) {
-             $(object).find(".selectable").removeAttr("selected");
-             $(object).find(".selectable").attr("src","/assets/img/selectableWorkoutIcon.svg");
+            $(object).find(".selectable").removeAttr("selected");
+            $(object).find(".selectable").attr("src","/assets/img/selectableWorkoutIcon.svg");
             selectedItems.splice( $.inArray($(object).find(".selectable").attr("workoutid"), selectedItems), 1 );
         } else {
             var object2 = $(object).find(".selectable");
@@ -214,11 +212,10 @@ function deleteWorkout(id,obj){
     function archiveWorkouts(){
         if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
 
-        count = $(".objectSelected").length;
-        $(".objectSelected").each( function(i) {
-            $(this).closest(".loadingParent").find(".loading").show();
-            $.ajax(
-                {
+            count = $(".objectSelected").length;
+            $(".objectSelected").each( function(i) {
+                $(this).closest(".loadingParent").find(".loading").show();
+                $.ajax({
                     url : "/widgets/workouts/archive/"+$(this).attr("workoutid"),
                     type: "post",
 
@@ -241,15 +238,14 @@ function deleteWorkout(id,obj){
                         }
                     },
                 });
-         });
+            });
         }
     }
 
     function unarchiveWorkout(id,obj){
         if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
-        $(obj).closest(".loadingParent").find(".loading").show();
-         $.ajax(
-            {
+            $(obj).closest(".loadingParent").find(".loading").show();
+            $.ajax({
                 url : "/widgets/workouts/unarchive/"+id,
                 type: "post",
 
@@ -267,11 +263,10 @@ function deleteWorkout(id,obj){
         }
     }
 
-     function archiveWorkout(id,obj){
+    function archiveWorkout(id,obj){
         if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
-        $(obj).closest(".loadingParent").find(".loading").show();
-         $.ajax(
-            {
+            $(obj).closest(".loadingParent").find(".loading").show();
+            $.ajax({
                 url : "/widgets/workouts/archive/"+id,
                 type: "post",
 

@@ -154,18 +154,19 @@
 
             function deleteWorkout(id, obj) {
                 if (confirm('{{ Lang::get("messages.Confirmation")  }}')) {
-                    $(obj).closest(".loadingParent").find(".loading").show();
+                    showTopLoader();
                     $.ajax({
                         url: "/widgets/workouts/" + id,
                         type: "DELETE",
 
                         success: function (data, textStatus, jqXHR) {
                             successMessage(data);
+                            hideTopLoader();
                             callWidget("w_workouts", null, null, null, {archive: '{{ ($archive) ? "true" : "false" }}'});
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             errorMessage(jqXHR.responseText);
-                            $(".loading").hide();
+                            hideTopLoader();
                         },
                     });
                 }
@@ -177,7 +178,7 @@
 
                     count = $(".objectSelected").length;
                     $(".objectSelected").each(function (i) {
-                        $(this).closest(".loadingParent").find(".loading").show();
+                        showTopLoader();
                         $.ajax({
                             url: "/widgets/workouts/" + $(this).attr("workoutid"),
                             type: "DELETE",
@@ -185,12 +186,13 @@
                             success: function (data, textStatus, jqXHR) {
                                 successMessage(data);
                                 if (!--count) {
+                                    hideTopLoader();
                                     callWidget("w_workouts", null, null, null, {archive: '{{ ($archive) ? "true" : "false" }}'});
                                 }
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 errorMessage(jqXHR.responseText);
-                                $(".loading").hide();
+                                hideTopLoader();
                                 if (!--count) {
                                     widgetsToReload.push("w_workouts");
                                     refreshWidgets();
@@ -208,7 +210,7 @@
 
                     count = $(".objectSelected").length;
                     $(".objectSelected").each(function (i) {
-                        $(this).closest(".loadingParent").find(".loading").show();
+                        showTopLoader();
                         $.ajax({
                             url: "/widgets/workouts/archive/" + $(this).attr("workoutid"),
                             type: "post",
@@ -216,7 +218,7 @@
                             success: function (data, textStatus, jqXHR) {
                                 successMessage(data);
                                 if (!--count) {
-
+                                    hideTopLoader();
                                     //widgetsToReload.push("w_workouts");
                                     //refreshWidgets();
                                     callWidget("w_workouts", null, null, null, {archive: '{{ ($archive) ? "true" : "false" }}'});
@@ -225,7 +227,7 @@
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 errorMessage(jqXHR.responseText);
-                                $(".loading").hide();
+                                hideTopLoader();
                                 if (!--count) {
                                     widgetsToReload.push("w_workouts");
                                     refreshWidgets();
