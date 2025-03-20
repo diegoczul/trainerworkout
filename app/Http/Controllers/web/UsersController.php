@@ -9,6 +9,7 @@ use App\Models\Feeds;
 use App\Models\Groups;
 use App\Models\Invites;
 use App\Models\Objectives;
+use App\Models\Sharings;
 use App\Models\Tasks;
 use App\Models\TemplateSets;
 use App\Models\UserLogos;
@@ -573,27 +574,28 @@ class UsersController extends BaseController
         }
 
         if ($request->filled('workout')) {
-            $workout = Workouts::find(request('workout'));
-            $workoutNew = $workout->replicate(['shares', 'views', 'timesPerformed', 'availability']);
-            $workoutNew->userId = Auth::user()->id;
-            $workoutNew->availability = 'private';
-            $workoutNew->save();
+            Workouts::AddWorkoutToUser(request('workout'), Auth::user()->id, null);
 
-            $workoutsExercises = WorkoutsExercises::where('workoutId', $workout->id)->get();
-            foreach ($workoutsExercises as $workoutExercise) {
-                $workoutExerciseNew = $workoutExercise->replicate();
-                $workoutExerciseNew->workoutId = $workoutNew->id;
-                $workoutExerciseNew->save();
-
-                $templateSets = TemplateSets::where('workoutsExercisesId', $workoutExercise->id)->get();
-                foreach ($templateSets as $templateSet) {
-                    $templateSetNew = $templateSet->replicate();
-                    $templateSetNew->workoutId = $workoutNew->id;
-                    $templateSetNew->workoutsExercisesId = $workoutExerciseNew->id;
-                    $templateSetNew->save();
-                }
-            }
-            $workoutNew->createSets();
+//            $workoutNew = $workout->replicate(['shares', 'views', 'timesPerformed', 'availability']);
+//            $workoutNew->userId = Auth::user()->id;
+//            $workoutNew->availability = 'private';
+//            $workoutNew->save();
+//
+//            $workoutsExercises = WorkoutsExercises::where('workoutId', $workout->id)->get();
+//            foreach ($workoutsExercises as $workoutExercise) {
+//                $workoutExerciseNew = $workoutExercise->replicate();
+//                $workoutExerciseNew->workoutId = $workoutNew->id;
+//                $workoutExerciseNew->save();
+//
+//                $templateSets = TemplateSets::where('workoutsExercisesId', $workoutExercise->id)->get();
+//                foreach ($templateSets as $templateSet) {
+//                    $templateSetNew = $templateSet->replicate();
+//                    $templateSetNew->workoutId = $workoutNew->id;
+//                    $templateSetNew->workoutsExercisesId = $workoutExerciseNew->id;
+//                    $templateSetNew->save();
+//                }
+//            }
+//            $workoutNew->createSets();
         }
 
         Invites::where('email', $user->email)->where('completed', 0)->update(['completed' => 1]);
