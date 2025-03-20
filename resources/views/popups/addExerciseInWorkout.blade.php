@@ -36,7 +36,7 @@
                     </fieldset>
                     <div class="muscleGroup">
                         <label for="" tabindex="4">{{ Lang::get("content.Musclegroups") }}*</label>
-                        <select name="bodygroup" class="chosen-select">
+                        <select id="muscleGroup" name="bodygroup" class="chosen-select">
                             @foreach($bodygroups as $bodygroup)
                                 <option value="{{ $bodygroup->id }}">{{ $bodygroup->name }}</option>
                             @endforeach
