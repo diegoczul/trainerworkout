@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Config;
+if (!defined("ASSET_VERSION"))
+	define('ASSET_VERSION','?v1.0.0');
 
 return array(
     'thumbSize' 	=> '400',
@@ -45,7 +47,4 @@ return array(
     'constantsTabletSizeVideo_h' => "250px",
     'constantsMobileSizeVideo_h' => "150px",
 );
-
-if (!defined("ASSET_VERSION"))
-	define('ASSET_VERSION','?v1.0.0');
 ?>
