@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 if (!defined("ASSET_VERSION"))
-	define('ASSET_VERSION','?v1.0.0');
+	define('ASSET_VERSION','?v1.0.1');
 
 return array(
     'thumbSize' 	=> '400',
