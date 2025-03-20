@@ -61,11 +61,12 @@
             <div class="wrapper">
 
                 @foreach($groups as $group)
-                        <?php
+                    <?php
                         $exercises = $group->getExercises()->get();
                         $restTimeBetweenExercises = unserialize($group->restBetweenCircuitExercises);
                         $circuitExercisesCounter = 0;
-                        ?>
+                        $numberOfCircuitsInWorkout = 1;
+                    ?>
 
                     @if(count($exercises) > 1 or $group->type == "circuit")
                         <!------------------------ CIRCUIT ------------------------>

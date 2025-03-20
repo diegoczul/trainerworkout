@@ -75,16 +75,16 @@
         echo "<link media='all' type='text/css' rel='stylesheet'href='//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css'>";
     }
     ?>
-    {{ HTML::style(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.css')) }}
-    {{ HTML::style(asset('assets/fw/datapicker/jquery.ui.timepicker.css')) }}
-    {{ HTML::script(asset('assets/js/modernizr_touch.js')) }}
+    {{ HTML::style(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/fw/datapicker/jquery.ui.timepicker.css'.ASSET_VERSION)) }}
+    {{ HTML::script(asset('assets/js/modernizr_touch.js'.ASSET_VERSION)) }}
     @yield("headerScripts")
     <!-- Open Sans Font -->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,700,800'
           rel='stylesheet' type='text/css'>
     @yield("headerExtra")
-    {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css')) }}
-    {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css')) }}
+    {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css'.ASSET_VERSION)) }}
     @if(Config::get("app.whitelabel") != "default")
             <?php $whitelabel = "ymca"; ?>
     @endif
@@ -293,23 +293,23 @@
 </body>
 
 <!-- Menu Toggleing JavaScript -->
-{{ HTML::script(asset('assets/js/menu.js')) }}
+{{ HTML::script(asset('assets/js/menu.js'.ASSET_VERSION)) }}
 <!-- Bootstrap Core JavaScript -->
-{{ HTML::script(asset('assets/lang/'.App::getLocale().'/jsWords.js')) }}
-{{ HTML::script(asset('assets/js/bootstrap.min.js')) }}
-{{ HTML::script(asset('assets/fw/ckeditor/ckeditor.js')) }}
+{{ HTML::script(asset('assets/lang/'.App::getLocale().'/jsWords.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/js/bootstrap.min.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/fw/ckeditor/ckeditor.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/fw/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')) }}
-{{ HTML::script(asset('assets/fw/datapicker/jquery.ui.timepicker.js')) }}
-{{ HTML::script(asset('assets/js/touchpunch.js')) }}
-{{ HTML::script(asset('assets/js/global.js')) }}
-{{ HTML::script(asset('assets/js/widgets.js')) }}
-{{ HTML::script(asset('assets/fw/lightbox/js/lightbox.js')) }}
-{{ HTML::script(asset('assets/fw/addtohomescreen/src/addtohomescreen.js')) }}
-{{ HTML::script(asset('assets/templates/exerciseList.js')) }}
-{{ HTML::script(asset('assets/templates/workoutBuilder.js')) }}
+{{ HTML::script(asset('assets/fw/datapicker/jquery.ui.timepicker.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/js/touchpunch.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/js/global.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/js/widgets.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/fw/lightbox/js/lightbox.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/fw/addtohomescreen/src/addtohomescreen.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/templates/exerciseList.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/templates/workoutBuilder.js'.ASSET_VERSION)) }}
 <!-- CHOSEN SELCT BOX -->
-{{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js')) }}
-{{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js')) }}
+{{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js'.ASSET_VERSION)) }}
 <script type="text/javascript">
     var config = {
         '.chosen-select': {search_contains: true},

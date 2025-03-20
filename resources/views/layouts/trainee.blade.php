@@ -48,17 +48,17 @@
              - To prevent iOS from applying its styles to the icon name it thusly: apple-touch-icon-precomposed.png
              - Transparency is not recommended (iOS will put a black BG behind the icon) -->
     <!-- Reset Settings of CSS -->
-    {{ HTML::style(asset('assets/css/fw/normalize.css')) }}
+    {{ HTML::style(asset('assets/css/fw/normalize.css'.ASSET_VERSION)) }}
 
 
-    {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css')) }}
-    {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css')) }}
+    {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css'.ASSET_VERSION)) }}
 
 
-    {{ HTML::script(asset('assets/js/modernizr.js')) }}
+    {{ HTML::script(asset('assets/js/modernizr.js'.ASSET_VERSION)) }}
     <!-- jQuery Version 1.11.0 -->
 
-    {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js')) }}
+    {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js'.ASSET_VERSION)) }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <!-- AJAX SETUP -->
     <script type="text/javascript">
@@ -70,7 +70,7 @@
     </script>
     @yield("headerExtra")
 
-    {{ HTML::style(asset('assets/css/fw/OpenSans.css')) }}
+    {{ HTML::style(asset('assets/css/fw/OpenSans.css'.ASSET_VERSION)) }}
 
     @if(Config::get("app.whitelabel") != "default")
         {{ HTML::style(Config::get("app.whitelabel_css")) }}
@@ -243,16 +243,16 @@
 
 
 <!-- Bootstrap Core JavaScript -->
-{{ HTML::script(asset('assets/js/bootstrap.min.js')) }}
+{{ HTML::script(asset('assets/js/bootstrap.min.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/lang/'.App::getLocale().'/jsWords.js')) }}
+{{ HTML::script(asset('assets/lang/'.App::getLocale().'/jsWords.js'.ASSET_VERSION)) }}
 
 <!-- Home Page Javascript -->
-{{ HTML::script(asset('assets/js/global.js')) }}
+{{ HTML::script(asset('assets/js/global.js'.ASSET_VERSION)) }}
 <!-- Menu Toggleing JavaScript -->
-{{ HTML::script(asset('assets/js/menu.js')) }}
+{{ HTML::script(asset('assets/js/menu.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/fw/addtohomescreen/src/addtohomescreen.js')) }}
+{{ HTML::script(asset('assets/fw/addtohomescreen/src/addtohomescreen.js'.ASSET_VERSION)) }}
 
 
 @yield('scripts')

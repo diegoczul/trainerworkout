@@ -47,16 +47,16 @@
     <meta name="description" content="">
 
 
-    {{ HTML::style(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.css')) }}
-    {{ HTML::style(asset('assets/fw/datapicker/jquery.ui.timepicker.css')) }}
-    {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css')) }}
-    {{ HTML::script(asset('assets/js/jquery-1.11.0.js')) }}
-    {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js')) }}
-    {{ HTML::script(asset('assets/js/modernizr_touch.js')) }}
+    {{ HTML::style(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/fw/datapicker/jquery.ui.timepicker.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css'.ASSET_VERSION)) }}
+    {{ HTML::script(asset('assets/js/jquery-1.11.0.js'.ASSET_VERSION)) }}
+    {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js'.ASSET_VERSION)) }}
+    {{ HTML::script(asset('assets/js/modernizr_touch.js'.ASSET_VERSION)) }}
 
     {{ HTML::style(asset('assets/fw/fancybox/source/jquery.fancybox.css?v=2.1.5')) }}
-    {{ HTML::style(asset('assets/fw/lightbox/css/lightbox.css')) }}
-    {{ HTML::style(asset('assets/fw/chosen_v1/chosen.css')) }}
+    {{ HTML::style(asset('assets/fw/lightbox/css/lightbox.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/fw/chosen_v1/chosen.css'.ASSET_VERSION)) }}
 
 
 
@@ -138,11 +138,11 @@
         <!-- End of data that needs to be replaced -->
     </div>
     <ul class="c-menu__items">
-        <!-- <li class="c-menu__item"><a href="/Trainee/Profile" class="c-menu__link">{{ Lang::get("content.CMProfile") }}</a></li> -->
-        <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Profile") }}" class="c-menu__link">{{ Lang::get("content.TProfile") }}</a></li>
-        <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Workouts") }}" class="c-menu__link">{{ Lang::get("content.Workouts") }}</a></li>
-        <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Exercises") }}" class="c-menu__link">{{ Lang::get("content.Exercises") }}</a></li>
-        <li class="c-menu__item"><a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a></li>
+{{--        <!-- <li class="c-menu__item"><a href="/Trainee/Profile" class="c-menu__link">{{ Lang::get("content.CMProfile") }}</a></li> -->--}}
+{{--        <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Profile") }}" class="c-menu__link">{{ Lang::get("content.TProfile") }}</a></li>--}}
+{{--        <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Workouts") }}" class="c-menu__link">{{ Lang::get("content.Workouts") }}</a></li>--}}
+{{--        <li class="c-menu__item"><a href="{{ Lang::get("routes./Trainer/Exercises") }}" class="c-menu__link">{{ Lang::get("content.Exercises") }}</a></li>--}}
+{{--        <li class="c-menu__item"><a href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a></li>--}}
     </ul>
     <div class="socialIcons_container">
         <p>{{ Lang::get("content.CMShare") }}</p>
@@ -189,31 +189,31 @@
 {{ HTML::script(asset('assets/js/menu.js')) }}
 
 <!-- Bootstrap Core JavaScript -->
-{{ HTML::script(asset('assets/lang/'.App::getLocale().'/jsWords.js')) }}
+{{ HTML::script(asset('assets/lang/'.App::getLocale().'/jsWords.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/js/bootstrap.min.js')) }}
+{{ HTML::script(asset('assets/js/bootstrap.min.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/fw/ckeditor/ckeditor.js')) }}
+{{ HTML::script(asset('assets/fw/ckeditor/ckeditor.js'.ASSET_VERSION)) }}
 
 {{ HTML::script(asset('assets/fw/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')) }}
-{{ HTML::script(asset('assets/fw/datapicker/jquery.ui.timepicker.js')) }}
+{{ HTML::script(asset('assets/fw/datapicker/jquery.ui.timepicker.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/js/touchpunch.js')) }}
+{{ HTML::script(asset('assets/js/touchpunch.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/js/global.js')) }}
+{{ HTML::script(asset('assets/js/global.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/js/widgets.js')) }}
+{{ HTML::script(asset('assets/js/widgets.js'.ASSET_VERSION)) }}
 
-{{ HTML::script(asset('assets/fw/lightbox/js/lightbox.js')) }}
+{{ HTML::script(asset('assets/fw/lightbox/js/lightbox.js'.ASSET_VERSION)) }}
 
 
-{{ HTML::script(asset('assets/views/templates/exerciseList.js')) }}
-{{ HTML::script(asset('assets/views/templates/workoutBuilder.js')) }}
+{{ HTML::script(asset('assets/views/templates/exerciseList.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/views/templates/workoutBuilder.js'.ASSET_VERSION)) }}
 
 
 <!-- CHOSEN SELCT BOX -->
-{{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js')) }}
-{{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js')) }}
+{{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js'.ASSET_VERSION)) }}
 <script type="text/javascript">
     var config = {
         '.chosen-select': {search_contains: true},
@@ -311,7 +311,7 @@
         //   app_id: "af0obxyk"
         // };
     </script>
-    {{ HTML::script(asset('assets/js/thirdParty.js')) }}
+    {{ HTML::script(asset('assets/js/thirdParty.js'.ASSET_VERSION)) }}
 @endif
 
 <!-- <script>

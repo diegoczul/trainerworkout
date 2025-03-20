@@ -46,4 +46,6 @@ return array(
     'constantsMobileSizeVideo_h' => "150px",
 );
 
+if (!defined("ASSET_VERSION"))
+	define('ASSET_VERSION','?v1.0.0');
 ?>
