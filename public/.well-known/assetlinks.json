@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.trainerworkout.app",
+      "package_name": "com.app.trainerworkout",
       "sha256_cert_fingerprints":
-      ["6A:31:A2:4A:B0:CF:27:E4:33:24:9C:CD:2C:59:4C:4D:90:4C:AC:D4:02:FB:E0:DB:FE:2D:21:C7:F3:A2:76:76"]
+      ["A6:19:9C:B6:82:2A:C7:54:E9:2B:C1:cd:52:F0:04:75:C7:2B:C8:49:4E:AF:6F:7E:92:31:E3:94:3E:03:FD:60"]
     }
   }
 ]
