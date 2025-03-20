@@ -523,7 +523,7 @@ class UsersController extends BaseController
     {
         $user = null;
 
-        if ($request->has('invite')) {
+        if ($request->filled('invite')) {
             $invite = Invites::where('key', request('invite'))->first();
             if ($invite) {
                 if (!empty($invite->fakeId)) {
@@ -557,7 +557,7 @@ class UsersController extends BaseController
                     $invite->completeInvite($user);
                 }
             }
-        } else {
+        }else {
             $validation = Users::validate($request->all(), ['termsAndConditions' => 'required']);
             if ($validation->fails()) {
                 return Redirect::back()->withInput()->withErrors($validation->messages());
@@ -596,7 +596,6 @@ class UsersController extends BaseController
         }
 
         Invites::where('email', $user->email)->where('completed', 0)->update(['completed' => 1]);
-
         Feeds::insertFeed('SignUp', Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
@@ -615,6 +614,7 @@ class UsersController extends BaseController
 
         return Redirect::route('traineeWorkouts')->with('message', Lang::get('messages.Welcome'))->with('newUser', true);
     }
+
     public function TrainerFreeTrialSignUp(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -802,9 +802,9 @@ class UsersController extends BaseController
         return View::make(Helper::translateOverride('TraineeSignUp'))->with("key", $key);
     }
 
-    public function TraineeInviteWithWorkout($workout)
+    public function TraineeInviteWithWorkout($workout_id)
     {
-        return View::make('TraineeSignUp')->with("workout", $workout);
+        return View::make('TraineeSignUp')->with("workout", $workout_id);
     }
 
     public function create(Request $request)

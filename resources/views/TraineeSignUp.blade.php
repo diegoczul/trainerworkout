@@ -16,6 +16,7 @@
         <div class="accountAction_container">
             {{ Form::open(array('url' => Lang::get("routes./Trainee/SignUp"), "id"=>"login_form")) }}
                 <input type="hidden" name="invite" value="{{ (isset($key)) ? $key : "" }}"/>
+                <input type="hidden" name="workout" value="{{ (isset($workout)) ? $workout : "" }}"/>
                 <label for="firstName">{{ Lang::get("content.First Name") }}</label>
                 <input type="text" name="firstName" id="firstName" required placeholder="{{ Lang::get("content.First Name") }}" value="{{ (isset($invite) and ($invite)) ? $invite->firstName : request()->old('firstName') }}" />
                 <label for="lastName">{{ Lang::get("content.Last Name") }}</label>

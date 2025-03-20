@@ -237,7 +237,7 @@ class WeightsController extends BaseController
                     }
 
                     $weights->type = $type;
-                    $weights->recordDate = $request->get("recordDate");
+                    $weights->recordDate = $request->get("dateRecord");
                     $weights->userId = $userId;
                     $weights->save();
                     Feeds::insertFeed("NewWeight", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);

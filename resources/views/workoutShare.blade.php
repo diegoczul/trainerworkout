@@ -1,3 +1,6 @@
+@use(App\Http\Libraries\Helper)
+@use(App\Http\Libraries\Messages)
+@use(App\Models\ExercisesImages)
 @extends('layouts.'.strtolower($user->userType))
 @section('content')
 <?php

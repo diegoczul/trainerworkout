@@ -54,26 +54,15 @@
     {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js')) }}
     {{ HTML::script(asset('assets/js/modernizr_touch.js')) }}
 
-    <!--     {{ HTML::style('css/innerStylesResponsive.css') }} -->
-    <!--     {{ HTML::style('css/innerStyles.css') }} -->
-    <!--     {{ HTML::style('css/improvements.css') }} -->
-    <!--     {{ HTML::style('css/fw/normalize.css') }} -->
     {{ HTML::style(asset('assets/fw/fancybox/source/jquery.fancybox.css?v=2.1.5')) }}
     {{ HTML::style(asset('assets/fw/lightbox/css/lightbox.css')) }}
-    <!--     {{ HTML::style('css/tempMenu.css') }} -->
-    <!-- {{ HTML::style('css/share_fancy_box.css?v=2.1.5') }} -->
     {{ HTML::style(asset('assets/fw/chosen_v1/chosen.css')) }}
-    <!--     <link type="text/css" rel="stylesheet" id="arrowchat_css" media="all" href="/arrowchat/external.php?type=css" charset="utf-8" /> -->
 
 
-    <!-- jQuery Version 1.11.0 -->
-
-    <!--  {{ HTML::script('js/touchpunch.js') }}
-    {{ HTML::script(asset('assets/js/prebody.js')) }} -->
 
 
-    <!--     <script>
-         detectDevice("/MobileGetStarted");
+<!--    <script>
+            detectDevice("/MobileGetStarted");
         </script> -->
 
     @yield("headerScripts")
@@ -89,11 +78,13 @@
 <div id="o-wrapper" class="o-wrapper">
     <div class="systemMessages"></div>
     <div class="main_header" id="main_header">
-        <div class="contentContainer">
+        <div class="navContentContainer">
             <nav>
-                <div class="navItem headerMenu" id="c-button--push-left">
+                <div class="navItem navBurger" id="c-button--push-left">
                     <svg width="39" height="35" viewBox="0 0 39 25" xmlns="https://www.w3.org/2000/svg">
-                        <title>Mobile Menu Icon</title>
+                        <title>
+                            Mobile Menu Icon
+                        </title>
                         <g transform="translate(2)" fill="#FFF" fill-rule="evenodd">
                             <rect width="35" height="3" rx="2"/>
                             <rect y="18" width="35" height="3" rx="2"/>
@@ -102,12 +93,8 @@
                     </svg>
                 </div>
                 <div class="navItem" id="headerLogo">
-                    <svg width="54" height="33" viewBox="0 0 54 33" xmlns="https://www.w3.org/2000/svg">
-                        <title>Logo TW Mobile</title>
-                        <path d="M7.27 12.983c1.297 0 2.177-.438 3.05-.897-3.906.74-7.762-1.987-8.32-6.54l6.473-.098.27-1.713L13.1 0h3.737l-.88 5.28s2.962-.092 5.124 0c1.33.168 2.883.656 3.53 1.425.81.77 1.686 2.398 2.11 5.03.165.808.438 2.336.544 3.403l4.35-9.507c1.408-.674 4.578-1.024 7.408-.085l1.374 11.06 7.87-12.87 2.783-.948.95 2.758L41.876 27.9c-2.483.794-5.065.567-6.552 0l-1.862-11.144S28.61 26.816 27.946 27.9c-2.25.794-5.485.482-6.51 0 0-.93 0-10.99-.507-12.572 0 0-.274-2.954-2.01-3.242h-4.06s-1.626 8.842-1.435 9.126c.13.4.364.45.598.648.943.188 1.15.356 4.662-.514v5.44c-2.017 1.305-4.604 2.517-8.865 1.908-2.37-.432-4.16-1.682-4.262-4.847.185-2.377.876-5.42 1.712-10.864z" fill="#FFF" fill-rule="evenodd"/>
-                    </svg>
+                    <img src="{{asset('assets/')}}{{ Config::get("app.logo_header") }}"/>
                 </div>
-
                 <div class="navItem navOptions">
                     <div class="navLang">
                         <a href="/lang/en">{!! (App::getLocale() == "en") ? "<strong>EN</strong>" : "EN" !!}</a>

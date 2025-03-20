@@ -1,4 +1,4 @@
-@php
++@php
     use App\Http\Libraries\Helper;
 @endphp
 @extends('layouts.trainer')

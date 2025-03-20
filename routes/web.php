@@ -533,7 +533,6 @@ use Illuminate\Support\Facades\Route;
     Route::middleware(['auth', 'userTypeChecker'])->group(function () {
         Route::get(__('routes./Trainee/Settings'), [UsersController::class, 'indexSettings'])->name('TraineeSettings');
         Route::post(__('routes./Trainee/Settings'), [UsersController::class, 'settingsSave']);
-        Route::get(__('routes./Trainee/{username}' . __('routes./Profile')), [UsersController::class, 'indexProfile'])->name('Profile');
         Route::get(__('routes./Trainee/Profile'), [UsersController::class, 'indexProfile'])->name('TraineeProfile');
         Route::get(__('routes./Trainee/EditProfile'), [UsersController::class, 'indexEditTrainee'])->name('EditProfile');
         Route::post(__('routes./Trainee/EditProfile'), [UsersController::class, 'TraineeSave'])->name('EditProfilePost');
@@ -564,7 +563,7 @@ use Illuminate\Support\Facades\Route;
         Route::get(__('routes./Trainer') . '/{userId}/{userName}', [UsersController::class, 'indexTrainer']);
         Route::get(__('routes./Trainer') . '/{username}', [UsersController::class, 'trainerIndex'])->name('Trainer');
         Route::get(__('routes./Trainer'), [UsersController::class, 'trainerIndex'])->name('TrainerBase');
-        Route::get(__('routes./Trainee').'/{username}', [UsersController::class, 'index'])->name('Trainee');
+        Route::get(__('routes./Trainee').'/{userName}', [UsersController::class, 'index'])->name('Trainee');
         Route::get(__('routes./Trainee'), [UsersController::class, 'index'])->name('TraineeBase');
     });
 
@@ -727,7 +726,7 @@ use Illuminate\Support\Facades\Route;
     });
 
     // TRAINER
-    Route::get(__('routes./TrainerSignUp/Workout/').'{key}', [UsersController::class, 'TrainerInviteWithWorkout'])->middleware('guest');
+    Route::get(__('routes./TraineeSignUp/Workout/').'{workout_id}', [UsersController::class, 'TraineeInviteWithWorkout'])->name('trainee-invite-with-workout')->middleware('guest');
     Route::get(__('routes./TrainerSignUp/').'{key}', [UsersController::class, 'TrainerInvite'])->middleware('guest');
     Route::get(__('routes./trainerGetStartedPaid'), [UsersController::class, 'trainerGetStartedPaid']);
     Route::get(__('routes./TrainerSignUp'), [UsersController::class, 'trainerGetStarted'])->name('TrainerSignUp')->middleware('guest');

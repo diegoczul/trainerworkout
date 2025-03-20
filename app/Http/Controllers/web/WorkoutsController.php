@@ -449,6 +449,7 @@ class WorkoutsController extends BaseController {
 	public function AddToMyWorkouts($workoutId){
 
 		$workout = Workouts::find($workoutId);
+
 		$workoutNew = new Workouts();
 		$workoutNew->name = $workout->name;
 		$workoutNew->shares = 0;
@@ -485,7 +486,7 @@ class WorkoutsController extends BaseController {
 
 		$workoutNew->createSets();
 
-		return redirect()->route(Auth::user()->userType,array('userName' => Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName)))->with("message",__("messages.SharedWorkoutAdded"));
+		return redirect()->route(Auth::user()->userType,array('username' => Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName)))->with("message",__("messages.SharedWorkoutAdded"));
 	}
 
 
@@ -560,7 +561,7 @@ class WorkoutsController extends BaseController {
 
 	public function ShareByEmail(Request $request){
 
-		$validation = Validator::make($request->all(),array("email" => "email|required"));
+		$validation = Validator::make($request->all(),array("email" => "required"));
 		if($validation->fails()){
 			return $this->responseJsonError(__("messages.EmailNotValid"));
 		}
@@ -774,22 +775,31 @@ class WorkoutsController extends BaseController {
 
 
 	public function openWorkoutBySharingLink($link){
-
 		$sharing = Sharings::where("access_link",$link)->first();
-
 		if(!Auth::check()){
-			if($sharing->toUserObject){
-				$invite = Invites::where("userId",$sharing->fromUser)->where("completed",0)->where("fakeId",$sharing->toUser)->first();
-				if($invite){
-					return view('TraineeSignUp')->with("key",$invite->key)->with("invite",$invite);
-				} else {
-
-					return redirect()->route("login");
-				}
-			} else {
-				return view('TraineeSignUp');
-			}
+            $workoutId = $sharing->aux;
+            $workout = Workouts::find($workoutId);
+            $tags = $workout->tags;
+            $agent = new Agent();
+            return view('visitor.share-workout')
+                ->with("workout",$workout)
+                ->with("agent",$agent)
+                ->with("workoutId",$workoutId)
+                ->with("groups",$workout->getGroups()->get())
+                ->with("exercises",$workout->getExercises()->get());
+//			if($sharing->toUserObject){
+//				$invite = Invites::where("userId",$sharing->fromUser)->where("completed",0)->where("fakeId",$sharing->toUser)->first();
+//				if($invite){
+//					return view('TraineeSignUp')->with("key",$invite->key)->with("invite",$invite);
+//				} else {
+//
+//					return redirect()->route("login");
+//				}
+//			} else {
+//				return view('TraineeSignUp');
+//			}
 		}
+
 		//DEFAULT AUTH
 		if($sharing){
 			$sharing->viewed = 1;
@@ -802,12 +812,10 @@ class WorkoutsController extends BaseController {
 				$workout = Workouts::find($workoutId);
 
 				if($workout and $workout->userId == Auth::user()->id){
-
-						return $this->viewWorkout($workout->id,null,null);
-
+                    return $this->viewWorkout($workout->id,null,null);
 				} else {
 					if(Auth::user()){
-						return redirect()->route('Trainee', array('username' => Helper::formatURLString(Auth::user()->firstName.Auth::user()->lastName)))->withError(__("messages.WorkoutNotFound"));
+						return redirect()->route('traineeWorkouts')->withError(__("messages.WorkoutNotFound"));
 					} else{
 						return redirect()->route("home")->withError(__("messages.WorkoutNotFound"));
 					}
@@ -826,18 +834,18 @@ class WorkoutsController extends BaseController {
 			$workout->incrementViews();
 
 			if(Auth::check()){
-							return view("workoutShare")
-								->with("workout",$workout)
-								->with("user",Auth::user())
-								->with("sale",true)
-								->with("exercises",$workout->getExercises()->get());
-						} else {
-							return view("workoutVisitor")
-								->with("workout",$workout)
-								->with("sale",true)
-								->with("exercises",$workout->getExercises()->get());
-						}
-					}
+                return view("workoutShare")
+                    ->with("workout",$workout)
+                    ->with("user",Auth::user())
+                    ->with("sale",true)
+                    ->with("exercises",$workout->getExercises()->get());
+            } else {
+                return view("workoutVisitor")
+                    ->with("workout",$workout)
+                    ->with("sale",true)
+                    ->with("exercises",$workout->getExercises()->get());
+            }
+        }
 
 	}
 
