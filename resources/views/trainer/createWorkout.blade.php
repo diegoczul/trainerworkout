@@ -2796,20 +2796,15 @@ $(document).ready(function(){
 $("#workout_name").val('{{ addslashes($workout->name) }}');
 @endif
 
+@if(isset($workout->exerciseGroup) && !empty($workout->exerciseGroup))
+    exercises = JSON.parse(`{!! addslashes(json_encode(json_decode($workout->exercises, true))) !!}`);
+    exerciseGroups = JSON.parse(`{!! addslashes(json_encode(json_decode($workout->exerciseGroup, true))) !!}`);
+    @if($workout->exerciseGroupRest != "")
+    exerciseGroupsRest = JSON.parse(`{!! addslashes(json_encode(json_decode($workout->exerciseGroupRest, true))) !!}`);
+    @endif
 
-
-@if($workout->exerciseGroup != "" and $workout->exerciseGroup != "[]")
-
-
-  exercises = JSON.parse('{{ addslashes($workout->exercises) }}');
-  exerciseGroups = JSON.parse('{{ addslashes($workout->exerciseGroup) }}');
-  @if($workout->exerciseGroupRest != "")
-      exerciseGroupsRest = JSON.parse('{{ addslashes($workout->exerciseGroupRest) }}');
-  @endif
-
-  recreateWorkoutFromJson();
-  addingExerciseMenu();
-
+    recreateWorkoutFromJson();
+    addingExerciseMenu();
 @endif
 });
 
