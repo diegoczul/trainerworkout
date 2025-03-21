@@ -2,6 +2,7 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Log;
 
 class SharedWorkoutEmail extends Mailable
 {
@@ -54,5 +55,11 @@ class SharedWorkoutEmail extends Mailable
                 'copyView' => $this->copyView,
                 'copyPrint' => $this->copyPrint,
             ]);
+    }
+
+    public function failed($exception)
+    {
+        $time = now('Asia/Kolkata')->format('d-m-Y H:i:s');
+        Log::driver('email_exceptions_log')->error("[$time] : Email Exception : ",['error' => $exception->getMessage(),'line' => $exception->getLine(),]);
     }
 }

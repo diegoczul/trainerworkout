@@ -133,6 +133,14 @@ return [
             'level' => env('LOG_LEVEL', 'error'),
             'days' => 7,
             'replace_placeholders' => true,
+        ],
+
+        'email_exceptions_log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/email_exceptions/laravel.log'),
+            'level' => env('LOG_LEVEL', 'error'),
+            'days' => 7,
+            'replace_placeholders' => true,
         ]
     ],
 
