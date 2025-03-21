@@ -34,13 +34,6 @@ return [
     */
 
     'mailers' => [
-        'stream' => [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ],
-        ],
-
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
@@ -51,8 +44,12 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
-            'verify_peer' => false,
-            'verify_peer_name' => false,
+            'stream' => [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
         'ses' => [
