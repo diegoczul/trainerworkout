@@ -1234,6 +1234,18 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
+        function tabSwitcher(el, tab) {
+            var $tabs = $(el).closest(".tabSwitcherParent").find("[class^='tab_']");
+            var $tabsBtns = $(el).closest(".tabSwitcherParent").find(".tabBtn");
 
+
+            //TAB BUTTON
+            $tabsBtns.removeClass("tabSelected");
+            $(el).closest(".tabSwitcherParent").find(".tab_button_" + tab).addClass("tabSelected");
+
+            //Tab
+            $(el).closest(".tabSwitcherParent").find(".tabs").removeClass("showTab");
+            $(el).closest(".tabSwitcherParent").find("." + tab + "Tab").addClass("showTab");
+        }
     </script>
 @endsection

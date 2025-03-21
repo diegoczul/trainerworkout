@@ -159,36 +159,60 @@ class TagsController extends BaseController
                     return redirect()->back()->withErrors($validation->messages());
                 }
             } else {
-                $tag = new Tags;
-                $tag->userId = Auth::user()->id;
-
-                if ($request->get("tagNameTag")) {
-                    $tag->name = $request->get("tagNameTag");
-                    $tag->type = "tag";
-                } elseif ($request->get("tagNameClient")) {
-                    $tag->name = $request->get("tagNameClient");
-                    $tag->type = "user";
-                } else {
-                    $tag->name = $request->get("tagName");
-                    $tag->type = "tag";
+                if ($request->filled("tagNameTag")) {
+                    $tagNameTag = new Tags;
+                    $tagNameTag->userId = Auth::user()->id;
+                    $tagNameTag->name = $request->get("tagNameTag");
+                    $tagNameTag->type = "tag";
+                    if (Tags::where("userId", $userId)->where("name", $tagNameTag->name)->where("type", $tagNameTag->type)->count() == 0) {
+                        $tagNameTag->save();
+                    }
+                }
+                if ($request->filled("tagNameClient")) {
+                    $tagNameClient = new Tags;
+                    $tagNameClient->userId = Auth::user()->id;
+                    $tagNameClient->name = $request->get("tagNameClient");
+                    $tagNameClient->type = "user";
+                    if (Tags::where("userId", $userId)->where("name", $tagNameClient->name)->where("type", $tagNameClient->type)->count() == 0) {
+                        $tagNameClient->save();
+                    }
+                }
+                if($request->filled("tagName")) {
+                    $tagName = new Tags;
+                    $tagName->userId = Auth::user()->id;
+                    $tagName->name = $request->get("tagName");
+                    $tagName->type = "tag";
+                    if (Tags::where("userId", $userId)->where("name", $tagName->name)->where("type", $tagName->type)->count() == 0) {
+                        $tagName->save();
+                    }
                 }
 
-                if (Tags::where("userId", $userId)->where("name", $tag->name)->where("type", $tag->type)->count() == 0) {
-                    $tag->save();
-                }
 
                 if ($request->get("workoutId")) {
                     $workout = Workouts::find($request->get("workoutId"));
                     if ($workout) {
-                        Event::dispatch('createTag', [Auth::user(), $workout->name, $tag->name]);
                         $tags = $workout->tags;
                         $tagsArray = explode(",", $tags);
-                        array_push($tagsArray, $tag->name);
+
+                        if ($request->filled("tagNameTag")) {
+                            Event::dispatch('createTag', [Auth::user(), $workout->name, $tagNameTag->name]);
+                            array_push($tagsArray, $tagNameTag->name);
+                        }
+                        if ($request->filled("tagNameClient")) {
+                            Event::dispatch('createTag', [Auth::user(), $workout->name, $tagNameClient->name]);
+                            array_push($tagsArray, $tagNameClient->name);
+                        }
+                        if ($request->filled("tagName")) {
+                            Event::dispatch('createTag', [Auth::user(), $workout->name, $tagName->name]);
+                            array_push($tagsArray, $tagName->name);
+                        }
+
                         $tags = implode(",", $tagsArray);
                         $workout->tags = $tags;
                         $workout->save();
                     }
                 }
+
                 if ($request->ajax()) {
                     return $this::responseJson(Lang::get("messages.TagsAdded"));
                 }else{
