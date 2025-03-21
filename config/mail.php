@@ -44,13 +44,13 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
-            'stream' => [
-                'ssl' => [
-                    'verify_peer' => true,
-                    'verify_peer_name' => true,
-                    'cafile' => '/etc/pki/tls/certs/ca-bundle.crt',
-                ],
-            ],
+//            'stream' => [
+//                'ssl' => [
+//                    'verify_peer' => true,
+//                    'verify_peer_name' => true,
+//                    'cafile' => '/etc/pki/tls/certs/ca-bundle.crt',
+//                ],
+//            ],
         ],
 
         'ses' => [
