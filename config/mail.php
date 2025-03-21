@@ -46,8 +46,9 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
             'stream' => [
                 'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
+                    'verify_peer' => true,
+                    'verify_peer_name' => true,
+                    'cafile' => '/etc/pki/tls/certs/ca-bundle.crt',
                 ],
             ],
         ],
