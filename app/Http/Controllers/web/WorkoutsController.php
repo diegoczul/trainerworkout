@@ -765,7 +765,7 @@ class WorkoutsController extends BaseController {
 
 		Event::dispatch('printWorkout', array($user,$workout->name));
         $pdfUrl = urlencode($workout->getPrintPDF(false));
-        echo '<iframe src="https://docs.google.com/gview?url=' . $pdfUrl . '&embedded=true" style="width:100%; height:800px;" frameborder="0"></iframe>';
+        return redirect("https://docs.google.com/viewerng/viewer?url=$pdfUrl");
 	}
 
 	public function PrintWorkouts($workoutIds){
