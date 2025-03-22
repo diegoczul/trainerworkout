@@ -764,8 +764,7 @@ class WorkoutsController extends BaseController {
 		$workout->incrementViews();
 
 		Event::dispatch('printWorkout', array($user,$workout->name));
-        $pdfUrl = $workout->getPrintPDF(false);
-        return redirect("https://docs.google.com/viewerng/viewer?url=$pdfUrl");
+        return $workout->getPrintPDF(false);
 	}
 
 	public function PrintWorkouts($workoutIds){
