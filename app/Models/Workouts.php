@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Libraries\Helper;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
@@ -15,13 +15,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use LynX39\LaraPdfMerger\PdfManage;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class Workouts extends Model
 {
@@ -505,7 +503,7 @@ class Workouts extends Model
         $data["user"] = Auth::user();
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
-        $pdf = PDF::loadView('workoutPrint',$data);
+        $pdf = SnappyPdf::loadView('workoutPrint',$data);
         $pdf->setOptions(array(
             "orientation" => "landscape",
         ));

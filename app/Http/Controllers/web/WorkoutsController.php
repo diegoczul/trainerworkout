@@ -8,7 +8,6 @@ use App\Models\Equipments;
 use App\Models\Exercises;
 use App\Models\ExercisesTypes;
 use App\Models\Feeds;
-use App\Models\Invites;
 use App\Models\Memberships;
 use App\Models\Notifications;
 use App\Models\Ratings;
@@ -23,6 +22,7 @@ use App\Models\WorkoutsExercises;
 use App\Models\WorkoutsGroups;
 use App\Models\WorkoutsPerformances;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -1495,10 +1495,8 @@ class WorkoutsController extends BaseController {
 //                    }
 
 					if($pdf){
-						$data = array();
-
                         $html = $this->PrintWorkout($workout->id);
-						$pdf = Pdf::loadHTML($html);
+						$pdf = SnappyPdf::loadHTML($html);
 						$pdf->setOptions(array(
 							"orientation" => "landscape",
 						));
@@ -1511,8 +1509,6 @@ class WorkoutsController extends BaseController {
 						//$merger->addPDF($name_temp);
 						//$merger->addPDF(Config::get("constants.gridPDF"));
 						//$merger->merge('file', $name_temp, 'L');
-
-
 
 						$zip->addFile($pdfPath,Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf");
 					}
