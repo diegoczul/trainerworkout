@@ -499,7 +499,7 @@ class Workouts extends Model
         return $name_temp;
     }
 
-    public function getPrintPDF()
+    public function getPrintPDF($is_absolute = true)
     {
         $data["workout"] = $this;
         $data["user"] = Auth::user();
@@ -520,16 +520,26 @@ class Workouts extends Model
         if (File::exists($name_temp)) {
             File::delete($name_temp);
         }
-
         $pdf->save($name_temp);
 
+        if (!$is_absolute) {
+            // SAVING TO PUBLIC PATH
+            $temp_public_name = '/temp/' . $name . '_grid.pdf';
+            if (file_exists(public_path('/temp/')) == false) {
+                mkdir(public_path('/temp/'), 0777, true);
+            }
+            $pdf->save(public_path($temp_public_name));
+        }
 
         $merger = (new PdfManage())->init();
         $merger->addPDF($name_temp);
         $merger->addPDF(public_path(Config::get("constants.gridPDF")));
         $merger->merge('L', ['file' => $name_temp]);
-
-        return $name_temp;
+        if ($is_absolute){
+            return $name_temp;
+        }else{
+            return asset($temp_public_name);
+        }
     }
 
     public function getImageScreenshot()

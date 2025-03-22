@@ -440,6 +440,7 @@ use Illuminate\Support\Facades\Route;
     Route::get(__('routes./Workout/ShareWorkout/') . "{workout}", [WorkoutsController::class, 'shareWorkoutIndex'])->middleware('auth');
     Route::get(__('routes./Workout/ShareWorkouts/'), [WorkoutsController::class, 'shareWorkoutIndex'])->middleware('auth');
     Route::get(__('routes./Workout/PrintWorkout/') . "{workout}", [WorkoutsController::class, 'PrintWorkoutPDF'])->middleware('auth');
+    Route::get(__('routes./Workout/PrintWorkout/') . "android/{workout}", [WorkoutsController::class, 'PrintWorkoutAndroidPDF'])->middleware('auth');
     Route::get(__('routes./Workout/PrintWorkouts/') . "{workout}", [WorkoutsController::class, 'PrintWorkouts'])->middleware('auth');
     Route::get(__('routes./Workout/PrintWorkoutInternal/') . "{workout}", [WorkoutsController::class, 'PrintWorkout']);
     Route::get(__('routes./Workout/PrintWorkoutInternal/') . "{workout}/{locale}", [WorkoutsController::class, 'PrintWorkout']);

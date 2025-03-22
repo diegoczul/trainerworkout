@@ -758,6 +758,16 @@ class WorkoutsController extends BaseController {
 		]);
 	}
 
+    public function PrintWorkoutAndroidPDF($workoutId){
+		$workout = Workouts::find($workoutId);
+		$user = Users::find($workout->userId);
+		$workout->incrementViews();
+
+		Event::dispatch('printWorkout', array($user,$workout->name));
+        $pdfUrl = urlencode($workout->getPrintPDF(false));
+        echo '<iframe src="https://docs.google.com/gview?url=' . $pdfUrl . '&embedded=true" style="width:100%; height:800px;" frameborder="0"></iframe>';
+	}
+
 	public function PrintWorkouts($workoutIds){
 		$workoutsArray = explode(",",$workoutIds);
 		foreach($workoutsArray as $workoutId){

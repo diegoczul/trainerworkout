@@ -28,3 +28,4 @@ docker/*
 .env.production
 storage/*
 public/assets/fonts/installed-fonts.json
+public/temp/
