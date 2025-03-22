@@ -112,10 +112,6 @@
                             {{ FORM::select("bodygroup", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select"]) }}
                         </div>
 
-{{--                        <div class="equipment">--}}
-{{--                            <label for="equipment">{{ Lang::get("content.Listtheequipmentneeded") }}*</label>--}}
-{{--                            {{ Form::select("equipment[]",$equipmentsList,"",array("id"=>"equipment", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select","multiple",)) }}--}}
-{{--                        </div>--}}
                         <div class="submit">
                             <label class="next" onclick="addExerciseSwtichStep()">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
                         </div>

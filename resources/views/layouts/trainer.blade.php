@@ -311,16 +311,18 @@
 {{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js'.ASSET_VERSION)) }}
 <script type="text/javascript">
-    var config = {
-        '.chosen-select': {search_contains: true},
-        '.chosen-select-deselect': {allow_single_deselect: true},
-        '.chosen-select-no-single': {disable_search_threshold: 10},
-        '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
-        '.chosen-select-width': {width: "200px;"}
-    }
-    for (var selector in config) {
-        $(selector).chosen(config[selector]);
-    }
+    $(document).ready(function () {
+        var config = {
+            '.chosen-select': {search_contains: true},
+            '.chosen-select-deselect': {allow_single_deselect: true},
+            '.chosen-select-no-single': {disable_search_threshold: 10},
+            '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+            '.chosen-select-width': {width: "200px;"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    });
 </script>
 <!-- DataTables JavaScript -->
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
