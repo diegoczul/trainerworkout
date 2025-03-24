@@ -541,13 +541,11 @@ class Workouts extends Model
             $pdf->save(public_path($temp_public_name));
 
             $merger = (new PdfManage())->init();
-            $merger->addPDF($temp_public_name);
+            $merger->addPDF(public_path($temp_public_name));
             $merger->addPDF(public_path(Config::get("constants.gridPDF")));
-            $merger->merge('L', ['file' => $temp_public_name]);
+            $merger->merge('L', ['file' => public_path($temp_public_name)]);
             return asset($temp_public_name);
         }
-
-
     }
 
     public function getImageScreenshot()
