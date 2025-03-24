@@ -503,7 +503,8 @@ class Workouts extends Model
         $data["user"] = Auth::user();
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
-        $pdf = SnappyPdf::loadView('workoutPrint',$data);
+        $view = view("workoutPrint", $data);
+        $pdf = SnappyPdf::loadHTML($view);
 //        $pdf->setOptions(array(
 //            "orientation" => "landscape",
 //        ));
@@ -514,11 +515,19 @@ class Workouts extends Model
             $name = Uuid::uuid4()->toString();
         }
 
-        $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
-        if (File::exists($name_temp)) {
-            File::delete($name_temp);
+        if ($is_absolute) {
+            $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
+            if (File::exists($name_temp)) {
+                File::delete($name_temp);
+            }
+            $pdf->save($name_temp);
+
+            $merger = (new PdfManage())->init();
+            $merger->addPDF($name_temp);
+            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+            $merger->merge('L', ['file' => $name_temp]);
+            return $name_temp;
         }
-        $pdf->save($name_temp);
 
         if (!$is_absolute) {
             // SAVING TO PUBLIC PATH
@@ -530,17 +539,15 @@ class Workouts extends Model
                 unlink(public_path($temp_public_name));
             }
             $pdf->save(public_path($temp_public_name));
-        }
 
-        $merger = (new PdfManage())->init();
-        $merger->addPDF($name_temp);
-        $merger->addPDF(public_path(Config::get("constants.gridPDF")));
-        $merger->merge('L', ['file' => $name_temp]);
-        if ($is_absolute){
-            return $name_temp;
-        }else{
+            $merger = (new PdfManage())->init();
+            $merger->addPDF($temp_public_name);
+            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+            $merger->merge('L', ['file' => $temp_public_name]);
             return asset($temp_public_name);
         }
+
+
     }
 
     public function getImageScreenshot()
