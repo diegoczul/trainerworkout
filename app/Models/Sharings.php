@@ -63,10 +63,10 @@ class Sharings extends Model
         $link = sha1($from_user . $to_user . $newWorkout->id . $type);
 
         $workoutPDF = $newWorkout->getPrintPDF();
-        $workoutScreeshot = $newWorkout->getImageScreenshot();
-//        $workoutScreeshot = "";
-        $workoutScreeshotPDF = $newWorkout->getImagePDF(); // THIS THING IS CAUSING ERROR
-//        $workoutScreeshotPDF = "";
+//        $workoutScreeshot = $newWorkout->ge$newWorkouttImageScreenshot();
+        $workoutScreeshot = "";
+//        $workoutScreeshotPDF = $newWorkout-$newWorkout>getImagePDF(); // THIS THING IS CAUSING ERROR
+        $workoutScreeshotPDF = "";
 
         $toUser = Users::find($to_user);
         if ($toUser) {
