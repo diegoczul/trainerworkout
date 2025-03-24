@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Libraries\Helper;
+use Barryvdh\Snappy\Facades\SnappyImage;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -560,7 +561,13 @@ class Workouts extends Model
         $data["exercises"] = $this->getExercises()->get();
 
 
-        $image = Image::make(URL::to($this->getURLImage()));
+        $html = view("workoutImage")
+            ->with("workout",$this)
+            ->with("user",Auth::user())
+            ->with("groups",$this->getGroups()->get())
+            ->with("exercises",$this->getExercises()->get());
+
+        $image = SnappyImage::loadHTML($html);
 
 
 
