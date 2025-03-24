@@ -479,7 +479,7 @@ class Workouts extends Model
             $html = "";
         }
 
-        $pdf = PDF::loadHtml($html);
+        $pdf = SnappyPdf::loadHtml($html);
 
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);

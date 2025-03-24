@@ -1474,25 +1474,12 @@ class WorkoutsController extends BaseController {
 
                     if ($jpeg) {
                         try {
-//                            $imageData = $this->PrintWorkout($workout->id);
                             $imageData = $this->PrintWorkoutImage($workout->id);
-
-                            $tempHtmlFile = date("YmdHis") . "_" . $counter . ".html";
-                            $tempHtmlFilePath = storage_path("temp/$tempHtmlFile");
-                            file_put_contents($tempHtmlFilePath, $imageData);
-
                             $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
-                            $image = SnappyImage::loadFile($tempHtmlFilePath);
+                            $image = SnappyImage::loadHTML($imageData);
                             $image->setOption('enable-local-file-access', true);
                             $image->setTimeout(300);
                             $image->save($imagePath);
-
-//                            $image->setTimeout(300);
-//                            $image->setOption('debug-javascript', true);
-//                            $image->setOption('load-error-handling', 'ignore');
-//                            $image->setOption('quality', 50);
-//
-//                            $image->generateFromHtml($imageData, $imagePath);
                         } catch (ProcessTimedOutException $e) {
                             Log::error("Snappy image generation timed out: " . $e->getMessage());
                             throw $e;
