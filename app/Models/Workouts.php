@@ -526,6 +526,9 @@ class Workouts extends Model
             if (file_exists(public_path('/temp/')) == false) {
                 mkdir(public_path('/temp/'), 0777, true);
             }
+            if (file_exists(public_path($temp_public_name))){
+                unlink(public_path($temp_public_name));
+            }
             $pdf->save(public_path($temp_public_name));
         }
 
@@ -547,7 +550,11 @@ class Workouts extends Model
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
 
+
         $image = Image::make(URL::to($this->getURLImage()));
+
+
+
 
 
         if (trim($this->name) != "") {
