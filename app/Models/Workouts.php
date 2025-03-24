@@ -515,21 +515,21 @@ class Workouts extends Model
             $name = Uuid::uuid4()->toString();
         }
 
-        if ($is_absolute) {
-            $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
-            if (File::exists($name_temp)) {
-                File::delete($name_temp);
-            }
-            $pdf->save($name_temp);
-
-            $merger = (new PdfManage())->init();
-            $merger->addPDF($name_temp);
-            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
-            $merger->merge('L', ['file' => $name_temp]);
-            return $name_temp;
-        }
-
-        if (!$is_absolute) {
+//        if ($is_absolute) {
+//            $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
+//            if (File::exists($name_temp)) {
+//                File::delete($name_temp);
+//            }
+//            $pdf->save($name_temp);
+//
+//            $merger = (new PdfManage())->init();
+//            $merger->addPDF($name_temp);
+//            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+//            $merger->merge('L', ['file' => $name_temp]);
+//            return $name_temp;
+//        }
+//
+//        if (!$is_absolute) {
             // SAVING TO PUBLIC PATH
             $temp_public_name = '/temp/' . $name . '_grid.pdf';
             if (file_exists(public_path('/temp/')) == false) {
@@ -544,8 +544,12 @@ class Workouts extends Model
             $merger->addPDF(public_path($temp_public_name));
             $merger->addPDF(public_path(Config::get("constants.gridPDF")));
             $merger->merge('L', ['file' => public_path($temp_public_name)]);
-            return asset($temp_public_name);
-        }
+            if (!$is_absolute) {
+                return asset($temp_public_name);
+            }else{
+                return public_path($temp_public_name);
+            }
+//            }
     }
 
     public function getImageScreenshot()
