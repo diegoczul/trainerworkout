@@ -504,9 +504,9 @@ class Workouts extends Model
         $data["groups"] = $this->getGroups()->get();
         $data["exercises"] = $this->getExercises()->get();
         $pdf = SnappyPdf::loadView('workoutPrint',$data);
-        $pdf->setOptions(array(
-            "orientation" => "landscape",
-        ));
+//        $pdf->setOptions(array(
+//            "orientation" => "landscape",
+//        ));
 
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);

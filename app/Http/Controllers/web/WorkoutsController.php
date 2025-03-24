@@ -1470,8 +1470,6 @@ class WorkoutsController extends BaseController {
 			foreach($workouts as $workout){
 				$workout = Workouts::find($workout);
 				$user = Auth::user();
-
-
 				if($workout){
 
 //                    if ($jpeg) {
@@ -1508,10 +1506,6 @@ class WorkoutsController extends BaseController {
 					if($pdf){
                         $html = $this->PrintWorkout($workout->id);
 						$pdf = SnappyPdf::loadHTML($html);
-						$pdf->setOptions(array(
-							"orientation" => "landscape",
-						));
-
 						$pdfPath = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf";
 						$name_temp = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf";
 						$pdf->save($name_temp);
@@ -1528,23 +1522,17 @@ class WorkoutsController extends BaseController {
 				}
 				$counter++;
 			}
-
-
 			$zip->close();
 
-
-
-
-//			App::finish(function($request, $response) use ($path)
-//			{
-//			    File::deleteDirectory($path);
-//			});
+			App::finish(function($request, $response) use ($path)
+			{
+			    File::deleteDirectory($path);
+			});
 
 
 			$headers = array(
               'Content-Type: application/zip',
             );
-
 			return Response::download($zipFilePath, $name, $headers)->deleteFileAfterSend(true);
 		}
 	}
