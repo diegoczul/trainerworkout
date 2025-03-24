@@ -1472,36 +1472,41 @@ class WorkoutsController extends BaseController {
 				$user = Auth::user();
 				if($workout){
 
-//                    if ($jpeg) {
-//                        try {
-////                            $imageData = $this->PrintWorkoutImage($workout->id);
-////
-////                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
-////                            $image = SnappyImage::loadHTML($imageData);
-////                            $image->setOption('enable-local-file-access', true);
-////                            $image->setTimeout(300);
-////                            $image->save($imagePath);
+                    if ($jpeg) {
+                        try {
+//                            $imageData = $this->PrintWorkout($workout->id);
+                            $imageData = $this->PrintWorkoutImage($workout->id);
+
+                            $tempHtmlFile = date("YmdHis") . "_" . $counter . ".html";
+                            $tempHtmlFilePath = storage_path("temp/$tempHtmlFile");
+                            file_put_contents($tempHtmlFilePath, $imageData);
+
+                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
+                            $image = SnappyImage::loadFile($tempHtmlFilePath);
+                            $image->setOption('enable-local-file-access', true);
+                            $image->setTimeout(300);
+                            $image->save($imagePath);
+
+//                            $image->setTimeout(300);
+//                            $image->setOption('debug-javascript', true);
+//                            $image->setOption('load-error-handling', 'ignore');
+//                            $image->setOption('quality', 50);
 //
-////                            $image->setTimeout(300);
-////                            $image->setOption('debug-javascript', true);
-////                            $image->setOption('load-error-handling', 'ignore');
-////                            $image->setOption('quality', 50);
-//
-////                            $image->generateFromHtml($imageData, $imagePath);
-//                        } catch (ProcessTimedOutException $e) {
-//                            Log::error("Snappy image generation timed out: " . $e->getMessage());
-//                            throw $e;
-//                        } catch (\Exception $e) {
-//                            Log::error("Image generation failed: " . $e->getMessage());
-//                            throw $e;
-//                        }
-//
-//                        // Add the image to the ZIP file
-//                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
-//
-//                        // Add the PDF to the ZIP file
-//                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
-//                    }
+//                            $image->generateFromHtml($imageData, $imagePath);
+                        } catch (ProcessTimedOutException $e) {
+                            Log::error("Snappy image generation timed out: " . $e->getMessage());
+                            throw $e;
+                        } catch (\Exception $e) {
+                            Log::error("Image generation failed: " . $e->getMessage());
+                            throw $e;
+                        }
+
+                        // Add the image to the ZIP file
+                        $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
+
+                        // Add the PDF to the ZIP file
+                        $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
+                    }
 
 					if($pdf){
                         $html = $this->PrintWorkout($workout->id);
