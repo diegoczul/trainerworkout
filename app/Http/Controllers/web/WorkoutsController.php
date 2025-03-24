@@ -1524,10 +1524,9 @@ class WorkoutsController extends BaseController {
 			}
 			$zip->close();
 
-			App::finish(function($request, $response) use ($path)
-			{
-			    File::deleteDirectory($path);
-			});
+//			App::finish(function($request, $response) use ($path){
+//			    File::deleteDirectory($path);
+//			});
 
 
 			$headers = array(
