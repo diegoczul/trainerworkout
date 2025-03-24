@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Knp\Snappy\Image;
+use LynX39\LaraPdfMerger\PdfManage;
 use ZipArchive;
 
 class WorkoutsController extends BaseController {
@@ -1502,10 +1503,10 @@ class WorkoutsController extends BaseController {
 						$name_temp = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf";
 						$pdf->save($name_temp);
 
-						//$merger = new LynX39\LaraPdfMerger\PdfManage;
-						//$merger->addPDF($name_temp);
-						//$merger->addPDF(Config::get("constants.gridPDF"));
-						//$merger->merge('file', $name_temp, 'L');
+                        $merger = (new PdfManage())->init();
+                        $merger->addPDF($name_temp);
+                        $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+                        $merger->merge('L', ['file' => $name_temp]);
 
 						$zip->addFile($pdfPath,Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf");
 					}
