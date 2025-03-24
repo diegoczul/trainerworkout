@@ -22,8 +22,10 @@ use App\Models\WorkoutsExercises;
 use App\Models\WorkoutsGroups;
 use App\Models\WorkoutsPerformances;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\Snappy\Facades\SnappyImage;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Http\Request;
+use Illuminate\Process\Exceptions\ProcessTimedOutException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +39,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
+use Knp\Snappy\Image;
 use ZipArchive;
 
 class WorkoutsController extends BaseController {
@@ -1473,12 +1476,20 @@ class WorkoutsController extends BaseController {
 
 //                    if ($jpeg) {
 //                        try {
-//                            $imageData = $this->PrintWorkoutImage($workout->id);
-//                            $image = App::make('snappy.image');
-//                            $image->setTimeout(300);
-//                            $image->setOption('enable-local-file-access', true);
-//                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
-//                            $image->generateFromHtml($imageData, $imagePath);
+////                            $imageData = $this->PrintWorkoutImage($workout->id);
+////
+////                            $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
+////                            $image = SnappyImage::loadHTML($imageData);
+////                            $image->setOption('enable-local-file-access', true);
+////                            $image->setTimeout(300);
+////                            $image->save($imagePath);
+//
+////                            $image->setTimeout(300);
+////                            $image->setOption('debug-javascript', true);
+////                            $image->setOption('load-error-handling', 'ignore');
+////                            $image->setOption('quality', 50);
+//
+////                            $image->generateFromHtml($imageData, $imagePath);
 //                        } catch (ProcessTimedOutException $e) {
 //                            Log::error("Snappy image generation timed out: " . $e->getMessage());
 //                            throw $e;
