@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\SharedWorkoutEmail;
+use App\Mail\SharedWorkoutEmailNew;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -63,10 +64,10 @@ class Sharings extends Model
         $link = sha1($from_user . $to_user . $newWorkout->id . $type);
 
         $workoutPDF = $newWorkout->getPrintPDF();
-//        $workoutScreeshot = $newWorkout->ge$newWorkouttImageScreenshot();
-        $workoutScreeshot = "";
-//        $workoutScreeshotPDF = $newWorkout-$newWorkout>getImagePDF(); // THIS THING IS CAUSING ERROR
-        $workoutScreeshotPDF = "";
+        $workoutScreeshot = $newWorkout->getImageScreenshot();
+//        $workoutScreeshot = "";
+        $workoutScreeshotPDF = $newWorkout->getImagePDF(); // THIS THING IS CAUSING ERROR
+//        $workoutScreeshotPDF = "";
 
         $toUser = Users::find($to_user);
         if ($toUser) {
@@ -81,7 +82,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
                 $lang = App::getLocale();
-                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
+                Mail::queue(new SharedWorkoutEmailNew($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
             } else {
                 $sharing = new Sharings();
                 $sharing->viewed = 0;
@@ -97,7 +98,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
                 $lang = App::getLocale();
-                Mail::queue(new SharedWorkoutEmail($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
+                Mail::queue(new SharedWorkoutEmailNew($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
             }
         }
     }
