@@ -260,7 +260,10 @@
                                                     @foreach($sets as $set)
                                                         <tr>
                                                             <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
-                                                            <td><span  class="exercise_units_weight_{{ $exercise->id }}">{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}</span>&nbsp;<span class="exercise_units_weight_unit_{{ $exercise->id }}">Lbs</span></td>
+                                                            <td>
+                                                                <span  class="exercise_units_weight_{{ $exercise->id }}">{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}</span>&nbsp;
+                                                                <span class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
+                                                            </td>
                                                             @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
                                                                 <td>{{ $set->time }}<span>(sec)</span></td>
                                                             @else
@@ -563,8 +566,10 @@
                                                 @foreach($sets as $set)
                                                     <tr>
                                                         <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
-                                                        <td><span   class="exercise_units_weight_{{ $exercise->id }}">{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}</span>&nbsp;<span class="exercise_units_weight_unit_{{ $exercise->id }}"> Lbs</span></td>
-
+                                                        <td>
+                                                            <span class="exercise_units_weight_{{ $exercise->id }}">{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}</span>&nbsp;
+                                                            <span class="exercise_units_weight_unit_{{ $exercise->id }}"> {{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
+                                                        </td>
                                                         @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
                                                             <td>{{ $set->time }}<span>sec</span></td>
                                                         @else
