@@ -79,9 +79,8 @@ class SharedWorkoutEmailNew extends Mailable
     public function build()
     {
         $email = $this->subject($this->subject)
-            ->from($this->fromUser->email, $this->fromUser->getCompleteName())
-            ->replyTo($this->fromUser->email, $this->fromUser->getCompleteName())
-            ->view("emails.{$this->lang}.sharedWorkout")
+            ->to($this->toUser->email)
+            ->view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout')
             ->with([
                 'sharing' => $this->sharing,
                 'invite' => $this->invite,
