@@ -473,11 +473,11 @@
                                 <div class="exercise muscle" exercise="">
                                     <div class="exercise_Header">
                                         <div class="exercise_Header_imgContainer">
-                                            @if($exercise->equipmentId != "")
+                                            @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                                 <img class="equip_img" src="{{ Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb)) }}">
                                             @endif
                                         </div>
-                                        <h5>{{ $exercise->exercises->name }} @if($exercise->equipmentId != "") {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
+                                        <h5>{{ $exercise->exercises->name }} @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId)) {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
                                     </div>
 
                                     <!-- EXERCISE DESCRIPTION -->
