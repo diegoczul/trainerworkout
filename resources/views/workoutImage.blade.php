@@ -166,11 +166,11 @@
                                                 </div>
                                                 <div class="cExercise_header_info">
                                                     <p>{{ $circuitCount }}<span>/{{ count($exercises) }}</span></p>
-                                                    @if($exercise->equipmentId != "")
+                                                    @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                                         <img class="equip_img" src="{{ Helper::imageToBase64(public_path($exercise->equipment->thumb)) }}">
                                                     @endif
                                                     <h5>{{ $exercise->exercises->name }}
-                                                        @if($exercise->equipmentId != "")
+                                                        @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                                             {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}
                                                         @endif
                                                     </h5>
@@ -307,11 +307,11 @@
                                                 </div>
                                                 <div class="cExercise_header_info">
                                                     <p>{{ $circuitCount }}<span>/{{ count($exercises) }}</span></p>
-                                                    @if($exercise->equipmentId != "")
+                                                    @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                                         <img class="equip_img" src="{{Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb))}}}">
                                                     @endif
                                                     <h5>{{ $exercise->exercises->name }}
-                                                        @if($exercise->equipmentId != "")
+                                                        @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                                             {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}
                                                         @endif
                                                     </h5>
@@ -595,11 +595,11 @@
                                 <div class="exercise cardio" exercise="">
                                 <div class="exercise_Header">
                                     <div class="exercise_Header_imgContainer">
-                                        @if($exercise->equipmentId != "")
+                                        @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                             <img class="equip_img" src="{{ Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb)) }}">
                                         @endif
                                     </div>
-                                    <h5>{{ $exercise->exercises->name }} @if($exercise->equipmentId != "") {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
+                                    <h5>{{ $exercise->exercises->name }} @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId)) {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
                                 </div>
                                 <div class="exeInfo">
                                     @if($exercise->notes != "")

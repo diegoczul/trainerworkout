@@ -522,7 +522,7 @@ $daysWorkout = $daysToFill + 1;
                             <div class="exercise_line">
                                 <div class="exInfo">
                                     <div class="titleInfo">
-                                        @if($exercise->equipmentId != "")
+                                        @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                             <span class="titleText">{{ $exercise->exercises->name }} with {{{ $exercise->equipment->name  }}}</span>
                                         @else
                                             <span class="titleText">{{ $exercise->exercises->name }} </span>
@@ -764,8 +764,8 @@ $daysWorkout = $daysToFill + 1;
                             <div class="exercise_line">
                                 <div class="exInfo">
                                     <div class="titleInfo">
-                                        @if($exercise->equipmentId != "")
-                                            <span class="titleText">{{ $exercise->exercises->name }} with {{{ $exercise->equipment->name  }}}</span>
+                                        @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
+                                            <span class="titleText">{{ $exercise->exercises->name }} with {{ $exercise->equipment->name  }}</span>
                                         @else
                                             <span class="titleText">{{ $exercise->exercises->name }} </span>
                                         @endif
@@ -906,7 +906,7 @@ $daysWorkout = $daysToFill + 1;
                             <div class="exercise_line">
                                 <div class="exInfo">
                                     <div class="titleInfo">
-                                        @if($exercise->equipmentId != "")
+                                        @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
                                             <span class="titleText">{{ $exercise->exercises->name }} with {{{ $exercise->equipment->name  }}}</span>
                                         @else
                                             <span class="titleText">{{ $exercise->exercises->name }} </span>
