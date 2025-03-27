@@ -1413,7 +1413,7 @@ class UsersController extends BaseController
             $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             $result["data"]['token'] = $token;
             $result["data"]['remember_token'] = $token;
-            $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("recordDate", "desc")->get();
+            $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("recordDate")->get();
             $result["data"]["objectives"] = Objectives::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "desc")->get();
             $result["status"] = "ok";
             $result["message"] = Lang::get("messages.Welcome");
@@ -1460,7 +1460,7 @@ class UsersController extends BaseController
             $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
             $result["data"]["token"] = $token;
             $result["data"]['remember_token'] = $token;
-            $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("recordDate", "desc")->get();
+            $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("recordDate")->get();
             $result["data"]["objectives"] = Objectives::where("userId", Auth::guard('api')->user()->id)->orderBy("created_at", "DESC")->get();
             $result["status"] = "ok";
             $result["message"] = Lang::get("messages.Welcome");
