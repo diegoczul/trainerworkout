@@ -3387,8 +3387,8 @@ nav {
     padding: 5px;
     text-align: center; }
     .exercise_Header_imgContainer img {
-      width: 25px;
-      height: 25px;
+      width: 40px;
+      height: 40px;
       background-color: #fff; }
 
 .cardio .exercise_Header {
@@ -3399,7 +3399,7 @@ nav {
 
 /******* Exercise Description *******/
 .exeInfo {
-  padding: 20px;
+  padding: 3px 10px;
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -3866,8 +3866,8 @@ nav {
 
 /*    RESPONSIVE MUSCLE    */
 @media all and (min-width: 768px) {
-  .muscle .exeData {
-    margin-top: 50px; }
+  /* .muscle .exeData {
+    margin-top: 50px; } */
 
   .cardio .exeData {
     margin-top: 61px; } }

@@ -104,8 +104,13 @@
             <div class="searchWrapper">
                 <h4>{{ Lang::get("content.Search Exercises") }}</h4>
                 <div class="searchField">
-                    <input id="exercise_search" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
-                    <button onclick="searchExercise()">{{ Lang::get("content.Search") }}</button>
+                    <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get('content.searchPlaceholder') }}">
+                    <button onClick="searchExercise()">{{ Lang::get('content.Search') }}</button>
+                
+                    <select id="langSelector">
+                        <option value="en" {{ (app()->getLocale()  == "en") ? "selected" : "" }}>EN</option>
+                        <option value="fr" {{ (app()->getLocale()  == "fr") ? "selected" : "" }}>FR</option>
+                    </select>
                 </div>
                 <div id="selectedFilters" class="selectedFilters"></div>
                 <div class="tagContainer">
@@ -2484,7 +2489,8 @@ function searchExercise(el, event, page, more) {
                 'data': {
                     search: $("#exercise_search").val(),
                     filters: filters,
-                    pageSize: page
+                    pageSize: page,
+                    lang: $("#langSelector").val(),
                 },
                 'success': function(data) {
                     allExercisesDictionnary = {};

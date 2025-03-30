@@ -474,7 +474,7 @@
                                     <div class="exercise_Header">
                                         <div class="exercise_Header_imgContainer">
                                             @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
-                                                <img class="equip_img" src="{{ Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb)) }}">
+                                                <img class="equip_img" src="{{ Helper::imageToBase64(public_path('/'.$exercise->equipment->thumb)) }}">
                                             @endif
                                         </div>
                                         <h5>{{ $exercise->exercises->name }} @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId)) {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
@@ -596,7 +596,7 @@
                                 <div class="exercise_Header">
                                     <div class="exercise_Header_imgContainer">
                                         @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId))
-                                            <img class="equip_img" src="{{ Helper::imageToBase64(public_path('assets/'.$exercise->equipment->thumb)) }}">
+                                            <img class="equip_img" src="{{ Helper::imageToBase64(public_path('/'.$exercise->equipment->thumb)) }}">
                                         @endif
                                     </div>
                                     <h5>{{ $exercise->exercises->name }} @if(isset($exercise->equipmentId) && !empty($exercise->equipmentId)) {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}@endif</h5>
