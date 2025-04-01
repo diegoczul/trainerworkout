@@ -51,8 +51,5 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
-if (env('APP_DEBUG')) {
-    $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
-}
 
 return $app;
