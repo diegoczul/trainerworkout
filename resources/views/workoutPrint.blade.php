@@ -487,7 +487,7 @@ $daysWorkout = $daysToFill + 1;
             <p class="first" style="width: <?php echo "$dayProportion"; ?>%;">{{ Lang::get("content.Base Prescription") }}</p>
             @for($x = 0; $x < $daysToFill; $x++)
                 <?php $day = $x + 1; ?>
-                <p class="day" style="width: <?php echo "$dayProportion"; ?>%;">{{ Lang::get("content.Day") }} <?php echo "$day" ?> : </p>
+                <p class="day" style="width: <?php echo "$dayProportion"; ?>%;">{{ Lang::get("content.Day") }} <?php echo "$day" ?>: </p>
             @endfor
         </div>
     </div>

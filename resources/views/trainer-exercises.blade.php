@@ -15,8 +15,13 @@
                     <h4>{{Lang::get("content.YouExerciselibrary")}}</h4>
                     <p>{{Lang::get("content.YourPersonalExercises")}}</p>
                     <div class="searchField">
-                        <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
-                        <button onClick="searchExercise()">{{ Lang::get("content.Search") }}</button>
+                        <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get('content.searchPlaceholder') }}">
+                        <button onClick="searchExercise()">{{ Lang::get('content.Search') }}</button>
+                    
+                        <select id="langSelector">
+                            <option value="en" selected>EN</option>
+                            <option value="fr">FR</option>
+                        </select>
                     </div>
                     <div class="tagContainer">
                         <ul class="tabs">

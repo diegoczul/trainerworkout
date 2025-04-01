@@ -17,12 +17,15 @@ class ControlPanelMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $user = Auth::user();
             $string = $user->email;
             $word = "@trainerworkout.com";
-            if (stripos($string, $word) === FALSE) {
-                if($user->userType == "Trainer"){
+            if (
+                stripos($string, '@trainerworkout.com') === false &&
+                stripos($string, '@trainer-workout.com') === false
+            ) {
+                if ($user->userType == "Trainer") {
                     return redirect()->route('trainerWorkouts')->withError(Lang::get("messages.NotFound"));
                 } else if ($user->userType == "Trainee") {
                     return redirect()->route('traineeWorkouts')->withError(Lang::get("messages.NotFound"));

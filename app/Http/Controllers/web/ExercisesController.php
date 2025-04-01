@@ -214,9 +214,9 @@ class ExercisesController extends BaseController
             $this->searchSize += $request->get("pageSize");
         }
 
-        Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"));
+        // Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"), false, $request->get("lang"));
 
-        return $this->responseJson(["data" => Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters")), "total" => $this->searchSize + $request->get("pageSize")]);
+        return $this->responseJson(["data" => Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"), $request->get("lang")), "total" => $this->searchSize + $request->get("pageSize")]);
     }
 
     public function indexMail(Request $request)
@@ -280,15 +280,15 @@ class ExercisesController extends BaseController
 
     public function AddEdit(Request $request)
     {
-        return $request->filled('id') ? $this->update($request,$request->get('id')) : $this->create($request);
+        return $request->filled('id') ? $this->update($request, $request->get('id')) : $this->create($request);
     }
 
     public function AddEditInWorkout(Request $request)
     {
-        return $request->filled('id') ? $this->update($request->get('id'), "async") : $this->create($request,"async");
+        return $request->filled('id') ? $this->update($request->get('id'), "async") : $this->create($request, "async");
     }
 
-    public function create(Request $request,$requestType = "")
+    public function create(Request $request, $requestType = "")
     {
         $user = Auth::user();
 
@@ -736,7 +736,7 @@ class ExercisesController extends BaseController
     public function _AddEdit(Request $request)
     {
         if ($request->has("hiddenId") && $request->get("hiddenId") != "") {
-            return $this->_update($request->get("hiddenId"),$request);
+            return $this->_update($request->get("hiddenId"), $request);
         } else {
             return $this->_create($request);
         }
@@ -801,7 +801,7 @@ class ExercisesController extends BaseController
                 $ex->save();
             }
 
-            $this->updateExerciseEquipments($exercise->id,$request);
+            $this->updateExerciseEquipments($exercise->id, $request);
 
             return $this::responseJson(Messages::showControlPanel("ExerciseCreated"));
         }
