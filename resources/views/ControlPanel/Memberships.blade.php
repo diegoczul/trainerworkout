@@ -85,10 +85,10 @@
                     }
                 },
                 columns: [
-                    { title: "First Name", data: "users", render: function (data) { return data ? data.firstName : ""; } },
-                    { title: "Last Name", data: "users", render: function (data) { return data ? data.lastName : ""; } },
-                    { title: "Email", data: "users", render: function (data) { return data ? data.email : ""; } },
-                    { title: "Membership", data: "membership", render: function (data) { return data ? data.name : ""; } },
+                    { title: "First Name", searchable: false, data: "users", render: function (data) { return data ? data.firstName : ""; } },
+                    { title: "Last Name", searchable: false, data: "users", render: function (data) { return data ? data.lastName : ""; } },
+                    { title: "Email", searchable: false, data: "users", render: function (data) { return data ? data.email : ""; } },
+                    { title: "Membership", searchable: false, data: "membership", render: function (data) { return data ? data.name : ""; } },
                     { title: "Expiry Date", data: "expiry", render: function (data) { return echoColorIfDatePast(data); } },
                     { title: "Created At", data: "created_at" },
                     { title: "Edit", data: "id", orderable: false, render: function (data) { return echoEdit(data); } },

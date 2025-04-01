@@ -135,8 +135,8 @@
                     }
                 },
                 columns: [
-                    { title: "Thumb", data: "thumb", class: "text-center", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
-                    { title: "Thumb2", data: "thumb2", class: "text-center", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
+                    { title: "Thumb", searchable: false, data: "thumb", class: "text-center", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
+                    { title: "Thumb2", searchable: false, data: "thumb2", class: "text-center", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
                     { title: "Name", data: "name" },
                     { title: "Name Engine", data: "nameEngine" },
                     { title: "Created At", data: "created_at", class: "text-center" },

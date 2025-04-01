@@ -86,15 +86,12 @@
                 },
                 columns: [
                     { title: "Name", data: "name" },
-                    {
-                        title: "Trainer",
-                        data: "trainer",
-                        class: "text-center",
+                    { title: "Trainer",  data: "trainer",  searchable: false,  class: "text-center",
                         render: function (data, type, row) {
                             return (data && data.firstName && data.lastName) ? `${data.firstName} ${data.lastName}` : "";
                         }
                     },
-                    { title: "Rating", data: "value", class: "text-center" },
+                    { title: "Rating", searchable: false, data: "value", class: "text-center" },
                     { title: "Created At", data: "created_at", class: "text-center" },
                     { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
                     { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemoveRow(data); } }

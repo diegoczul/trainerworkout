@@ -196,7 +196,7 @@
                 }
             },
             columns: [
-                { title: "Profile Image", data: "thumb", class: "text-center", render: function (data) { return image(data, 100); } },
+                { title: "Profile Image", searchable: false, data: "thumb", class: "text-center", render: function (data) { return image(data, 100); } },
                 { title: "ID", data: "id", class: "text-center" },
                 { title: "First Name", data: "firstName" },
                 { title: "Last Name", data: "lastName" },
@@ -205,8 +205,8 @@
                 { title: "User Type", data: "userType" },
                 { title: "Created At", data: "created_at", class: "text-center" },
                 { title: "Login", data: "id", class: "text-center", orderable: false, render: function (data) { return echoLoginUser(data); } },
-                { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
-                { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
+                { title: "Edit", searchable: false, data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+                { title: "Delete", searchable: false, data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
             ],
             order: []
         });

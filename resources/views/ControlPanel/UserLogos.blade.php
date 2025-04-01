@@ -89,8 +89,8 @@
                     }
                 },
                 columns: [
-                    { title: "Logo", data: "thumb", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
-                    { title: "User", data: "user", render: function (data) { return (data && data.firstName && data.lastName) ? `${data.firstName} ${data.lastName}` : "N/A"; } },
+                    { title: "Logo", searchable: false, data: "thumb", orderable: false, render: function (data, type, row) { return imageRotate(data, row.id); } },
+                    { title: "User", searchable: false, data: "user", render: function (data) { return (data && data.firstName && data.lastName) ? `${data.firstName} ${data.lastName}` : "N/A"; } },
                     { title: "Status", data: "active", render: function (data) { return data == 1 ? "Default" : ""; } },
                     { title: "Updated At", data: "updated_at" },
                     { title: "Edit", data: "id", orderable: false, render: function (data) { return echoEdit(data); } },
