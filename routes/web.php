@@ -62,6 +62,7 @@ Route::post(__('routes./payment'), [OrdersController::class, 'processPaymentNoLo
 Route::get(__('routes./thankyou'), [OrdersController::class, 'thankyou'])->name('thankyouPayment');
 
 Route::get('/user/confirmation/{param1}', [UsersController::class, 'confirmEmail'])->name('confirmEmail');
+Route::get('test-mail', [UsersController::class, 'sendTestMail']);
 
 
 Route::get('/images/{path}', function ($path) {

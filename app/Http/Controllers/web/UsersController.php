@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Helper;
 use App\Http\Libraries\Messages;
+use App\Mail\TestMail;
 use App\Models\Exercises;
 use App\Models\Feeds;
 use App\Models\Groups;
@@ -49,6 +50,10 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends BaseController
 {
+    public function sendTestMail()
+    {
+        return Mail::to('krish.siddhapura@grewon.com')->queue(new TestMail());
+    }
     public function index()
     {
         $user = Auth::user();
