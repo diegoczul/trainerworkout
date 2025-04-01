@@ -59,12 +59,18 @@ $selected = explode(",",$selectedTags);
             $("#form").bind("keypress", function (e) {
                 if (e.keyCode == 13) {
                     e.preventDefault();
+                    showTopLoader();
                     addTag();
                 }
             });
+            $("#form").submit( function (e) {
+                e.preventDefault();
+                showTopLoader();
+                addTag();
+            });
 
             function addToTags(tag,type,obj){
-
+                showTopLoader();
                 if(type == "tag"){
                     $("#tagNameTag").val(tag);
                     obj.removeClass("selabel-tag");
@@ -90,12 +96,14 @@ $selected = explode(",",$selectedTags);
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
+                            hideTopLoader();
                             errorMessage(jqXHR.responseText);
                         },
                     });
             }
 
             function addTag(){
+                showTopLoader();
                 $.ajax(
                     {
                         url : "/widgets/tags/addEdit",
@@ -118,6 +126,7 @@ $selected = explode(",",$selectedTags);
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
+                            hideTopLoader();
                             errorMessage(jqXHR.responseText);
                         },
                     });
