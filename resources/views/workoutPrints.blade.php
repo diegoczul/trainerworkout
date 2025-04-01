@@ -29,7 +29,7 @@
       <meta name="title" content="">
       <meta name="description" content="">
 
-      {{ HTML::style('css/printTable.css') }}
+       {!! html()->style('css/printTable.css') !!}
 
       <style>
       body{
