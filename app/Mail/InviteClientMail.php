@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class InviteClientMail extends Mailable implements ShouldQueue
 {
@@ -38,14 +39,19 @@ class InviteClientMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject($this->subject)
-            ->view('emails.' . config("app.whitelabel") . '.user.' . $this->lang . '.inviteClient')
-            ->with([
-                'comments' => $this->comments,
-                'password' => $this->password,
-                'invite' => $this->invite,
-                'user' => $this->user,
-                'fake' => $this->fake,
-            ]);
+        try {
+            return $this->subject($this->subject)
+                ->view('emails.' . config("app.whitelabel") . '.user.' . $this->lang . '.inviteClient')
+                ->with([
+                    'comments' => $this->comments,
+                    'password' => $this->password,
+                    'invite' => $this->invite,
+                    'user' => $this->user,
+                    'fake' => $this->fake,
+                ]);
+        }catch (\Exception $exception){
+            Log::driver('email_exceptions_log')->error($exception->getMessage());
+            Log::driver('email_exceptions_log')->error($exception);
+        }
     }
 }
