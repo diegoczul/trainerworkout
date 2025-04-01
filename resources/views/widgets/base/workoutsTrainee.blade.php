@@ -5,7 +5,7 @@
 <div class="workoutsContainer">
     @if (count($workouts) > 0)
         @foreach($workouts as $workout)
-                <?php $images = $workout->getExercisesImagesWidget(); ?>
+                <?php $images = $workout->getExercisesImagesWidget2(); ?>
             <div class="workout_main_container workoutContainer {{ ($workout->archived_at != "") ? "archived" : "" }}">
                 <div class="workoutsHover">
                     <div class="workoutsHover_status">

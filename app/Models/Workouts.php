@@ -239,7 +239,7 @@ class Workouts extends Model
     public function getExercises()
     {
         return WorkoutsExercises::with(["exercises" => function ($query) {
-                $query->select("id", "bodygroupId", "userId", "name", "description", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
+                $query->select("id", "bodygroupId", "userId", "name", "description", "image", "image2", "thumb", "thumb2", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
             }])
             ->where("workoutId", $this->id)
             ->orderBy("order");
@@ -281,6 +281,23 @@ class Workouts extends Model
 
         foreach ($exercises as $exercise) {
             $images[$index] = asset($exercise->exercises->image);
+            $index++;
+            if ($index > 5) {
+                break;
+            }
+        }
+
+        return $images;
+    }
+
+    public function getExercisesImagesWidget2()
+    {
+        $images = array_fill(0, 5, "");
+        $exercises = $this->getExercises()->get();
+        $index = 0;
+
+        foreach ($exercises as $exercise) {
+            $images[$index] = $exercise->exercises->image;
             $index++;
             if ($index > 5) {
                 break;

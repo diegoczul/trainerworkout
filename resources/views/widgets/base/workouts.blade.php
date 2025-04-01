@@ -8,7 +8,7 @@
 @if($permissions["view"])
     @if ($workouts->count() > 0)
         @foreach ($workouts as $workout)
-                <?php $images = $workout->getExercisesImagesWidget(); ?>
+                <?php $images = $workout->getExercisesImagesWidget2(); ?>
                 <?php $ids = $ids + 1; ?>
             <div id="empty_container<?php echo $ids; ?>" class="parentWorkout {{ ($workout->archived_at != "") ? "archived" : "" }}" onclick="showHover(this);">
                 <div class="workout_main_container" id="workout_box<?php echo $ids; ?>">
