@@ -138,7 +138,7 @@
 
                         <fieldset class="exercise_video">
                             <div class="video uploadVideo image">
-                                <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }}*{{ Lang::get("content.Max Size") }}: 256mb</label>
+                                <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }}{{ Lang::get("content.Max Size") }}: 256mb</label>
                                 <input id="video1" onclick="updateName(this)" type="file" name="video" placeholder="" class="imageInput" accept="video/mp4, video/mkv">
                                 <label for="video1" onclick="updateName(this)" class="button">{{ Lang::get("content.selectVideo")}}</label>
                             </div>
