@@ -737,6 +737,7 @@
 <!-- End of Side Mneu -->
 <div class='loader-bg'>
     <img src='{{asset('assets/img/tw-gif.gif')}}'>
+    <button onclick="hideTopLoader()" class="btn" style="color: #ffffff;position: absolute;right: 0;top: 0;padding: 10px;font-weight: bold;background: transparent;border: none;">X</button>
 </div>
 </body>
 </html>
