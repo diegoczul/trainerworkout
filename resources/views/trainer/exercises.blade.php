@@ -109,7 +109,7 @@
 
                         <div class="equipment">
                             <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
-                            {{ FORM::select("bodygroup", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select"]) }}
+                            {{ FORM::select("bodygroup", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select w-100"]) }}
                         </div>
 
                         <div class="submit">

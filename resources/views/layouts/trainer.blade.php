@@ -92,6 +92,11 @@
     @if(Config::get("app.whitelabel") != "default")
         {!! HTML::style(Config::get("app.whitelabel_css_trainer")) !!}
     @endif
+    <style>
+        .select2-container{
+            width: 100% !important;
+        }
+    </style>
 </head>
 <body class="trainer">
     <div id="o-wrapper" class="o-wrapper">
@@ -324,6 +329,11 @@
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
+
+        $('.select2-select').select2({
+            searching: true,
+            dropdownParent: $('body')
+        })
     });
 </script>
 <!-- DataTables JavaScript -->
