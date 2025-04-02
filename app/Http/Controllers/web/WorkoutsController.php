@@ -1605,12 +1605,12 @@ class WorkoutsController extends BaseController {
 		}
 
 		$tags = Tags::where("userId",Auth::user()->id)->get();
-
 		return view("trainer.createWorkout")
 			->with("workout",$workout)
 			->with("permissions",$permissions)
 			->with("tags",$tags)
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
+			->with("bodygroupslist",BodyGroups::select(["id","name"])->where("main",1)->orderBy("name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("equipmentsList",Equipments::select("id","name")->orderBy("name")->pluck("name","id"))
 			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())

@@ -137,8 +137,8 @@
                         </fieldset>
 
                         <fieldset class="exercise_video">
-                            <div class="video uploadVideo image">
-                                <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }}{{ Lang::get("content.Max Size") }}: 256mb</label>
+                            <div class="video uploadVideo image" style="margin-right: 10px">
+                                <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }} ({{ Lang::get("content.Max Size") }}: 256mb)</label>
                                 <input id="video1" onclick="updateName(this)" type="file" name="video" placeholder="" class="imageInput" accept="video/mp4, video/mkv">
                                 <label for="video1" onclick="updateName(this)" class="button">{{ Lang::get("content.selectVideo")}}</label>
                             </div>
@@ -151,9 +151,9 @@
 
                         <fieldset class="execise_equipments">
 
-                            <div class="equipment">
-                                <label for="equipment">{{ Lang::get("content.Listtheequipmentneeded") }}*</label>
-                                {{ Form::select("equipment[]",$equipmentsList,"",array("id"=>"equipment", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select","multiple",)) }}
+                            <div class="equipment" style="margin-right: 10px">
+                                <label for="equipment">{{ Lang::get("content.Listtheequipmentneeded") }}</label>
+                                {{ Form::select("equipment[]",$equipmentsList,"",array("id"=>"equipment", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select", "multiple")) }}
                             </div>
 
                             <div class="equipment">
@@ -258,7 +258,7 @@
             var $addStep = $('.addexercise-stepContainer').find('.addexercise-step');
 
             $addStep.removeClass("active inactive");
-            $addStep.last().addClass("active");
+            $addStep.last().addClass("active").show();
             setTimeout(function () {
                 $addStep.first().addClass("inactive");
             }, 300);

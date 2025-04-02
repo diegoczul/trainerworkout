@@ -318,7 +318,9 @@ return array(
 
         //RESET PASSWORD ---------------------------------
         "email_sent_success" => "L'e-mail de réinitialisation du mot de passe a été envoyé avec succès",
-        "email_sent_error" => "L'e-mail n'a pas été envoyé, veuillez réessayer"
+        "email_sent_error" => "L'e-mail n'a pas été envoyé, veuillez réessayer",
+
+        'none' => 'Aucun',
 );
 
 ?>

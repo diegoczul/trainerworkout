@@ -320,7 +320,9 @@ return array(
 
         //RESET PASSWORD ---------------------------------
         "email_sent_success" => "Password reset email sent successfully",
-        'email_sent_error' => 'Email not sent, please try again'
+        'email_sent_error' => 'Email not sent, please try again',
+
+        'none' => 'None',
         );
 
 

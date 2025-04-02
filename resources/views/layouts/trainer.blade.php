@@ -77,6 +77,7 @@
     ?>
     {{ HTML::style(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.css'.ASSET_VERSION)) }}
     {{ HTML::style(asset('assets/fw/datapicker/jquery.ui.timepicker.css'.ASSET_VERSION)) }}
+    {{ HTML::style(asset('assets/libs/select2/select2.min.css').ASSET_VERSION) }}
     {{ HTML::script(asset('assets/js/modernizr_touch.js'.ASSET_VERSION)) }}
     @yield("headerScripts")
     <!-- Open Sans Font -->
@@ -303,6 +304,7 @@
 {{ HTML::script(asset('assets/js/touchpunch.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/js/global.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/js/widgets.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/libs/select2/select2.min.js').ASSET_VERSION) }}
 {{ HTML::script(asset('assets/fw/lightbox/js/lightbox.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/fw/addtohomescreen/src/addtohomescreen.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/templates/exerciseList.js'.ASSET_VERSION)) }}

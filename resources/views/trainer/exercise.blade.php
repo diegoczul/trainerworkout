@@ -27,16 +27,24 @@
                         <p> {!! ($exercise->bodygroup) ? $exercise->bodygroup->name : "" !!} </p>
                         <p><strong> {{ Lang::get("content.Listofequipmentneeded") }}: </strong></p>
                         <fieldset>
-                            @foreach($exercise->equipments as $equip)
-                                <p>{{ $equip->equipments->name }}</p>
-                            @endforeach
+                            @if(count($exercise->equipments) > 0)
+                                @foreach($exercise->equipments as $equip)
+                                    <p>{{ $equip->equipments->name }}</p>
+                                @endforeach
+                            @else
+                                <p>{{__('messages.none')}}</p>
+                            @endif
                         </fieldset>
 
                         <p><strong> {{ Lang::get("content.Listofoptionalequipment") }}: </strong></p>
                         <fieldset>
-                            @foreach($exercise->equipmentsOptional as $equip)
-                                <p>{{ $equip->equipments->name }}</p>
-                            @endforeach
+                            @if(count($exercise->equipmentsOptional) > 0)
+                                @foreach($exercise->equipmentsOptional as $equip)
+                                    <p>{{ $equip->equipments->name }}</p>
+                                @endforeach
+                            @else
+                                <p>{{__('messages.none')}}</p>
+                            @endif
                         </fieldset>
 
                         @if ($exercise->video != "")

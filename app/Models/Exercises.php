@@ -30,7 +30,7 @@ class Exercises extends Model implements TranslatableContract
         'youtube' => ['sometimes', 'nullable', 'url', 'regex:/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})(\?.*)?$/'],
         "name" => "required|min:2|max:500",
         "description" => "max:500",
-        "equipment" => "required|max:500",
+//        "equipment" => "required|max:500",
         "bodygroup" => "required",
         "image1" => 'sometimes|mimes:jpg,png,jpeg,gif',
         "image2" => 'sometimes|mimes:jpg,png,jpeg,gif',

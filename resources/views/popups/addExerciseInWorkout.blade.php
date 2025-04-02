@@ -7,7 +7,7 @@
             </title>
             <path d="M8.138 6L11.71 2.43c.383-.382.384-1.02-.01-1.413L10.988.3A.996.996 0 0 0 9.574.29L6 3.864 2.426.29A.996.996 0 0 0 1.013.3L.3 1.016a1.005 1.005 0 0 0-.01 1.413L3.86 6 .29 9.576c-.383.38-.384 1.02.01 1.413l.713.714a.996.996 0 0 0 1.413.01L6 8.14l3.574 3.573a.996.996 0 0 0 1.413-.01l.714-.715a1.005 1.005 0 0 0 .01-1.413L8.14 6z" fill="#2C3E50" fill-rule="evenodd"/>
         </svg>
-        <div class="addexercise">
+        <div class="addexercise" style="width: 100%; text-align: -webkit-auto !important;">
             <h1>{{Lang::get("content.AddingAnExercise")}}</h1>
             <div class="addexercise-indicatorContainer">
                 <div class="indicatorSubContainer">
@@ -34,13 +34,9 @@
                         <textarea id="description" class="addexdescription" name="description" maxlength="500" placeholder="{{ Lang::get("content.Exercisedescription") }}" tabindex="3">{{ request()->old("description") }}</textarea>
                         <div id="textarea_counter"></div>
                     </fieldset>
-                    <div class="muscleGroup">
-                        <label for="" tabindex="4">{{ Lang::get("content.Musclegroups") }}*</label>
-                        <select id="muscleGroup" name="bodygroup" class="chosen-select">
-                            @foreach($bodygroups as $bodygroup)
-                                <option value="{{ $bodygroup->id }}">{{ $bodygroup->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="equipment">
+                        <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
+                        {{ FORM::select("bodygroup", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroupslist->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select"]) }}
                     </div>
                     <div class="submit">
                         <label class="next" onclick="addExerciseSwtichStep()" tabindex="5">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
@@ -60,8 +56,8 @@
                         </div>
                     </fieldset>
                     <fieldset class="exercise_video">
-                        <div class="video uploadVideo image">
-                            <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }}*{{ Lang::get("content.Max Size") }}: 256mb</label>
+                        <div class="video uploadVideo image" style="margin-right: 10px">
+                            <label for="video1" onclick="updateName(this)">{{ Lang::get("content.Uploadavideo") }} ({{ Lang::get("content.Max Size") }}: 256mb)</label>
                             <input id="video1" onclick="updateName(this)" type="file" name="video" placeholder="" class="imageInput" accept="video/mp4, video/mkv">
                             <label for="video1" onclick="updateName(this)" class="button">{{ Lang::get("content.selectVideo")}}</label>
                         </div>
@@ -71,8 +67,8 @@
                         </div>
                     </fieldset>
                     <fieldset class="execise_equipments">
-                        <div class="equipment">
-                            <label for="equipment">{{ Lang::get("content.Listtheequipmentneeded") }}*</label>
+                        <div class="equipment" style="margin-right: 10px">
+                            <label for="equipment">{{ Lang::get("content.Listtheequipmentneeded") }}</label>
                             {{ Form::select("equipment[]",$equipmentsList,"",array("id"=>"equipment", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select","multiple",)) }}
                         </div>
                         <div class="equipment">
