@@ -7,6 +7,7 @@ use App\Models\Permissions;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -789,7 +790,17 @@ class Helper {
         }
     }
 
+    public static function generateUserSlug($id)
+    {
+        $date = Carbon::now()->format('Ymd');
+        return "TW$id$date";
+    }
 
+    public static function decodeUserSlug($user){
+        $user = str_replace("TW","",$user);
+        $date = Carbon::now()->format('Ymd');
+        return str_replace("$date","",$user);
+    }
 
 }
 

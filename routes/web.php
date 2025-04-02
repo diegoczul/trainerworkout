@@ -34,6 +34,7 @@ use App\Http\Controllers\web\UsersController;
 use App\Http\Controllers\web\WeightsController;
 use App\Http\Controllers\web\WorkoutsController;
 use App\Http\Controllers\web\WorkoutsPerformanceController;
+use App\Http\Controllers\webview\WebviewController;
 use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -816,3 +817,9 @@ Route::controller(SocialOAuthController::class)->group(function () {
     Route::get('auth/google/callback/{role}', 'handleGoogleCallback')->name('auth.google-callback');
 });
 //});
+
+Route::controller(WebviewController::class)->prefix('webview')->group(function () {
+    Route::get('create-trainer-workout/{user}', 'createTrainerWorkout')->name('webview.create-trainer-workout');
+    Route::get('create-trainer-workout-success', 'workoutCreatedSuccessfully')->name('webview.create-trainer-workout-success');
+    Route::get('create-trainer-workout-failed', 'failedToCreateWorkout')->name('webview.create-trainer-workout-failed');
+});

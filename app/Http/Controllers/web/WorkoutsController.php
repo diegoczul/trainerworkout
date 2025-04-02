@@ -2632,13 +2632,16 @@ class WorkoutsController extends BaseController {
                 $workout->status = "Released";
                 $workout->save();
             } else {
-                $workout->status = "Draft";
-                $workout->save();
-                return redirect()->route("trainerWorkouts")
-                    ->withError($membershipCheck)
-                    ->with("permissions",$permissions);
+                if ($request->filled('is_webview_request')){
+                    return redirect()->route("webview.create-trainer-workout-failed");
+                }else{
+                    $workout->status = "Draft";
+                    $workout->save();
+                    return redirect()->route("trainerWorkouts")
+                        ->withError($membershipCheck)
+                        ->with("permissions",$permissions);
+                }
             }
-
 
 
             if($client != 0 and $client != ""){
@@ -2660,9 +2663,14 @@ class WorkoutsController extends BaseController {
 
 
             DB::commit();
-            return redirect()->to($workout->getURL())
-                ->with("message",__("messages.WorkoutCreated"))
-                ->with("permissions",$permissions);
+            if ($request->filled('is_webview_request')){
+                Auth::logout();
+                return redirect()->route("webview.create-trainer-workout-success");
+            }else{
+                return redirect()->to($workout->getURL())
+                    ->with("message",__("messages.WorkoutCreated"))
+                    ->with("permissions",$permissions);
+            }
 //
 //            return redirect()->route("trainerWorkouts")
 //                ->with("message",__("messages.WorkoutCreated"))
@@ -2846,7 +2854,17 @@ class WorkoutsController extends BaseController {
 	//
 
 	public function API_IOS_CreateWorkout(){
-		//Log::error($request->all());
+        $user = Helper::generateUserSlug(Auth::user()->id);
+        $response = [
+            'create_workout_url' => route('webview.create-trainer-workout',['user' => $user]),
+            'success_url' => route('webview.create-trainer-workout-success'),
+            'failed_url' => route('webview.create-trainer-workout-failed'),
+        ];
+
+        $data["data"] = $response;
+        $data["status"] = "ok";
+        $data["message"] = "";
+        return $this::responseJson($data);
 	}
 
 	public function API_Workouts_Basic(Request $request){
