@@ -1073,15 +1073,17 @@ class UsersController extends BaseController
             $lang = Session::get("lang");
             Session::flush();
             if (isset($_COOKIE['TrainerWorkoutUserId'])) {
+
                 unset($_COOKIE['TrainerWorkoutUserId']);
                 setcookie('TrainerWorkoutUserId', '', time() - 3600, '/');
             }
 
             if ($lang != "") {
                 Session::put("lang", $lang);
-                Session::save();
+//                Session::save();
             }
         }
+        dd("LOL");
         return redirect()->route("home");
     }
 
