@@ -1669,6 +1669,7 @@ class WorkoutsController extends BaseController {
 			->with("client",$client)
 			->with("tags",$tags)
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
+			->with("bodygroupslist",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->pluck("name","id"))
 			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
@@ -1710,12 +1711,12 @@ class WorkoutsController extends BaseController {
 
 		Event::dispatch('editAWorkout', array(Auth::user(),$workout->name));
 
-
 		return view("trainer.createWorkout")
 			->with("workout",$workout)
 			->with("client",$client)
 			->with("tags",$tags)
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
+			->with("bodygroupslist",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->pluck("name","id"))
 			->with("equipmentsList",Equipments::select("id","name")->orderBy("name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
@@ -1791,6 +1792,7 @@ class WorkoutsController extends BaseController {
 			->with("permissions",$permissions)
 			->with("tags",$tags)
 			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
+			->with("bodygroupslist",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->pluck("name","id"))
 			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
 			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
 			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
