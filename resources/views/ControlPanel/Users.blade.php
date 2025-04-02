@@ -205,8 +205,8 @@
                 { title: "User Type", data: "userType" },
                 { title: "Created At", data: "created_at", class: "text-center" },
                 { title: "Login", data: "id", class: "text-center", orderable: false, render: function (data) { return echoLoginUser(data); } },
-                { title: "Edit", searchable: false, data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
-                { title: "Delete", searchable: false, data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
+                { title: "Edit", data: "id", class: "text-center", orderable: false, render: function (data) { return echoEdit(data); } },
+                { title: "Delete", data: "id", class: "text-center", orderable: false, render: function (data) { return echoRemove(data); } }
             ],
             order: []
         });

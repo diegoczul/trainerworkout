@@ -200,7 +200,7 @@
                     { title: "Thumbnail 2", searchable: false, data: "thumb2", class: "text-center", render: function (data, type, row) { return imageRotate2Switch(data, row.id); } },
                     { title: "ID", data: "id", class: "text-center" },
                     { title: "Name", data: "name" },
-                    { title: "Body Group", searchable: false, data: "bodygroup", render: function (data) { return data ? data.name : ""; } },
+                    { title: "Body Group", data: "bodygroup_name" },
                     { title: "Optional Body Groups", searchable: false, data: "bodygroups_optional", render: function (data) { return data ? showNamesB(data) : ""; } },
                     { title: "Exercise Types", searchable: false, data: "exercises_types", render: function (data) { return data ? showNamesT(data) : ""; } },
                     { title: "Engine Name", data: "nameEngine" },

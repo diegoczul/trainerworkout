@@ -1083,7 +1083,7 @@ class UsersController extends BaseController
 //                Session::save();
             }
         }
-        dd("LOL");
+
         return redirect()->route("home");
     }
 

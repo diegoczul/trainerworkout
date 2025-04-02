@@ -730,6 +730,10 @@ class ExercisesController extends BaseController
         $response = Exercises::with(["bodygroup", "exercisesTypes", "bodygroupsOptional", "equipments", "equipmentsOptional", "user", "author"])->orderBy("name", "ASC")->latest();
         return DataTables::eloquent($response)
             ->addIndexColumn()
+            ->addColumn('bodygroup_name', function ($row) {
+                return $row->bodygroup->name;
+            })
+            ->with(['bodygroup_name'])
             ->make(true);
     }
 
