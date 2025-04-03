@@ -44,7 +44,14 @@ return [
             'password'      => env('MAIL_PASSWORD','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'),
             'timeout'       => null,
             'local_domain'  => env('MAIL_EHLO_DOMAIN'),
-            'auth_mode'     => null,
+            'auth_mode' => null,
+            'stream' => [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ],
             'verify_peer'   => false,
         ],
 
