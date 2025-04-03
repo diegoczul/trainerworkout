@@ -36,16 +36,16 @@ return [
     'mailers' => [
         'smtp' => [
             'transport'     => 'smtp',
-            'url'           => env('MAIL_URL'),
+//            'url'           => env('MAIL_URL'),
             'host'          => env('MAIL_HOST', 'smtp.sendgrid.net'),
             'port'          => env('MAIL_PORT', 587),
             'encryption'    => env('MAIL_ENCRYPTION', 'tls'),
             'username'      => env('MAIL_USERNAME','apikey'),
             'password'      => env('MAIL_PASSWORD','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'),
             'timeout'       => null,
-            'local_domain'  => env('MAIL_EHLO_DOMAIN'),
+//            'local_domain'  => env('MAIL_EHLO_DOMAIN'),
             'auth_mode'     => null,
-            'verify_peer'   => false,
+//            'verify_peer'   => false,
         ],
 
         'ses' => [

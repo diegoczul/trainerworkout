@@ -52,7 +52,22 @@ class UsersController extends BaseController
 {
     public function sendTestMail()
     {
-        return Mail::to('krish.siddhapura@grewon.com')->queue(new TestMail());
+        Config::set('mail.mailers.smtp.host', MAIL_HOST);
+        Config::set('mail.mailers.smtp.port', MAIL_PORT);
+        Config::set('mail.mailers.smtp.encryption', MAIL_ENCRYPTION);
+        Config::set('mail.mailers.smtp.password', MAIL_PASSWORD);
+        Config::set('mail.mailers.smtp.username', MAIL_USERNAME);
+        Config::set('mail.from.address',MAIL_FROM_ADDRESS);
+        $data['email'] = 'krish.siddhapura@grewon.com';
+        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
+            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
+        });
+        if($sendMail){
+            return true;
+        }else{
+            return false;
+        }
+//        return Mail::to('krish.siddhapura@grewon.com')->queue(new TestMail());
     }
     public function index()
     {
