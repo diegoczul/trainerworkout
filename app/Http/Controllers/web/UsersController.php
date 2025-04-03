@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use SendGrid;
 use UsersSettings;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -52,16 +53,19 @@ class UsersController extends BaseController
 {
     public function sendTestMail()
     {
-        Config::set('mail.mailers.smtp.host', MAIL_HOST);
-        Config::set('mail.mailers.smtp.port', MAIL_PORT);
-        Config::set('mail.mailers.smtp.encryption', MAIL_ENCRYPTION);
-        Config::set('mail.mailers.smtp.password', MAIL_PASSWORD);
-        Config::set('mail.mailers.smtp.username', MAIL_USERNAME);
-        Config::set('mail.from.address',MAIL_FROM_ADDRESS);
         $data['email'] = 'krish.siddhapura@grewon.com';
-        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
-            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
-        });
+//        $mail = new TestMail();
+//        $mail->to('krish.siddhapura@grewon.com');
+        $email = new \SendGrid\Mail\Mail();
+        $email->setFrom(env('MAIL_FROM_ADDRESS'));
+        $email->setSubject("Test Email");
+        $email->addTo('krish.siddhapura@grewon.com');
+        $email->addContent("text/plain", "This is a test email from SendGrid API.");
+        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+        $sendMail = $sendgrid->send($email);
+//        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
+//            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
+//        });
         if($sendMail){
             return true;
         }else{
