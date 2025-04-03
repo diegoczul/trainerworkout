@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Jobs\InviteClientMailJob;
+use App\Jobs\InviteFriendMailJob;
 use App\Mail\InviteClientMail;
 use App\Mail\InviteFriendMail;
 use DateTime;
@@ -47,7 +49,8 @@ class Invites extends Model
         ]);
 
         $lang = App::getLocale();
-        Mail::to($this->email)->queue(new InviteFriendMail($subject,$this,$user,$name,$lang));
+        InviteFriendMailJob::dispatch($subject,$this,$user,$name,$lang);
+//        Mail::to($this->email)->queue(new InviteFriendMail($subject,$this,$user,$name,$lang));
     }
 
     public function sendInviteClient($comments = "")
@@ -65,7 +68,8 @@ class Invites extends Model
         ]);
 
         $lang = App::getLocale();
-        Mail::to($email)->queue(new InviteClientMail($subject,$comments,$this,$user,$fake,$lang));
+        InviteClientMailJob::dispatch($subject,$comments,$this,$user,$fake,$lang);
+//        Mail::to($email)->queue(new InviteClientMail($subject,$comments,$this,$user,$fake,$lang));
     }
 
     public function completeInvite()

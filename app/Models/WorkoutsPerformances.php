@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\WorkoutPerformedMailJob;
 use App\Mail\WorkoutPerformedMail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,7 +69,8 @@ class WorkoutsPerformances extends Model
                 'workout' => $workout->name,
             ]);
             $lang = App::getLocale();
-            Mail::to($toUser->email)->queue(new WorkoutPerformedMail($subject,$toUser, $fromUser, $workout, $workoutPerformance, $rating, $ratingString, $lang));
+            WorkoutPerformedMailJob::dispatch($subject, $toUser, $fromUser, $workout, $workoutPerformance, $rating, $ratingString, $lang);
+//            Mail::to($toUser->email)->queue(new WorkoutPerformedMail($subject,$toUser, $fromUser, $workout, $workoutPerformance, $rating, $ratingString, $lang));
             Event::dispatch('notifyActivity', [Auth::user(), $toUser]);
         }
     }

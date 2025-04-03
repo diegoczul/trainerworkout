@@ -2,6 +2,8 @@
 namespace App\Models;
 
 use App\Http\Libraries\Helper;
+use App\Jobs\ActivationMailJob;
+use App\Jobs\NewEmailConfirmationMailJob;
 use App\Mail\ActivationEmail;
 use App\Mail\NewEmailConfirmationMail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -242,7 +244,8 @@ class Users extends Authenticatable implements JWTSubject
 
         $user = Users::find($this->id);
         $lang = App::getLocale();
-        Mail::queue(new ActivationEmail($user,$lang));
+        ActivationMailJob::dispatch($user,$lang);
+//        Mail::queue(new ActivationEmail($user,$lang));
     }
 
     public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail){
@@ -528,6 +531,7 @@ class Users extends Authenticatable implements JWTSubject
 
         $user = Users::find($this->id);
         $lang = App::getLocale();
-        Mail::queue(new NewEmailConfirmationMail($user,$lang));
+        NewEmailConfirmationMailJob::dispatch($user,$lang);
+//        Mail::queue(new NewEmailConfirmationMail($user,$lang));
     }
 }

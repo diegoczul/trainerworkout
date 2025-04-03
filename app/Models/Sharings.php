@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SharedWorkoutNewMailJob;
 use App\Mail\SharedWorkoutEmailNew;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -80,7 +81,8 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
                 $lang = App::getLocale();
-                Mail::queue(new SharedWorkoutEmailNew($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
+                SharedWorkoutNewMailJob::dispatch($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang);
+//                Mail::queue(new SharedWorkoutEmailNew($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
             } else {
                 $sharing = new Sharings();
                 $sharing->viewed = 0;
@@ -96,7 +98,8 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
                 $lang = App::getLocale();
-                Mail::queue(new SharedWorkoutEmailNew($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
+                SharedWorkoutNewMailJob::dispatch($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint, $lang);
+//                Mail::queue(new SharedWorkoutEmailNew($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang));
             }
         }
     }

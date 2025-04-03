@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Helper;
 use App\Http\Libraries\Messages;
+use App\Jobs\TestMailJob;
 use App\Mail\TestMail;
 use App\Models\Exercises;
 use App\Models\Feeds;
@@ -66,7 +67,8 @@ class UsersController extends BaseController
 //            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
 //        });
         $data = 'krish.siddhapura@grewon.com';
-        $sendMail = Mail::queue(new TestMail($data));
+        $sendMail = TestMailJob::dispatch($data);
+//        $sendMail = Mail::queue(new TestMail($data));
         if($sendMail){
             return true;
         }else{

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web;
 
+use App\Jobs\FeedbackMailJob;
 use App\Mail\FeedbackMail;
 use App\Models\Appointments;
 use App\Models\Availabilities;
@@ -156,7 +157,8 @@ class SystemController extends BaseController
         $date = now()->toDateString();
         $user = Auth::user();
         $email = Config::get("app.feedbackEmail");
-        Mail::to($email)->queue(new FeedbackMail($date, $user, $feedback));
+        FeedbackMailJob::dispatch($date, $user, $feedback);
+//        Mail::to($email)->queue(new FeedbackMail($date, $user, $feedback));
 
         $message = __("messages.thankyoufeedback");
         $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
