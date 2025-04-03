@@ -27,6 +27,7 @@ class ActivationEmail extends Mailable
     public function build()
     {
         return $this->view('emails.' . Config::get("app.whitelabel") . '.user.' . $this->lang . '.activateEmail')
+            ->to($this->user->email)
             ->with(['user' => $this->user])
             ->subject(__('messages.TrainerWorkoutEmailConfirmation'));
     }

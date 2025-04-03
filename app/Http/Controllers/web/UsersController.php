@@ -201,6 +201,23 @@ class UsersController extends BaseController
         }
     }
 
+    public function confirmNewEmail($token)
+    {
+        $user = Users::where('new_email_token', $token)->first();
+        if ($user) {
+            $user->activated = now();
+            $user->email = $user->new_email;
+            $user->new_email_token = null;
+            $user->new_email = null;
+            $user->save();
+            Auth::loginUsingId($user->id);
+            Event::dispatch('confirmEmail', [Auth::user()]);
+            return Redirect::route(strtolower(Auth::user()->userType) . 'Workouts')->with('message', Lang::get('messages.EmailConfirmed'));
+        } else {
+            return Redirect::route(strtolower(Auth::user()->userType) . 'Workouts')->withErrors(Lang::get('messages.EmailNotConfirmed'));
+        }
+    }
+
     public function indexSuggestPeople()
     {
         $userId = Auth::user()->id;
@@ -729,6 +746,7 @@ class UsersController extends BaseController
 
         Auth::loginUsingId($user->id);
         Event::dispatch('signUp', [$user]);
+        $user->sendActivationEmail();
 
         if (Session::has('utm')) {
             $user->marketing = Session::get('utm');
@@ -1011,10 +1029,17 @@ class UsersController extends BaseController
         if ($validation->fails()) {
             return redirect()->route('TrainerProfile')->withErrors($validation->messages());
         } else {
+            $newEmail = false;
+            if (Auth::user()->email != $request->get("email")) {
+                $newEmail = true;
+            }
+
             $user = Auth::user();
             $user->firstName = ucfirst($request->get("firstName"));
             $user->lastName = ucfirst($request->get("lastName"));
-            $user->email = strtolower($request->get("email"));
+            if (Auth::user()->email != $request->get("email")) {
+                $user->new_email = strtolower($request->get("email"));
+            }
             $user->gender = strtolower($request->get("gender"));
             $user->phone = Helper::formatPhone(strtolower($request->get("phone")));
             $user->birthday = !empty(strtolower($request->get("birthday"))) ? strtolower($request->get("birthday")) : null;
@@ -1054,6 +1079,10 @@ class UsersController extends BaseController
                 $userlogo->active = 1;
 
                 $userlogo->save();
+            }
+
+            if ($newEmail){
+                $user->sendNewEmailConfirmation();
             }
             return redirect()->route('TrainerProfile')->with("message", __('messages.ProfileSaved'));
         }

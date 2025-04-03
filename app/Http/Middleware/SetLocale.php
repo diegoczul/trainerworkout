@@ -20,8 +20,12 @@ class SetLocale
         if (Auth::check()) {
             $lang = !empty(Auth::user()->lang)?Auth::user()->lang:"en";
             App::setLocale($lang);
+        }elseif (cache()->has('lang')) {
+            App::setLocale(cache()->get('lang'));
+            cache()->forget('lang');
         }elseif (session()->has('lang')) {
             App::setLocale(session('lang'));
+            session()->forget('lang');
         }else{
             App::setLocale('en');
         }

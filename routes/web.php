@@ -39,7 +39,6 @@ use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Log;
 
 
 /*
@@ -63,6 +62,7 @@ Route::post(__('routes./payment'), [OrdersController::class, 'processPaymentNoLo
 Route::get(__('routes./thankyou'), [OrdersController::class, 'thankyou'])->name('thankyouPayment');
 
 Route::get('/user/confirmation/{param1}', [UsersController::class, 'confirmEmail'])->name('confirmEmail');
+Route::get('/email-confirm/{token}', [UsersController::class, 'confirmNewEmail'])->name('confirm-new-email');
 Route::get('test-mail', [UsersController::class, 'sendTestMail']);
 
 

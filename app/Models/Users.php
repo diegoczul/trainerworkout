@@ -3,6 +3,7 @@ namespace App\Models;
 
 use App\Http\Libraries\Helper;
 use App\Mail\ActivationEmail;
+use App\Mail\NewEmailConfirmationMail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
@@ -242,12 +243,6 @@ class Users extends Authenticatable implements JWTSubject
         $user = Users::find($this->id);
         $lang = App::getLocale();
         Mail::queue(new ActivationEmail($user,$lang));
-//        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.activateEmail', array("user"=>serialize($user)), function($message) use ($user)
-//        {
-//            $message->to($user->email)
-//                ->cc(Config::get("constants.activityEmail"))
-//                ->subject(Messages::showEmailMessage("TrainerWorkoutEmailConfirmation"));
-//        });
     }
 
     public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail){
@@ -523,5 +518,16 @@ class Users extends Authenticatable implements JWTSubject
         $membership->save();
 
         return $membership;
+    }
+
+    public function sendNewEmailConfirmation()
+    {
+        $guid = Uuid::uuid4()->toString();
+        $this->new_email_token = $guid;
+        $this->save();
+
+        $user = Users::find($this->id);
+        $lang = App::getLocale();
+        Mail::queue(new NewEmailConfirmationMail($user,$lang));
     }
 }

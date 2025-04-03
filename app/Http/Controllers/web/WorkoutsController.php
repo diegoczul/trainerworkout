@@ -2635,7 +2635,7 @@ class WorkoutsController extends BaseController {
                 $workout->save();
             } else {
                 if ($request->filled('is_webview_request')){
-                    return redirect()->route("webview.create-trainer-workout-failed");
+                    return redirect()->route("webview.create-trainer-workout-success");
                 }else{
                     $workout->status = "Draft";
                     $workout->save();

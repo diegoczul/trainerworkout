@@ -21,6 +21,7 @@ use App\Models\WorkoutsGroups;
 use App\Models\WorkoutsPerformances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
@@ -436,6 +437,7 @@ class SystemController extends BaseController
         App::setLocale($locale);
         Session::put("lang", $locale);
         Session::save();
+        Cache::set("lang", $locale);
 
         if (Auth::check()) {
             Auth::user()->lang = $locale;
