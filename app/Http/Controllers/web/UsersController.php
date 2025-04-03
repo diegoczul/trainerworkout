@@ -53,25 +53,23 @@ class UsersController extends BaseController
 {
     public function sendTestMail()
     {
+//        $email = new \SendGrid\Mail\Mail();
+//        $email->setFrom(env('MAIL_FROM_ADDRESS'));
+//        $email->setSubject("Test Email");
+//        $email->addTo('krish.siddhapura@grewon.com');
+//        $email->addContent("text/plain", "This is a test email from SendGrid API.");
+//        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+//        $sendMail = $sendgrid->send($email);
+
         $data['email'] = 'krish.siddhapura@grewon.com';
-//        $mail = new TestMail();
-//        $mail->to('krish.siddhapura@grewon.com');
-        $email = new \SendGrid\Mail\Mail();
-        $email->setFrom(env('MAIL_FROM_ADDRESS'));
-        $email->setSubject("Test Email");
-        $email->addTo('krish.siddhapura@grewon.com');
-        $email->addContent("text/plain", "This is a test email from SendGrid API.");
-        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
-        $sendMail = $sendgrid->send($email);
-//        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
-//            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
-//        });
+        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
+            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
+        });
         if($sendMail){
             return true;
         }else{
             return false;
         }
-//        return Mail::to('krish.siddhapura@grewon.com')->queue(new TestMail());
     }
     public function index()
     {
