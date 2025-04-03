@@ -38,36 +38,36 @@
                         </div>
                         <div class="form-group">
                             <label>Remove Green Screen
-                                <input type="checkbox" name="removeGreenScreen" id="removeGreenScreen" checked="checked" value="Yes" class="noErase" onclick="this.value = 'Yes'">
+                                <input type="checkbox" name="removeGreenScreen" onchange="hideShowGreenScreenOptions(this);" id="removeGreenScreen" value="Yes" class="noErase" onclick="this.value = 'Yes'">
                             </label>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group remove-green-screen" style="display: none">
                             <label>Modulation / Masking</label>
                             <input type="text" name="modulation" id="modulation" value="53.3" class="noErase form-control">
                             <p>Default: 53.3</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group remove-green-screen" style="display: none">
                             <label>Feather</label>
                             <input type="text" name="feather" id="feather" value="5" class="noErase form-control">
                             <p>Default: 5</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group remove-green-screen" style="display: none">
                             <label>Replacer color deviation</label>
                             <input type="text" name="replacer" id="replacer" value="8" class="noErase form-control">
                             <p>Default: 8</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group remove-green-screen" style="display: none">
                             <label>Light</label>
                             <input type="text" name="light" id="light" value="130" class="noErase form-control">
                             <p>Default: 130</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group remove-green-screen" style="display: none">
                             <label>Colors</label>
                             <input type="text" name="color1" id="color1" value="509F64,006C1B,149545,078732,5EC590,3D8C40,3AAF6B" class="noErase" style="width:100%">
                             <p>Default: 509F64,006C1B,149545,078732,5EC590,3D8C40,3AAF6B</p>
                             <p>Default with MATT: 509F64,149545,078732,5EC590,3D8C40,3AAF6B</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group remove-green-screen" style="display: none">
                             <label>Algorithm</label>
                             <input type="radio" name="algo" value="1" class="noErase" id="algo1" onclick="this.value = 1"/> 1
                             <input type="radio" name="algo" value="2" checked="checked" class="noErase" id="algo2" onclick="this.value = 2"/> 2
@@ -111,6 +111,13 @@
 @endsection
 @section("scripts")
     <script>
+        function hideShowGreenScreenOptions(element){
+            if($(element).is(':checked')){
+                $('.remove-green-screen').show()
+            }else{
+                $('.remove-green-screen').hide()
+            }
+        }
         var dtEquipments;
         $(document).ready(function () {
             arrayDataTables["dtEquipments"] = dtEquipments = $("#dtEquipments").DataTable({

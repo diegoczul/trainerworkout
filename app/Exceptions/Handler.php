@@ -60,22 +60,22 @@ class Handler extends ExceptionHandler
             }
         });
 
-        $this->renderable(function (Exception $e, Request $request) {
-            if($request->ajax() && !$request->isMethod('get')){
-                return response()->json([
-                    'success' => false,
-                    'message' => "Internal Server Error",
-                    'data' => $e->getMessage()
-                ],500);
-            }else{
-                if ($e->getCode() != 404){
-                    Log::error("Exception",[
-                        'error' => $e->getMessage(),
-                        'uri' => $request->getRequestUri(),
-                        'line' => $e->getLine(),
-                    ]);
-                }
-            }
-        });
+//        $this->renderable(function (Exception $e, Request $request) {
+//            if($request->ajax() && !$request->isMethod('get')){
+//                return response()->json([
+//                    'success' => false,
+//                    'message' => "Internal Server Error",
+//                    'data' => $e->getMessage()
+//                ],500);
+//            }else{
+//                if ($e->getCode() != 404){
+//                    Log::error("Exception",[
+//                        'error' => $e->getMessage(),
+//                        'uri' => $request->getRequestUri(),
+//                        'line' => $e->getLine(),
+//                    ]);
+//                }
+//            }
+//        });
     }
 }

@@ -124,7 +124,7 @@ class Workouts extends Model
 //                DB::raw("CHAR_LENGTH(workouts.name) AS multiplier")
 //            )
                 ->where(function ($query) use ($search) {
-                    $query->orWhereRaw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
+                    $query->whereRaw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
                         ->orWhereRaw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
                         ->orWhereRaw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
                         ->orWhereRaw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"]);

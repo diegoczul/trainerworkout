@@ -558,9 +558,11 @@ function errorMessage(msg){
 	var numOfNotif = $(".systemMessages > div").length;
 	var notifId    = 'successBoxId'+(numOfNotif+1);
 
-	$(".systemMessages")
-	.show()
-	.append("<div class='errorBox' id='"+notifId+"'><a class='hideErrorMessageButton' href='JavaScript:void(0)' onClick='removeNotification($(this).parent());'><i class='fa fa-times'></i></a>"+msg+"</div>");
+	$(".systemMessages").show().html(`<div class='errorBox' id="${notifId}">
+												<a class='hideErrorMessageButton' href='JavaScript:void(0)' onClick='removeNotification($(this).parent());'><i class='fa fa-times'></i></a>
+												${msg}
+											</div>`);
+
 
 
 	// $(".systemMessages")
