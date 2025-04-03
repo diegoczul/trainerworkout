@@ -5,6 +5,9 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use SendGrid;
+use SendGrid\Mail\Mail;
 
 class SharedWorkoutEmailNew extends Mailable
 {
@@ -24,23 +27,6 @@ class SharedWorkoutEmailNew extends Mailable
     public $copyPrint;
     public $lang;
 
-    /**
-     * Create a new message instance.
-     *
-     * @param mixed $sharing
-     * @param mixed $invite
-     * @param mixed $toUser
-     * @param mixed $fromUser
-     * @param string $comments
-     * @param string|null $workoutScreenshot
-     * @param string|null $workoutScreenshotPDF
-     * @param string|null $workoutPDF
-     * @param string $subject
-     * @param bool $copyMe
-     * @param bool $copyView
-     * @param bool $copyPrint
-     * @param string $lang
-     */
     public function __construct(
         $sharing,
         $invite,
@@ -74,40 +60,86 @@ class SharedWorkoutEmailNew extends Mailable
     /**
      * Build the message.
      *
-     * @return $this
+     * @return bool
      */
     public function build()
     {
-        $email = $this->subject($this->subject)
-            ->to($this->toUser->email)
-            ->view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout')
-            ->with([
+//        $email = $this->subject($this->subject)
+//            ->to($this->toUser->email)
+//            ->view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout')
+//            ->with([
+//                'sharing' => $this->sharing,
+//                'invite' => $this->invite,
+//                'toUser' => $this->toUser,
+//                'fromUser' => $this->fromUser,
+//                'comments' => $this->comments,
+//            ]);
+//
+//        // Attach files if needed
+//        if ($this->copyView) {
+//            if ($this->workoutScreenshot) {
+//                $email->attach($this->workoutScreenshot);
+//            }
+//            if ($this->workoutScreenshotPDF) {
+//                $email->attach($this->workoutScreenshotPDF);
+//            }
+//        }
+//
+//        if ($this->copyPrint && $this->workoutPDF) {
+//            $email->attach($this->workoutPDF);
+//        }
+//
+//        // Additional CC if "copyMe" is true
+//        if ($this->copyMe) {
+//            $email->cc($this->fromUser->email);
+//        }
+//
+//        return $email;
+
+        try {
+            $email = new Mail();
+            $email->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $email->setSubject($this->subject);
+            $email->addTo($this->toUser->email);
+
+            // CC the sender if "copyMe" is true
+            if ($this->copyMe) {
+                $email->addCc($this->fromUser->email);
+            }
+
+            // Email Body Content
+            $body = view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout', [
                 'sharing' => $this->sharing,
                 'invite' => $this->invite,
                 'toUser' => $this->toUser,
                 'fromUser' => $this->fromUser,
                 'comments' => $this->comments,
-            ]);
+            ])->render();
 
-        // Attach files if needed
-        if ($this->copyView) {
-            if ($this->workoutScreenshot) {
-                $email->attach($this->workoutScreenshot);
+            $email->addContent("text/html", $body);
+
+            // Attachments
+            if ($this->copyView) {
+                if ($this->workoutScreenshot) {
+                    $email->addAttachment(base64_encode(file_get_contents($this->workoutScreenshot)), "image/png", "workout_screenshot.png", "attachment");
+                }
+                if ($this->workoutScreenshotPDF) {
+                    $email->addAttachment(base64_encode(file_get_contents($this->workoutScreenshotPDF)), "application/pdf", "workout_screenshot.pdf", "attachment");
+                }
             }
-            if ($this->workoutScreenshotPDF) {
-                $email->attach($this->workoutScreenshotPDF);
+
+            if ($this->copyPrint && $this->workoutPDF) {
+                $email->addAttachment(base64_encode(file_get_contents($this->workoutPDF)), "application/pdf", "workout.pdf", "attachment");
             }
-        }
 
-        if ($this->copyPrint && $this->workoutPDF) {
-            $email->attach($this->workoutPDF);
-        }
+            // Send the email via SendGrid API
+            $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+            $sendgrid->send($email);
 
-        // Additional CC if "copyMe" is true
-        if ($this->copyMe) {
-            $email->cc($this->fromUser->email);
+            return true;
+        } catch (\Exception $e) {
+            Log::error("SendGrid Email Error: " . $e->getMessage());
+            return false;
         }
-
-        return $email;
     }
 }

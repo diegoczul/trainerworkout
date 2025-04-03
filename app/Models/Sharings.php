@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use App\Mail\SharedWorkoutEmail;
 use App\Mail\SharedWorkoutEmailNew;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 
 class Sharings extends Model
