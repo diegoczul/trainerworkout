@@ -34,7 +34,9 @@
                         <a target="_blank" href="/TermsAndConditions/">{{ Lang::get("content.Terms and Conditions") }}</a>
                     </label>
                 </fieldset>
-                <button type="submit" class="submit">{{ Lang::get("content.Create My Account") }}</button>
+                <button type="submit" class="submit" id="submitBtn">
+                    {{ Lang::get("content.Create My Account") }}
+                </button>
                 <a href="{{ Lang::get("routes./login") }}" class="forgot_password">{{ Lang::get("content.Already have an account, log in") }}</a>
                 {{ Form::close() }}
             </div>
@@ -53,6 +55,11 @@
             }
         })
 
+        $(document).on('submit','#login_form', function (){
+            $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: block; margin:auto; padding: 0; height: auto; width: 120px; text-align: center;">
+                                    <img src="{{asset('/assets/img/tw-gif.gif')}}" style="width: 40px;">
+                                </p>`);
+        })
         function getTimezoneName() {
             tmSummer = new Date(Date.UTC(2005, 6, 30, 0, 0, 0, 0));
             so = -1 * tmSummer.getTimezoneOffset();

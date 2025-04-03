@@ -26,7 +26,7 @@
                     <input type="text" placeholder="{{ __('content.email') }}" value="{{ request()->old('email') }}" required name="email" id="email"/>
                     <label for="password">{{ __("content.password") }}</label>
                     <input placeholder="{{ __('content.password') }}" required name="password" type="password" id="password"/>
-                    <a href="javascript:void(0)" onclick="submitForm()" class="submit">{{ __("content.Login") }}</a>
+                    <a href="javascript:void(0)" onclick="submitForm()" class="submit" id="submitBtn">{{ __("content.Login") }}</a>
                     <a href="{{ __("/password/reset") }}" class="forgot_password">{{ __("content.forgot") }}</a>
                 </form>
             </div>
@@ -121,6 +121,9 @@
             }
             if (valid) {
                 document.getElementById('login_form').submit();
+                $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: block; margin:auto; padding: 0; height: auto; width: 120px; text-align: center;">
+                                        <img src="{{asset('/assets/img/tw-gif.gif')}}" style="width: 40px;">
+                                    </p>`);
             }
         }
 
