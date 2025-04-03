@@ -9,6 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
+use SendGrid;
+use SendGrid\Mail\Mail;
 
 class NewEmailConfirmationMail extends Mailable
 {
@@ -25,51 +29,25 @@ class NewEmailConfirmationMail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.' . Config::get("app.whitelabel") . '.user.' . $this->lang . '.newEmailConfirmation')
-            ->to($this->user->new_email)
-            ->with(['user' => $this->user])
-            ->subject(__('messages.TrainerWorkoutEmailConfirmation'));
+//        return $this->view('emails.' . Config::get("app.whitelabel") . '.user.' . $this->lang . '.newEmailConfirmation')
+//            ->to($this->user->new_email)
+//            ->with(['user' => $this->user])
+//            ->subject(__('messages.TrainerWorkoutEmailConfirmation'));
+        try {
+            $email = new Mail();
+            $email->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            $email->setSubject(__('messages.TrainerWorkoutEmailConfirmation'));
+            $email->addTo($this->user->new_email);
+            $content = View::make('emails.' . Config::get("app.whitelabel") . '.user.' . $this->lang . '.newEmailConfirmation', ['user' => $this->user])->render();
+            $email->addContent("text/html", $content);
+
+            $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+            $response = $sendgrid->send($email);
+
+            return $response->statusCode();
+        } catch (\Exception $exception) {
+            Log::error("SendGrid Email Error: " . $exception->getMessage());
+            return 'Error: ' . $exception->getMessage();
+        }
     }
-
-
-//    /**
-//     * Create a new message instance.
-//     */
-//    public function __construct($user)
-//    {
-//        $this->user = $user;
-//    }
-//
-//    /**
-//     * Get the message envelope.
-//     */
-//    public function envelope(): Envelope
-//    {
-//        return new Envelope(
-//            subject: 'New Email Confirmation Mail',
-//        );
-//    }
-//
-//    /**
-//     * Get the message content definition.
-//     */
-//    public function content(): Content
-//    {
-//        return (new Content('emails.' . Config::get("app.whitelabel") . '.user.' . $this->lang . '.newEmailConfirmation'))->with(['user' => $this->user]);
-//    }
-//
-//    /**
-//     * Get the attachments for the message.
-//     *
-//     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-//     */
-//    public function attachments(): array
-//    {
-//        return [];
-//    }
-//
-//    public function boot($mail)
-//    {
-//        $mail->to($this->user->new_email);
-//    }
 }

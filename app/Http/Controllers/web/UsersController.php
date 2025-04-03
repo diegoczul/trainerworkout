@@ -61,10 +61,12 @@ class UsersController extends BaseController
 //        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
 //        $sendMail = $sendgrid->send($email);
 
-        $data['email'] = 'krish.siddhapura@grewon.com';
-        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
-            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
-        });
+//        $data['email'] = 'krish.siddhapura@grewon.com';
+//        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
+//            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
+//        });
+        $data = 'krish.siddhapura@grewon.com';
+        $sendMail = Mail::queue(new TestMail($data));
         if($sendMail){
             return true;
         }else{
