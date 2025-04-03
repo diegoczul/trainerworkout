@@ -269,6 +269,7 @@
 
 @if(Session::has("message"))
     <script>successMessage("{!! Session::get("message") !!}")</script>
+    @php session()->forget('message') @endphp
 @endif
 
 @if(Session::has("error"))
