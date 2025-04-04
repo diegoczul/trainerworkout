@@ -6,6 +6,7 @@ return array(
         "Welcome"                       => "Welcome to ".Config::get("app.brand"),
         "WrongLogin"                    => "You have entered a wrong email or password",
         "ProfileSaved"                  => "Your profile has been saved",
+        "ProfileSavedEmail"             => "The confirmation email has been sent to your new email address, please confirm your new email to update.",
         "PasswordReset"                 => "You have changed your password",
         "WeightAdded"                   => "Weight added",
         "WeightUpdated"                 => "Weight updated",

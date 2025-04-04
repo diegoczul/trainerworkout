@@ -27,7 +27,7 @@
                     <p>{{ Lang::get("content.workouts/message1") }}</p>
                 
                     <div class="search_group">
-                        <input type="text" placeholder="{{ Lang::get("content.searchworkouts") }}" id="searchWorkouts" name="searchWorkouts" class="inputBox input_search_workout"  onkeyup="searchWorkouts(this.value)" />  
+                        <input type="text" placeholder="{{ Lang::get("content.searchworkouts") }}" id="searchWorkouts" name="searchWorkouts" class="inputBox input_search_workout"  onkeyup="if($('#searchWorkouts').val() == null || $('#searchWorkouts').val() == ''){searchWorkouts($('#searchWorkouts').val())}" />
 
                         <a class="searchButton" href="javascript:void(0)" onclick="searchWorkouts($('#searchWorkouts').val())">{{ Lang::get("content.Search") }}</a>
 

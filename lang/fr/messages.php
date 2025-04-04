@@ -4,6 +4,7 @@ return array(
         "Welcome"                       => Config::get("app.brand")." vous souhaite la Bienvenue", 
         "WrongLogin"                    => "Vous avez entré un mauvais mot de passe ou email",
         "ProfileSaved"                  => "Votre profil a été sauvegardé",
+        "ProfileSavedEmail"             => "L'email de confirmation a été envoyé à votre nouvelle adresse email, veuillez confirmer votre nouvelle adresse email pour la mettre à jour.",
         "PasswordReset"                 => "Votre mot de passe a été modifié",
         "WeightAdded"                   => "Poids ajouté",
         "WeightUpdated"                 => "Poids modifié",

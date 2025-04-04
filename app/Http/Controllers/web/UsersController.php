@@ -1104,8 +1104,10 @@ class UsersController extends BaseController
 
             if ($newEmail){
                 $user->sendNewEmailConfirmation();
+                return redirect()->route('TrainerProfile')->with("message", __('messages.ProfileSavedEmail'));
+            }else{
+                return redirect()->route('TrainerProfile')->with("message", __('messages.ProfileSaved'));
             }
-            return redirect()->route('TrainerProfile')->with("message", __('messages.ProfileSaved'));
         }
     }
 
