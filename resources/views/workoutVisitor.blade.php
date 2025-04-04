@@ -17,7 +17,7 @@
     <section id="content" class="clearfix">
         <div class="wrapper">
             <div class="widgets fullwidthwidget shadow">
-                <div class="fltright"><a href="/TraineeSignp/Workout/{{ $workout->id }}" class="bluebtn">Create and account and add to my workouts</a></div>
+                <div class="fltright"><a href="/TraineeSignp/Workout/{{ $workout->id }}" class="bluebtn">Create account and add to my workouts</a></div>
                 <h1>{{ $workout->name }}</h1>
                 <div class="workoutdays clearfix">
                     @foreach($exercises as $exercise)
