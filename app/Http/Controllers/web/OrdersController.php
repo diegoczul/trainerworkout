@@ -357,7 +357,12 @@ class OrdersController extends BaseController
             $membership = "";
 
             foreach ($cart["items"] as $x => $item) {
-                $orderItem = $item["orderItemId"] != "" ? OrderItems::find($item["orderItemId"]) : new OrderItems();
+
+                if (isset($item["orderItemId"]) && !empty($item["orderItemId"]) && OrderItems::find($item["orderItemId"])){
+                    $orderItem = OrderItems::find($item["orderItemId"]);
+                }else{
+                    $orderItem = new OrderItems();
+                }
 
                 if ($item["type"] == "Workout") {
                     $itemPurchased = Workouts::find($item["id"]);

@@ -38,10 +38,11 @@ class InviteClientMailJob implements ShouldQueue
     public function handle(): void
     {
         try {
+            $user = unserialize($this->user);
             $email = new Mail();
             $email->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $email->setSubject($this->subject);
-            $email->addTo(unserialize($this->user)->email);
+            $email->addTo($user->email);
             $content = View::make('emails.' . config("app.whitelabel") . '.user.' . $this->lang . '.inviteClient', ['comments' => $this->comments, 'password' => $this->password, 'invite' => $this->invite, 'user' => $this->user, 'fake' => $this->fake])->render();
             $email->addContent("text/html", $content);
 
