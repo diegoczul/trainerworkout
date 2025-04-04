@@ -392,16 +392,16 @@ function shareToEmail(el){
                     
                     
                 },
-                statusCode: {
-                    400: function(jqXHR) {
-                        if(jqXHR.responseText != ""){
-                            errorMessage(jqXHR.responseText);
-                        }else {
-                            
-                        }
-                        
-                    }
-                }
+                // statusCode: {
+                //     400: function(jqXHR) {
+                //         if(jqXHR.responseText != ""){
+                //             errorMessage(jqXHR.responseText);
+                //         }else {
+                //
+                //         }
+                //
+                //     }
+                // }
             });
     //}
 

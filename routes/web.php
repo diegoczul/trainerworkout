@@ -39,6 +39,7 @@ use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Stripe\SetupIntent;
 
 
 /*

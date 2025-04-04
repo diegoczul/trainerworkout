@@ -26,6 +26,7 @@ use App\Models\MembershipsUsers;
 use App\Models\OrderItems;
 use Stripe\Customer;
 use Stripe\PaymentMethod;
+use Stripe\SetupIntent;
 use Stripe\Stripe;
 use Stripe\Subscription;
 
@@ -57,9 +58,9 @@ class OrdersController extends BaseController
 
         if (count(Session::get("cart")["items"]) == 0) {
             if (Auth::user()->userType == "Trainer") {
-                return redirect()->route('Trainer', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(__("messages.CartEmpty"));
+                return redirect()->route('Trainer', ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(__("messages.CartEmpty"));
             } else {
-                return redirect()->route('Trainee', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(__("messages.CartEmpty"));
+                return redirect()->route('Trainee', ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(__("messages.CartEmpty"));
             }
         }
 
@@ -243,6 +244,11 @@ class OrdersController extends BaseController
                     // Attach payment method to customer
                     $paymentMethod = PaymentMethod::retrieve($token);
                     $paymentMethod->attach(['customer' => $customer->id]);
+
+                    //  Set as the default payment method
+                    Customer::update($customer->id, [
+                        'invoice_settings' => ['default_payment_method' => $token]
+                    ]);
 
                     // Retrieve updated customer to get default payment method details
                     $customer = Customer::retrieve($customer->id);
@@ -482,7 +488,7 @@ class OrdersController extends BaseController
                 ->with("user", $user)
                 ->with("order", $order);
         } else {
-            return Redirect::route(Auth::user()->userType, ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
+            return Redirect::route(Auth::user()->userType, ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
                 ->withErrors(Lang::get("messages.NotFound"));
         }
     }
@@ -616,7 +622,7 @@ class OrdersController extends BaseController
                 $cart["total"] += $workout->price;
                 Session::put("cart", $cart);
                 Session::save();
-                return Redirect::route("StoreCheckout");
+                return Redirect::route("StoreCheckout")->with('cart',$cart);
             } else {
                 return Redirect::route("cartUpgradePlan")->withErrors(Lang::get("messages.NotFound"));
             }

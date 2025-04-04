@@ -482,9 +482,7 @@ if (Auth::check()) {
 @endsection
 
 @section("scripts")
-    @if($cart["total"] != 0)
-        {{ HTML::script('https://js.stripe.com/v3/'); }}
-    @endif
+    {{ HTML::script('https://js.stripe.com/v3/'); }}
     <script type="text/javascript">
 
         function switchToNewCreditCard() {
