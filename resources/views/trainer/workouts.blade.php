@@ -290,28 +290,38 @@
             showLess();
         }
 
-
+        let isErased = false;
         function searchWorkouts(value) {
-// Show loader
-            showTopLoader();
-            typewatchGlobal(function () {
-                var preload;
-                $("#search_loader").show();
-                $.ajax({
-                    'async': true,
-                    'url': '{{ Lang::get("routes./Workouts/Search") }}',
-                    'type': 'post',
-                    'data': {
-                        search: $("#searchWorkouts").val(),
-                        archive: archive,
-                    },
-                    'success': function (data) {
-                        $("#w_workouts").html(data);
-                        $("#search_loader").hide();
-                        hideTopLoader();
-                    }
-                });
-            }, 300);
+            if(value != ""){
+                isErased = false;
+            }
+            if(!isErased){
+                // Show loader
+                showTopLoader();
+                typewatchGlobal(function () {
+                    var preload;
+                    $("#search_loader").show();
+                    $.ajax({
+                        'async': true,
+                        'url': '{{ Lang::get("routes./Workouts/Search") }}',
+                        'type': 'post',
+                        'data': {
+                            search: $("#searchWorkouts").val(),
+                            archive: archive,
+                        },
+                        'success': function (data) {
+                            $("#w_workouts").html(data);
+                            $("#search_loader").hide();
+                            hideTopLoader();
+                        }
+                    });
+                }, 300);
+            }
+            if(value == ""){
+                isErased = true;
+            }else{
+                isErased = false;
+            }
         }
 
 
