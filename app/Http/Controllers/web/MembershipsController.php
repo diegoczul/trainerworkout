@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use App\Models\Memberships;
 use App\Models\MembershipsUsers;
@@ -17,6 +18,7 @@ class MembershipsController extends BaseController
 {
     public function indexMembershipManagement()
     {
+        Session::forget('cart');
         if (!Auth::user()->membership) {
             Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
         }

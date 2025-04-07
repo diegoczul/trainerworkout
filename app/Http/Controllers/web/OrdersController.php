@@ -557,6 +557,7 @@ class OrdersController extends BaseController
 
     public function upgradePlan()
     {
+        Session::forget('cart');
         $user = Auth::user();
         return View::make("Store.upgradePlan")
             ->with("user", $user)
