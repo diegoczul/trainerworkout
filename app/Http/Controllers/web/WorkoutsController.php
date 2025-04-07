@@ -1637,45 +1637,44 @@ class WorkoutsController extends BaseController {
 		// }
 
 		$workout = Workouts::find($workoutId);
-		$tags = array();
+        if($workout->canThisWorkoutBeShared(Auth::user())){
+            $tags = array();
+
+            if($workout){
+                if(date($workout->created_at) <= date('2016-09-04') and $workout->status == "Released"){
+                    $controller = new SystemController();
+                    $controller->migrateWorkouts($workout->id);
+                } else if($workout->exerciseGroupRest == "" or $workout->exerciseGroupsRest == "[]"){
+                    Log::error("ExerciseGroupRest is Emtpy, recreating");
+                    $controller = new SystemController();
+                    $controller->migrateWorkouts($workout->id);
+                }
+                $permissions = Helper::checkPremissions(Auth::user()->id,$workout->userId);
+                if(!$permissions["edit"]){
+                    //redirect()->route("trainerWorkouts")->withError(__("messages.permissions"));
+                }
+            } else {
+                redirect()->route("trainerWorkouts")->withError(__("messages.permissions"));
+            }
 
 
+            $tags = Tags::where("userId",Auth::user()->id)->get();
 
+            Event::dispatch('editAWorkout', array(Auth::user(),$workout->name));
 
-		if($workout){
-		if(date($workout->created_at) <= date('2016-09-04') and $workout->status == "Released"){
-			$controller = new SystemController();
-			$controller->migrateWorkouts($workout->id);
-		} else if($workout->exerciseGroupRest == "" or $workout->exerciseGroupsRest == "[]"){
-			Log::error("ExerciseGroupRest is Emtpy, recreating");
-			$controller = new SystemController();
-			$controller->migrateWorkouts($workout->id);
-		}
-		$permissions = Helper::checkPremissions(Auth::user()->id,$workout->userId);
-		if(!$permissions["edit"]){
-            //redirect()->route("trainerWorkouts")->withError(__("messages.permissions"));
+            return view("trainer.createWorkout")
+                ->with("workout",$workout)
+                ->with("client",$client)
+                ->with("tags",$tags)
+                ->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
+                ->with("bodygroupslist",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->pluck("name","id"))
+                ->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
+                ->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
+                ->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
+                ->with("total",Workouts::where("userId","=",$userId)->count());
+        }else{
+            return redirect()->route('trainerWorkouts')->with('error',__("messages.WorkoutCannotBeShared"));
         }
-    	} else {
-    		redirect()->route("trainerWorkouts")->withError(__("messages.permissions"));
-    	}
-
-
-		$tags = Tags::where("userId",Auth::user()->id)->get();
-
-		Event::dispatch('editAWorkout', array(Auth::user(),$workout->name));
-
-		return view("trainer.createWorkout")
-			->with("workout",$workout)
-			->with("client",$client)
-			->with("tags",$tags)
-			->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
-			->with("bodygroupslist",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->pluck("name","id"))
-			->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
-			->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
-			->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
-			->with("total",Workouts::where("userId","=",$userId)->count());
-
-
 	}
 
 	public function assignWorkoutToClientEdit($client="",$workoutId){
