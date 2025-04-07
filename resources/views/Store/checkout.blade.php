@@ -432,7 +432,7 @@ if (Auth::check()) {
                 </div>
                 <div class="PayCompleteButton">
                     <fieldset>
-                        <button type="submit" id="payform_submit" class="send"><label id="payform_submit_lbl">{{ Lang::get("content.CompleteSubscription") }}</label></button>
+                        <button type="submit" id="payform_submit" class="send"><span id="payform_submit_lbl">{{ Lang::get("content.CompleteSubscription") }}</span></button>
                     </fieldset>
                 </div>
             </div>
@@ -516,24 +516,7 @@ if (Auth::check()) {
                                        $('#submit-button').prop('disabled', false);
                                    } else {
                                        if (result.paymentIntent.status === 'succeeded') {
-                                           $.ajax({
-                                               url: "{{route('complete-subscription-payment')}}",
-                                               method: 'POST',
-                                               dataType: "json",
-                                               data: {
-                                                   '_token': '{{csrf_token()}}',
-                                                   'subscription_id': data.data.subscription_id,
-                                                   'payment_intent_id': data.data.payment_intent_id,
-                                               },
-                                               success: function (data) {
-                                                   window.location.href = "{{route('subscription-success')}}";
-                                               },
-                                               error: function (data) {
-                                                   hideLoadWithElement(preLoad);
-                                                   $("#payform_submit").attr('disabled', false);
-                                                   errorMessage(data.responseJSON.message);
-                                               }
-                                           });
+                                           window.location.href = "{{route('subscription-success')}}";
                                        }
                                    }
                                });

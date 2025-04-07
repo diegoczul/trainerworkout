@@ -26,6 +26,7 @@ use App\Models\Memberships;
 use App\Models\MembershipsUsers;
 use App\Models\OrderItems;
 use Stripe\Customer;
+use Stripe\Invoice;
 use Stripe\PaymentMethod;
 use Stripe\SetupIntent;
 use Stripe\Stripe;
@@ -266,11 +267,10 @@ class OrdersController extends BaseController
             $user->typeOfCreditCard = $paymentMethods->card->brand ?? "";
             $user->save();
 
-
             $subId = "";
             $customer = Customer::retrieve($user->stripeCheckoutToken);
             $subscriptions = Subscription::all(["customer" => $customer->id, "status" => "active"]);
-            if ($subscriptions->data === [] || $subscriptions->total_count == 0) {
+            if ($subscriptions->data === []) {
                 $subscription = Subscription::create([
                     "customer" => $customer->id,
                     "items" => [
@@ -281,19 +281,21 @@ class OrdersController extends BaseController
                     'expand' => ['latest_invoice.payment_intent'],
                 ]);
             } else {
-                $subscription = Subscription::retrieve($subscriptions->data[0]->id);
-                $subscription->items = [
-                    [
-                        "id" => $subscription->items->data[0]->id,
-                        "items" => [
-                            ["price" => $membership]
-                        ],
-                        'default_payment_method' => $paymentMethodId,
-                        'payment_behavior' => 'default_incomplete',
-                        'expand' => ['latest_invoice.payment_intent'],
-                    ]
-                ];
-                $subscription->save();
+                $activeSubscription = $subscriptions->data[0];
+                $currentItemId = $activeSubscription->items->data[0]->id;
+
+                $subscription = Subscription::update($activeSubscription->id, [
+                    'cancel_at_period_end' => false,
+                    'proration_behavior' => 'create_prorations',
+                    'items' => [
+                        [
+                            'id' => $currentItemId,
+                            'price' => $membership,
+                        ]
+                    ],
+                    'default_payment_method' => $paymentMethodId,
+                    'expand' => ['latest_invoice.payment_intent'],
+                ]);
             }
 
             return [
@@ -718,7 +720,32 @@ class OrdersController extends BaseController
             $mem = Memberships::find($membership);
             $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $request, $order, $debug);
 
+
             if ($result['status'] == true) {
+                // Update Membership
+                $subscriptionId = $result['data']['subscription_id'];
+                $paymentIntentId = $result['data']['payment_intent_id'];
+                MembershipsUsers::where("userId", $user->id)->delete();
+                OrderItems::where("orderId", $cart["orderId"])
+                    ->where("itemType", "Membership")
+                    ->update(["paid" => now(), "subscriptionStripeKey" => $subscriptionId]);
+
+                // Payment Status
+                foreach ($cart["items"] as $item) {
+                    $orderItem = OrderItems::find($item["orderItemId"]);
+                    $itemPurchased = Memberships::find($item["id"]);
+                    $membership = new MembershipsUsers();
+                    $membership->userId = Auth::user()->id;
+                    $membership->membershipId = $itemPurchased->id;
+                    $membership->registrationDate = now();
+                    $membership->expiry = $itemPurchased->durationType == "monthly" ? now()->addMonth() : now()->addYear();
+                    $membership->subscriptionStripeKey = $orderItem->subscriptionStripeKey;
+                    $membership->payment_intent_id = $paymentIntentId;
+                    $membership->paid = now();
+                    $membership->orderItemId = $orderItem->id;
+                    $membership->save();
+                }
+
                 return $this::sendResponse('subscription',$result['data']);
             }else{
                 return $this::sendError($result['message']);
@@ -777,7 +804,47 @@ class OrdersController extends BaseController
 
     public function webhook(Request $request)
     {
-        Log::info('STRIPE WEBHOOK',$request->all());
+        try {
+            // HANDLES PAYMENT SUCCESS
+            $data = $request->get('data');
+            if ($request->get('type') == 'payment_intent.succeeded'){
+                $payment_intent = $data['object']['id'];
+                // UPDATING MEMBERSHIP USERS
+                $membership_users = MembershipsUsers::where('payment_intent_id', $payment_intent)->first();
+                $membership_users->paid = now();
+                $membership_users->save();
+
+                // UPDATING ORDER DETAILS
+                $orderItem = OrderItems::select('orderId')->where('subscriptionStripeKey',$membership_users->subscriptionStripeKey)->first();
+                Orders::where('id', $orderItem->orderId)->update(['status' => 'Paid', 'paidDate' => now()]);
+            }
+
+            if ($request->get('type') == 'payment_intent.payment_failed'){
+                $payment_intent = $data['object']['id'];
+                // UPDATING MEMBERSHIP USERS
+                $membership_users = MembershipsUsers::where('payment_intent_id', $payment_intent)->first();
+                $membership_users->paid = null;
+                $membership_users->save();
+
+                // UPDATING ORDER DETAILS
+                $orderItem = OrderItems::select('orderId')->where('subscriptionStripeKey',$membership_users->subscriptionStripeKey)->first();
+                Orders::where('id', $orderItem->orderId)->update(['status' => 'Failed']);
+            }
+
+            if ($request->get('type') == 'customer.subscription.updated'){
+                $subscriptionId = $data['object']['id']??"";
+                // UPDATING MEMBERSHIP USERS
+                $membership_users = MembershipsUsers::where(['subscriptionStripeKey' => $subscriptionId])->latest()->first();
+                $membership_users->paid = now();
+                $membership_users->save();
+
+                // UPDATING ORDER DETAILS
+                $orderItem = OrderItems::select('orderId')->where('subscriptionStripeKey',$membership_users->subscriptionStripeKey)->latest()->first();
+                Orders::where('id', $orderItem->orderId)->update(['status' => 'Paid', 'paidDate' => now()]);
+            }
+        }catch (\Exception $exception){
+            Log::driver('webhook_exceptions_log')->error($exception->getMessage());
+        }
     }
 
 }

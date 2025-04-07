@@ -141,6 +141,14 @@ return [
             'level' => env('LOG_LEVEL', 'error'),
             'days' => 7,
             'replace_placeholders' => true,
+        ],
+
+        'webhook_exceptions_log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/webhook_exceptions/laravel.log'),
+            'level' => env('LOG_LEVEL', 'error'),
+            'days' => 7,
+            'replace_placeholders' => true,
         ]
     ],
 
