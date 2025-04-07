@@ -31,6 +31,8 @@ return array(
     "STRIPEsecret_key"      => "***REMOVED***",
   	"STRIPETestpublishable_key" => "pk_test_51QkHq3RrMsQ7lFickqRTum0yz0lcQADjzvxv13KszdUxQ2lFHVBVh9QvqkmvBivY3WlkDlBG7HNmqCLDXv2k1Rcb00gCRN4QCr",
   	"STRIPETestsecret_key"      => "***REMOVED***",
+//	"STRIPETestpublishable_key" => "pk_test_51MoIjsSInN8IX2eBKXNpY3NkmBbeBWAMdermHzSmNfeMTrWcgoDszF45nmWDa90rpWIPg2TYzy0Zvtk2sb3lXsK700fIKHzWrn",
+//	"STRIPETestsecret_key"      => "sk_test_51MoIjsSInN8IX2eBrDgFvlYgJ3KNAE5GierIYNUiB6veabWci3bwfrFLrcGQjyycDHKJgki1inXTlsVVP6a2PLPI00fMhf3yeE",
     "mixPanelKey" => "ac325f08772f60d01b6478c33c2c47db",
     "onboardingClient" => "24",
     "onboardingUser" => "15",

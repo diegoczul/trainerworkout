@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -224,7 +225,7 @@ class OrdersController extends BaseController
         }
     }
 
-    public function stripeAPIMembershipCheckout($membership, $request, $order = "", $debug = false)
+    public function stripeAPIMembershipCheckout($membership,Request $request, $order = "", $debug = false)
     {
         $user = Auth::user();
         $cart = Session::get("cart");
@@ -233,68 +234,90 @@ class OrdersController extends BaseController
 
         try {
             $token = $request->get('stripeToken');
-            if (empty($request->get("oldCustomer"))) {
+            if (!$request->filled("oldCustomer")) {
                 if ($user->stripeCheckoutToken == "") {
                     // Create a Stripe customer
                     $customer = Customer::create([
                         "description" => $user->email,
                         "email" => $user->email
                     ]);
-
-                    // Attach payment method to customer
-                    $paymentMethod = PaymentMethod::retrieve($token);
-                    $paymentMethod->attach(['customer' => $customer->id]);
-
-                    //  Set as the default payment method
-                    Customer::update($customer->id, [
-                        'invoice_settings' => ['default_payment_method' => $token]
-                    ]);
-
-                    // Retrieve updated customer to get default payment method details
-                    $customer = Customer::retrieve($customer->id);
-                    $paymentMethods = $customer->invoice_settings->default_payment_method ? PaymentMethod::retrieve($customer->invoice_settings->default_payment_method) : null;
-
-                    // Save details to user
-                    $user->stripeCheckoutToken = $customer->id;
-                    $user->fourLastDigits = $paymentMethods->card->last4 ?? "";
-                    $user->typeOfCreditCard = $paymentMethods->card->brand ?? "";
-                    $user->save();
                 }
+            }else{
+                $customer = Customer::retrieve($user->stripeCheckoutToken);
             }
+
+            // Attach payment method to customer
+            $paymentMethod = PaymentMethod::retrieve($token);
+            $paymentMethodId = $paymentMethod->id;
+            $paymentMethod->attach(['customer' => $customer->id]);
+
+            //  Set as the default payment method
+            Customer::update($customer->id, [
+                'invoice_settings' => ['default_payment_method' => $token]
+            ]);
+
+            // Retrieve updated customer to get default payment method details
+            $customer = Customer::retrieve($customer->id);
+            $paymentMethods = $customer->invoice_settings->default_payment_method ? PaymentMethod::retrieve($customer->invoice_settings->default_payment_method) : null;
+
+            // Save details to user
+            $user->stripeCheckoutToken = $customer->id;
+            $user->fourLastDigits = $paymentMethods->card->last4 ?? "";
+            $user->typeOfCreditCard = $paymentMethods->card->brand ?? "";
+            $user->save();
+
 
             $subId = "";
             $customer = Customer::retrieve($user->stripeCheckoutToken);
-            // Get existing subscriptions
             $subscriptions = Subscription::all(["customer" => $customer->id, "status" => "active"]);
-            // If no active subscriptions, create a new one
             if ($subscriptions->data === [] || $subscriptions->total_count == 0) {
                 $subscription = Subscription::create([
                     "customer" => $customer->id,
                     "items" => [
-                        ["plan" => $membership] // Use Plan ID
+                        ["price" => $membership]
                     ],
+                    'default_payment_method' => $paymentMethodId,
+                    'payment_behavior' => 'default_incomplete',
+                    'expand' => ['latest_invoice.payment_intent'],
                 ]);
             } else {
-                // Retrieve the first active subscription
                 $subscription = Subscription::retrieve($subscriptions->data[0]->id);
-
-                // Update subscription with new plan
                 $subscription->items = [
-                    ["id" => $subscription->items->data[0]->id, "plan" => $membership]
+                    [
+                        "id" => $subscription->items->data[0]->id,
+                        "items" => [
+                            ["price" => $membership]
+                        ],
+                        'default_payment_method' => $paymentMethodId,
+                        'payment_behavior' => 'default_incomplete',
+                        'expand' => ['latest_invoice.payment_intent'],
+                    ]
                 ];
                 $subscription->save();
             }
 
-            // Get the subscription ID
-            $subId = $subscription->id;
+            return [
+                'status' => true,
+                'data' => [
+                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret,
+                    'subscription_id' => $subscription->id,
+                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
+                ]
+            ];
 
-            MembershipsUsers::where("userId", $user->id)->delete();
-
-            OrderItems::where("orderId", $cart["orderId"])
-                ->where("itemType", "Membership")
-                ->update(["paid" => now(), "subscriptionStripeKey" => $subId]);
+//            // Get the subscription ID
+//            $subId = $subscription->id;
+//
+//            MembershipsUsers::where("userId", $user->id)->delete();
+//
+//            OrderItems::where("orderId", $cart["orderId"])
+//                ->where("itemType", "Membership")
+//                ->update(["paid" => now(), "subscriptionStripeKey" => $subId]);
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return [
+                'status' => false,
+                'message' => $e->getMessage()
+            ];
         }
     }
 
@@ -413,7 +436,7 @@ class OrdersController extends BaseController
 
             if ($membershipPurchase > 0) {
                 $mem = Memberships::find($membership);
-                $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $request, $order, $debug, );
+                $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $request, $order, $debug);
                 if ($result == "") $approvedMembership = true;
                 if ($result != "") return Redirect::back()->withErrors($result);
             } else {
@@ -629,34 +652,132 @@ class OrdersController extends BaseController
         }
     }
 
-	public function create()
-	{
-		//
-	}
 
-	public function store()
-	{
-		//
-	}
+    public function processSubscriptionPayment(Request $request)
+    {
+        $user = Auth::user();
+        if (Session::has("cart")) {
+            $cart = Session::get("cart");
 
-	public function show($id)
-	{
-		//
-	}
+            if (!array_key_exists("orderId", $cart)) $cart["orderId"] = 0;
 
-	public function edit($id)
-	{
-		//
-	}
+            if(isset($cart["orderId"]) && !empty($cart["orderId"])){
+                $order = Orders::find($cart["orderId"]);
+                if(!$order){
+                    $order = new Orders();
+                }
+            }else{
+                $order = new Orders();
+            }
 
-	public function update($id)
-	{
-		//
-	}
+            $order->userId = $user->id;
+            $order->total = $cart["total"];
+            $order->subtotal = $cart["subtotal"];
+            $order->street = $request->get("street");
+            $order->city = $request->get("city");
+            $order->province = $request->get("province");
+            $order->country = $request->get("country");
+            $order->postalcode = $request->get("postalcode");
+            $order->orderDate = now();
+            $order->paidBy = "Paypal";
+            $order->status = "Unpaid";
+            $order->currency = "USD";
+            $order->save();
 
-	public function destroy($id)
-	{
-		//
-	}
+            $cart["orderId"] = $order->id;
+            Session::put("cart", $cart);
+
+
+            $membershipPurchase = 0;
+            $membership = "";
+            foreach ($cart["items"] as $x => $item) {
+                if (isset($item["orderItemId"]) && !empty($item["orderItemId"]) && OrderItems::find($item["orderItemId"])){
+                    $orderItem = OrderItems::find($item["orderItemId"]);
+                }else{
+                    $orderItem = new OrderItems();
+                }
+
+                $itemPurchased = Memberships::find($item["id"]);
+                $orderItem->itemType = "Membership";
+                $membershipPurchase += $itemPurchased->price;
+                $membership = $itemPurchased->id;
+
+                $orderItem->orderId = $order->id;
+                $orderItem->itemId = $item["id"];
+                $orderItem->paid = now();
+                $orderItem->quantity = 1;
+                $orderItem->price = $itemPurchased->price;
+                $orderItem->save();
+
+                $item["orderItemId"] = $orderItem->id;
+                $cart["items"][$x] = $item;
+            }
+            Session::put("cart", $cart);
+
+            $debug = Config::get('app.debug');
+            $mem = Memberships::find($membership);
+            $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $request, $order, $debug);
+
+            if ($result['status'] == true) {
+                return $this::sendResponse('subscription',$result['data']);
+            }else{
+                return $this::sendError($result['message']);
+            }
+        } else {
+            return $this::sendError(Lang::get("messages.NotFound"));
+        }
+    }
+
+    public function completeSubscriptionPayment(Request $request)
+    {
+        $user = Auth::user();
+        $cart = Session::get("cart");
+        $subscriptionId = $request->get('subscription_id');
+        $paymentIntentId = $request->get('payment_intent_id');
+
+        // Update Membership
+        MembershipsUsers::where("userId", $user->id)->delete();
+        OrderItems::where("orderId", $cart["orderId"])
+            ->where("itemType", "Membership")
+            ->update(["paid" => now(), "subscriptionStripeKey" => $subscriptionId]);
+
+        // Payment Status
+        foreach ($cart["items"] as $item) {
+            $orderItem = OrderItems::find($item["orderItemId"]);
+            $itemPurchased = Memberships::find($item["id"]);
+            $membership = new MembershipsUsers();
+            $membership->userId = Auth::user()->id;
+            $membership->membershipId = $itemPurchased->id;
+            $membership->registrationDate = now();
+            $membership->expiry = $itemPurchased->durationType == "monthly" ? now()->addMonth() : now()->addYear();
+            $membership->subscriptionStripeKey = $orderItem->subscriptionStripeKey;
+            $membership->payment_intent_id = $paymentIntentId;
+            $membership->paid = now();
+            $membership->orderItemId = $orderItem->id;
+            $membership->save();
+        }
+        return $this::sendSuccess("Subscription Complete");
+    }
+
+    public function successSubscription()
+    {
+        $user = Auth::user();
+        if (Session::has("cart")) {
+            $cart = Session::get("cart");
+            $order = Orders::where('id', $cart["orderId"])->first();
+            Session::forget('cart');
+            return View::make("Store.thankYou")
+                ->with("message", Lang::get("messages.CheckoutComplete"))
+                ->with("user", $user)
+                ->with("order", $order);
+        }else{
+            return Redirect::route(Auth::user()->userType, ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(Lang::get("messages.NotFound"));
+        }
+    }
+
+    public function webhook(Request $request)
+    {
+        Log::info('STRIPE WEBHOOK',$request->all());
+    }
 
 }

@@ -618,7 +618,15 @@ Route::controller(OrdersController::class)->group(function () {
     Route::get(__('routes./Store/Checkout'), 'checkout')->name('StoreCheckout');
     Route::post(__('routes./Store/ProcessPayment'), 'processPayment')->name('checkout');
     Route::get(__('routes./Store/CreateAccount'), 'createAccount')->name('StoreCreateAccount');
+
+    // STRIPE WEBHOOK
+    Route::post('webhook/stripe', 'webhook')->name('webhook.stripe');
+    Route::post('process-subscription-payment', 'processSubscriptionPayment')->name('process-subscription-payment');
+    Route::post('complete-subscription-payment', 'completeSubscriptionPayment')->name('complete-subscription-payment');
+    Route::get('success/subscription', 'successSubscription')->name('subscription-success');
 });
+
+
 
 //|--------------------------------------------------------------------------
 //| LANGUAGES

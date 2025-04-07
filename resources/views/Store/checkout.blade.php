@@ -57,7 +57,10 @@ if (Auth::check()) {
                         </div>
 
                         <div class="payInfoContainer" id="payRightContainer">
-                            <form action="/Store/ProcessPayment/" method="post" enctype="multipart/form-data" name="payform" id="payform" class="formholder clearfix">
+                            <form enctype="multipart/form-data" name="payform" id="payform" class="formholder clearfix">
+                                @if(!empty(auth()->user()->stripeCheckoutToken))
+                                    <input type="hidden" name="oldCustomer" value="{{ auth()->user()->stripeCheckoutToken }}">
+                                @endif
                                 <!-- <div class="payFormFull"> -->
                                 <fieldset class="payForm payFormFull">
                                     <label for="biStreet">{{ Lang::get("content.street") }}</label>
@@ -423,50 +426,16 @@ if (Auth::check()) {
                         </div>
                     </div>
                     <div class="payBlock payCredit">
-                        <div class="payHeader">
-                            <h2>{{ Lang::get("content.CreditCardinformation") }}</h2>
-                        </div>
-                        <div class="payInfoContainer" id="payInfoContainer">
-                            <fieldset class="payForm payFormFull">
-                                <label for="ccName">{{ Lang::get("content.cardholdersname") }}</label>
-                                <input id="ccName" data-stripe="name" type="text" class="payFormInput validate[required]">
-                                <input type="hidden" name="paymentcctype" id="ccType" value=""/>
-                            </fieldset>
-                            <div class="payForm payFormFull">
-                                <fieldset class="payFormThreeForth">
-                                    <label for="ccNumber">{{ Lang::get("content.cardcardNumber") }}</label>
-                                    <input id="ccNumber" data-stripe="number" placeholder="4000000000000077" type="text" class="payFormInput">
-                                </fieldset>
-                                <fieldset class="payForm payFormOneForth payFormRight">
-                                    <label for="ccCvc">CVC</label>
-                                    <input data-stripe="cvc" id="ccCvc" type="text" class="payFormInput" placeholder="123">
-                                </fieldset>
-                            </div>
-                            <div class="payForm payFormFull">
-                                <fieldset class="clearfix expdate">
-                                    <label style="cursor: default">{{ Lang::get("content.expirationdate") }}</label>
-                                    <div class="expInput" id="expInputMonth">
-                                        <label for="ccMonth">{{ Lang::get("content.month") }}</label>
-                                        <input data-stripe="exp-month" id="ccMonth" type="text" class="payFormInput" style="width:20px" placeholder="12">
-                                    </div>
-
-                                    <div class="expInput payFormRight" id="expInputYear">
-                                        <label for="ccYear">{{ Lang::get("content.year") }}</label>
-                                        <input id="ccYear" data-stripe="exp-year" type="text" class="payFormInput" style="width:35px" placeholder="2018">
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
+                        <div class="payHeader"><h2>{{ Lang::get("content.CreditCardinformation") }}</h2></div>
+                        <div class="payInfoContainer" id="payInfoContainer"></div>
                     </div>
                 </div>
                 <div class="PayCompleteButton">
                     <fieldset>
-                        <input name="payform_submit" id="payform_submit" type="submit" value="{{ Lang::get("content.CompleteSubscription") }}">
+                        <button type="submit" id="payform_submit" class="send"><label id="payform_submit_lbl">{{ Lang::get("content.CompleteSubscription") }}</label></button>
                     </fieldset>
                 </div>
             </div>
-
-
         </div>
 
         <div class="holder">
@@ -509,47 +478,77 @@ if (Auth::check()) {
         jQuery(function ($) {
             $('#payment-form').submit(function (event) {
                 event.preventDefault();
-                var $form = $(this);
-
-                console.log($form);
-                    Stripe.createPaymentMethod({
-                        type: 'card',
-                        card: card,
-                        billing_details: {
-                            name: '{{auth()->user()->firstName??"N/A"}} {{auth()->user()->lastName??"N/A"}}',
-                        },
-                    })
-                    .then(function(result) {
-                        stripeResponseHandler(true,result)
-                        // Handle result.error or result.paymentMethod
-                    });
-                // // Disable the submit button to prevent repeated clicks
-                // $form.find('button').prop('disabled', true);
-                //
-                // Stripe.card.createToken($form, stripeResponseHandler);
-
-                // Prevent the form from submitting with the default action
+                Stripe.createPaymentMethod({
+                    type: 'card',
+                    card: card,
+                    billing_details: {
+                        name: '{{auth()->user()->firstName??"N/A"}} {{auth()->user()->lastName??"N/A"}}',
+                    },
+                }).then(function(response) {
+                    var $form = $('#payment-form');
+                    if (response.error) {
+                        // Show the errors on the form
+                        $form.find('.payment-errors').text(response.error.message);
+                        $form.find('button').prop('disabled', false);
+                        errorMessage(response.error.message);
+                    } else {
+                        var token = response.paymentMethod.id;
+                        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+                        var formData = new FormData($form[0]);
+                        let preLoad;
+                        var el = $("#payform_submit_lbl");
+                       $.ajax({
+                            url: "{{route('process-subscription-payment')}}",
+                            method: 'POST',
+                            dataType: "json",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                           beforeSend: function () {
+                               preLoad = showLoadWithElement(el, 40, 'center');
+                               $("#payform_submit").attr('disabled', true);
+                           },
+                           success: function (data) {
+                               Stripe.confirmCardPayment(data.data.clientSecret).then(function(result) {
+                                   if (result.error) {
+                                       errorMessage(response.error.message);
+                                       $('#submit-button').prop('disabled', false);
+                                   } else {
+                                       if (result.paymentIntent.status === 'succeeded') {
+                                           $.ajax({
+                                               url: "{{route('complete-subscription-payment')}}",
+                                               method: 'POST',
+                                               dataType: "json",
+                                               data: {
+                                                   '_token': '{{csrf_token()}}',
+                                                   'subscription_id': data.data.subscription_id,
+                                                   'payment_intent_id': data.data.payment_intent_id,
+                                               },
+                                               success: function (data) {
+                                                   window.location.href = "{{route('subscription-success')}}";
+                                               },
+                                               error: function (data) {
+                                                   hideLoadWithElement(preLoad);
+                                                   $("#payform_submit").attr('disabled', false);
+                                                   errorMessage(data.responseJSON.message);
+                                               }
+                                           });
+                                       }
+                                   }
+                               });
+                           },
+                           error: function (data) {
+                               hideLoadWithElement(preLoad);
+                               $("#payform_submit").attr('disabled', false);
+                               errorMessage(data.responseJSON.message);
+                           }
+                       });
+                    }
+                });
                 return false;
             });
         });
-
-        function stripeResponseHandler(status, response) {
-            var $form = $('#payment-form');
-
-            if (response.error) {
-                // Show the errors on the form
-                $form.find('.payment-errors').text(response.error.message);
-                $form.find('button').prop('disabled', false);
-                errorMessage(response.error.message);
-            } else {
-                // response contains id and card, which contains additional card details
-                var token = response.paymentMethod.id;
-                // Insert the token into the form so it gets submitted to the server
-                $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-                // and submit
-                $form.get(0).submit();
-            }
-        };
 
         $(function () {
             // var states = $("#stateSelect").html();
