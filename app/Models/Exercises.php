@@ -373,9 +373,9 @@ class Exercises extends Model implements TranslatableContract
         // ✅ Bodygroup filter on both: exercises.bodygroupId and exercises_bodygroups.bodygroupId
         if (!empty($parsedFilters['bodygroups'])) {
             $query->where(function ($q) use ($parsedFilters) {
-                $q->whereIn('bodygroupId', $parsedFilters['bodygroups']) // primary
-                    ->orWhereIn('id', function ($sub) use ($parsedFilters) {
-                        $sub->select('exerciseId')
+                $q->whereIn('exercises.bodygroupId', $parsedFilters['bodygroups']) // primary
+                    ->orWhereIn('exercises.id', function ($sub) use ($parsedFilters) {
+                        $sub->select('exercises_bodygroups.exerciseId')
                             ->from('exercises_bodygroups')
                             ->whereNull('deleted_at')
                             ->whereIn('bodygroupId', $parsedFilters['bodygroups']);
@@ -390,8 +390,8 @@ class Exercises extends Model implements TranslatableContract
 
         // Equipment filter (many-to-many)
         if (!empty($parsedFilters['equipments'])) {
-            $query->whereIn('id', function ($sub) use ($parsedFilters) {
-                $sub->select('exerciseId')
+            $query->whereIn('exercises.id', function ($sub) use ($parsedFilters) {
+                $sub->select('exercises_equipments.exerciseId')
                     ->from('exercises_equipments')
                     ->whereNull('deleted_at')
                     ->whereIn('equipmentId', $parsedFilters['equipments']);
