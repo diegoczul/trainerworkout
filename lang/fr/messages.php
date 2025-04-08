@@ -57,6 +57,7 @@ return array(
         "EmailNotValid"                 => "Courriel invalide",
         "NoData"                        => "Votre ami n'a pas ajouté de dossiers",
         "WorkoutCannotBeShared"         => "Nous sommes désolés, vous ne pouvez pas partager un entraînement qui ne vous appartient pas",
+        "WorkoutCannotBeEdited"         => "Nous sommes désolés, vous ne pouvez pas modifier un entraînement qui ne vous appartient pas",
         "WorkoutShared"                 => "Votre programme a été partagé",
         "SharedWorkoutAdded"            => "Ce programme a été ajouté à votre liste de programmes d'entraînement",
         "WorkoutCompleted"              => "Votre programme a été complété",

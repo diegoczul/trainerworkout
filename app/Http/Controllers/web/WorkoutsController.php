@@ -1673,7 +1673,7 @@ class WorkoutsController extends BaseController {
                 ->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
                 ->with("total",Workouts::where("userId","=",$userId)->count());
         }else{
-            return redirect()->route('trainerWorkouts')->with('error',__("messages.WorkoutCannotBeShared"));
+            return redirect()->route('trainerWorkouts')->with('error',__("messages.WorkoutCannotBeEdited"));
         }
 	}
 

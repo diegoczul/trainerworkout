@@ -57,6 +57,7 @@ return array(
         "EmailNotValid"                 => "The email you have introduced is not valid",
         "NoData"                        => "Your friend has not added records yet",
         "WorkoutCannotBeShared"         => "We are sorry, you can't share a workout that is not yours",
+        "WorkoutCannotBeEdited"         => "We are sorry, you can't edit a workout that is not yours",
         "WorkoutShared"                 => "Your workout has been shared",
         "SharedWorkoutAdded"            => "The shared workout was added to your list of workouts",
         "WorkoutCompleted"              => "Your workout is completed, new set are now ready for your next workout",
