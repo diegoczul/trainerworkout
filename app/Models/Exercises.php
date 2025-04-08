@@ -345,9 +345,10 @@ class Exercises extends Model implements TranslatableContract
 
         // Fulltext search
         if (!empty($search)) {
-            $query->whereHas('translations', function ($q) use ($search,$lang) {
-                $q->whereRaw("MATCH(name, nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search])->where(['deleted_at' => NULL, 'locale' => $lang]);
-            });
+            $query->join('exercises_translations', 'exercises.id', '=', 'exercises_translations.exercises_id')
+                ->whereNull('exercises.deleted_at')
+                ->where('exercises_translations.locale', $lang)
+                ->whereRaw("MATCH(exercises_translations.name, exercises_translations.nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search]);
         }
 
         // Parse filters
