@@ -80,6 +80,7 @@ class SocialOAuthController extends Controller
                 if (!Config::get('app.debug')) {
 //                    Newsletter::subscribe($user->email,[],'trainer');
 //                    MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
+                    Helper::addToNewsletter(config('constants.sendgridTrainer'),$request->get("email"));
                 }
             } catch (Exception $e) {
                 Log::error("MAILCHIMP Error");

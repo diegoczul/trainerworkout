@@ -11,11 +11,14 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
 use Ramsey\Uuid\Uuid;
+use SendGrid;
+use SendGrid\Mail\Mail;
 
 class Helper {
 
@@ -801,6 +804,35 @@ class Helper {
         $date = Carbon::now()->format('Ymd');
         return str_replace("$date","",$user);
     }
+
+    public static function addToNewsletter($listId,$email, $firstName = '', $lastName = '')
+    {
+        $data = [
+            'list_ids' => [$listId],
+            'contacts' => [
+                [
+                    'email' => $email,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                ],
+            ],
+        ];
+
+        // Set up the SendGrid request
+        try {
+            $response = Http::withToken(env('SENDGRID_API_KEY'))
+                ->put('https://api.sendgrid.com/v3/marketing/contacts', $data);
+            if ($response->successful()) {
+                return true;
+            } else {
+                Log::error("SendGrid Error: " . $response->body());
+                return false;
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
 
 }
 

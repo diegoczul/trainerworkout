@@ -296,6 +296,7 @@ class UsersController extends BaseController
 //                'email_address' => request("status"),
 //                'email' => "subscribed"
 //            ]);
+            Helper::addToNewsletter(config('constants.sendgridNewsletter'),$request->get("email"));
             return $this->responseJson(__('messages.newsletter'));
         }
     }
@@ -650,6 +651,7 @@ class UsersController extends BaseController
 //                'email' => request('email'),
 //                'status' => 'subscribed',
 //            ]);
+            Helper::addToNewsletter(config('constants.sendgridTrainee'),$request->get("email"));
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -818,6 +820,7 @@ class UsersController extends BaseController
 //                'email' => $request->get('email'),
 //                'status' => 'subscribed',
 //            ]);
+            Helper::addToNewsletter(config('constants.sendgridTrainer'),$request->get("email"));
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -1318,6 +1321,7 @@ class UsersController extends BaseController
                 try {
 //                    Newsletter::subscribe($request->get("email"),[],'trainer');
 //                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
+                    Helper::addToNewsletter(config('constants.sendgridTrainer'),$request->get("email"));
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1327,6 +1331,7 @@ class UsersController extends BaseController
                 try {
 //                    Newsletter::subscribe($request->get("email"),[],'trainee');
 //                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
+                    Helper::addToNewsletter(config('constants.sendgridTrainee'),$request->get("email"));
                 } catch (Exception $e) {
                     Log::error($e);
                 }
