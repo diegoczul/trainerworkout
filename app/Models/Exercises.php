@@ -19,7 +19,7 @@ class Exercises extends Model implements TranslatableContract
 {
     use SoftDeletes, Translatable;
 
-    protected $fillable = ['used'];
+    protected $fillable = ['name', 'description', 'nameEngine', 'used'];
     public $translatedAttributes = ['name', 'description', 'nameEngine'];
     public $useTranslationFallback = true;
     public $translationForeignKey = 'exercises_id';
@@ -345,7 +345,9 @@ class Exercises extends Model implements TranslatableContract
 
         // Fulltext search
         if (!empty($search)) {
-            $query->whereRaw("MATCH(name, nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search]);
+            $query->whereHas('translations', function ($q) use ($search) {
+                $q->whereRaw("MATCH(name, nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search])->where('deleted_at',NULL);
+            });
         }
 
         // Parse filters
