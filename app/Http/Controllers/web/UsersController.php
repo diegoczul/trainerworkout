@@ -289,14 +289,8 @@ class UsersController extends BaseController
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
         } else {
-//            Newsletter::subscribe($request->get("email"),[],'trainer');
-
-//            MailchimpWrapper::lists()->subscribe(config("constants.mailChimpNewsletter"), [
-//                'email' => request("email"),
-//                'email_address' => request("status"),
-//                'email' => "subscribed"
-//            ]);
-            Helper::addToNewsletter(config('constants.sendgridNewsletter'),$request->get("email"));
+            $sendGridService = new SendGridSubscriptionService();
+            $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridNewsletter'));
             return $this->responseJson(__('messages.newsletter'));
         }
     }
@@ -646,12 +640,8 @@ class UsersController extends BaseController
         Feeds::insertFeed('SignUp', Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
-//            Newsletter::subscribe($request->get("email"),[],'trainee');
-//            MailchimpWrapper::lists()->subscribe(config('constants.mailChimpTrainees'), [
-//                'email' => request('email'),
-//                'status' => 'subscribed',
-//            ]);
-            Helper::addToNewsletter(config('constants.sendgridTrainee'),$request->get("email"));
+            $sendGridService = new SendGridSubscriptionService();
+            $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainee'));
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -700,9 +690,8 @@ class UsersController extends BaseController
 
         try {
             if (!Config::get('app.debug')) {
-//                Newsletter::subscribe($user->email,[],'trainer');
                 $sendGridService = new SendGridSubscriptionService();
-                $sendGridService->subscribeToList(['email' => $user->email],'trainer');
+                $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
             }
         } catch (Exception $e) {
             Log::error("MAILCHIMP Error");
@@ -815,12 +804,8 @@ class UsersController extends BaseController
         Feeds::insertFeed("SignUp", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
 
         try {
-//            Newsletter::subscribe($request->get("email"),[],'trainer');
-//            MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), [
-//                'email' => $request->get('email'),
-//                'status' => 'subscribed',
-//            ]);
-            Helper::addToNewsletter(config('constants.sendgridTrainer'),$request->get("email"));
+            $sendGridService = new SendGridSubscriptionService();
+            $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -1319,9 +1304,8 @@ class UsersController extends BaseController
 
             if ($user->userType == "Trainer") {
                 try {
-//                    Newsletter::subscribe($request->get("email"),[],'trainer');
-//                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainer"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
-                    Helper::addToNewsletter(config('constants.sendgridTrainer'),$request->get("email"));
+                    $sendGridService = new SendGridSubscriptionService();
+                    $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1329,9 +1313,8 @@ class UsersController extends BaseController
             } else {
                 $user->freebesTrainee();
                 try {
-//                    Newsletter::subscribe($request->get("email"),[],'trainee');
-//                    MailchimpWrapper::lists()->subscribe(config("constants.mailChimpGetEarlyAccessListTrainee"), ['email' => $request->get("email"), 'email_address' => $request->get("status"), 'email' => "subscribed"]);
-                    Helper::addToNewsletter(config('constants.sendgridTrainee'),$request->get("email"));
+                    $sendGridService = new SendGridSubscriptionService();
+                    $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainee'));
                 } catch (Exception $e) {
                     Log::error($e);
                 }

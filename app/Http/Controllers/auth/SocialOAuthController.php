@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Libraries\Helper;
 use App\Models\Invites;
 use App\Models\Users;
+use App\Services\SendGridSubscriptionService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -78,9 +79,8 @@ class SocialOAuthController extends Controller
 
             try {
                 if (!Config::get('app.debug')) {
-//                    Newsletter::subscribe($user->email,[],'trainer');
-//                    MailchimpWrapper::lists()->subscribe(Config::get('constants.mailChimpTrainers'), ['email' => $user->email]);
-                    Helper::addToNewsletter(config('constants.sendgridTrainer'),$request->get("email"));
+                    $sendGridService = new SendGridSubscriptionService();
+                    $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
                 }
             } catch (Exception $e) {
                 Log::error("MAILCHIMP Error");
