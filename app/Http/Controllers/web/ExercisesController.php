@@ -135,7 +135,11 @@ class ExercisesController extends BaseController
             }
         }
 
-        return response()->json(Messages::showControlPanel("AddedToFavorites"));
+        if ($action == 'added'){
+            return response()->json(Messages::showControlPanel("AddedToFavorites"));
+        }else{
+            return response()->json(Messages::showControlPanel("RemovedFromFavorites"));
+        }
     }
 
     public function indexAddInWorkout(Request $request)
