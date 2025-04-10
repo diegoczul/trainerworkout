@@ -103,7 +103,7 @@ class WorkoutsPerformanceController extends BaseController
                 $query->select('id','firstName','lastName','email');
             }])
             ->with(['workout_preformed' => function ($query) use($request) {
-                $query->select('id','workoutId','userId','ratingId','comments','dateCompleted')
+                $query->select('id','workoutId','userId','ratingId','comments','timeInSeconds','dateCompleted')
                     ->with(['rating' => function ($query) {
                         $query->select('id','name');
                     }])
