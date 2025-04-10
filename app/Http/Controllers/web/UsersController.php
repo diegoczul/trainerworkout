@@ -1619,6 +1619,17 @@ class UsersController extends BaseController
         }
     }
 
+    public function APIDeleteAccount()
+    {
+        $user = Users::find(Auth::user()->id);
+        $user->delete();
+        $result = [
+            "status" => "ok",
+            "message" => Lang::get("messages.delete_account"),
+        ];
+        return $this->responseJson($result);
+    }
+
     public function _index()
     {
         return View::make('ControlPanel.Users');

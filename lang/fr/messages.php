@@ -323,6 +323,8 @@ return array(
         "email_sent_error" => "L'e-mail n'a pas été envoyé, veuillez réessayer",
 
         'none' => 'Aucun',
+
+        'delete_account' => 'Votre compte a été supprimé avec succès',
 );
 
 ?>

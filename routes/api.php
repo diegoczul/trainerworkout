@@ -39,6 +39,7 @@ Route::middleware('auth:api')->group(function (){
     Route::controller(UsersController::class)->group(function (){
         Route::post('Users/Profile','APIEditProfile');
         Route::post('Users/App','APIAppSettings');
+        Route::delete('Users/delete-account', 'APIDeleteAccount');
         Route::match(['get', 'post'], 'logout','APILogout');
 
         Route::post('Exercises/AddEdit','AddEdit');
@@ -81,6 +82,7 @@ Route::middleware('auth:api')->group(function (){
         Route::post('Workouts/APIexerciseCompleted', 'APIExerciseCompleted');
         Route::post('Workouts/workoutCompleted', 'APIworkoutCompleted');
         Route::post('IOS/CreateWorkout','API_IOS_CreateWorkout')->middleware('auth');
+        Route::post('Workouts/share-workout','API_ShareWorkout')->middleware('auth');
     });
 
     // NIC CHANGES

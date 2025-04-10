@@ -325,6 +325,8 @@ return array(
         'email_sent_error' => 'Email not sent, please try again',
 
         'none' => 'None',
+
+        'delete_account' => 'Your account has been deleted successfully',
         );
 
 

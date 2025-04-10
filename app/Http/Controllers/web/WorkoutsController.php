@@ -2868,6 +2868,74 @@ class WorkoutsController extends BaseController {
         return $this::responseJson($data);
 	}
 
+    public function API_ShareWorkout(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'email' => 'required',
+            'workout_id' => 'required',
+            'send_copy' => 'sometimes|boolean',
+            'send_attachments' => 'sometimes|boolean',
+            'subscribe_to_workout' => 'sometimes|boolean',
+            'lock_workout' => 'sometimes|boolean',
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJson($result,400);
+        }
+
+        $workoutId = $request->get("workout_id");
+        $workout = Workouts::find($workoutId);
+        if($workout){
+            if($workout->canThisWorkoutBeShared(Auth::user())){
+                $user = null;
+                $stringOfUsersToShare = $request->get("email");
+                $arrayOfUsersToShare = explode(",",$stringOfUsersToShare);
+                foreach($arrayOfUsersToShare as $email){
+                    $email = trim($email);
+                    if($email != ""){
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            if(Users::where("email",$email)->count() > 0){
+                                $user = Users::where("email",$email)->first();
+                            } else {
+                                $user = new Users();
+                                $user->userType = "Trainee";
+                                $user->email = $email;
+                                $user->save();
+                            }
+
+                            Auth::user()->addClient($user);
+                            $invite = Auth::user()->sendInvite($user);
+
+                            $copyMe = false; $copyView = false; $copyPrint = false; $lock = false; $subscribe = false;
+                            if($request->filled("subscribe_to_workout") && $request->get("subscribe_to_workout") == true) $subscribe = true;
+                            if($request->filled("send_copy") && $request->get("send_copy") == true) $copyMe = true;
+                            if($request->filled("send_attachments") && $request->get("send_attachments") == true) $copyView = true;
+                            if($request->filled("lock_workout") && $request->get("lock_workout") == true) $lock = true;
+
+                            Event::dispatch('shareAWorkout', array(Auth::user(),$user->id));
+                            $comments = $request->get("comments");
+
+                            Sharings::shareWorkout(Auth::user()->id,$user->id,$workout,"Workout",$comments,$invite,$copyMe,$copyView,$copyPrint,$subscribe,$lock);
+                        } else {
+                            $result["message"] = __("messages.WrongEmailAddress");
+                            return $this->responseJsonError($result);
+                        }
+                    }
+                }
+            } else {
+                $result["message"] = __("messages.WorkoutCannotBeShared");
+                return $this->responseJsonError($result);
+            }
+        }else{
+            $result["message"] = __("messages.WorkoutShared");
+            return $this->responseJsonError($result);
+        }
+        $result = Helper::APIOK();
+        $result['message'] = __("messages.WorkoutShared");
+        return $this->responseJson($result);
+    }
+
 	public function API_Workouts_Basic(Request $request){
 		$userId = Auth::user()->id;
 		$permissions = null;
