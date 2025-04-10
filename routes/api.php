@@ -75,7 +75,7 @@ Route::middleware('auth:api')->group(function (){
         Route::post('Workouts', 'APIIndex');
         Route::get('Workouts/{param}','show');
         Route::post('Workouts/addEdit/','APIAddEdit');
-        Route::delete('Workouts/{param}','destroy');
+        Route::delete('Workouts/{param}','APIWorkoutDelete');
         Route::post('Workouts/saveSingleSet', 'APIsaveSingleSet');
         Route::post('Workouts/completeSet', 'APIcompleteSet');
         Route::post('Workouts/saveAllSets', 'APIsaveAllSets');

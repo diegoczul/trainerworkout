@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Jenssegers\Agent\Facades\Agent;
 use Knp\Snappy\Image;
 use LynX39\LaraPdfMerger\PdfManage;
@@ -2789,8 +2790,6 @@ class WorkoutsController extends BaseController {
 		} else {
 			return $this::responseJsonError(__("messages.Permissions"));
 		}
-
-
 	}
 
 
@@ -2873,7 +2872,7 @@ class WorkoutsController extends BaseController {
         $result = Helper::APIERROR();
         $validation = Validator::make($request->all(),[
             'email' => 'required',
-            'workout_id' => 'required',
+            'workout_id' => ['required',Rule::exists('workouts','id')->whereNull('deleted_at')],
             'send_copy' => 'sometimes|boolean',
             'send_attachments' => 'sometimes|boolean',
             'subscribe_to_workout' => 'sometimes|boolean',
@@ -3273,6 +3272,28 @@ class WorkoutsController extends BaseController {
 		return $result;
 
 	}
+
+    public function APIWorkoutDelete($id)
+    {
+        $result = Helper::APIERROR();
+        $obj = Workouts::find($id);
+        if (!$obj){
+            $result["message"] = __("messages.NotFound");
+            return $this->responseJsonError($result);
+        }
+
+        if($this->checkPermissions($obj->userId,Auth::user()->id)){
+            $obj->delete();
+            Event::dispatch('deleteAWorkout', array(Auth::user()));
+
+            $result = Helper::APIOK();
+            $result["message"] = __("messages.WorkoutDeleted");
+            return $this::responseJson($result);
+        } else {
+            $result["message"] = __("messages.Permissions");
+            return $this->responseJsonError($result);
+        }
+    }
 
 
 	// public function API_Workouts_Basic(){
