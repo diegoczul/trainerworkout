@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Libraries\Helper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Clients extends Model
@@ -20,6 +21,11 @@ class Clients extends Model
     public function trainer()
     {
         return $this->hasOne(Users::class, 'id', 'trainerId');
+    }
+
+    public function workout_preformed(): HasMany
+    {
+        return $this->hasMany(WorkoutsPerformances::class, 'userId', 'userId');
     }
 
     public static function checkIfTrainerHasClient($trainerId, $userId)

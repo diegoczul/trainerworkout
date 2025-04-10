@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use App\Jobs\WorkoutPerformedMailJob;
-use App\Mail\WorkoutPerformedMail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class WorkoutsPerformances extends Model

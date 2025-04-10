@@ -6,6 +6,7 @@ use App\Http\Controllers\web\PicturesController;
 use App\Http\Controllers\web\UsersController;
 use App\Http\Controllers\web\WeightsController;
 use App\Http\Controllers\web\WorkoutsController;
+use App\Http\Controllers\web\WorkoutsPerformanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,6 +90,11 @@ Route::middleware('auth:api')->group(function (){
     // NIC CHANGES
     Route::controller(ExercisesController::class)->group(function (){
         Route::post('ExerciseModel','API_Exercise_Model');
+    });
+
+    // CUSTOMER/CLIENT
+    Route::controller(WorkoutsPerformanceController::class)->group(function (){
+        Route::post('ClientReport/list-workout-performance', 'API_List_WorkoutsPerformance');
     });
 });
 

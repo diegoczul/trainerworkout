@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web;
 
+use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -94,39 +95,35 @@ class WorkoutsPerformanceController extends BaseController
         }
     }
 
-    public function index()
+    public function API_List_WorkoutsPerformance(Request $request)
     {
-        //
+        $clients = Clients::select('clients.id','clients.userId','clients.trainerId')
+            ->join('users', 'users.id', '=', 'clients.userId')
+            ->with(['user' => function ($query) {
+                $query->select('id','firstName','lastName','email');
+            }])
+            ->with(['workout_preformed' => function ($query) use($request) {
+                $query->select('id','workoutId','userId','ratingId','comments','dateCompleted')
+                    ->with(['rating' => function ($query) {
+                        $query->select('id','name');
+                    }])
+                    ->with(['workout' => function ($query) {
+                        $query->select('id','name');
+                    }])
+                    ->where(['forTrainer' => Auth::user()->id])
+                    ->when($request->filled('start_date') && $request->filled('end_date'), function ($query) use ($request) {
+                        $query->whereDate('dateCompleted', '>=', $request->start_date);
+                        $query->whereDate('dateCompleted', '<=', $request->end_date);
+                    });
+            }])
+            ->where(["clients.trainerId" => Auth::user()->id,'users.deleted_at' => null]);
+        $clientCounts = $clients->count();
+        $clients = $clients->get();
+
+        $response = Helper::APIOK();
+        $response['data'] = $clients;
+        $response['total'] = $clientCounts;
+        return $this::responseJson($response);
     }
 
-
-    public function create()
-    {
-        //
-    }
-
-    public function store()
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update($id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
-    }
 }

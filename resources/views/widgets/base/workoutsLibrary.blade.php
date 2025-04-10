@@ -46,9 +46,9 @@
 
                     <div class="workout_overlay">
                         <div class="exe_imgs">
-                            <img src="/{{ Helper::image($images[0]) }}">
-                            <img src="/{{ Helper::image($images[1]) }}">
-                            <img src="/{{ Helper::image($images[2]) }}">
+                            <img src="{{ asset(Helper::image($images[0])) }}">
+                            <img src="{{ asset(Helper::image($images[1])) }}">
+                            <img src="{{ asset(Helper::image($images[2])) }}">
                         </div>
                         <span class="workout_title"
                               title="{{ $workout->name }}">{{ Helper::text($workout->name,70) }}</span>
@@ -82,9 +82,9 @@
                             </div>
                         </div>
                         <div class="duplicate_img">
-                            <img src="{{asset('')}}/{{ Helper::image($images[0]) }}">
-                            <img src="{{asset('')}}/{{ Helper::image($images[1]) }}">
-                            <img src="{{asset('')}}/{{ Helper::image($images[2]) }}">
+                            <img src="{{ asset(Helper::image($images[0])) }}">
+                            <img src="{{ asset(Helper::image($images[1])) }}">
+                            <img src="{{ asset(Helper::image($images[2])) }}">
                         </div>
                     </div>
                 </div>
