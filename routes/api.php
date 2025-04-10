@@ -83,6 +83,7 @@ Route::middleware('auth:api')->group(function (){
         Route::post('Workouts/workoutCompleted', 'APIworkoutCompleted');
         Route::post('IOS/CreateWorkout','API_IOS_CreateWorkout')->middleware('auth');
         Route::post('Workouts/share-workout','API_ShareWorkout')->middleware('auth');
+        Route::post('Workouts/download-workout','API_DownloadWorkout')->middleware('auth');
     });
 
     // NIC CHANGES

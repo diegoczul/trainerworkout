@@ -3411,6 +3411,104 @@ class WorkoutsController extends BaseController {
 	}
 
 
+    public function API_DownloadWorkout(Request $request){
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'workout_id' => ['required',Rule::exists('workouts','id')->whereNull('deleted_at')],
+            'include_pdf' => [Rule::requiredIf(function () use($request){ return (!$request->filled('include_image') || $request->get('include_image') == false); }),'required_if:include_image,false','boolean'],
+            'include_image' => [Rule::requiredIf(function () use($request){ return (!$request->filled('include_pdf') || $request->get('include_pdf') == false); }),'required_if:include_pdf,false','boolean'],
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        if (($request->get('include_pdf') == false && $request->get('include_image') == false)){
+            $result["message"] = "Please select at least one filetype to download";
+            return $this::responseJsonError($result);
+        }
+
+        // INCLUDE FILE CONDITIONS
+        $jpeg = false; $pdf = false;
+        if($request->filled("include_pdf") && $request->get("include_pdf") == true) $pdf = true;
+        if($request->filled("include_image") && $request->get("include_image") == true) $jpeg = true;
+
+        // FILE PATH FOR .zip FILE
+        $path = public_path()."/temp/".Auth::user()->id;
+        $name = "Workouts ".Helper::replaceWinCompatible(Helper::now()).".zip";
+        $zipFilePath = $path."/".$name;
+        if(!File::isDirectory($path)){
+            File::makeDirectory($path);
+        } else {
+            File::deleteDirectory($path);
+            File::makeDirectory($path);
+        }
+
+        // FILE GENERATION & ZIP
+        $zip = new ZipArchive();
+
+        if(Config::get("app.debug")) Log::error($zipFilePath);
+        if ($zip->open($zipFilePath, ZipArchive::OVERWRITE|ZipArchive::CREATE) === TRUE) {
+            $counter = 1;
+            $workout = Workouts::find($request->get("workout_id"));
+
+            $user = Auth::user();
+            if($workout){
+                if ($jpeg) {
+                    try {
+                        $imageData = $this->PrintWorkoutImage($workout->id);
+                        $imagePath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg";
+                        $image = SnappyImage::loadHTML($imageData);
+                        $image->setOption('enable-local-file-access', true);
+                        $image->setTimeout(300);
+                        $image->save($imagePath);
+                    } catch (ProcessTimedOutException $e) {
+                        Log::error("Snappy image generation timed out: " . $e->getMessage());
+                        $result["message"] = $validation->messages()->first();
+                        return $this::responseJsonError($result);
+                    } catch (\Exception $e) {
+                        Log::error("Image generation failed: " . $e->getMessage());
+                        $result["message"] = $validation->messages()->first();
+                        return $this::responseJsonError($result);
+                    }
+
+                    // Add the image to the ZIP file
+                    $zip->addFile($imagePath, Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".jpg");
+
+                    // Add the PDF to the ZIP file
+                    $zip->addFile($workout->getImagePDF(), Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . ".pdf");
+                }
+
+                if($pdf){
+                    $html = $this->PrintWorkout($workout->id);
+                    $pdf = SnappyPdf::loadHTML($html);
+                    $pdfPath = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf";
+                    $name_temp = $path."/".Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf";
+                    $pdf->save($name_temp);
+
+                    $merger = (new PdfManage())->init();
+                    $merger->addPDF($name_temp);
+                    $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+                    $merger->merge('L', ['file' => $name_temp]);
+
+                    $zip->addFile($pdfPath,Helper::formatURLString($counter." - ".$workout->name." ".$workout->author->getCompleteName())."_grid.pdf");
+                }
+
+                Event::dispatch('printWorkouts', array($user,$workout->name));
+            }
+            $zip->close();
+            $zipFilePath = str_replace(public_path("")."/",asset(''),$zipFilePath);
+
+            $result = Helper::APIOK();
+            $result["message"] = "Workout file is ready.";
+            $result['data'] = $zipFilePath;
+            return $this::responseJson($result);
+        }else{
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+    }
+
 }
 
 
