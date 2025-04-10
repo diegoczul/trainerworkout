@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\webview;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\web\SystemController;
 use App\Http\Libraries\Helper;
 use App\Models\BodyGroups;
 use App\Models\Equipments;
@@ -14,6 +15,8 @@ use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class WebviewController extends Controller
@@ -22,27 +25,12 @@ class WebviewController extends Controller
     public function createTrainerWorkout($user)
     {
         $userId = Helper::decodeUserSlug($user);
-        if($user = Users::find($userId)){
+        if(Users::find($userId)){
             Auth::loginUsingId($userId);
         }else{
             abort(403);
         }
 
-
-//        $userId = Auth::user()->id;
-//        if($request->has("userId")){
-//            $permissions = Helper::checkPremissions(Auth::user()->id,$request->get("userId"));
-//            if($permissions["view"]){
-//                $userId = $request->get("userId");
-//            }
-//        } else {
-//        }
-
-        //Session::forget("workoutIdInProgress");
-        //dd(Session::get("workoutIdInProgress"));
-
-
-        $userId = 1;
         $permissions = Helper::checkPremissions($userId,null);
         $tags = Tags::where("userId",$userId)->get();
 
@@ -88,6 +76,54 @@ class WebviewController extends Controller
     public function failedToCreateWorkout()
     {
         return"<h1>Failed to Create Workout</h1>";
+    }
 
+    public function failedToUpdateWorkout()
+    {
+        return"<h1>You do not have permission to edit this workout</h1>";
+    }
+
+    public function editTrainerWorkout($user_id,$workout_id)
+    {
+        $userId = Helper::decodeUserSlug($user_id);
+        if(Users::find($userId)){
+            Auth::loginUsingId($userId);
+        }else{
+            abort(403);
+        }
+        $userId = Auth::user()->id;
+        $workout = Workouts::find($workout_id);
+        if($workout->canThisWorkoutBeShared(Auth::user())){
+            $tags = array();
+
+            if($workout){
+                if(date($workout->created_at) <= date('2016-09-04') and $workout->status == "Released"){
+                    $controller = new SystemController();
+                    $controller->migrateWorkouts($workout->id);
+                } else if($workout->exerciseGroupRest == "" or $workout->exerciseGroupsRest == "[]"){
+                    $controller = new SystemController();
+                    $controller->migrateWorkouts($workout->id);
+                }
+            } else {
+                return redirect()->route('webview.edit-trainer-workout-unauthorised');
+            }
+
+
+            $tags = Tags::where("userId",Auth::user()->id)->get();
+
+            Event::dispatch('editAWorkout', array(Auth::user(),$workout->name));
+
+            return view("webview.edit-workout")
+                ->with("workout",$workout)
+                ->with("tags",$tags)
+                ->with("bodygroups",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->get())
+                ->with("bodygroupslist",BodyGroups::select("id","name")->where("main",1)->orderBy("name")->pluck("name","id"))
+                ->with("equipmentsList",Equipments::select("id","name")->pluck("name","id"))
+                ->with("equipments",Equipments::select("id","name")->orderBy("name")->get())
+                ->with("exercisesTypes",ExercisesTypes::select("id","name")->orderBy("name")->get())
+                ->with("total",Workouts::where("userId","=",$userId)->count());
+        }else{
+            return redirect()->route('webview.edit-trainer-workout-unauthorised');
+        }
     }
 }

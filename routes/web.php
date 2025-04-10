@@ -829,6 +829,8 @@ Route::controller(SocialOAuthController::class)->group(function () {
 
 Route::controller(WebviewController::class)->prefix('webview')->group(function () {
     Route::get('create-trainer-workout/{user}', 'createTrainerWorkout')->name('webview.create-trainer-workout');
+    Route::get('edit-trainer-workout/{user_id}/{workout_id}', 'editTrainerWorkout')->name('webview.edit-trainer-workout');
     Route::get('create-trainer-workout-success', 'workoutCreatedSuccessfully')->name('webview.create-trainer-workout-success');
     Route::get('create-trainer-workout-failed', 'failedToCreateWorkout')->name('webview.create-trainer-workout-failed');
+    Route::get('edit-trainer-workout-unauthorised', 'failedToUpdateWorkout')->name('webview.edit-trainer-workout-unauthorised');
 });

@@ -2867,6 +2867,26 @@ class WorkoutsController extends BaseController {
         return $this::responseJson($data);
 	}
 
+    public function API_IOS_EditWorkout($workout_id){
+        $user = Helper::generateUserSlug(Auth::user()->id);
+        $obj = Workouts::find($workout_id);
+        if (!$obj){
+            $result["message"] = __("messages.NotFound");
+            return $this->responseJsonError($result);
+        }
+        $response = [
+            'edit_workout_url' => route('webview.edit-trainer-workout',['user_id' => $user, 'workout_id' => $workout_id]),
+            'success_url' => route('webview.create-trainer-workout-success'),
+            'failed_url' => route('webview.create-trainer-workout-failed'),
+            'unauthorised_url' => route('webview.edit-trainer-workout-unauthorised'),
+        ];
+
+        $data["data"] = $response;
+        $data["status"] = "ok";
+        $data["message"] = "";
+        return $this::responseJson($data);
+	}
+
     public function API_ShareWorkout(Request $request)
     {
         $result = Helper::APIERROR();

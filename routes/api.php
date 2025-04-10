@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\web\ClientsController;
 use App\Http\Controllers\web\ExercisesController;
 use App\Http\Controllers\web\ObjectivesController;
 use App\Http\Controllers\web\PicturesController;
@@ -75,7 +76,6 @@ Route::middleware('auth:api')->group(function (){
         Route::get('Workouts', 'APIIndex');
         Route::post('Workouts', 'APIIndex');
         Route::get('Workouts/{param}','show');
-        Route::post('Workouts/addEdit/','APIAddEdit');
         Route::delete('Workouts/{param}','APIWorkoutDelete');
         Route::post('Workouts/saveSingleSet', 'APIsaveSingleSet');
         Route::post('Workouts/completeSet', 'APIcompleteSet');
@@ -83,6 +83,7 @@ Route::middleware('auth:api')->group(function (){
         Route::post('Workouts/APIexerciseCompleted', 'APIExerciseCompleted');
         Route::post('Workouts/workoutCompleted', 'APIworkoutCompleted');
         Route::post('IOS/CreateWorkout','API_IOS_CreateWorkout')->middleware('auth');
+        Route::post('IOS/EditWorkout/{workout_id}','API_IOS_EditWorkout')->middleware('auth');
         Route::post('Workouts/share-workout','API_ShareWorkout')->middleware('auth');
         Route::post('Workouts/download-workout','API_DownloadWorkout')->middleware('auth');
     });
@@ -92,10 +93,15 @@ Route::middleware('auth:api')->group(function (){
         Route::post('ExerciseModel','API_Exercise_Model');
     });
 
-    // CUSTOMER/CLIENT
+    // PERFORMED WORKOUT
     Route::controller(WorkoutsPerformanceController::class)->group(function (){
         Route::post('ClientReport/list-workout-performance', 'API_List_WorkoutsPerformance');
     });
+
+//    // CLIENT
+//    Route::controller(ClientsController::class)->group(function (){
+//
+//    });
 });
 
 
