@@ -10,6 +10,7 @@ use App\Models\Invites;
 use App\Models\Friends;
 use App\Models\Notifications;
 use App\Models\Feeds;
+use App\Models\Workouts;
 use App\Models\WorkoutsPerformances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -440,26 +441,6 @@ class ClientsController extends BaseController
         }
     }
 
-    public function store(Request $request)
-    {
-        // Store logic
-    }
-
-    public function show($id)
-    {
-        // Show resource logic
-    }
-
-    public function edit($id)
-    {
-        // Edit resource logic
-    }
-
-    public function update($id, Request $request)
-    {
-        // Update resource logic
-    }
-
     public function destroy($id)
     {
         $obj = Clients::find($id);
@@ -471,6 +452,98 @@ class ClientsController extends BaseController
         } else {
             return $this::responseJsonError(Lang::get("messages.Permissions"));
         }
+    }
+
+    public function API_ListClients(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'search' => 'sometimes',
+            'limit' => 'sometimes',
+            'offset' => 'sometimes',
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        $result = Helper::APIOK();
+        $search = $request->get('search');
+        $clients = Clients::select('id','userId','trainerId')
+                    ->with(['user' => function ($query) {
+                        $query->select('id','firstName','lastName','email','phone');
+                    }])
+                    ->whereHas('user', function ($query) use ($search) {
+                        $query->where(function ($query2) use ($search) {
+                            $query2->orWhere('firstName', 'LIKE', "%$search%")
+                                ->orWhere('lastName', 'LIKE', "%$search%")
+                                ->orWhere('email', 'LIKE', "%$search%")
+                                ->orWhere('phone', 'LIKE', "%$search%");
+                        });
+                    })
+                    ->where("trainerId", Auth::user()->id)
+                    ->orderBy('updated_at', 'DESC');
+        $clientsCount = $clients->count();
+        $clients = $clients->take($request->get('limit', 10))
+                    ->skip($request->get('offset', 0))
+                    ->get();
+        $clients->filter(function ($item) {
+            $item['number_of_workouts'] = $item->numberOfWorkoutsSharedFromTrainerToClient(Auth::user()->id);
+            $item['last_workout_performed'] = $item->lastWorkoutPerformedFromTrainer(Auth::user()->id);
+        });
+        $result['data'] = $clients;
+        $result['count'] = $clientsCount;
+        $result['message'] = __("messages.ClientList");
+        return $this::responseJson($result);
+    }
+
+    public function getClient($client_id)
+    {
+
+    }
+
+    public function API_clientWorkouts(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'client_id' => ['required', Rule::exists('clients','id')->whereNull('deleted_at')],
+            'search' => 'sometimes',
+            'limit' => 'sometimes|numeric',
+            'offset' => 'sometimes|numeric',
+            'is_archive' => 'sometimes|boolean',
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        $result = Helper::APIOK();
+        $limit = $request->get('limit', 10);
+        $offset = $request->get('offset', 0);
+        $client_id = $request->get('client_id');
+        $client = Clients::find($client_id);
+        $workouts = Workouts::where("userId",$client->user->id)
+            ->when($request->filled('search'), function ($query) use($request){
+                $query->search($request->get('search'));
+            })
+            ->when(($request->filled('is_archive') && $request->get('is_archive')),
+                function ($query){
+                    $query->whereNotNull("archived_at");
+                },
+                function ($query){
+                    $query->whereNull("archived_at");
+                },
+            );
+
+        $workoutCounts = $workouts->count();
+        $workouts = $workouts->take($limit)
+            ->skip($offset)
+            ->orderBy("created_at","Desc")
+            ->get();
+        $result['data'] = $workouts;
+        $result['count'] = $workoutCounts;
+        $result['message'] = __("messages.ClientWorkouts");
+        return $this::responseJson($result);
     }
 
 }

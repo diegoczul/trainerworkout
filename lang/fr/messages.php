@@ -85,6 +85,8 @@ return array(
         "ClientInvited"                 => "Votre client a été notifié et sera ajouté à vos contacts une fois l'invitation acceptée",
         "ClientInvitation"              => "Votre client a été invité à joindre ".Config::get("app.brand")." et ajouté à votre liste de clients",
         "ClientDeleted"                 => "Ce client a été retiré!",
+        "ClientList"                    => "Liste des clients",
+        "ClientWorkouts"                => "Entraînements des clients",
         "TrainerConfirmed"              => "Votre entraîneur personnel est confirmé!",
         "AppointmentsEmpty"             => "Gérez tous vos rendez-vous ici",
         "AppointmentAdded"              => "Votre rendez-vous a été ajouté",

@@ -85,6 +85,8 @@ return array(
         "ClientInvited"                 => "Your client has been notified and once he approves your request it will appear on your client list!",
         "ClientInvitation"              => "Your client has been added to your Trainee list, he has been invited to join ".Config::get("app.brand")." also!",
         "ClientDeleted"                 => "Client has been removed!",
+        "ClientList"                    => "Client list",
+        "ClientWorkouts"                => "Client workouts",
         "TrainerConfirmed"              => "Your trainer has been confirmed!",
         "AppointmentsEmpty"             => "Manage all your appointments here",
         "AppointmentAdded"              => "Your appointment has been added",

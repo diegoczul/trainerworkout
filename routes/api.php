@@ -98,10 +98,11 @@ Route::middleware('auth:api')->group(function (){
         Route::post('ClientReport/list-workout-performance', 'API_List_WorkoutsPerformance');
     });
 
-//    // CLIENT
-//    Route::controller(ClientsController::class)->group(function (){
-//
-//    });
+    // CLIENT
+    Route::controller(ClientsController::class)->group(function (){
+        Route::post('list-client','API_ListClients');
+        Route::post('list-client-workouts','API_clientWorkouts');
+    });
 });
 
 
