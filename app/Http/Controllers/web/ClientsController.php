@@ -535,6 +535,57 @@ class ClientsController extends BaseController
         }
     }
 
+    public function API_notifyClientActivity(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'client_id' => ['required',Rule::exists('users','id')->whereNull("deleted_at")],
+            'subscribe' => 'required|boolean',
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        $client = Clients::find($request->get("client_id"));
+        $client->subscribeClient = ($request->get("subscribe") == true) ? 1 : 0;
+        $client->save();
+
+        $clientName = $client->user ? $client->user->getCompleteName() : "";
+        if ($request->get("subscribe") == true) {
+            $result = Helper::APIOK();
+            $result["message"] = Lang::get("messages.SubscribedToClient", ["client" => $clientName]);
+            return $this::responseJson($result);
+        } else {
+            $result["message"] = Lang::get("messages.NotSubscribedToClient", ["client" => $clientName]);
+            return $this::responseJsonError($result);
+        }
+    }
+
+    public function API_removeClients(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'client_id' => ['required',Rule::exists('users','id')->whereNull("deleted_at")],
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        $obj = Clients::find($request->get("client_id"));
+        if ($this->checkPermissions($obj->trainerId, Auth::user()->id)) {
+            $obj->delete();
+        } else {
+            $result['message'] = Lang::get("messages.Permissions");
+            return $this::responseJsonError($result);
+        }
+
+        $result = Helper::APIOK();
+        $result["message"] = Lang::get("messages.ClientDeleted");
+        return $this::responseJson($result);
+    }
+
     public function getClient($client_id)
     {
 
