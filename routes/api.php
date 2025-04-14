@@ -101,6 +101,7 @@ Route::middleware('auth:api')->group(function (){
     // CLIENT
     Route::controller(ClientsController::class)->group(function (){
         Route::post('list-client','API_ListClients');
+        Route::post('invite-client','API_inviteClient');
         Route::post('list-client-workouts','API_clientWorkouts');
     });
 });

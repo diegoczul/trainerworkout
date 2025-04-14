@@ -497,6 +497,44 @@ class ClientsController extends BaseController
         return $this::responseJson($result);
     }
 
+    public function API_inviteClient(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required','email',Rule::unique('users','email')->whereNull("deleted_at")],
+            'phone' => 'sometimes',
+            'subscribe' => 'sometimes|boolean',
+            'comments' => 'sometimes',
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        $user = new Users();
+        $user->userType = "Trainee";
+        $user->firstName = $request->get("first_name");
+        $user->lastName = $request->get("last_name");
+        $user->email = $request->get("email");
+        $user->phone = Helper::formatPhone($request->get("phone"));
+        $user->virtual = 0;
+        $user->save();
+        $subscribe = $request->get("subscribe") === true;
+        $message = $request->get("comments");
+
+        if (Clients::where("userId", $user->id)->where("trainerId", Auth::user()->id)->count() == 0) {
+            Auth::user()->addClient($user, null, $subscribe, $message);
+            $result = Helper::APIOK();
+            $result["message"] = Lang::get("messages.ClientInvitation");
+            return $this::responseJson($result);
+        } else {
+            $result["message"] = Lang::get("messages.ClientAlreadyInvited");
+            return $this::responseJsonError($result);
+        }
+    }
+
     public function getClient($client_id)
     {
 
