@@ -12,6 +12,7 @@ use App\Models\Notifications;
 use App\Models\Feeds;
 use App\Models\Workouts;
 use App\Models\WorkoutsPerformances;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -454,7 +455,7 @@ class ClientsController extends BaseController
         }
     }
 
-    public function API_ListClients(Request $request)
+    public function API_listClients(Request $request)
     {
         $result = Helper::APIERROR();
         $validation = Validator::make($request->all(),[
@@ -471,7 +472,7 @@ class ClientsController extends BaseController
         $search = $request->get('search');
         $clients = Clients::select('id','userId','trainerId')
                     ->with(['user' => function ($query) {
-                        $query->select('id','firstName','lastName','email','phone');
+                        $query->select('id','firstName','lastName','email','phone','image as image_url','thumb as thumb_url');
                     }])
                     ->whereHas('user', function ($query) use ($search) {
                         $query->where(function ($query2) use ($search) {
@@ -586,9 +587,61 @@ class ClientsController extends BaseController
         return $this::responseJson($result);
     }
 
-    public function getClient($client_id)
+    public function API_getClient(Request $request)
     {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'client_id' => ['required',Rule::exists('users','id')->whereNull("deleted_at")],
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
 
+        $client = Clients::select('id', 'userId', 'trainerId', 'deletedByUser', 'deletedByTrainer', 'approvedTrainer', 'approvedClient', 'subscribeClient', 'created_at')
+            ->with(['user' => function ($query) {
+                $query->select('id','firstName','lastName','email','phone','image as image_url','thumb as thumb_url');
+            }])
+            ->where('id', $request->get('client_id'))
+            ->first();
+        $result = Helper::APIOK();
+        $result['message'] = "Client Found";
+        $result['data'] = $client;
+        return $this::responseJson($result);
+    }
+
+    public function API_clientActivities(Request $request)
+    {
+        $result = Helper::APIERROR();
+        $validation = Validator::make($request->all(),[
+            'user_id' => ['required', Rule::exists('users','id')->whereNull('deleted_at')],
+            'custom_dates' => 'required|boolean',
+            'start_date' => 'required_if:custom_dates,true|date_format:Y-m-d',
+            'end_date' => 'required_if:custom_dates,true|date_format:Y-m-d',
+            'limit' => 'sometimes|numeric',
+            'offset' => 'sometimes|numeric',
+        ]);
+        if($validation->fails()){
+            $result["message"] = $validation->messages()->first();
+            return $this::responseJsonError($result);
+        }
+
+        $response = Helper::APIOK();
+        $performances = WorkoutsPerformances::select('id','workoutId','comments','ratingId','timeInSeconds','dateCompleted')
+            ->where("forTrainer", Auth::user()->id)
+            ->where("userId", $request->get('user_id'))
+            ->when($request->get('custom_dates'), function ($query) use ($request) {
+                $query->whereDate("dateCompleted", ">=", $request->get('start_date'))
+                      ->whereDate("dateCompleted", "<=", $request->get('end_date'));
+            })
+            ->when($request->get('custom_dates') == false, function ($query) use ($request) {
+                $query->whereDate("dateCompleted", ">=", Carbon::now()->subDays(30))
+                      ->whereDate("dateCompleted", "<=", date("Y-m-d"));
+            })
+            ->get();
+
+        $response['data'] = $performances;
+        return $this::responseJson($response);
     }
 
     public function API_clientWorkouts(Request $request)

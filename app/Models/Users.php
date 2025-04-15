@@ -534,4 +534,22 @@ class Users extends Authenticatable implements JWTSubject
         NewEmailConfirmationMailJob::dispatch($user,$lang);
 //        Mail::queue(new NewEmailConfirmationMail($user,$lang));
     }
+
+    public function getThumbUrlAttribute($image)
+    {
+        if (!empty($image) && file_exists(public_path($image))){
+            return asset($image);
+        }else{
+            return null;
+        }
+    }
+
+    public function getImageUrlAttribute($image)
+    {
+        if (!empty($image) && file_exists(public_path($image))){
+            return asset($image);
+        }else{
+            return null;
+        }
+    }
 }
