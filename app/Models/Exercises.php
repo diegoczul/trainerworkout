@@ -30,7 +30,7 @@ class Exercises extends Model implements TranslatableContract
         'youtube' => ['sometimes', 'nullable', 'url', 'regex:/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})(\?.*)?$/'],
         "name" => "required|min:2|max:500",
         "description" => "max:500",
-//        "equipment" => "required|max:500",
+        //        "equipment" => "required|max:500",
         "bodygroup" => "required",
         "image1" => 'sometimes|mimes:jpg,png,jpeg,gif',
         "image2" => 'sometimes|mimes:jpg,png,jpeg,gif',
@@ -336,79 +336,183 @@ class Exercises extends Model implements TranslatableContract
 
     public static function searchExercises($search, $limit = 15, $filters = null, $restrictToUser = false, $lang = "en")
     {
-        Log::info("[searchExercises] search: " . $search);
-        Log::info("[searchExercises] filters: " . json_encode($filters));
-        Log::info("[searchExercises] restrictToUser: " . $restrictToUser);
-        Log::info("[searchExercises] lang: " . $lang);
-
-        $query = self::query()->select('exercises.*')->whereNull('exercises.deleted_at');
-
-        // Fulltext search
-        if (!empty($search)) {
-            $query->join('exercises_translations', 'exercises.id', '=', 'exercises_translations.exercises_id')
-                ->whereNull('exercises.deleted_at')
-                ->where('exercises_translations.locale', $lang)
-                ->whereRaw("MATCH(exercises_translations.name, exercises_translations.nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search]);
-        }
-
-        // Parse filters
-        $parsedFilters = [
-            'bodygroups' => [],
-            'types' => [],
-            'equipments' => [],
-        ];
+        $userId = auth()->id();
+        $search = trim(str_replace(["\\", "'"], '', $search));
+        $parsedFilters = ['bodygroups' => [], 'types' => [], 'equipments' => []];
 
         if (is_array($filters)) {
             foreach ($filters as $filter) {
-                if ($filter['type'] === 'bodygroup') {
-                    $parsedFilters['bodygroups'][] = (int) $filter['id'];
-                } elseif ($filter['type'] === 'type') {
-                    $parsedFilters['types'][] = (int) $filter['id'];
-                } elseif ($filter['type'] === 'equipment') {
-                    $parsedFilters['equipments'][] = (int) $filter['id'];
-                }
+                if ($filter['type'] === 'bodygroup') $parsedFilters['bodygroups'][] = (int) $filter['id'];
+                elseif ($filter['type'] === 'type') $parsedFilters['types'][] = (int) $filter['id'];
+                elseif ($filter['type'] === 'equipment') $parsedFilters['equipments'][] = (int) $filter['id'];
             }
         }
 
-        // ✅ Bodygroup filter on both: exercises.bodygroupId and exercises_bodygroups.bodygroupId
+        // ---------------- Base Query ----------------
+        $baseQuery = self::query()
+            ->join('exercises_translations', function ($join) use ($lang) {
+                $join->on('exercises.id', '=', 'exercises_translations.exercises_id')
+                    ->where('exercises_translations.locale', '=', $lang);
+            })
+            ->leftJoin('exercises_users', function ($join) use ($userId, $lang) {
+                $join->on('exercises.id', '=', 'exercises_users.exerciseId')
+                    ->where('exercises_users.locale', '=', $lang)
+                    ->where('exercises_users.userId', '=', $userId);
+            })
+            ->whereNull('exercises.deleted_at')
+            ->where('exercises.equipmentRequired', 0)
+            ->where(function ($q) use ($restrictToUser, $userId) {
+                $q->where('exercises.type', 'public')
+                    ->orWhere(function ($subQ) use ($userId) {
+                        $subQ->whereIn('exercises.type', ['private', null])
+                            ->where('exercises.authorId', $userId);
+                    });
+            })
+            ->select(
+                'exercises.id',
+                'exercises.thumb',
+                'exercises.thumb2',
+                'exercises.image',
+                'exercises.image2',
+                'exercises.bodygroupId',
+                'exercises.youtube',
+                'exercises.video',
+                'exercises.exercisesTypesId',
+                'exercises.type',
+                'exercises.authorId',
+                'exercises_users.favorite',
+                'exercises_translations.name',
+                'exercises_translations.nameEngine',
+                DB::raw("CHAR_LENGTH(exercises_translations.name) as length")
+            );
+
+        if (!empty($search)) {
+            $baseQuery->addSelect(
+                DB::raw("MATCH(exercises_translations.name) AGAINST('$search') as scoreName"),
+                DB::raw("MATCH(exercises_translations.nameEngine) AGAINST('$search') as scoreNameEngine")
+            )->whereRaw("MATCH(exercises_translations.name, exercises_translations.nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search]);
+        }
+
+        // --- Apply filters to base query ---
         if (!empty($parsedFilters['bodygroups'])) {
-            $query->where(function ($q) use ($parsedFilters) {
-                $q->whereIn('exercises.bodygroupId', $parsedFilters['bodygroups']) // primary
+            $baseQuery->where(function ($q) use ($parsedFilters) {
+                $q->whereIn('exercises.bodygroupId', $parsedFilters['bodygroups'])
                     ->orWhereIn('exercises.id', function ($sub) use ($parsedFilters) {
-                        $sub->select('exercises_bodygroups.exerciseId')
-                            ->from('exercises_bodygroups')
+                        $sub->select('exerciseId')->from('exercises_bodygroups')
                             ->whereNull('deleted_at')
                             ->whereIn('bodygroupId', $parsedFilters['bodygroups']);
                     });
             });
         }
 
-        // Exercise type filter (direct)
         if (!empty($parsedFilters['types'])) {
-            $query->whereIn('exercisesTypesId', $parsedFilters['types']);
+            $baseQuery->whereIn('exercisesTypesId', $parsedFilters['types']);
         }
 
-        // Equipment filter (many-to-many)
         if (!empty($parsedFilters['equipments'])) {
-            $query->whereIn('exercises.id', function ($sub) use ($parsedFilters) {
-                $sub->select('exercises_equipments.exerciseId')
-                    ->from('exercises_equipments')
+            $baseQuery->whereIn('exercises.id', function ($sub) use ($parsedFilters) {
+                $sub->select('exerciseId')->from('exercises_equipments')
                     ->whereNull('deleted_at')
                     ->whereIn('equipmentId', $parsedFilters['equipments']);
             });
         }
 
-        // Debug SQL
-        $sql = $query->toSql();
-        $bindings = $query->getBindings();
-        foreach ($bindings as $binding) {
-            $value = is_numeric($binding) ? $binding : "'{$binding}'";
-            $sql = preg_replace('/\?/', $value, $sql, 1);
-        }
-        Log::info("[searchExercises SQL] " . $sql);
+        $baseResults = $baseQuery->limit($limit * 3)->get();
 
-        return $query->limit($limit)->get();
+        // ---------------- With Equipment Query ----------------
+        $withQuery = DB::table('exercises_equipments')
+            ->join('exercises', 'exercises.id', '=', 'exercises_equipments.exerciseId')
+            ->join('exercises_translations', function ($join) use ($lang) {
+                $join->on('exercises.id', '=', 'exercises_translations.exercises_id')
+                    ->where('exercises_translations.locale', '=', $lang);
+            })
+            ->join('equipments', 'equipments.id', '=', 'exercises_equipments.equipmentId')
+            ->join('equipments_translations', function ($join) use ($lang) {
+                $join->on('equipments.id', '=', 'equipments_translations.equipments_id')
+                    ->where('equipments_translations.locale', '=', $lang);
+            })
+            ->leftJoin('exercises_users', function ($join) use ($userId, $lang) {
+                $join->on('exercises.id', '=', 'exercises_users.exerciseId')
+                    ->where('exercises_users.locale', '=', $lang)
+                    ->where('exercises_users.userId', '=', $userId);
+            })
+            ->where('exercises_equipments.type', '!=', 'hidden')
+            ->whereNull('exercises.deleted_at')
+            ->whereNull('exercises_translations.deleted_at')
+            ->whereNull('exercises_equipments.deleted_at')
+            ->where(function ($q) use ($userId) {
+                $q->where('exercises.type', 'public')
+                    ->orWhere(function ($subQ) use ($userId) {
+                        $subQ->whereIn('exercises.type', ['private', null])
+                            ->where('exercises.authorId', $userId);
+                    });
+            })
+            ->select(
+                DB::raw("CONCAT(exercises_translations.name, ' " . Lang::get('content.with') . " ', equipments_translations.name) as name"),
+                'exercises.id',
+                'exercises.thumb',
+                'exercises.thumb2',
+                'exercises.image',
+                'exercises.image2',
+                'exercises.bodygroupId',
+                'exercises.youtube',
+                'exercises.video',
+                'exercises.exercisesTypesId',
+                'exercises.type',
+                'exercises.authorId',
+                'exercises_users.favorite',
+                'exercises_translations.nameEngine',
+                'exercises_equipments.equipmentId',
+                DB::raw("CHAR_LENGTH(CONCAT(exercises_translations.name, ' " . Lang::get('content.with') . " ', equipments_translations.name)) as length")
+            );
+
+        if (!empty($search)) {
+            $withQuery->addSelect(
+                DB::raw("MATCH(exercises_translations.name) AGAINST('$search') as scoreName"),
+                DB::raw("MATCH(exercises_translations.nameEngine) AGAINST('$search') as scoreNameEngine")
+            )->whereRaw("MATCH(exercises_translations.name, exercises_translations.nameEngine) AGAINST(? IN BOOLEAN MODE)", [$search]);
+        }
+
+        // --- Apply filters to with-query ---
+        if (!empty($parsedFilters['bodygroups'])) {
+            $withQuery->where(function ($q) use ($parsedFilters) {
+                $q->whereIn('exercises.bodygroupId', $parsedFilters['bodygroups'])
+                    ->orWhereIn('exercises.id', function ($sub) use ($parsedFilters) {
+                        $sub->select('exerciseId')->from('exercises_bodygroups')
+                            ->whereNull('deleted_at')
+                            ->whereIn('bodygroupId', $parsedFilters['bodygroups']);
+                    });
+            });
+        }
+
+        if (!empty($parsedFilters['types'])) {
+            $withQuery->whereIn('exercisesTypesId', $parsedFilters['types']);
+        }
+
+        if (!empty($parsedFilters['equipments'])) {
+            $withQuery->whereIn('exercises_equipments.equipmentId', $parsedFilters['equipments']);
+        }
+
+        $withResults = collect($withQuery->limit($limit * 3)->get());
+
+        // ---------------- Merge & Sort ----------------
+        $baseResults = $baseResults->filter(fn($e) => $e->equipmentRequired == 0);
+
+        $merged = collect($baseResults)
+            ->merge($withResults)
+            ->unique(fn($item) => $item->id . '-' . ($item->equipmentId ?? '0'));
+
+        $merged = $merged->sortBy([
+            ['favorite', 'desc'],
+            ['type', 'asc'],
+            ['scoreName', 'desc'],
+            ['scoreNameEngine', 'desc'],
+            ['length', 'asc'],
+        ])->values();
+
+        return $merged->take($limit);
     }
+
 
 
     public static function searchExercisesCount($search, $count = null, $filters = null)
