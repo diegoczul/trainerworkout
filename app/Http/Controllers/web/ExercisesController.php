@@ -135,9 +135,9 @@ class ExercisesController extends BaseController
             }
         }
 
-        if ($action == 'added'){
+        if ($action == 'added') {
             return response()->json(Messages::showControlPanel("AddedToFavorites"));
-        }else{
+        } else {
             return response()->json(Messages::showControlPanel("RemovedFromFavorites"));
         }
     }
@@ -728,18 +728,71 @@ class ExercisesController extends BaseController
     {
         return view('ControlPanel.Exercises')->with("bodygroups", Exercises::getBodyGroupsList())->with("exercisesTypes", ExercisesTypes::orderBy("name", "ASC")->pluck("name", "id"))->with("equipments", Equipments::orderBy("name", "ASC")->pluck("name", "id"))->with("users", Users::select(DB::raw("concat('id: ', id, ' - ', firstName, ' ', lastName) as name"), "id")->orderBy("firstName", "ASC")->orderBy("lastName", "ASC")->pluck("name", "id"));
     }
-
     public function _ApiList(Request $request)
     {
-        $response = Exercises::with(["bodygroup", "exercisesTypes", "bodygroupsOptional", "equipments", "equipmentsOptional", "user", "author"])->orderBy("name", "ASC")->latest();
-        return DataTables::eloquent($response)
-            ->addIndexColumn()
-            ->addColumn('bodygroup_name', function ($row) {
-                return $row->bodygroup->name;
+        $locale = app()->getLocale();
+
+        $query = DB::table('exercises')
+            ->leftJoin('exercises_translations', function ($join) use ($locale) {
+                $join->on('exercises.id', '=', 'exercises_translations.exercises_id')
+                    ->where('exercises_translations.locale', '=', $locale);
             })
-            ->with(['bodygroup_name'])
+            ->leftJoin('bodygroups', 'bodygroups.id', '=', 'exercises.bodygroupId')
+            ->leftJoin('exercises_equipments', function ($join) {
+                $join->on('exercises.id', '=', 'exercises_equipments.exerciseId')
+                    ->whereNull('exercises_equipments.deleted_at');
+            })
+            ->leftJoin('equipments', function ($join) {
+                $join->on('equipments.id', '=', 'exercises_equipments.equipmentId')
+                    ->whereNull('equipments.deleted_at');
+            })
+            ->leftJoin('equipments_translations', function ($join) use ($locale) {
+                $join->on('equipments_translations.equipments_id', '=', 'equipments.id')
+                    ->where('equipments_translations.locale', '=', $locale);
+            })
+            ->select(
+                'exercises.id',
+                'exercises.views',
+                'exercises.userId',
+                'exercises.authorId',
+                'exercises.name',
+                'exercises.created_at',
+                'exercises.nameEngine',
+                'exercises.thumb',
+                'exercises.thumb2',
+                'exercises_translations.name as translated_name',
+                'exercises_translations.nameEngine as translated_name_engine',
+                'bodygroups.name as bodygroup_name',
+                'equipments_translations.name as equipment_name',
+                DB::raw('(SELECT GROUP_CONCAT(bg.name SEPARATOR ", ") FROM exercises_bodygroups ebg JOIN bodygroups bg ON bg.id = ebg.bodygroupId WHERE ebg.exerciseId = exercises.id) as bodygroups_optional'),
+                DB::raw('(SELECT GROUP_CONCAT(et.name SEPARATOR ", ") FROM exercises_exercisestypes eet JOIN exercisestypes et ON et.id = eet.exercisestypesId WHERE eet.exerciseId = exercises.id) as exercises_types'),
+                DB::raw('(SELECT GROUP_CONCAT(et.name SEPARATOR ", ") FROM exercises_equipments ee JOIN equipments e ON e.id = ee.equipmentId JOIN equipments_translations et ON et.equipments_id = e.id AND et.locale = "' . $locale . '" WHERE ee.exerciseId = exercises.id AND ee.type = "required" AND ee.deleted_at IS NULL) as equipments'),
+                DB::raw('(SELECT GROUP_CONCAT(et.name SEPARATOR ", ") FROM exercises_equipments ee JOIN equipments e ON e.id = ee.equipmentId JOIN equipments_translations et ON et.equipments_id = e.id AND et.locale = "' . $locale . '" WHERE ee.exerciseId = exercises.id AND ee.type = "optional" AND ee.deleted_at IS NULL) as equipments_optional')
+            )
+            ->whereNull('exercises.deleted_at');
+
+        return DataTables::query($query)
+            ->filter(function ($query) use ($request, $locale) {
+                if ($search = $request->get('search')['value']) {
+                    $query->where(function ($q) use ($search, $locale) {
+                        $q->where('exercises.name', 'like', "%{$search}%")
+                            ->orWhere('exercises.nameEngine', 'like', "%{$search}%")
+                            ->orWhere('exercises_translations.name', 'like', "%{$search}%")
+                            ->orWhere('exercises_translations.nameEngine', 'like', "%{$search}%")
+                            ->orWhere('bodygroups.name', 'like', "%{$search}%")
+                            ->orWhere('equipments_translations.name', 'like', "%{$search}%");
+                    });
+                }
+            })
+            ->addColumn('actions', function ($row) {
+                return '<a href="/ControlPanel/exercises/edit/' . $row->id . '" class="btn btn-sm btn-primary">Edit</a>';
+            })
+            ->rawColumns(['actions'])
             ->make(true);
     }
+
+
+
 
     public function _AddEdit(Request $request)
     {

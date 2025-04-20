@@ -31,10 +31,10 @@ class Exercises extends Model implements TranslatableContract
         "name" => "required|min:2|max:500",
         "description" => "max:500",
         //        "equipment" => "required|max:500",
-        "bodygroup" => "required",
+        "bodygroupId" => "required",
         "image1" => 'sometimes|mimes:jpg,png,jpeg,gif',
         "image2" => 'sometimes|mimes:jpg,png,jpeg,gif',
-        "video" => 'sometimes|mimes:mp4',
+        'video' => 'nullable|file|mimes:mp4',
     ];
 
 
@@ -417,7 +417,7 @@ class Exercises extends Model implements TranslatableContract
             });
         }
 
-        $baseResults = $baseQuery->limit($limit * 3)->get();
+        $baseResults = $baseQuery->limit($limit)->get();
 
         // ---------------- With Equipment Query ----------------
         $withQuery = DB::table('exercises_equipments')
@@ -493,7 +493,7 @@ class Exercises extends Model implements TranslatableContract
             $withQuery->whereIn('exercises_equipments.equipmentId', $parsedFilters['equipments']);
         }
 
-        $withResults = collect($withQuery->limit($limit * 3)->get());
+        $withResults = collect($withQuery->limit($limit)->get());
 
         // ---------------- Merge & Sort ----------------
         $baseResults = $baseResults->filter(fn($e) => $e->equipmentRequired == 0);
