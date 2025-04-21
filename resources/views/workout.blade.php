@@ -489,9 +489,9 @@
                                                             @foreach($sets as $set)
                                                                 <tr>
                                                                     <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
-                                                                    <td>
-                                                                        <span class="exercise_units_weight_{{ $exercise->id }}">{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}</span>&nbsp;
-                                                                        <span class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
+                                                                    <td style="display: flex; padding: 0">
+                                                                        <span class="exercise_units_weight_{{ $exercise->id }}"><input class="form-input" style="margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%"></span>&nbsp;
+                                                                        <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                     </td>
                                                                     @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
                                                                         <td>{{ $set->reps }}<span> sec</span></td>
@@ -1039,8 +1039,9 @@
                                                         @foreach($sets as $set)
                                                             <tr>
                                                                 <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
-                                                                <td><span class="exercise_units_weight_{{ $exercise->id }}">{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}</span>&nbsp;
-                                                                    <span class="exercise_units_weight_unit_{{ $exercise->id }}"> {{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
+                                                                <td style="display: flex; padding: 0">
+                                                                    <span class="exercise_units_weight_{{ $exercise->id }}"><input class="form-input" onchange="updateWorkoutWeight(this, {{$exercise->id}});" style="margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%"></span>&nbsp;
+                                                                    <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                 </td>
                                                                 @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
                                                                     <td>{{ $set->reps }}<span> sec</span></td>
@@ -1420,7 +1421,13 @@
     <script type="text/javascript" src="{{asset('assets/fw/flowplayer/flowplayer-3.2.2.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/js/stopwatch.js')}}"></script>
     <script>
+        var updateWorkoutWeightTimeout;
+        function updateWorkoutWeight(element,exercise_id){
+            clearTimeout(updateWorkoutWeightTimeout);
+            updateWorkoutWeightTimeout = setTimeout(function (){
 
+            },500);
+        }
 
         function toggleTimer(action) {
             console.log("click");

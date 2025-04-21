@@ -832,5 +832,7 @@ Route::controller(WebviewController::class)->prefix('webview')->group(function (
     Route::get('edit-trainer-workout/{user_id}/{workout_id}', 'editTrainerWorkout')->name('webview.edit-trainer-workout');
     Route::get('create-trainer-workout-success', 'workoutCreatedSuccessfully')->name('webview.create-trainer-workout-success');
     Route::get('create-trainer-workout-failed', 'failedToCreateWorkout')->name('webview.create-trainer-workout-failed');
+    Route::get('edit-trainer-workout-success', 'workoutCreatedSuccessfully')->name('webview.edit-trainer-workout-success');
+    Route::get('edit-trainer-workout-failed', 'failedToCreateWorkout')->name('webview.edit-trainer-workout-failed');
     Route::get('edit-trainer-workout-unauthorised', 'failedToUpdateWorkout')->name('webview.edit-trainer-workout-unauthorised');
 });
