@@ -15,7 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 class BodyGroupsController extends BaseController
 {
     public $pageSize = 15;
-    public $searchSize = 15;
+    public $searchSize = 40;
     public $pageSizeFull = 10;
 
     //=======================================================================================================================
