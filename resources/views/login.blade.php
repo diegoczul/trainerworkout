@@ -139,3 +139,74 @@
         });
     </script>
 @endsection
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ4SCN3MPG"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-ZZ4SCN3MPG');
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8026299207830445" crossorigin="anonymous"></script>
+<script>
+    function initializeAds() {
+        return new Promise((resolve) => {
+            if (window.afg) {
+                if (window.afg.ready) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+                return;
+            }
+
+            window.adsbygoogle = window.adsbygoogle || [];
+            var afg = {};
+
+            afg.adBreak = window.adConfig = function (o) {
+                adsbygoogle.push(o);
+            };
+            afg.ready = false;
+            window.afg = afg;
+            const onAdsReady = () => {
+                window.afg.ready = true
+                resolve(true)
+            }
+            try{
+                if (!window.adConfigCalled) {
+                    window.adConfigCalled = true;
+                    adConfig({
+                        preloadAdBreaks: 'on',
+                        onReady: onAdsReady,
+                    });
+                } else {
+                    console.log('Already set.');
+                    onAdsReady();
+                }
+            }catch(e){
+                console.log('>> Ad config already initilized')
+                resolve(false);
+            }
+        })
+    }
+
+    initializeAds().then((isAdsReady) => {
+        if (isAdsReady) {
+            window.afg.adBreak({
+                type: 'start',
+                name: 'gamesdonut-ads',
+                beforeAd: () => {
+                    console.log('>> Before AD')
+                },
+                adBreakDone: () => {
+                    console.log('>> After AD')
+                }
+            });
+        }
+    });
+</script>
