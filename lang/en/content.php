@@ -215,6 +215,7 @@ return array(
     "ChoosePlan"                    => "Choose Plan",
     "Yearly"                        => "Yearly",
     "Addanexercise"                 => "Add an exercise",
+    "Editanexercise"                => "Edit an exercise",
     "Uploadavideo"                  => "Upload a video",
     "Linktoyourvideoofthisexercise" => "Link to your video of this exercise",
     "Listtheequipmentneeded"        => "List equipment needed",

@@ -12,7 +12,7 @@
     <section id="content" class="clearfix">
         <div class="wrapper">
             <div class="widgets fullwidthwidget shadow marginleftnone">
-                <h1>{{ Lang::get("content.Addanexercise") }}</h1>
+                <h1>{{ Lang::get("content.Editanexercise") }}</h1>
                 <!-- add exercises -->
                 <div class="add-exercises clearfix">
                     <!-- add exercises form -->

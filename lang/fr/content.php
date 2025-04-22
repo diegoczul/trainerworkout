@@ -225,6 +225,7 @@ return array(
         "ChoosePlan"                       => "Choisissez votre plan",
         "Yearly"                       => "Annuellement",
         "Addanexercise"                       => "Ajouter un exercice",
+        "Editanexercise"                       => "Editer un exercice",
         "Uploadavideo"                       => "Télécharger une vidéo",
         "Linktoyourvideoofthisexercise"                       => "Lien de votre vidéo pour cet exercice",
         "Listtheequipmentneeded"                       => "Liste des équipements requis",
