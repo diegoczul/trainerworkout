@@ -486,6 +486,7 @@ Route::get(__('routes./Workout/AddToMyWorkouts/') . "{workout}", [WorkoutsContro
 Route::get(__('routes./Workout/exercisePerformance/') . "{workoutexercise}", [WorkoutsController::class, 'exercisePerformance'])->middleware('auth');
 Route::post(__('routes./Workout/addCustomPicture/'), [WorkoutsController::class, 'addCustomPicture'])->middleware('auth');
 Route::post(__('routes./Workout/unit/update'), [WorkoutsController::class, 'updateUnitExerciseGroup'])->middleware('auth');
+Route::post('/Workout/weight/update', [WorkoutsController::class, 'updateWeightExerciseGroup'])->name('workout.weight-update')->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');

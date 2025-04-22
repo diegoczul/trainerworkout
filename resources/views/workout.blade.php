@@ -490,7 +490,7 @@
                                                                 <tr>
                                                                     <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
                                                                     <td style="display: flex; padding: 0">
-                                                                        <span class="exercise_units_weight_{{ $exercise->id }}"><input class="form-input" style="margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%"></span>&nbsp;
+                                                                        <input class="form-input exercise_units_weight_{{ $exercise->id }}" style="margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%">
                                                                         <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                     </td>
                                                                     @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
@@ -1040,7 +1040,7 @@
                                                             <tr>
                                                                 <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
                                                                 <td style="display: flex; padding: 0">
-                                                                    <span class="exercise_units_weight_{{ $exercise->id }}"><input class="form-input" onchange="updateWorkoutWeight(this, {{$exercise->id}});" style="margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%"></span>&nbsp;
+                                                                    <input class="form-input exercise_units_weight_{{ $exercise->id }}" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" style="margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%">
                                                                     <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                 </td>
                                                                 @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
@@ -1422,11 +1422,28 @@
     <script type="text/javascript" src="{{asset('assets/js/stopwatch.js')}}"></script>
     <script>
         var updateWorkoutWeightTimeout;
-        function updateWorkoutWeight(element,exercise_id){
-            clearTimeout(updateWorkoutWeightTimeout);
-            updateWorkoutWeightTimeout = setTimeout(function (){
+        function updateWorkoutWeight(element,exercise_id,set_id){
+            if($(element).val().trim() != ""){
+                clearTimeout(updateWorkoutWeightTimeout);
+                updateWorkoutWeightTimeout = setTimeout(function (){
+                    $.ajax({
+                        url: "{{route('workout.weight-update')}}",
+                        type: "POST",
+                        data: {
+                            set_id: set_id,
+                            exercise_id: exercise_id,
+                            workout_id: {{ $workout->id }},
+                            weight: $(element).val(),
+                        },
+                        success: function (data, textStatus, jqXHR) {
 
-            },500);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            errorMessage(jqXHR.responseText);
+                        }
+                    });
+                },500);
+            }
         }
 
         function toggleTimer(action) {
@@ -1638,10 +1655,9 @@
             $(".exercise_units_weight_" + exerciseWorkout).each(function (index) {
                 if ($("#exercise_units_" + exerciseWorkout).val() == "Imperial" || units == "") {
                     //alert("Changing to KG");
-                    $(this).text(convertTo($(this).text(), "Metric"));
-
+                    $(this).val(convertTo($(this).val(), "Metric"));
                 } else {
-                    $(this).text(convertTo($(this).text(), "Imperial"));
+                    $(this).val(convertTo($(this).val(), "Imperial"));
                 }
             });
 

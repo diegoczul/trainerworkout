@@ -2024,6 +2024,13 @@ class WorkoutsController extends BaseController {
 		}
 	}
 
+    public function updateWeightExerciseGroup(Request $request){
+        $weight = $request->get("weight");
+        $sets = Sets::where("id",$request->get('set_id'))->first();
+        $sets->weight = $weight;
+        $sets->save();
+    }
+
 	public function saveAllSets(Request $request){
 
 		$sets = $request->get("sets");
