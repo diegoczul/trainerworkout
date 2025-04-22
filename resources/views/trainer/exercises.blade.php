@@ -18,36 +18,41 @@
                         <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
                         <button onClick="searchExercise()">{{ Lang::get("content.Search") }}</button>
                     </div>
-                    <div class="tagContainer">
-                        <ul class="tabs">
-                            <li class="tab" onclick="openTab('tags-exercise')">{{ Lang::get("content.Exercise Type")}}</li>
-                            <li class="tab" onclick="openTab('tags-muscle')">{{ Lang::get("content.Muscle Group")}}</li>
-                            <li class="tab" onclick="openTab('tags-equipment')">{{ Lang::get("content.Equipment")}}</li>
-                        </ul>
+{{--                    <div class="tagContainer">--}}
+{{--                        <ul class="tabs">--}}
+{{--                            <li class="tab" onclick="openTab('tags-exercise')">{{ Lang::get("content.Exercise Type")}}</li>--}}
+{{--                            <li class="tab" onclick="openTab('tags-muscle')">{{ Lang::get("content.Muscle Group")}}</li>--}}
+{{--                            <li class="tab" onclick="openTab('tags-equipment')">{{ Lang::get("content.Equipment")}}</li>--}}
+{{--                        </ul>--}}
 
-                        <div id="tags-exercise" class="tabContent">
-                            @foreach($exercisesTypes as $exercisesType)
-                                <div class="searchTag" onClick='addToFilter("{{ $exercisesType->name }}","type",{{ $exercisesType->id }})'>{{{ $exercisesType->name }}}</div>
-                            @endforeach
-                        </div>
-                        <div id="tags-muscle" class="tabContent">
-                            @foreach($bodyGroups as $bodyGroup)
-                                <div class="searchTag" onClick='addToFilter("{{ $bodyGroup->name }}","bodygroup",{{ $bodyGroup->id }})'>{{{ $bodyGroup->name }}}</div>
-                            @endforeach
-                        </div>
-                        <div id="tags-equipment" class="tabContent">
-                            @foreach($equipments as $equipment)
-                                <div class="searchTag" onClick='addToFilter("{{ $equipment->name }}","equipment",{{ $equipment->id }})'>{{{ $equipment->name }}}</div>
-                            @endforeach
-                        </div>
+{{--                        <div id="tags-exercise" class="tabContent">--}}
+{{--                            @foreach($exercisesTypes as $exercisesType)--}}
+{{--                                <div class="searchTag" onClick='addToFilter("{{ $exercisesType->name }}","type",{{ $exercisesType->id }})'>{{{ $exercisesType->name }}}</div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                        <div id="tags-muscle" class="tabContent">--}}
+{{--                            @foreach($bodyGroups as $bodyGroup)--}}
+{{--                                <div class="searchTag" onClick='addToFilter("{{ $bodyGroup->name }}","bodygroup",{{ $bodyGroup->id }})'>{{{ $bodyGroup->name }}}</div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                        <div id="tags-equipment" class="tabContent">--}}
+{{--                            @foreach($equipments as $equipment)--}}
+{{--                                <div class="searchTag" onClick='addToFilter("{{ $equipment->name }}","equipment",{{ $equipment->id }})'>{{{ $equipment->name }}}</div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
 
-                    </div>
+{{--                    </div>--}}
                 </div>
             </div>
         @else
             <div class="searchContainer exerciseSearch">
                 <div class="searchWrapper">
                     <h4>{{Lang::get("content.YouExerciselibrary")}}</h4>
+                    <p>{{Lang::get("content.YourPersonalExercises")}}</p>
+                    <div class="searchField">
+                        <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
+                        <button onClick="searchExercise()">{{ Lang::get("content.Search") }}</button>
+                    </div>
                 </div>
             </div>
         @endif

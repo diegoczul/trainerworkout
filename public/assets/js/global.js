@@ -264,26 +264,20 @@ function errorMessage(message){
 	var numOfNotif = $(".systemMessages > div").length;
 	var notifId    = 'errorBoxId'+(numOfNotif+1);
 	if(msg != ""){
-		$(".systemMessages")
-			.show()
-			.append("<div class='errorBox' id='"+notifId+"'><a class='hideErrorMessageButton' href='JavaScript:void(0)' onClick='removeNotification($(this).parent());'><i class='fa fa-times'></i></a>"+msg+"</div>");
+		$(".systemMessages").show().append(`<div class='errorBox' id='${notifId}' ><a class='hideErrorMessageButton' href='JavaScript:void(0)' onClick='removeNotification($(this).parent());'><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" x="0" y="0" viewBox="0 0 254000 254000" style="enable-background:new 0 0 512 512" xml:space="preserve" fill-rule="evenodd" class=""><g><path fill="#000000" d="M127000 0c70129 0 127000 56871 127000 127000s-56871 127000-127000 127000S0 197129 0 127000 56871 0 127000 0zM62810 172969l45969-45969-45969-45969c-2637-2638-2637-6941 0-9578l8643-8643c2637-2637 6940-2637 9578 0l45969 45969 45969-45969c2638-2637 6941-2637 9578 0l8643 8643c2637 2637 2637 6940 0 9578l-45969 45969 45969 45969c2637 2638 2637 6941 0 9578l-8643 8643c-2637 2637-6940 2637-9578 0l-45969-45969-45969 45969c-2638 2637-6941 2637-9578 0l-8643-8643c-2637-2637-2637-6940 0-9578z" opacity="1" data-original="#FF4141" class=""></path></g></svg></a>${msg}</div>`);
 
-		if(!debug){
+		// if(!debug){
 			setTimeout(function(){
-				removeNotification($("div#"+notifId));
-			  },7000
-			);
-		}
+				removeNotification($(`div#${notifId}`));
+		  	},5000);
+		// }
 	}
 }
 
 function removeNotification(notification){
 	var notifHeight = (-(notification.outerHeight()+10))+'px';
 
-	$(notification).animate({
-	    left: '400px',
-	  },
-	  'fast', 'linear');
+	$(notification).animate({left: '400px',},'fast', 'linear');
 
 	setTimeout(function(){
 		$(notification).animate({
@@ -299,6 +293,10 @@ function removeNotification(notification){
 	},1000);
 }
 
+setTimeout(function(){
+	let notifId = $(".errorBox").attr('id');
+	removeNotification($(`div#${notifId}`));
+},5000);
 
 function callWidget(wid,pageSize,userId,object,arrayData){
 	showTopLoader();
