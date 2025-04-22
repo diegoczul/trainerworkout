@@ -36,7 +36,7 @@
                     </fieldset>
                     <div class="equipment">
                         <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
-                        {{ FORM::select("bodygroup", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroupslist->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select"]) }}
+                        {{ FORM::select("bodygroupId", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroupslist->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select"]) }}
                     </div>
                     <div class="submit">
                         <label class="next" onclick="addExerciseSwtichStep()" tabindex="5">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>

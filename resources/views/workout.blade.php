@@ -490,7 +490,7 @@
                                                                 <tr>
                                                                     <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
                                                                     <td style="display: flex; padding: 0">
-                                                                        <input class="form-input exercise_units_weight_{{ $exercise->id }}" style="margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%">
+                                                                        <input class="form-input exercise_units_weight_{{ $exercise->id }}" style="margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%" @if($workout->isOwner() && Auth::user()->userType != "Trainee" ) readonly @endif>
                                                                         <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                     </td>
                                                                     @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
@@ -1040,7 +1040,7 @@
                                                             <tr>
                                                                 <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
                                                                 <td style="display: flex; padding: 0">
-                                                                    <input class="form-input exercise_units_weight_{{ $exercise->id }}" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" style="margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%">
+                                                                    <input class="form-input exercise_units_weight_{{ $exercise->id }}" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" style="margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%" @if($workout->isOwner() && Auth::user()->userType != "Trainee" ) readonly @endif>
                                                                     <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                 </td>
                                                                 @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))

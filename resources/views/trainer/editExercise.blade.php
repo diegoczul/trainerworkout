@@ -25,7 +25,7 @@
                             <input type="text" name="nameEngine" class="input border-radius" placeholder="{{ Lang::get("content.Othernamesfortheexercise") }}" value="{{ $exercise->nameEngine }}">
                             <input name="action" value="addexercise" type="hidden" />
                             <p>{{ Lang::get("content.MuscleGroup") }}</p>
-                            {{ FORM::select( "bodygroup", $bodygroups, $exercise->bodygroupId, array("class"=>"chosen-select","id"=>"bodygroup")) }}
+                            {{ FORM::select( "bodygroupId", $bodygroups, $exercise->bodygroupId, array("class"=>"chosen-select","id"=>"bodygroup")) }}
                             <p style="margin-top:10px">Description</p>
                             <textarea  name="description" class="description border-radius">{{ $exercise->description }}</textarea>
                         </div>
