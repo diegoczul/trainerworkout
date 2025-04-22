@@ -112,13 +112,14 @@ label {
   padding: 0 0 4px 0; }
 
 input, .popup_container .share_content textarea {
-  height: 40px;
-  border: 2px solid rgba(255, 255, 255, 0.52);
-  border-radius: 2px;
+  /* height: 40px; */
+  border: 1px solid #aaa;
+  border-radius: 4px;
   width: 100%;
   padding: 9px;
   margin-bottom: 15px;
-  background: transparent; }
+  background: transparent;
+ }
 
 caption {
   display: none; }
@@ -1605,9 +1606,15 @@ nav {
 /*  ======   Search Workout 
 ===========================*/
 .description, .searchWorkout p, .workouts p {
+  border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 6px;
   color: #9B9B9B;
   font-size: .8em;
-  line-height: 1.25em; }
+  line-height: 1.25em;
+width: 100%;
+height: 100px;
+ }
 
 .searchWorkout {
   text-align: center;
@@ -5190,7 +5197,9 @@ FRAMEWORK OVERRIDE CHOSEN
   /* For IE8 and earlier */ }
 
 .fltleft {
-  float: left !important; }
+  float: left !important; 
+  padding-right: 12px;
+}
 
 .clearfix:before, .clearfix:after {
   content: "\0020";
@@ -8495,15 +8504,21 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
   .info p {
     color: white; }
 
+    .input-section{
+      padding-bottom: 12px;
+    }
+    
 input.input, .popup_container .share_content textarea.input {
-  border: none;
-  padding: 0;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 6px;
   /*color: white;*/
   margin: 0; }
 
 .input {
   font-size: 1.2em;
-  min-height: 39px;
+  /* min-height: 39px; */
   padding: 10px 0 10px 5px; }
 
 .clientWidget {
@@ -9443,7 +9458,8 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   display: block;
   overflow: hidden;
   padding: 0 0 0 8px;
-  height: 25px;
+  /* height: 25px; */
+  height: 33px;
   border: 1px solid #aaa;
   border-radius: 5px;
   background-color: #fff;
@@ -9460,7 +9476,8 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
 .chosen-container-single .chosen-single span {
   display: block;
   overflow: hidden;
-  margin-right: 26px;
+  /* margin-right: 26px; */
+  margin:4px 26px 0px 0px;
   text-overflow: ellipsis;
   white-space: nowrap; }
 .chosen-container-single .chosen-single-with-deselect span {
