@@ -19,7 +19,7 @@
 <div class="cw wrapper">
     <!-- This div contains all the info about the workout header -->
     <div class="widget cw-header">
-        <div class="ptLogoPlaceholder" style="cursor:pointer" onclick="window.location='{{ Lang::get("routes./Trainer/Profile") }}'">
+        <div class="ptLogoPlaceholder" style="cursor:pointer; @if(Auth::user()->activeLogo) background-image: none; @endif" onclick="window.location='{{ Lang::get("routes./Trainer/Profile") }}'">
             @if(Auth::user()->activeLogo)
                 <img src="/{{ Helper::image(Auth::user()->activeLogo->thumb) }}">
             @endif
