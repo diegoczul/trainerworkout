@@ -1606,7 +1606,6 @@ nav {
 /*  ======   Search Workout 
 ===========================*/
 .description, .searchWorkout p, .workouts p {
-  color: #9B9B9B;
   font-size: .8em;
   line-height: 1.25em;
   width: 100%;

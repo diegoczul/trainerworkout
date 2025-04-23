@@ -19,6 +19,7 @@ var debug = true;
 
 //TRAINEE
 widgetsList['w_weights'] = "/widgets/weight";
+widgetsList['w_plans'] = "/widgets/plans";
 widgetsList['w_workouts'] = "/widgets/workouts";
 widgetsList['w_workouts_create'] = "/widgets/workouts_create";
 widgetsList['w_workoutsTrainee'] = "/widgets/workoutsTrainee";

@@ -54,24 +54,24 @@ class UsersController extends BaseController
 {
     public function sendTestMail()
     {
-//        $email = new \SendGrid\Mail\Mail();
-//        $email->setFrom(env('MAIL_FROM_ADDRESS'));
-//        $email->setSubject("Test Email");
-//        $email->addTo('krish.siddhapura@grewon.com');
-//        $email->addContent("text/plain", "This is a test email from SendGrid API.");
-//        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
-//        $sendMail = $sendgrid->send($email);
+        //        $email = new \SendGrid\Mail\Mail();
+        //        $email->setFrom(env('MAIL_FROM_ADDRESS'));
+        //        $email->setSubject("Test Email");
+        //        $email->addTo('krish.siddhapura@grewon.com');
+        //        $email->addContent("text/plain", "This is a test email from SendGrid API.");
+        //        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+        //        $sendMail = $sendgrid->send($email);
 
-//        $data['email'] = 'krish.siddhapura@grewon.com';
-//        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
-//            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
-//        });
+        //        $data['email'] = 'krish.siddhapura@grewon.com';
+        //        $sendMail = Mail::send('mail',$data,function ($message) use($data) {
+        //            $message->to($data['email'])->subject('LARAVEL MAIL TESTER');
+        //        });
         $data = 'krish.siddhapura@grewon.com';
         $sendMail = TestMailJob::dispatch($data);
-//        $sendMail = Mail::queue(new TestMail($data));
-        if($sendMail){
+        //        $sendMail = Mail::queue(new TestMail($data));
+        if ($sendMail) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -144,6 +144,32 @@ class UsersController extends BaseController
         return view('trainer.memberships')->with('memberships', $memberships)->with('membershipsSelected', $membershipsUser)->with('user', $user);
     }
 
+    public function plansIndex(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $user = Auth::user();
+
+        $permissions = Helper::checkPremissions($userId, $userId);
+
+        if (!$permissions['view']) {
+            return response()->json(['error' => Lang::get('messages.NoPermissions')], 403);
+        }
+
+        $plans = DB::table('plans')
+            ->where('user_id', $userId)
+            ->whereNull('deleted_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
+
+        return view('widgets.full.plans')
+            ->with('plans', $plans)
+            ->with('permissions', $permissions)
+            ->with('user', $user);
+    }
+
+
     public function rotateRight()
     {
         $obj = Auth::user();
@@ -154,7 +180,7 @@ class UsersController extends BaseController
             $thumb->rotate(-90)->save();
 
             return $this::responseJson(Lang::get('messages.ImageRotated'));
-        }else{
+        } else {
             // ERROR MESSAGE
             return $this::responseJson(Lang::get('messages.FailedToRotateImage'));
         }
@@ -170,7 +196,7 @@ class UsersController extends BaseController
             $thumb->rotate(90)->save();
 
             return $this::responseJson(Lang::get('messages.ImageRotated'));
-        }else{
+        } else {
             return $this::responseJson(Lang::get('messages.FailedToRotateImage'));
         }
     }
@@ -290,7 +316,7 @@ class UsersController extends BaseController
             return $this::responseJsonErrorValidation($validation->messages());
         } else {
             $sendGridService = new SendGridSubscriptionService();
-            $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridNewsletter'));
+            $sendGridService->subscribeToList(['email' => $request->get("email")], config('constants.sendgridNewsletter'));
             return $this->responseJson(__('messages.newsletter'));
         }
     }
@@ -299,7 +325,26 @@ class UsersController extends BaseController
     {
         $user = Auth::user();
         $staticPermissions = [
-            "w_objectives", "w_pictures", "w_measurements", "w_workouts", "w_information", "w_userMessages", "email_notifications", "w_publicProfile", "newsletter", "email_notifications_trainer", "email_notifications_workout", "email_notifications_client", "email_notifications_people", "email_notifications_trainer", "setting_workout_reminder", "setting_workout_reminder_number", "setting_weight_reminder_number", "setting_measurements_reminder_number", "setting_pictures_reminder_number", "setting_inactive_reminder_number"
+            "w_objectives",
+            "w_pictures",
+            "w_measurements",
+            "w_workouts",
+            "w_information",
+            "w_userMessages",
+            "email_notifications",
+            "w_publicProfile",
+            "newsletter",
+            "email_notifications_trainer",
+            "email_notifications_workout",
+            "email_notifications_client",
+            "email_notifications_people",
+            "email_notifications_trainer",
+            "setting_workout_reminder",
+            "setting_workout_reminder_number",
+            "setting_weight_reminder_number",
+            "setting_measurements_reminder_number",
+            "setting_pictures_reminder_number",
+            "setting_inactive_reminder_number"
         ];
 
         foreach ($staticPermissions as $key) {
@@ -331,7 +376,26 @@ class UsersController extends BaseController
     {
         $user = Auth::user();
         $staticPermissions = [
-            "w_objectives", "w_pictures", "w_measurements", "w_workouts", "w_information", "w_userMessages", "email_notifications", "w_publicProfile", "newsletter", "email_notifications_trainer", "email_notifications_workout", "email_notifications_client", "email_notifications_people", "email_notifications_trainer", "setting_workout_reminder", "setting_workout_reminder_number", "setting_weight_reminder_number", "setting_measurements_reminder_number", "setting_pictures_reminder_number", "setting_inactive_reminder_number"
+            "w_objectives",
+            "w_pictures",
+            "w_measurements",
+            "w_workouts",
+            "w_information",
+            "w_userMessages",
+            "email_notifications",
+            "w_publicProfile",
+            "newsletter",
+            "email_notifications_trainer",
+            "email_notifications_workout",
+            "email_notifications_client",
+            "email_notifications_people",
+            "email_notifications_trainer",
+            "setting_workout_reminder",
+            "setting_workout_reminder_number",
+            "setting_weight_reminder_number",
+            "setting_measurements_reminder_number",
+            "setting_pictures_reminder_number",
+            "setting_inactive_reminder_number"
         ];
 
         foreach ($staticPermissions as $key) {
@@ -447,7 +511,7 @@ class UsersController extends BaseController
         return $user
             ? View::make('trainee.trainee', ['permissions' => $permissions, 'user' => $user])
             : Redirect::route('Trainee', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
-                ->withErrors(Lang::get('messages.UserNotFound'));
+            ->withErrors(Lang::get('messages.UserNotFound'));
     }
 
     public function indexTrainer($userId, $userName)
@@ -473,7 +537,7 @@ class UsersController extends BaseController
         return $user
             ? View::make(strtolower(trim(Auth::user()->userType)) . '.trainer', ['permissions' => $permissions, 'user' => $user])
             : Redirect::route('Trainee', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
-                ->withErrors(Lang::get('messages.UserNotFound'));
+            ->withErrors(Lang::get('messages.UserNotFound'));
     }
 
     public function globalSearch()
@@ -597,7 +661,7 @@ class UsersController extends BaseController
                     $invite->completeInvite($user);
                 }
             }
-        }else {
+        } else {
             $validation = Users::validate($request->all(), ['termsAndConditions' => 'required']);
             if ($validation->fails()) {
                 return Redirect::back()->withInput()->withErrors($validation->messages());
@@ -614,26 +678,26 @@ class UsersController extends BaseController
         if ($request->filled('workout')) {
             Workouts::AddWorkoutToUser(request('workout'), Auth::user()->id, null);
 
-//            $workoutNew = $workout->replicate(['shares', 'views', 'timesPerformed', 'availability']);
-//            $workoutNew->userId = Auth::user()->id;
-//            $workoutNew->availability = 'private';
-//            $workoutNew->save();
-//
-//            $workoutsExercises = WorkoutsExercises::where('workoutId', $workout->id)->get();
-//            foreach ($workoutsExercises as $workoutExercise) {
-//                $workoutExerciseNew = $workoutExercise->replicate();
-//                $workoutExerciseNew->workoutId = $workoutNew->id;
-//                $workoutExerciseNew->save();
-//
-//                $templateSets = TemplateSets::where('workoutsExercisesId', $workoutExercise->id)->get();
-//                foreach ($templateSets as $templateSet) {
-//                    $templateSetNew = $templateSet->replicate();
-//                    $templateSetNew->workoutId = $workoutNew->id;
-//                    $templateSetNew->workoutsExercisesId = $workoutExerciseNew->id;
-//                    $templateSetNew->save();
-//                }
-//            }
-//            $workoutNew->createSets();
+            //            $workoutNew = $workout->replicate(['shares', 'views', 'timesPerformed', 'availability']);
+            //            $workoutNew->userId = Auth::user()->id;
+            //            $workoutNew->availability = 'private';
+            //            $workoutNew->save();
+            //
+            //            $workoutsExercises = WorkoutsExercises::where('workoutId', $workout->id)->get();
+            //            foreach ($workoutsExercises as $workoutExercise) {
+            //                $workoutExerciseNew = $workoutExercise->replicate();
+            //                $workoutExerciseNew->workoutId = $workoutNew->id;
+            //                $workoutExerciseNew->save();
+            //
+            //                $templateSets = TemplateSets::where('workoutsExercisesId', $workoutExercise->id)->get();
+            //                foreach ($templateSets as $templateSet) {
+            //                    $templateSetNew = $templateSet->replicate();
+            //                    $templateSetNew->workoutId = $workoutNew->id;
+            //                    $templateSetNew->workoutsExercisesId = $workoutExerciseNew->id;
+            //                    $templateSetNew->save();
+            //                }
+            //            }
+            //            $workoutNew->createSets();
         }
 
         Invites::where('email', $user->email)->where('completed', 0)->update(['completed' => 1]);
@@ -641,7 +705,7 @@ class UsersController extends BaseController
 
         try {
             $sendGridService = new SendGridSubscriptionService();
-            $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainee'));
+            $sendGridService->subscribeToList(['email' => $request->get("email")], config('constants.sendgridTrainee'));
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -657,7 +721,7 @@ class UsersController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'termsAndConditions' => 'required',
-            'email' => ['required','email',Rule::unique('users','email')->whereNull('deleted_at')],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')],
             'password' => 'required',
         ]);
 
@@ -665,7 +729,7 @@ class UsersController extends BaseController
             return redirect()->route('home')->withInput()->withErrors(__('messages.termsAndConditions'));
         }
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->route('TrainerSignUp')->withInput()->withErrors($validator->errors());
         }
 
@@ -691,7 +755,7 @@ class UsersController extends BaseController
         try {
             if (!Config::get('app.debug')) {
                 $sendGridService = new SendGridSubscriptionService();
-                $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
+                $sendGridService->subscribeToList(['email' => $request->get("email")], config('constants.sendgridTrainer'));
             }
         } catch (Exception $e) {
             Log::error("MAILCHIMP Error");
@@ -805,7 +869,7 @@ class UsersController extends BaseController
 
         try {
             $sendGridService = new SendGridSubscriptionService();
-            $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
+            $sendGridService->subscribeToList(['email' => $request->get("email")], config('constants.sendgridTrainer'));
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -827,7 +891,7 @@ class UsersController extends BaseController
     {
         $invite = Invites::where('key', $key)->first();
         if ($invite) {
-            if(Users::where(['email' => $invite->email])->whereNot('password',null)->exists()){
+            if (Users::where(['email' => $invite->email])->whereNot('password', null)->exists()) {
                 return redirect()->route('login');
             }
             $invite->viewed = 1;
@@ -872,13 +936,13 @@ class UsersController extends BaseController
         }
 
         $user = Users::where('email', $request->get('email'))->first();
-        if($user){
-            if($user->password == null){
+        if ($user) {
+            if ($user->password == null) {
                 $invite = Invites::where('email', $request->get('email'))->first();
-                if($invite){
-                    return redirect()->route('TraineeSignUp',['key' => $invite->key])->withErrors('Please complete your registration !');
+                if ($invite) {
+                    return redirect()->route('TraineeSignUp', ['key' => $invite->key])->withErrors('Please complete your registration !');
                 }
-            }else{
+            } else {
                 $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
 
                 if (Auth::attempt($credentials)) {
@@ -911,7 +975,7 @@ class UsersController extends BaseController
         $email = $request->get('email');
         $user = Users::where('email', $email)->first();
         if (!$user) {
-            return redirect()->route('login')->with('clear_db',true);
+            return redirect()->route('login')->with('clear_db', true);
         }
         Auth::loginUsingId($user->id);
         $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
@@ -999,7 +1063,7 @@ class UsersController extends BaseController
             $user->phone = Helper::formatPhone(strtolower($request->get("phone")));
             $user->gender = strtolower($request->get("gender"));
             $user->userType = "Trainee";
-            if($request->get('birthday')){
+            if ($request->get('birthday')) {
                 $user->birthday = strtolower($request->get("birthday"));
             }
             if ($request->get("timezone")) {
@@ -1090,10 +1154,10 @@ class UsersController extends BaseController
                 $userlogo->save();
             }
 
-            if ($newEmail){
+            if ($newEmail) {
                 $user->sendNewEmailConfirmation();
                 return redirect()->route('TrainerProfile')->with("message", __('messages.ProfileSavedEmail'));
-            }else{
+            } else {
                 return redirect()->route('TrainerProfile')->with("message", __('messages.ProfileSaved'));
             }
         }
@@ -1120,7 +1184,7 @@ class UsersController extends BaseController
 
             if ($lang != "") {
                 Session::put("lang", $lang);
-//                Session::save();
+                //                Session::save();
             }
         }
 
@@ -1153,8 +1217,7 @@ class UsersController extends BaseController
                 ]);
 
                 return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)]) : redirect()->route('traineeWorkouts')
-                        ->with("message", __("messages.Welcome"));
-
+                    ->with("message", __("messages.Welcome"));
             } else {
                 $user = new Users;
                 $user->fill([
@@ -1203,7 +1266,7 @@ class UsersController extends BaseController
         }
     }
 
-    public function loginTraineeFacebook($inviteKey = "",Request $request)
+    public function loginTraineeFacebook($inviteKey = "", Request $request)
     {
         $code = $request->get('code');
         $fb = OAuth::consumer('Facebook');
@@ -1241,7 +1304,7 @@ class UsersController extends BaseController
                     return Auth::user()->userType === "Trainer"
                         ? redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])
                         : redirect()->route('traineeWorkouts')
-                            ->with("message", __("messages.Welcome"));
+                        ->with("message", __("messages.Welcome"));
                 } else {
                     return redirect()->route("home")->with("error", "It is not possible to login with Facebook at the moment.");
                 }
@@ -1305,7 +1368,7 @@ class UsersController extends BaseController
             if ($user->userType == "Trainer") {
                 try {
                     $sendGridService = new SendGridSubscriptionService();
-                    $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainer'));
+                    $sendGridService->subscribeToList(['email' => $request->get("email")], config('constants.sendgridTrainer'));
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1314,7 +1377,7 @@ class UsersController extends BaseController
                 $user->freebesTrainee();
                 try {
                     $sendGridService = new SendGridSubscriptionService();
-                    $sendGridService->subscribeToList(['email' => $request->get("email")],config('constants.sendgridTrainee'));
+                    $sendGridService->subscribeToList(['email' => $request->get("email")], config('constants.sendgridTrainee'));
                 } catch (Exception $e) {
                     Log::error($e);
                 }
@@ -1357,7 +1420,7 @@ class UsersController extends BaseController
     public function APIRegistration(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => ['required','email',Rule::unique('users','email')->whereNull('deleted_at')],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->whereNull('deleted_at')],
             'password' => 'required',
         ]);
         if ($validator->fails()) {
@@ -1392,8 +1455,8 @@ class UsersController extends BaseController
             $result["data"] = Auth::guard('api')->user();
             $result["data"]['token'] = $token;
             $result["data"]['remember_token'] = $token;
-            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
-            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
+            $result['data']['thumb'] = !empty($result['data']['thumb']) ? asset($result['data']['thumb'] ?? null) : null;
+            $result['data']['image'] = !empty($result['data']['image']) ? asset($result['data']['image'] ?? null) : null;
             return $result;
         } else {
             $user = new Users;
@@ -1418,8 +1481,8 @@ class UsersController extends BaseController
             $result["data"] = Auth::guard('api')->user();
             $result["data"]['token'] = $token;
             $result["data"]['remember_token'] = $token;
-            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
-            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
+            $result['data']['thumb'] = !empty($result['data']['thumb']) ? asset($result['data']['thumb'] ?? null) : null;
+            $result['data']['image'] = !empty($result['data']['image']) ? asset($result['data']['image'] ?? null) : null;
             return $result;
         }
     }
@@ -1456,8 +1519,8 @@ class UsersController extends BaseController
             $user->save();
 
             $result["data"] = Auth::guard('api')->user()->toArray();
-            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
-            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
+            $result['data']['thumb'] = !empty($result['data']['thumb']) ? asset($result['data']['thumb'] ?? null) : null;
+            $result['data']['image'] = !empty($result['data']['image']) ? asset($result['data']['image'] ?? null) : null;
             $result["data"]['token'] = $token;
             $result["data"]['remember_token'] = $token;
             $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("recordDate")->get();
@@ -1503,8 +1566,8 @@ class UsersController extends BaseController
             Feeds::insertFeed("Welcome", Auth::guard('api')->user()->id, Auth::guard('api')->user()->firstName, Auth::guard('api')->user()->lastName);
 
             $result["data"] = Auth::guard('api')->user()->toArray();
-            $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
-            $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
+            $result['data']['thumb'] = !empty($result['data']['thumb']) ? asset($result['data']['thumb'] ?? null) : null;
+            $result['data']['image'] = !empty($result['data']['image']) ? asset($result['data']['image'] ?? null) : null;
             $result["data"]["token"] = $token;
             $result["data"]['remember_token'] = $token;
             $result["data"]["weight"] = Weights::where("userId", Auth::guard('api')->user()->id)->orderBy("recordDate")->get();
@@ -1542,7 +1605,7 @@ class UsersController extends BaseController
         $rules = [
             "firstName" => "required|min:2",
             "lastName" => "required|min:2",
-            "email" => ['required','email',Rule::unique('users')->ignore(Auth::guard('api')->user()->id)->whereNull('deleted_at')],
+            "email" => ['required', 'email', Rule::unique('users')->ignore(Auth::guard('api')->user()->id)->whereNull('deleted_at')],
         ];
 
         if (Auth::check()) {
@@ -1576,8 +1639,8 @@ class UsersController extends BaseController
                 $result = Helper::APIOK();
                 $result["message"] = Lang::get("messages.ProfileSaved");
                 $result["data"] = Auth::guard('api')->user()->toArray();
-                $result['data']['thumb'] = !empty($result['data']['thumb'])?asset($result['data']['thumb']??null):null;
-                $result['data']['image'] = !empty($result['data']['image'])?asset($result['data']['image']??null):null;
+                $result['data']['thumb'] = !empty($result['data']['thumb']) ? asset($result['data']['thumb'] ?? null) : null;
+                $result['data']['image'] = !empty($result['data']['image']) ? asset($result['data']['image'] ?? null) : null;
             }
         } else {
             $result["message"] = Lang::get("messages.LoginRequired");
@@ -1589,8 +1652,8 @@ class UsersController extends BaseController
     public function APIForgetPassword(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(),[
-                'email' => ['required', 'email', Rule::exists('users','email')->whereNull('deleted_at')],
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'email', Rule::exists('users', 'email')->whereNull('deleted_at')],
             ]);
             if ($validator->fails()) {
                 $result = [
@@ -1611,10 +1674,10 @@ class UsersController extends BaseController
                     "message" => Lang::get("messages.email_sent_success"),
                 ];
                 return $this->responseJson($result);
-            }else{
+            } else {
                 return $this->responseJson($result);
             }
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $this->responseJsonError($e->getMessage());
         }
     }
@@ -1645,9 +1708,9 @@ class UsersController extends BaseController
 
     public function _AddEdit(Request $request)
     {
-        if ($request->has("hiddenId") && !empty($request->get("hiddenId"))){
-            return $this->_update($request->get("hiddenId"),$request);
-        }else{
+        if ($request->has("hiddenId") && !empty($request->get("hiddenId"))) {
+            return $this->_update($request->get("hiddenId"), $request);
+        } else {
             return $this->_create($request);
         }
     }
@@ -1685,7 +1748,7 @@ class UsersController extends BaseController
         return $user;
     }
 
-    public function _update($id,Request $request)
+    public function _update($id, Request $request)
     {
         $rules = [
             "firstName" => "required|min:2",
@@ -1744,5 +1807,4 @@ class UsersController extends BaseController
                 ->with("message", Lang::get("messages.Welcome"));
         }
     }
-
 }

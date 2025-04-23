@@ -80,6 +80,7 @@ return array(
 	"/widgets/clientFeed/" => "/widgets/clientFeed/",
 	"/widgets/clientFeed/addEdit/" => "/widgets/clientFeed/addEdit/",
 	"/widgets/clientFeed/" => "/widgets/clientFeed/",
+	"/widgets/plans" => "/widgets/plans",
 	"/widgets/weight" => "/widgets/weight",
 	"/widgets/weight/full" => "/widgets/weight/full",
 	"/widgets/weight" => "/widgets/weight",
@@ -181,7 +182,7 @@ return array(
 	"/Trainer/CreateWorkout" => "/Trainer/CreateWorkout",
 	"/Trainer/autoSaveWorkout" => "/Trainer/autoSaveWorkout",
 	"/Trainer/CreateWorkout2" => "/Trainer/CreateWorkout2",
-	
+
 	"/Trainee/CreateWorkout" => "/Trainee/CreateWorkout",
 	"/Trainee/Workouts" => "/Trainee/Workouts",
 	"/Trainer/Workouts" => "/Trainer/Workouts",
@@ -192,7 +193,7 @@ return array(
 	"/widgets/workouts/addEdit/" => "/widgets/workouts/addEdit/",
 	"/widgets/workouts/" => "/widgets/workouts/",
 	"/WorkoutMarket" => "/WorkoutMarket",
-	
+
 	"/Workout/Preview/" => "/Workout/Preview/",
 	"Workout/Preview/" => "Workout/Preview/",
 
@@ -234,7 +235,7 @@ return array(
 	"/Trainer/Friends" => "/Trainer/Friends",
 	"/Trainer/Friends" => "/Trainer/Friends",
 	"/Trainee/Friends" => "/Trainee/Friends",
-	
+
 	"/Trainee/Exercises" => "/Trainee/Exercises",
 	"/Trainer/Exercises" => "/Trainer/Exercises",
 	"/Trainee/Exercises" => "/Trainee/Exercises",
@@ -255,7 +256,7 @@ return array(
 	"/Exercises/AddExercise" => "/Exercises/AddExercise",
 	"/Exercises/AddExerciseInWorkout" => "/Exercises/AddExerciseInWorkout",
 	"/Exercise" => "/Exercise",
-	
+
 	"Trainee/Mail" => "Trainee/Mail",
 	"Trainee/ComposeMail/" => "Trainee/ComposeMail/",
 	"Trainee/ComposeMail" => "Trainee/ComposeMail",
@@ -264,7 +265,7 @@ return array(
 	"/Trainer/Mail" => "Trainer/Mail",
 	"/Trainer/ComposeMail/" => "Trainer/ComposeMail/",
 	"/Trainer/ComposeMail" => "Trainer/ComposeMail",
-	
+
 	"/Search" => "/Search",
 	"/Search" => "/Search",
 	"/Trainee/Settings" => "/Trainee/Settings",
@@ -440,6 +441,4 @@ return array(
 	"/Clients/ModifyClient" => "/Clients/ModifyClient",
 	"/Workouts/addWorkoutToClient" => "/Workouts/addWorkoutToClient",
 
-	);
-
-?>
+);

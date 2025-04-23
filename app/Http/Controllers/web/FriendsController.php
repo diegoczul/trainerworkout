@@ -40,18 +40,22 @@ class FriendsController extends BaseController
         }
 
         return View::make("widgets.base.friends")
-            ->with("friends", Friends::friend()
-                ->where("userId", $userId)
-                ->orWhere("followingId", $userId)
-                ->take($this->pageSize)
-                ->get()
+            ->with(
+                "friends",
+                Friends::friend()
+                    ->where("userId", $userId)
+                    ->orWhere("followingId", $userId)
+                    ->take($this->pageSize)
+                    ->get()
             )
             ->with("permissions", $permissions)
             ->with("user", $user)
-            ->with("total", Friends::friend()
-                ->where("userId", $userId)
-                ->orWhere("followingId", $userId)
-                ->count()
+            ->with(
+                "total",
+                Friends::friend()
+                    ->where("userId", $userId)
+                    ->orWhere("followingId", $userId)
+                    ->count()
             );
     }
 
@@ -76,10 +80,12 @@ class FriendsController extends BaseController
         }
 
         return View::make("trainee.friends")
-            ->with("friends", Friends::where("userId", $userId)
-                ->orderBy('created_at', 'ASC')
-                ->take($this->pageSize)
-                ->get()
+            ->with(
+                "friends",
+                Friends::where("userId", $userId)
+                    ->orderBy('created_at', 'ASC')
+                    ->take($this->pageSize)
+                    ->get()
             )
             ->with("user", $user)
             ->with("permissions", $permissions)
@@ -105,10 +111,12 @@ class FriendsController extends BaseController
         }
 
         return View::make("trainer.friends")
-            ->with("friends", Friends::where("userId", $userId)
-                ->orderBy('created_at', 'ASC')
-                ->take($this->pageSize)
-                ->get()
+            ->with(
+                "friends",
+                Friends::where("userId", $userId)
+                    ->orderBy('created_at', 'ASC')
+                    ->take($this->pageSize)
+                    ->get()
             )
             ->with("permissions", $permissions)
             ->with("total", Friends::where("userId", $userId)->count());
@@ -144,10 +152,12 @@ class FriendsController extends BaseController
         }
 
         return View::make("widgets.full.friends")
-            ->with("friends", Friends::where("userId", $userId)
-                ->orderBy('created_at', 'ASC')
-                ->take($this->pageSize)
-                ->get()
+            ->with(
+                "friends",
+                Friends::where("userId", $userId)
+                    ->orderBy('created_at', 'ASC')
+                    ->take($this->pageSize)
+                    ->get()
             )
             ->with("total", Friends::where("userId", $userId)->count());
     }
@@ -161,10 +171,12 @@ class FriendsController extends BaseController
         }
 
         return View::make("widgets.full.friends")
-            ->with("friends", Friends::where("userId", $userId)
-                ->orderBy('created_at', 'ASC')
-                ->take($this->pageSize)
-                ->get()
+            ->with(
+                "friends",
+                Friends::where("userId", $userId)
+                    ->orderBy('created_at', 'ASC')
+                    ->take($this->pageSize)
+                    ->get()
             )
             ->with("total", Friends::where("userId", $userId)->count());
     }
@@ -181,26 +193,30 @@ class FriendsController extends BaseController
         array_push($searchArray, $search);
 
         return View::make("widgets.full.friendsSearch")
-            ->with("users", Users::where(function ($query) use ($search, $searchArray) {
-                foreach ($searchArray as $searchItem) {
-                    $query->orWhere('firstName', 'like', "%$searchItem%")
-                        ->orWhere('lastName', 'like', "%$searchItem%")
-                        ->orWhere(DB::raw("concat(firstName,' ',lastName)"), 'like', "%$searchItem%")
-                        ->orWhere('email', 'like', "%$searchItem%");
-                }
-            })->where("id", "!=", Auth::id())
-                ->take($this->pageSize)
-                ->get()
+            ->with(
+                "users",
+                Users::where(function ($query) use ($search, $searchArray) {
+                    foreach ($searchArray as $searchItem) {
+                        $query->orWhere('firstName', 'like', "%$searchItem%")
+                            ->orWhere('lastName', 'like', "%$searchItem%")
+                            ->orWhere(DB::raw("concat(firstName,' ',lastName)"), 'like', "%$searchItem%")
+                            ->orWhere('email', 'like', "%$searchItem%");
+                    }
+                })->where("id", "!=", Auth::id())
+                    ->take($this->pageSize)
+                    ->get()
             )
-            ->with("total", Users::where(function ($query) use ($search, $searchArray) {
-                foreach ($searchArray as $searchItem) {
-                    $query->orWhere('firstName', 'like', "%$searchItem%")
-                        ->orWhere('lastName', 'like', "%$searchItem%")
-                        ->orWhere(DB::raw("concat(firstName,' ',lastName)"), 'like', "%$searchItem%")
-                        ->orWhere('email', 'like', "%$searchItem%");
-                }
-            })->where("id", "!=", Auth::id())
-                ->count()
+            ->with(
+                "total",
+                Users::where(function ($query) use ($search, $searchArray) {
+                    foreach ($searchArray as $searchItem) {
+                        $query->orWhere('firstName', 'like', "%$searchItem%")
+                            ->orWhere('lastName', 'like', "%$searchItem%")
+                            ->orWhere(DB::raw("concat(firstName,' ',lastName)"), 'like', "%$searchItem%")
+                            ->orWhere('email', 'like', "%$searchItem%");
+                    }
+                })->where("id", "!=", Auth::id())
+                    ->count()
             );
     }
 
@@ -252,9 +268,10 @@ class FriendsController extends BaseController
             return $this::responseJsonErrorValidation($validation->messages());
         }
 
-        if (Friends::where("followingId", $request->get('followingId'))
-                ->where("userId", Auth::id())
-                ->count() > 0
+        if (
+            Friends::where("followingId", $request->get('followingId'))
+            ->where("userId", Auth::id())
+            ->count() > 0
         ) {
             return $this::responseJson(Lang::get("messages.AlreadyFollowing"));
         }
@@ -325,5 +342,12 @@ class FriendsController extends BaseController
         } else {
             return $this::responseJsonError(Lang::get("messages.Permissions"));
         }
+    }
+
+    public function myPlansIndex()
+    {
+
+
+        return View::make("trainer.plans");
     }
 }

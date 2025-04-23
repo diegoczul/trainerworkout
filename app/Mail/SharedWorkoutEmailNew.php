@@ -64,37 +64,37 @@ class SharedWorkoutEmailNew extends Mailable
      */
     public function build()
     {
-//        $email = $this->subject($this->subject)
-//            ->to($this->toUser->email)
-//            ->view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout')
-//            ->with([
-//                'sharing' => $this->sharing,
-//                'invite' => $this->invite,
-//                'toUser' => $this->toUser,
-//                'fromUser' => $this->fromUser,
-//                'comments' => $this->comments,
-//            ]);
-//
-//        // Attach files if needed
-//        if ($this->copyView) {
-//            if ($this->workoutScreenshot) {
-//                $email->attach($this->workoutScreenshot);
-//            }
-//            if ($this->workoutScreenshotPDF) {
-//                $email->attach($this->workoutScreenshotPDF);
-//            }
-//        }
-//
-//        if ($this->copyPrint && $this->workoutPDF) {
-//            $email->attach($this->workoutPDF);
-//        }
-//
-//        // Additional CC if "copyMe" is true
-//        if ($this->copyMe) {
-//            $email->cc($this->fromUser->email);
-//        }
-//
-//        return $email;
+        //        $email = $this->subject($this->subject)
+        //            ->to($this->toUser->email)
+        //            ->view('emails.' . config('app.whitelabel') . '.user.' . $this->lang . '.sharedWorkout')
+        //            ->with([
+        //                'sharing' => $this->sharing,
+        //                'invite' => $this->invite,
+        //                'toUser' => $this->toUser,
+        //                'fromUser' => $this->fromUser,
+        //                'comments' => $this->comments,
+        //            ]);
+        //
+        //        // Attach files if needed
+        //        if ($this->copyView) {
+        //            if ($this->workoutScreenshot) {
+        //                $email->attach($this->workoutScreenshot);
+        //            }
+        //            if ($this->workoutScreenshotPDF) {
+        //                $email->attach($this->workoutScreenshotPDF);
+        //            }
+        //        }
+        //
+        //        if ($this->copyPrint && $this->workoutPDF) {
+        //            $email->attach($this->workoutPDF);
+        //        }
+        //
+        //        // Additional CC if "copyMe" is true
+        //        if ($this->copyMe) {
+        //            $email->cc($this->fromUser->email);
+        //        }
+        //
+        //        return $email;
 
         try {
             $email = new Mail();
@@ -103,7 +103,7 @@ class SharedWorkoutEmailNew extends Mailable
             $email->addTo($this->toUser->email);
 
             // CC the sender if "copyMe" is true
-            if ($this->copyMe) {
+            if ($this->copyMe && $this->fromUser->email !== $this->toUser->email) {
                 $email->addCc($this->fromUser->email);
             }
 
