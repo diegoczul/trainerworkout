@@ -103,7 +103,7 @@
                         <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get('content.searchPlaceholder') }}">
                         <button onClick="searchExercise()">{{ Lang::get('content.Search') }}</button>
 
-                        <select id="langSelector">
+                        <select id="langSelector" style="height: 41px">
                             <option value="en" {{ (app()->getLocale()  == "en") ? "selected" : "" }}>EN</option>
                             <option value="fr" {{ (app()->getLocale()  == "fr") ? "selected" : "" }}>FR</option>
                         </select>
