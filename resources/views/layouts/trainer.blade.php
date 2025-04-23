@@ -86,6 +86,10 @@
     @yield("headerExtra")
     {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css'.ASSET_VERSION)) }}
     {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css'.ASSET_VERSION)) }}
+    {{-- Diego Test --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
     @if(Config::get("app.whitelabel") != "default")
             <?php $whitelabel = "ymca"; ?>
     @endif
@@ -185,7 +189,11 @@
                 <li class="c-menu__item">
                     <a href="{{ Lang::get('routes./Trainer/Reports/WorkoutsPerformanceClients') }}" class="c-menu__link menu_clientsReports">{{ Lang::get("content.TClientReport") }}</a>
                 </li>
+                <li class="c-menu__item">
+                    <a href="{{ Lang::get('routes./Trainer/Plans') }}" class="c-menu__link menu_myPlans">{{ Lang::get("content.MyPlans") }}</a>
+                </li>
             </div>
+            
             @if(Auth::user()->group and (Auth::user()->group->role == "Owner" or Auth::user()->group->role == "Admin"))
             <div class="menu-section">
                 <li class="c-menu__item">
@@ -413,12 +421,7 @@
     @endif
 </script>
 <?php
-function echoSelectedClassIfRequestMatches($requestUri)
-{
-    $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");
-    if ($current_file_name == $requestUri)
-        echo 'selected';
-}
+
 ?>
 @if(!Config::get("app.debug"))
     <script type="text/javascript">

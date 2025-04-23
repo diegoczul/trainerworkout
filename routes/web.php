@@ -33,12 +33,16 @@ use App\Http\Controllers\web\UserMessagesController;
 use App\Http\Controllers\web\UsersController;
 use App\Http\Controllers\web\WeightsController;
 use App\Http\Controllers\web\WorkoutsController;
+use App\Http\Controllers\web\StripeController;
 use App\Http\Controllers\web\WorkoutsPerformanceController;
 use App\Http\Controllers\webview\WebviewController;
 use App\Http\Libraries\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\web\SubscriptionController;
+use App\Http\Controllers\web\PlansController;
+use App\Http\Controllers\web\PlanSubscriptionController;
 use Stripe\SetupIntent;
 
 
@@ -400,7 +404,7 @@ Route::middleware('auth')->group(function () {
 // TRAINER REPORTS
 Route::middleware('auth')->group(function () {
     Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex'])->name('WorkoutsPerformanceClients');
-    //        Route::get(__('routes./Trainer/Reports/WorkoutsPerformanceClients', [], 'fr'), [WorkoutsPerformanceController::class, 'workoutsPerformanceClientsIndex']);
+    Route::get(__('routes./Trainer/Plans'), [FriendsController::class, 'myPlansIndex'])->name('myPlansIndex');
 });
 
 // ONBOARDING
@@ -582,10 +586,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get(Lang::get(__('routes./MembershipManagement')), [MembershipsController::class, 'indexMembershipManagement'])->middleware('auth');
 Route::get(Lang::get(__('routes./MembershipManagementOld')), [MembershipsController::class, 'indexMembershipManagementOld'])->middleware('auth');
-
+Route::post(__('routes./widgets/plans'), [UsersController::class, 'plansIndex']);
 // Trainer
 Route::middleware(['auth', 'userTypeChecker'])->group(function () {
     Route::get(__('routes./Trainer/Settings'), [UsersController::class, 'indexSettingsTrainer'])->name('TrainerSettings');
+
     Route::get(__('routes./Trainer/Memberships'), [UsersController::class, 'indexMemberships']);
     Route::post(__('routes./Trainer/EmployeeManagement/addEmployees'), [GroupsController::class, 'addEmployees']);
     Route::get(__('routes./Trainer/EmployeeManagement/resendInvite') . '/{userid}', [GroupsController::class, 'resendGroupInvitation']);
@@ -837,3 +842,30 @@ Route::controller(WebviewController::class)->prefix('webview')->group(function (
     Route::get('edit-trainer-workout-failed', 'failedToCreateWorkout')->name('webview.edit-trainer-workout-failed');
     Route::get('edit-trainer-workout-unauthorised', 'failedToUpdateWorkout')->name('webview.edit-trainer-workout-unauthorised');
 });
+
+Route::post('/Trainer/SavePlan', [StripeController::class, 'store'])->name('plans.store');
+Route::post('/subscribe/{plan}', [SubscriptionController::class, 'subscribe'])->name('subscribe.plan');
+Route::delete('/plans/{id}', [StripeController::class, 'destroy'])->name('plans.destroy');
+Route::get('/plans/{id}/edit', [StripeController::class, 'edit'])->name('plans.edit');
+Route::put('/plans/{id}', [StripeController::class, 'update'])->name('plans.update');
+Route::get('/plans/edit/{id}', [StripeController::class, 'getPlanDetails'])->name('plans.edit');
+
+// Route for saving the plan (creating or updating)
+Route::post('/plans/save', [StripeController::class, 'savePlan'])->name('plans.save');
+
+// Route for updating the plan
+Route::post('/plans/update/{id}', [StripeController::class, 'updatePlan'])->name('plans.update');
+
+Route::post('/plans/share', [PlansController::class, 'shareByEmail']);
+Route::get('/plans/shared/{link}', [PlansController::class, 'viewShared']);
+
+Route::post('/subscribe/{plan}', [PlanSubscriptionController::class, 'subscribeClientToPlan'])->name('subscribe.plan');
+Route::get('/plans/shared/{link}', [PlanSubscriptionController::class, 'viewShared'])->name('plans.shared');
+Route::get('/plans/subscribe/{plan}', [PlansController::class, 'subscribe'])->name('subscribe.plan');
+Route::post('/plans/subscribe/{plan}', [PlansController::class, 'processSubscription']);
+Route::get('/subscribe/plan/{id}', [OrdersController::class, 'checkoutPlan'])->name('checkout.plan');
+Route::post('/subscribe/confirm', [PlanSubscriptionController::class, 'confirm'])
+    ->name('subscribe.confirm');
+
+Route::post('/process-plan-subscription-payment', [OrdersController::class, 'processPlanSubscriptionPayment'])
+    ->name('process-plan-subscription-payment');

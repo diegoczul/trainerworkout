@@ -80,6 +80,7 @@ return array(
 	"/widgets/clientFeed/" => "/widgets/clientFeed/",
 	"/widgets/clientFeed/addEdit/" => "/widgets/clientFeed/addEdit/",
 	"/widgets/clientFeed/" => "/widgets/clientFeed/",
+	"/widgets/plans" => "/widgets/plans",
 	"/widgets/weight" => "/widgets/weight",
 	"/widgets/weight/full" => "/widgets/weight/full",
 	"/widgets/weight" => "/widgets/weight",
@@ -162,7 +163,7 @@ return array(
 	"/widgets/workoutsTrainee/full" => "/widgets/workoutsTrainee/full",
 
 
-	
+
 	"/onboarding/message/" => "/onboarding/messageFR/",
 	"/Trainer/onBoarding/skipDemo" => "/Trainer/onBoarding/ignorerDemo",
 	"/Trainer/onBoarding/start" => "/Trainer/onBoarding/commencer",
@@ -184,16 +185,16 @@ return array(
 	"/Trainer/CreateWorkout" => "/Trainer/CreerWorkout",
 	"/Trainer/autoSaveWorkout" => "/Trainer/autoenregistrerWorkout",
 	"/Trainer/CreateWorkout2" => "/Trainer/CreerWorkout2",
-	
+
 	"/Trainee/CreateWorkout" => "/Trainee/CreerWorkout",
 	"/Trainee/Workouts" => "/Trainee/Workouts",
 	"/Trainer/Workouts" => "/Trainer/Workouts",
 	"/Trainee/CreateWorkout" => "/Trainee/CreerWorkout",
 	"/Trainer/CreateWorkout" => "/Trainer/CreerWorkout",
 	"/Trainer/CreateWorkout/Client/" => "/Trainer/CreerWorkout/Client/",
-	
+
 	"/WorkoutMarket" => "/WorkoutMarket",
-	
+
 	"/Workout/Preview/" => "/Workout/Apercu/",
 	"Workout/Preview/" => "Workout/Apercu/",
 	"Workout/" => "Workout/",
@@ -237,7 +238,7 @@ return array(
 	"/Trainer/Friends" => "/Trainer/Amis",
 	"/Trainer/Friends" => "/Trainer/Amis",
 	"/Trainee/Friends" => "/Trainee/Amis",
-	
+
 	"/Trainee/Exercises" => "/Trainee/Exercices",
 	"/Trainer/Exercises" => "/Trainer/Exercices",
 	"/Trainee/Exercises" => "/Trainee/Exercices",
@@ -258,7 +259,7 @@ return array(
 	"/Exercises/AddExercise" => "/Exercices/AjouterExercice",
 	"/Exercises/AddExerciseInWorkout" => "/Exercices/AjouterExercicedansleWorkout",
 	"/Exercise" => "/Exercice",
-	
+
 	"Trainee/Mail" => "Trainee/message",
 	"Trainee/ComposeMail/" => "Trainee/Composermessage/",
 	"Trainee/ComposeMail" => "Trainee/Composermessage",
@@ -267,7 +268,7 @@ return array(
 	"Trainer/Mail" => "Trainer/Message",
 	"Trainer/ComposeMail/" => "Trainer/ComposerMessage/",
 	"Trainer/ComposeMail" => "Trainer/Composermessage",
-	
+
 	"/Search" => "/Recherche",
 	"/Search" => "/Recherche",
 	"/Trainee/Settings" => "/Trainee/Parametres",
@@ -395,19 +396,19 @@ return array(
 	"/Workouts/createUserDownload" => "/Workouts/creerUtilisateurDownload",
 
 	//DO NOT TRANSLATE THIS ONES PLEASE!!
-	"/password/reset" => "/password/reset", 
+	"/password/reset" => "/password/reset",
 	"/password/reset/" => "/password/reset/",
 
 	//----------------------------------------------
 
-	
+
 	"/Store/CreateAccount" => "/Store/CreerCompte",
 	"/Trainer/EmployeeManagement/RemoveAccess" => "/Trainer/EmployesManagement/EnleverAccess",
 	"/Trainer/EmployeeManagement/Personify" => "/Trainer/EmployesManagement/Personnaliser",
 	"/Trainer/EmployeeManagement/PersonifyBack" => "/Trainer/EmployesManagement/PersonnaliserRetour",
 	"/Trainer/EmployeeManagement/resendInvite" => "/Trainer/EmployesManagement/reenvoyerInvitation",
 	"/Trainer/EmployeeManagement/ChangeRole" => "/Trainer/EmployesManagement/ChangerRole",
-	
+
 
 
 	"/Trainee/Profile" => "/Trainee/Profil",
@@ -426,6 +427,7 @@ return array(
 	"/Workout/Performance/discartOldPerformance" => "/Workout/Performance/discartOldPerformance",
 	"/Trainer/Clients" => "/Trainer/Clients",
 	"/Trainer/Reports/WorkoutsPerformanceClients" => "/Trainer/Reports/WorkoutsPerformanceClients",
+	"/Trainer/Plans" => "/Trainer/Forfaits",
 	"/Workout/Performance/showDetails" => "/Workout/Performance/showDetails",
 	"/Workouts/Client/" => "/Workouts/Client/",
 	"/widgets/workouts/archive/" => "/widgets/workouts/archive/",
@@ -440,8 +442,8 @@ return array(
 	"/Clients/AddClient" => "/Clients/AddClient",
 	"/Clients/ModifyClient" => "/Clients/ModifyClient",
 	"/Workouts/addWorkoutToClient" => "/Workouts/addWorkoutToClient",
+	'/Trainer/CreatePlan' => '/Entraîneur/CreerPlan',
+	'/Trainer/CreatePlanForm' => '/Entraineur/CreatePlanForm',
 
 
-	);
-
-?>
+);

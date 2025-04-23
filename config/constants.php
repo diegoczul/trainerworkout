@@ -1,69 +1,53 @@
 <?php
 
 use Illuminate\Support\Facades\Config;
-if (!defined("ASSET_VERSION"))
-	define('ASSET_VERSION','?v1.0.1');
-
-if (!defined("MAIL_HOST"))
-	define('MAIL_HOST', "smtp.sendgrid.net");
-if (!defined("MAIL_PORT"))
-	define('MAIL_PORT',587);
-if (!defined("MAIL_ENCRYPTION"))
-	define('MAIL_ENCRYPTION', "apikey");
-if (!defined("MAIL_PASSWORD"))
-	define('MAIL_PASSWORD', "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");
-if (!defined("MAIL_USERNAME"))
-	define('MAIL_USERNAME', "tls");
-if (!defined("MAIL_FROM_ADDRESS"))
-	define('MAIL_FROM_ADDRESS', "info@trainer-workout.com");
 
 return array(
-    'thumbSize' 	=> '400',
-    'displaySize'	=> '800',
-    'userPath'	=> 'public/users',
-    'picturesPath'	=> '/pictures',
-    'profilePath'	=> '/profile',
-    'exercisesPath'	=> '/exercises',
-    'exercisesCustomPath'	=> '/exercisesCustom',
-    'moreExercises'	=> 'images/exercises',
-    'videosExercisesPath'	=> '/videosExercises',
-  	"STRIPEpublishable_key" => "pk_live_51QkHq3RrMsQ7lFic7BWflWWhVxuUargBlqdsIVGc4Ql7SV2KBFuF6G6kzWwII9jE30kSXO1J4oYRtam81RmH5PcZ006R9SuVIF",
-    "STRIPEsecret_key"      => "***REMOVED***",
-  	"STRIPETestpublishable_key" => "pk_test_51QkHq3RrMsQ7lFickqRTum0yz0lcQADjzvxv13KszdUxQ2lFHVBVh9QvqkmvBivY3WlkDlBG7HNmqCLDXv2k1Rcb00gCRN4QCr",
-  	"STRIPETestsecret_key"      => "***REMOVED***",
-//	"STRIPETestpublishable_key" => "pk_test_51MoIjsSInN8IX2eBKXNpY3NkmBbeBWAMdermHzSmNfeMTrWcgoDszF45nmWDa90rpWIPg2TYzy0Zvtk2sb3lXsK700fIKHzWrn",
-//	"STRIPETestsecret_key"      => "sk_test_51MoIjsSInN8IX2eBrDgFvlYgJ3KNAE5GierIYNUiB6veabWci3bwfrFLrcGQjyycDHKJgki1inXTlsVVP6a2PLPI00fMhf3yeE",
-    "mixPanelKey" => "ac325f08772f60d01b6478c33c2c47db",
-    "onboardingClient" => "24",
-    "onboardingUser" => "15",
-    'intercom_app_id' => 'af0obxyk',
-    'intercom_api_key' => '***REMOVED***',
-    'mailChimpGetEarlyAccessListTrainer' => 'ce795f36af',
-    'mailChimpGetEarlyAccessListTrainee' => 'f722232f2a',
-    'mailChimpNewsletter' => 'ce795f36af',
-    'mailChimpTrainees' => 'f722232f2a',
-    'mailChimpTrainers' => 'ce795f36af',
-    'defaultMembership' => '59',
-    'defaultMembershipExpiry' => '+2 weeks',
-	'sendgridTrainer' => '04d63421-d534-4d5e-8c9c-0bd0f94ea9fe',
-	'sendgridTrainee' => '0b02db53-cc8e-4b75-8795-073ce87badae',
-	'sendgridGuest' => '7c8581dd-4367-456d-a3d0-4d4dca39e619',
-	'sendgridNewsletter' => 'f0275743-5cea-49cf-b6ef-720d9020ef3b',
-//    'filePrefix' => Config::get("app.brand").' - ',
-    'maxFreeWorkouts' => 3,
-    'freeTrialMembershipId' => 59,
-    'version' => "2.0.8",
-    'activityEmail' => "activity@trainerworkout.com",
-    'accountDomain' => "trainerworkout.com",
-    'videoPlaceholder' => "assets/img/video.jpg",
-    'gridPDF' => "grid.pdf",
+  'thumbSize'   => '400',
+  'displaySize'  => '800',
+  'userPath'  => 'public/users',
+  'picturesPath'  => '/pictures',
+  'profilePath'  => '/profile',
+  'exercisesPath'  => '/exercises',
+  'exercisesCustomPath'  => '/exercisesCustom',
+  'moreExercises'  => 'images/exercises',
+  'videosExercisesPath'  => '/videosExercises',
+  "STRIPEpublishable_key" => "pk_live_51QkHq3RrMsQ7lFic7BWflWWhVxuUargBlqdsIVGc4Ql7SV2KBFuF6G6kzWwII9jE30kSXO1J4oYRtam81RmH5PcZ006R9SuVIF",
+  "STRIPEsecret_key"      => "***REMOVED***",
+  "STRIPETestpublishable_key" => "pk_test_51QkHq3RrMsQ7lFickqRTum0yz0lcQADjzvxv13KszdUxQ2lFHVBVh9QvqkmvBivY3WlkDlBG7HNmqCLDXv2k1Rcb00gCRN4QCr",
+  "STRIPETestsecret_key"      => "***REMOVED***",
+  //	"STRIPETestpublishable_key" => "pk_test_51MoIjsSInN8IX2eBKXNpY3NkmBbeBWAMdermHzSmNfeMTrWcgoDszF45nmWDa90rpWIPg2TYzy0Zvtk2sb3lXsK700fIKHzWrn",
+  //	"STRIPETestsecret_key"      => "sk_test_51MoIjsSInN8IX2eBrDgFvlYgJ3KNAE5GierIYNUiB6veabWci3bwfrFLrcGQjyycDHKJgki1inXTlsVVP6a2PLPI00fMhf3yeE",
+  "mixPanelKey" => "ac325f08772f60d01b6478c33c2c47db",
+  "onboardingClient" => "24",
+  "onboardingUser" => "15",
+  'intercom_app_id' => 'af0obxyk',
+  'intercom_api_key' => '***REMOVED***',
+  'mailChimpGetEarlyAccessListTrainer' => 'ce795f36af',
+  'mailChimpGetEarlyAccessListTrainee' => 'f722232f2a',
+  'mailChimpNewsletter' => 'ce795f36af',
+  'mailChimpTrainees' => 'f722232f2a',
+  'mailChimpTrainers' => 'ce795f36af',
+  'defaultMembership' => '59',
+  'defaultMembershipExpiry' => '+2 weeks',
+  'sendgridTrainer' => '04d63421-d534-4d5e-8c9c-0bd0f94ea9fe',
+  'sendgridTrainee' => '0b02db53-cc8e-4b75-8795-073ce87badae',
+  'sendgridGuest' => '7c8581dd-4367-456d-a3d0-4d4dca39e619',
+  'sendgridNewsletter' => 'f0275743-5cea-49cf-b6ef-720d9020ef3b',
+  //    'filePrefix' => Config::get("app.brand").' - ',
+  'maxFreeWorkouts' => 3,
+  'freeTrialMembershipId' => 59,
+  'version' => "2.0.8",
+  'activityEmail' => "activity@trainerworkout.com",
+  'accountDomain' => "trainerworkout.com",
+  'videoPlaceholder' => "assets/img/video.jpg",
+  'gridPDF' => "grid.pdf",
 
-    'constantsDesktopSizeVideo_w' => "100%",
-    'constantsTabletSizeVideo_w' => "100%",
-    'constantsMobileSizeVideo_w' => "100%",
+  'constantsDesktopSizeVideo_w' => "100%",
+  'constantsTabletSizeVideo_w' => "100%",
+  'constantsMobileSizeVideo_w' => "100%",
 
-    'constantsDesktopSizeVideo_h' => "250px",
-    'constantsTabletSizeVideo_h' => "250px",
-    'constantsMobileSizeVideo_h' => "150px",
+  'constantsDesktopSizeVideo_h' => "250px",
+  'constantsTabletSizeVideo_h' => "250px",
+  'constantsMobileSizeVideo_h' => "150px",
 );
-?>

@@ -15,7 +15,16 @@ class Sharings extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'fromUser',
+        'toUser',
+        'access_link',
+        'type',
+        'aux',
+        'viewed',
+        'accepted',
+        'dateShared'
+    ];
     protected $dates = ['deleted_at'];
 
     public function toUserObject()
@@ -64,9 +73,9 @@ class Sharings extends Model
 
         $workoutPDF = $newWorkout->getPrintPDF();
         $workoutScreeshot = $newWorkout->getImageScreenshot();
-//        $workoutScreeshot = "";
+        //        $workoutScreeshot = "";
         $workoutScreeshotPDF = $newWorkout->getImagePDF();
-//        $workoutScreeshotPDF = "";
+        //        $workoutScreeshotPDF = "";
 
         $toUser = Users::find($to_user);
         if ($toUser) {
@@ -81,7 +90,7 @@ class Sharings extends Model
                 $fromUser = Users::find($from_user);
                 $subject = Lang::get("messages.Emails_sharedWorkout");
                 $lang = App::getLocale();
-                SharedWorkoutNewMailJob::dispatch($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint,$lang);
+                SharedWorkoutNewMailJob::dispatch($sharing, $invite, $toUser, $fromUser, $comments, $workoutScreeshot, $workoutScreeshotPDF, $workoutPDF, $subject, $copyMe, $copyView, $copyPrint, $lang);
             } else {
                 $sharing = new Sharings();
                 $sharing->viewed = 0;
