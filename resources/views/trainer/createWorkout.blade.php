@@ -115,9 +115,10 @@
                 <div id="selectedFilters" class="selectedFilters"></div>
                 <div class="tagContainer">
                     <ul class="tabs">
-                        <li class="tab" onclick="openTab('tags-exercise')">{{ Lang::get("content.Exercise Type") }}</li>
-                        <li class="tab" onclick="openTab('tags-muscle')">{{ Lang::get("content.Muscle Group") }}</li>
-                        <li class="tab" onclick="openTab('tags-equipment')">{{ Lang::get("content.Equipment") }}</li>
+                        <li class="tab active" onclick="openTab('tags-exercise');setActiveTab(this);">{{ Lang::get("content.Exercise Type") }}</li>
+                        <li class="tab" onclick="openTab('tags-muscle');setActiveTab(this);">{{ Lang::get("content.Muscle Group") }}</li>
+                        <li class="tab" onclick="openTab('tags-equipment');setActiveTab(this);">{{ Lang::get("content.Equipment") }}</li>
+                        <li class="tab" onclick="closeTabs();setActiveTab(this);searchExercise();" id="myExerciseTab">{{ Lang::get("content.myExercises") }}</li>
                     </ul>
                     <div id="tags-exercise" class="tabContent">
                         @foreach($exercisesTypes as $exercisesType)
@@ -2453,7 +2454,10 @@ function saveWorkoutName(){
   workoutName = $("#workout_name").val();
  }
 
-
+function setActiveTab(element){
+    $(".tab").removeClass("active");
+    $(element).addClass("active");
+}
 
 function searchExercise(el, event, page, more) {
     // Show loader
@@ -2480,7 +2484,10 @@ function searchExercise(el, event, page, more) {
 
             callForEvent('workouts-search-exercise',{"workout-name":workoutName,"exercise-name":$("#exercise_search").val(),"user_id":{{ Auth::user()->id }},"email":'{{ Auth::user()->email }}'});
             $("#search_loader").show();
-
+            var myExercises = false;
+            if($('.tab.active').attr('id') == 'myExerciseTab'){
+                myExercises = true;
+            }
             $.ajax({
                 'async': true,
                 'url': '{{ Lang::get("routes./Exercises/Search") }}',
@@ -2490,6 +2497,7 @@ function searchExercise(el, event, page, more) {
                     search: $("#exercise_search").val(),
                     filters: filters,
                     pageSize: page,
+                    myExercises: myExercises,
                     lang: $("#langSelector").val(),
                 },
                 'success': function(data) {
@@ -2525,6 +2533,10 @@ function triggerFirstLoad(page) {
     // Show loader
     //     if(firstLoadData == ""){
         showTopLoader();
+        var myExercises = false;
+        if($('.tab.active').attr('id') == 'myExerciseTab'){
+            myExercises = true;
+        }
         $("#search_results").show();
             $("#search_loader").show();
             //console.log(filters);
@@ -2536,7 +2548,9 @@ function triggerFirstLoad(page) {
                 'data': {
                     search: $("#exercise_search").val(),
                     filters: filters,
-                    pageSize: page
+                    pageSize: page,
+                    myExercises: myExercises,
+                    lang: $("#langSelector").val(),
                 },
                 'success': function(data) {
                     allExercisesDictionnary = {};

@@ -556,6 +556,7 @@ return array(
          "Exercise Type"                         =>"Type d’exercices",
          "Muscle Group"                         =>"Groupe musculaire",
          "Equipment"                         =>"Équipement",
+         "myExercises"                         =>"Mes Exercices",
          "Add your own personal exercises to your personal collection"                         =>"Ajoutez vos propres exercices à votre librairie personnelle",
          "Duplicate"                         =>"Copier",
          "See Exercise Description"                         =>"Voir description de l’exercice",

@@ -219,8 +219,15 @@ class ExercisesController extends BaseController
         }
 
         // Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"), false, $request->get("lang"));
-
-        return $this->responseJson(["data" => Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"), $request->get("lang")), "total" => $this->searchSize + $request->get("pageSize")]);
+        $lang = $request->get("lang");
+        if (!$request->filled("lang")){
+            $lang = 'en';
+        }
+        $myExercises = false;
+        if ($request->get('myExercises') == "true"){
+            $myExercises = true;
+        }
+        return $this->responseJson(["data" => Exercises::searchExercises($request->get("search"), $this->searchSize, $request->get("filters"), $myExercises, $lang), "total" => $this->searchSize + $request->get("pageSize")]);
     }
 
     public function indexMail(Request $request)

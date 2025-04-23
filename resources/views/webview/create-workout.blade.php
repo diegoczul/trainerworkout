@@ -21,7 +21,7 @@
                 @endif
             </div>
             <div class="cw-header-description">
-                <input type="text" placeholder="{{ Lang::get("content.createWorkout/name") }}" id="workout_name" name="workout_name" onkeyup="updateWorkoutName()" value="{{ $workout->name }}" required />
+                <input type="text" placeholder="{{ Lang::get("content.createWorkout/name") }}" id="workout_name" name="workout_name" onkeyup="updateWorkoutName()" value="{{ $workout->name??"" }}" required />
                 <input type="hidden" id="client" name="client" value="{{ (isset($client) ? $client : "" ) }}" />
                 <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
             </div>
@@ -111,9 +111,10 @@
                     <div id="selectedFilters" class="selectedFilters"></div>
                     <div class="tagContainer">
                         <ul class="tabs">
-                            <li class="tab" onclick="openTab('tags-exercise')">{{ Lang::get("content.Exercise Type") }}</li>
-                            <li class="tab" onclick="openTab('tags-muscle')">{{ Lang::get("content.Muscle Group") }}</li>
-                            <li class="tab" onclick="openTab('tags-equipment')">{{ Lang::get("content.Equipment") }}</li>
+                            <li class="tab active" onclick="openTab('tags-exercise');setActiveTab(this);">{{ Lang::get("content.Exercise Type") }}</li>
+                            <li class="tab" onclick="openTab('tags-muscle');setActiveTab(this);">{{ Lang::get("content.Muscle Group") }}</li>
+                            <li class="tab" onclick="openTab('tags-equipment');setActiveTab(this);">{{ Lang::get("content.Equipment") }}</li>
+                            <li class="tab" onclick="closeTabs();setActiveTab(this);searchExercise();" id="myExerciseTab">{{ Lang::get("content.myExercises") }}</li>
                         </ul>
                         <div id="tags-exercise" class="tabContent">
                             @foreach($exercisesTypes as $exercisesType)
@@ -2450,7 +2451,10 @@
             workoutName = $("#workout_name").val();
         }
 
-
+        function setActiveTab(element){
+            $(".tab").removeClass("active");
+            $(element).addClass("active");
+        }
 
         function searchExercise(el, event, page, more) {
             // Show loader
@@ -2477,7 +2481,10 @@
 
                         callForEvent('workouts-search-exercise',{"workout-name":workoutName,"exercise-name":$("#exercise_search").val(),"user_id":{{ Auth::user()->id }},"email":'{{ Auth::user()->email }}'});
                         $("#search_loader").show();
-
+                        var myExercises = false;
+                        if($('.tab.active').attr('id') == 'myExerciseTab'){
+                            myExercises = true;
+                        }
                         $.ajax({
                             'async': true,
                             'url': '{{ Lang::get("routes./Exercises/Search") }}',
@@ -2488,6 +2495,7 @@
                                 filters: filters,
                                 pageSize: page,
                                 lang: $("#langSelector").val(),
+                                myExercises: myExercises,
                             },
                             'success': function(data) {
                                 allExercisesDictionnary = {};
@@ -2520,10 +2528,14 @@
 
         function triggerFirstLoad(page) {
             // Show loader
-            if(firstLoadData == ""){
+            // if(firstLoadData == ""){
                 showTopLoader();
                 $("#search_results").show();
                 $("#search_loader").show();
+                var myExercises = false;
+                if($('.tab.active').attr('id') == 'myExerciseTab'){
+                    myExercises = true;
+                }
                 //console.log(filters);
                 $.ajax({
                     'async': true,
@@ -2533,17 +2545,19 @@
                     'data': {
                         search: $("#exercise_search").val(),
                         filters: filters,
-                        pageSize: page
+                        pageSize: page,
+                        myExercises: myExercises,
+                        lang: $("#langSelector").val(),
                     },
                     'success': function(data) {
                         allExercisesDictionnary = {};
                         displayResults(data);
                     }
                 });
-            } else {
-                allExercisesDictionnary = {};
-                displayResults(firstLoadData);
-            }
+            // } else {
+            //     allExercisesDictionnary = {};
+            //     displayResults(firstLoadData);
+            // }
 
         }
 

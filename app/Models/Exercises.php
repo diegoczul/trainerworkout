@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -362,11 +363,15 @@ class Exercises extends Model implements TranslatableContract
             ->whereNull('exercises.deleted_at')
             ->where('exercises.equipmentRequired', 0)
             ->where(function ($q) use ($restrictToUser, $userId) {
-                $q->where('exercises.type', 'public')
-                    ->orWhere(function ($subQ) use ($userId) {
-                        $subQ->whereIn('exercises.type', ['private', null])
-                            ->where('exercises.authorId', $userId);
-                    });
+                if ($restrictToUser == true) {
+                    $q->where('exercises.authorId', $userId);
+                }else{
+                    $q->where('exercises.type', 'public')
+                        ->orWhere(function ($subQ) use ($userId) {
+                            $subQ->whereIn('exercises.type', ['private', null])
+                                ->where('exercises.authorId', $userId);
+                        });
+                }
             })
             ->select(
                 'exercises.id',
@@ -440,12 +445,16 @@ class Exercises extends Model implements TranslatableContract
             ->whereNull('exercises.deleted_at')
             ->whereNull('exercises_translations.deleted_at')
             ->whereNull('exercises_equipments.deleted_at')
-            ->where(function ($q) use ($userId) {
-                $q->where('exercises.type', 'public')
-                    ->orWhere(function ($subQ) use ($userId) {
-                        $subQ->whereIn('exercises.type', ['private', null])
-                            ->where('exercises.authorId', $userId);
-                    });
+            ->where(function ($q) use ($restrictToUser, $userId) {
+                if ($restrictToUser == true) {
+                    $q->where('exercises.authorId', $userId);
+                }else{
+                    $q->where('exercises.type', 'public')
+                        ->orWhere(function ($subQ) use ($userId) {
+                            $subQ->whereIn('exercises.type', ['private', null])
+                                ->where('exercises.authorId', $userId);
+                        });
+                }
             })
             ->select(
                 DB::raw("CONCAT(exercises_translations.name, ' " . Lang::get('content.with') . " ', equipments_translations.name) as name"),

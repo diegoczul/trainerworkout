@@ -532,6 +532,7 @@ return array(
     "Exercise Type"                 =>"Exercise Type",
     "Muscle Group"                  =>"Muscle Group",
     "Equipment"                     =>"Equipment",
+    "myExercises"                    =>"My Exercises",
     "Add your own personal exercises to your personal collection"   =>"Add your own personal exercises to your personal collection",
     "Duplicate"                     =>"Duplicate",
     "See Exercise Description"      =>"See Exercise Description",
