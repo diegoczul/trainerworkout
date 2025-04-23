@@ -105,7 +105,7 @@
                 <h4>{{ Lang::get("content.Search Exercises") }}</h4>
                 <div class="searchField">
                     <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get('content.searchPlaceholder') }}">
-                    <button onClick="searchExercise()">{{ Lang::get('content.Search') }}</button>
+                    <button type="button" onClick="searchExercise();">{{ Lang::get('content.Search') }}</button>
                 
                     <select id="langSelector" style="height: 41px;">
                         <option value="en" {{ (app()->getLocale()  == "en") ? "selected" : "" }}>EN</option>
@@ -1139,11 +1139,11 @@ $(document).on("keydown", function (e) {
 
 $(document).ready(function(){
 
-    $('#exercise_search').on('keypress', function(e) {
-        if (e.keyCode == 13) {
-            searchExercise();
-        }
-    });
+    // $('#exercise_search').on('keypress', function(e) {
+    //     if (e.keyCode == 13) {
+    //         searchExercise();
+    //     }
+    // });
 
 
     $(".exerciseOptions svg title").each(function(){
@@ -2523,7 +2523,7 @@ function searchExercise(el, event, page, more) {
 
 function triggerFirstLoad(page) {
     // Show loader
-        if(firstLoadData == ""){
+    //     if(firstLoadData == ""){
         showTopLoader();
         $("#search_results").show();
             $("#search_loader").show();
@@ -2543,10 +2543,10 @@ function triggerFirstLoad(page) {
                     displayResults(data);
                 }
             });
-        } else {
-            allExercisesDictionnary = {};
-            displayResults(firstLoadData);
-        }
+        // } else {
+        //     allExercisesDictionnary = {};
+        //     displayResults(firstLoadData);
+        // }
 
 }
 
@@ -2730,7 +2730,8 @@ function emptyFilters(){
         if(filter.name == name && filter.type == type) index = x;
     }
     filters = [];
-    refreshFilters(false);
+    // refreshFilters(false);
+    refreshFilters(true);
 }
 
 
