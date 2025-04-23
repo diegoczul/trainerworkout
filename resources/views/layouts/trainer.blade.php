@@ -87,7 +87,7 @@
     {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css'.ASSET_VERSION)) }}
     {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css'.ASSET_VERSION)) }}
     {{-- Diego Test --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
 
 
     @if(Config::get("app.whitelabel") != "default")
