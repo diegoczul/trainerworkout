@@ -95,7 +95,6 @@ def main():
 
             if latest_sha != last_sha:
                 log_debug(f"🆕 New commit: {latest_sha}")
-
                 if "release_prod" in commit_message:
                     update_production_branch(latest_sha)
 
