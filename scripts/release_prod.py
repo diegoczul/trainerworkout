@@ -113,6 +113,5 @@ def main():
             log_debug(f"❌ Error: {e}")
 
         time.sleep(10)
-
 if __name__ == "__main__":
     main()
