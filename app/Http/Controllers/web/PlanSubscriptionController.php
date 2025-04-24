@@ -15,6 +15,7 @@ use Stripe\Stripe;
 use Stripe\Webhook;
 use Illuminate\Support\Facades\Log;
 
+
 class PlanSubscriptionController extends Controller
 {
     public function viewShared($link)
