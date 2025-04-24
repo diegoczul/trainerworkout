@@ -1077,7 +1077,14 @@
 <script src="{{asset('assets/js/jquery.bpopup.min.js')}}"></script>
  <!-- CHOSEN SELCT BOX -->
 <script>
-
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        const activeElement = document.activeElement;
+        if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
+            activeElement.blur(); // Closes the keyboard
+        }
+    }
+});
 function numberOnly(input){
     // Accepts numbers only in input
     input.addEventListener('keypress', function(e) {
