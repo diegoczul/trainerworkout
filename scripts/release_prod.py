@@ -16,7 +16,20 @@ VERBOSE = True
 def log_debug(message):
     if VERBOSE:
         print(message)
-
+def update_production_branch(commit_sha):
+    url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/git/refs/heads/production"
+    headers = {
+        "Authorization": f"token {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    data = {
+        "sha": commit_sha,
+        "force": True
+    }
+    response = requests.patch(url, headers=headers, json=data)
+    log_debug(f"🌐 Updated production branch to {commit_sha}")
+    response.raise_for_status()
+    
 def send_slack_message(message):
     try:
         payload = { "text": message }
@@ -84,11 +97,12 @@ def main():
                 log_debug(f"🆕 New commit: {latest_sha}")
 
                 if "release_prod" in commit_message:
+                    update_production_branch(latest_sha)
+
                     if execute_git_pull():
                         send_slack_message(f"{SLACK_USER_ID} 🚀 Released commit `{latest_sha}` to production:\n> {commit_message}")
                     else:
-                        send_slack_message(f"{SLACK_USER_ID} ❌ Git pull failed for commit `{latest_sha}`")
-
+                        send_slack_message(f"{SLACK_USER_ID} ❌ Git pull failed after updating production branch for commit `{latest_sha}`")
                 else:
                     log_debug("🔍 Skipping commit without 'release_prod'")
 
