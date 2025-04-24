@@ -307,9 +307,9 @@ class ExercisesController extends BaseController
 
         if ($validation->fails()) {
             if ($requestType == "") {
-                return Redirect::back()->withErrors($request->file('video')->getMimeType())->withInput();
+                return Redirect::back()->withErrors($validation->messages()->first())->withInput();
             } else {
-                return $this::responseJsonError($request->file('video')->getMimeType());
+                return $this::responseJsonError($validation->messages()->first());
             }
         } else {
             $exercise = new Exercises;
@@ -472,9 +472,9 @@ class ExercisesController extends BaseController
         $validation = Exercises::validate($request->all());
         if ($validation->fails()) {
             if ($requestType == "") {
-                return Redirect::back()->withErrors($request->file('video')->getMimeType())->withInput();
+                return back()->withErrors($validation->messages()->first())->withInput();
             } else {
-                return $this::responseJsonError($request->file('video')->getMimeType());
+                return $this->responseJsonError($validation->messages()->first());
             }
         } else {
             $exercise = Exercises::find($id);
