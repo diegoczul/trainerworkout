@@ -7940,27 +7940,27 @@ th.bound,
   margin-bottom: 15px; }
   @media (min-width: 768px) {
     .fltleft {
-      width: 38%; } }
-  @media (min-width: 1024px) {
-    .fltleft {
       width: 55%; } }
+  /* @media (min-width: 1024px) {
+    .fltleft {
+      width: 55%; } } */
 
 .exercisesblockright {
   float: none; }
   .exercisesblockright div {
-    width: 120px;
+    width: 100%;
     float: left; }
-    @media (min-width: 426px) {
+    @media (min-width: 768px) {
       .exercisesblockright div {
-        width: 200px;
+        width: 45%;
         padding: 0px 0px; } }
-    .exercisesblockright div .image {
+    /* .exercisesblockright div .image {
       width: 120px;
       height: 120px; }
       @media (min-width: 426px) {
         .exercisesblockright div .image {
           width: 200px;
-          height: 200px; } }
+          height: 200px; } } */
 
 .reportWrapper {
   max-width: 1200px;
@@ -8513,7 +8513,10 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
     .input-section{
       padding-bottom: 12px;
     }
-    
+    .chosen-select{
+      width: 100%;
+      padding: 6px;
+    }
 input.input, .popup_container .share_content textarea.input {
   border: 1px solid #aaa;
   border-radius: 4px;

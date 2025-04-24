@@ -47,6 +47,7 @@
                             </div>
                         </div>
                         <div class="fltright exercisesblockright">
+                            <div class="image-detail-section">
                             <fieldset>
                                 <p>{{ Lang::get("content.UploadPicture") }} 1</p>
                                 @if($exercise->image)
@@ -66,7 +67,10 @@
                             <fieldset style="display:block">
                                 <p>{{ Lang::get("content.Uploadavideo") }}</p>
                                 @if($exercise->video != "")
-                                    <a href="/{{ $exercise->video}}" style="display:block;width:200px; height:200px" id="player"></a>
+                                    <video width="40%" controls>
+                                        <source src="/{{ $exercise->video}}" type="video/mp4"  />
+                                    </video>
+{{--                                    <a href="/{{ $exercise->video}}" style="display:block;width:200px; height:200px" id="player"></a>--}}
                                     <a href="javascript:void(0)" onClick="clearAttribute({{ $exercise->id }},'video')"> {{ Lang::get("content.Delete") }} </a>
                                 @endif
                                 <input id="video" name="video" type="file" class=" whitebutton title border-radius"  />
@@ -75,6 +79,7 @@
                                 <p>{{ Lang::get("content.Linktoyourvideoofthisexercise") }}</p>
                                 <input class="title linkblock border-radius" type="text" placeholder="http://www.youtube.com/watch?" name="youtube" value="{{ ($exercise->youtube) ? "https://www.youtube.com/watch?v=".$exercise->youtube : "" }}">
                             </fieldset>
+                            </div>
                         </div>
                     </form>
                 </div>
