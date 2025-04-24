@@ -35,7 +35,7 @@ class Exercises extends Model implements TranslatableContract
         "bodygroupId" => "required",
         "image1" => 'sometimes|mimes:jpg,png,jpeg,gif',
         "image2" => 'sometimes|mimes:jpg,png,jpeg,gif',
-        'video' => 'nullable|file|mimes:mp4,mpeg4,mpeg-4,mpeg',
+        'video' => 'nullable|file|mimes:mp4,mpeg4,mpeg-4,x-m4v,m4v',
     ];
 
 
