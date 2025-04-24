@@ -265,7 +265,7 @@ $headerShadow: 0 2px 4px 0 rgba(0,0,0,0.30);
 		min-height: 45px;
 		@media all and (min-width: 470px) {
 			font-size: 1.25em;				
-		}		
+		}
 
 	}
 
@@ -410,6 +410,7 @@ $headerShadow: 0 2px 4px 0 rgba(0,0,0,0.30);
 $inputWidth: 70%;
 $buttonWidth: 66px;
 $lgButtonWidth: 90px;
+	position: relative;
 
 	input {
 		background: white;
@@ -432,7 +433,20 @@ $lgButtonWidth: 90px;
 			width: $lgButtonWidth;
 		}
 	}
-}
+	.cancel-btn{
+			position: absolute;
+			top: auto;
+			left: auto;
+			bottom: auto;
+			right: 144px;
+	}
+	.cancel-btn svg{
+		width: 26px;
+	}
+	.cancel-btn svg fill{
+		color: gray;
+	}
+	}
 
 //==================
 //      TAGS

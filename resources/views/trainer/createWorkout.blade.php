@@ -103,10 +103,13 @@
         <div class="searchContainer">
             <div class="searchWrapper">
                 <h4>{{ Lang::get("content.Search Exercises") }}</h4>
-                <div class="searchField">
+                <div class="searchField search-exercise">
                     <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get('content.searchPlaceholder') }}">
+                    <a href="javascript:void(0);" class="cancel-btn" onclick="clearSearch();">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="m292.2 256 109.9-109.9c10-10 10-26.2 0-36.2s-26.2-10-36.2 0L256 219.8 146.1 109.9c-10-10-26.2-10-36.2 0s-10 26.2 0 36.2L219.8 256 109.9 365.9c-10 10-10 26.2 0 36.2 5 5 11.55 7.5 18.1 7.5s13.1-2.5 18.1-7.5L256 292.2l109.9 109.9c5 5 11.55 7.5 18.1 7.5s13.1-2.5 18.1-7.5c10-10 10-26.2 0-36.2z" fill="#808080" opacity="1" data-original="#000000"></path></g></svg>
+                    </a>
+
                     <button type="button" onClick="searchExercise();">{{ Lang::get('content.Search') }}</button>
-                
                     <select id="langSelector" style="height: 41px;">
                         <option value="en" {{ (app()->getLocale()  == "en") ? "selected" : "" }}>EN</option>
                         <option value="fr" {{ (app()->getLocale()  == "fr") ? "selected" : "" }}>FR</option>
@@ -1077,6 +1080,9 @@
 <script src="{{asset('assets/js/jquery.bpopup.min.js')}}"></script>
  <!-- CHOSEN SELCT BOX -->
 <script>
+    function clearSearch(){
+        $("#exercise_search").val("");
+    }
 document.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         const activeElement = document.activeElement;

@@ -38,7 +38,7 @@ return array(
   'maxFreeWorkouts' => 3,
   'freeTrialMembershipId' => 59,
   'version' => "2.0.8",
-  'asset_version' => "?v=2.0.8",
+  'asset_version' => "?v=2.0.9",
   'activityEmail' => "activity@trainerworkout.com",
   'accountDomain' => "trainerworkout.com",
   'videoPlaceholder' => "assets/img/video.jpg",

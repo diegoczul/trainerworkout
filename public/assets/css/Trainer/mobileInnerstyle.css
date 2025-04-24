@@ -116,7 +116,7 @@ input, .popup_container .share_content textarea {
   border: 1px solid #aaa;
   border-radius: 4px;
   width: 100%;
-  padding: 9px;
+  padding: 9px 40px 9px 9px;
   margin-bottom: 15px;
   background: transparent;
  }
@@ -6082,6 +6082,7 @@ FRAMEWORK OVERRIDE CHOSEN
     width: 250px; }
 
 .searchField input, .searchField .popup_container .share_content textarea, .popup_container .share_content .searchField textarea {
+  position: relative;
   background: white;
   border: none;
   box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.25);
@@ -6129,6 +6130,27 @@ FRAMEWORK OVERRIDE CHOSEN
     .searchField button {
       width: 90px; } }
 
+.searchField.search-exercise{
+  position: relative;
+}
+.cancel-btn{
+  position: absolute;
+  top: 8px;
+  left: auto;
+  bottom: auto;
+  right: 115px;
+}
+.cancel-btn svg{
+  width: 26px;
+}
+.cancel-btn svg fill{
+  color: gray;
+}
+@media (min-width: 650px){
+  .cancel-btn{
+    right: 138px;
+  }
+}
 ul.tabs {
   width: 100%;
   overflow: hidden;
