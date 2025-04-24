@@ -178,6 +178,7 @@ return array(
     "Uploadpicture"                 => "Upload picture/gif",
     "Listoptionalequipment"         => "List optional equipment",
     "required"                      => "required",
+    "media_section"                 => "Media",
     "Share"                         => "Share",
     "emailaddress"                  => "Email address",
     "Personalizethemessagetoyourclients"    => "Personalize the message to your clients",

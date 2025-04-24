@@ -19,7 +19,7 @@
                     <form id="frm-create-excercise" action="/async/exercises.php" method="post" enctype="multipart/form-data" class="formholder">
                         <input type="hidden" id="id" name="id" value="{{ $exercise->id }}">
                         <div class="fltleft exercisesblockleft marginleftnone">
-                            <p>* {{ Lang::get("content.required") }}</p>
+                            <p><b>* {{ Lang::get("content.required") }}</b></p>
                             <div class="input-section">
                                 <p>{{ Lang::get("content.ExerciseName") }}*</p>
                                 <input type="text" name="name" class="input border-radius" placeholder="{{ Lang::get("content.Exercisename") }}" value="{{ $exercise->name }}">
@@ -47,6 +47,7 @@
                             </div>
                         </div>
                         <div class="fltright exercisesblockright">
+                            <p><b>{{ Lang::get("content.media_section") }}</b></p>
                             <div class="image-detail-section">
                             <fieldset>
                                 <p>{{ Lang::get("content.UploadPicture") }} 1</p>

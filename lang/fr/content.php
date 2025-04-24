@@ -189,6 +189,7 @@ return array(
         "Uploadpicture"                       => "Télécharger votre photo/gif",
         "Listoptionalequipment"                       => "Lister les équipements non obligatoire",
         "required"                       => "Requis",
+        "media_section"                       => "Media",
         "Share"                       => "Partager",
         "emailaddress"                       => "Adresse email",
         "Personalizethemessagetoyourclients"                       => "Personnaliser votre message",
