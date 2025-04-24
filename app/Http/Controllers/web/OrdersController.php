@@ -32,6 +32,7 @@ use Stripe\SetupIntent;
 use Stripe\Stripe;
 use Stripe\Subscription;
 use Illuminate\Support\Facades\DB;
+use App\Models\Plans;
 
 class OrdersController extends BaseController
 {
@@ -765,15 +766,46 @@ class OrdersController extends BaseController
 
     public function processPlanSubscriptionPayment(Request $request)
     {
-        $user = Auth::user();
         $debug = config('app.debug');
         Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
         try {
-            $priceId = $request->get('plan_id'); // this should be the Stripe price ID
+            $plan = \App\Models\Plan::findOrFail($request->plan_id);
             $token = $request->get('stripeToken');
 
-            // 1. Create or retrieve customer
+            // Create or fetch the user by email
+            $user = Auth::user();
+            if (!$user) {
+                $email = $request->get('email');
+                $user = Users::where('email', $email)->first();
+
+                if (!$user) {
+                    $user = new Users;
+                    $user->firstName = $request->get('first_name');
+                    $user->lastName = $request->get('last_name');
+                    $user->email = $email;
+                    $user->street = $request->get('street');
+                    $user->city = $request->get('city');
+                    $user->province = $request->get('province');
+                    $user->country = $request->get('country');
+                    $user->postalCode = $request->get('postal');
+                    $user->password = Hash::make(Str::random(12));
+                    $user->userType = 'Trainee';
+                    $user->save();
+
+                    $user->sendActivationEmail();
+                }
+
+                Auth::loginUsingId($user->id); // Login the user if newly created
+            }
+
+            // Attach to trainer as client
+            \App\Models\Clients::firstOrCreate([
+                'trainerId' => $plan->user_id,
+                'userId' => $user->id
+            ]);
+
+            // 1. Create or retrieve Stripe customer
             if (!$user->stripeCheckoutToken) {
                 $customer = Customer::create([
                     'email' => $user->email,
@@ -794,20 +826,17 @@ class OrdersController extends BaseController
             ]);
 
             $paymentMethod = PaymentMethod::retrieve($token); // Refresh
-            $paymentMethodId = $paymentMethod->id; // 👈 This line was missing
             $user->fourLastDigits = $paymentMethod->card->last4 ?? '';
             $user->typeOfCreditCard = $paymentMethod->card->brand ?? '';
             $user->save();
 
             // 3. Create subscription
-            $plan = \App\Models\Plan::findOrFail($request->plan_id);
-
             $subscription = Subscription::create([
                 'customer' => $customer->id,
                 'items' => [[
-                    'price' => $plan->stripe_price_id // ✅ must be the string like "price_1RGxYJ..."
+                    'price' => $plan->stripe_price_id
                 ]],
-                'default_payment_method' => $paymentMethodId,
+                'default_payment_method' => $paymentMethod->id,
                 'payment_behavior' => 'default_incomplete',
                 'expand' => ['latest_invoice.payment_intent'],
             ]);
@@ -843,6 +872,7 @@ class OrdersController extends BaseController
     }
 
 
+
     public function completeSubscriptionPayment(Request $request)
     {
         $user = Auth::user();
@@ -874,6 +904,48 @@ class OrdersController extends BaseController
         return $this::sendSuccess("Subscription Complete");
     }
 
+    public function successSubscriptionPlan(Request $request)
+    {
+        $paymentIntentId = $request->get('payment_intent_id'); // optional
+        $user = Auth::user();
+
+        // If paymentIntentId is passed (for added safety)
+        if ($paymentIntentId) {
+            $record = DB::table('plans_users')->where('payment_intent_id', $paymentIntentId)->first();
+
+            if ($record) {
+                if ($record->status !== 'active') {
+                    DB::table('plans_users')
+                        ->where('id', $record->id)
+                        ->update(['status' => 'active']);
+                }
+
+                if ($user) {
+                    return View::make("Store.thankYou")
+                        ->with("message", Lang::get("messages.CheckoutComplete"))
+                        ->with("user", $user)
+                        ->with("order", (object)[
+                            'subtotal' => $record->price,
+                            'total' => $record->price,
+                            'id' => $record->id
+                        ]);
+                } else {
+                    return View::make("Store.thankYouNoLogin")
+                        ->with("message", Lang::get("messages.CheckoutComplete"))
+                        ->with("order", (object)[
+                            'subtotal' => $record->price,
+                            'total' => $record->price,
+                            'id' => $record->id
+                        ]);
+                }
+            }
+        }
+
+        // fallback
+        return redirect('/')->withErrors("Something went wrong.");
+    }
+
+
     public function successSubscription()
     {
         $user = Auth::user();
@@ -886,7 +958,12 @@ class OrdersController extends BaseController
                 ->with("user", $user)
                 ->with("order", $order);
         } else {
-            return Redirect::route(Auth::user()->userType, ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(Lang::get("messages.NotFound"));
+            if (Auth::check()) {
+                return Redirect::route(Auth::user()->userType, ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(Lang::get("messages.NotFound"));
+            } else {
+                return View::make("Store.thankYouNoLogin")
+                    ->with("message", Lang::get("messages.CheckoutComplete"));
+            }
         }
     }
 
@@ -895,17 +972,46 @@ class OrdersController extends BaseController
         try {
             // HANDLES PAYMENT SUCCESS
             $data = $request->get('data');
-            if ($request->get('type') == 'payment_intent.succeeded') {
+            if ($request->get('type') === 'payment_intent.succeeded') {
                 $payment_intent = $data['object']['id'];
-                // UPDATING MEMBERSHIP USERS
-                $membership_users = MembershipsUsers::where('payment_intent_id', $payment_intent)->first();
-                $membership_users->paid = now();
-                $membership_users->save();
 
-                // UPDATING ORDER DETAILS
-                $orderItem = OrderItems::select('orderId')->where('subscriptionStripeKey', $membership_users->subscriptionStripeKey)->first();
-                Orders::where('id', $orderItem->orderId)->update(['status' => 'Paid', 'paidDate' => now()]);
+                // ✅ Client subscribed to a trainer plan
+                $planUser = DB::table('plans_users')->where('payment_intent_id', $payment_intent)->first();
+                if ($planUser && $planUser->status !== 'active') {
+                    DB::table('plans_users')->where('id', $planUser->id)->update(['status' => 'active']);
+
+                    $exists = DB::table('trainer_earnings')
+                        ->where('trainer_id', $planUser->trainer_id)
+                        ->where('source', 'plan_subscription')
+                        ->where('source_id', $planUser->id)
+                        ->exists();
+
+                    if (!$exists) {
+                        DB::table('trainer_earnings')->insert([
+                            'trainer_id' => $planUser->trainer_id,
+                            'user_id' => $planUser->user_id,
+                            'amount' => $planUser->price,
+                            'source' => 'plan_subscription',
+                            'source_id' => $planUser->id,
+                            'status' => 'available',
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
+                }
+
+                // ✅ Membership logic (trainer paying you)
+                $membership_users = DB::table('memberships_users')->where('payment_intent_id', $payment_intent)->first();
+                if ($membership_users) {
+                    DB::table('memberships_users')->where('id', $membership_users->id)->update(['paid' => now()]);
+
+                    $orderItem = DB::table('order_items')->select('orderId')->where('subscriptionStripeKey', $membership_users->subscriptionStripeKey)->first();
+                    if ($orderItem) {
+                        DB::table('orders')->where('id', $orderItem->orderId)->update(['status' => 'Paid', 'paidDate' => now()]);
+                    }
+                }
             }
+
 
             if ($request->get('type') == 'payment_intent.payment_failed') {
                 $payment_intent = $data['object']['id'];

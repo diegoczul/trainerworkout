@@ -6,14 +6,11 @@
                     <div class="wrapper_tags client">
                         <h3 class="tags_h3">{{ Lang::get("content.ClientTags") }}</h3>
                         <hr>
-
-
-
-                        <div class="container" style="position:relative; min-height:50px">
+                        <div class="container" style="position:relative;">
 <!-- CLIENTS TAGS GO HERE -->
                          @foreach ($tags as $tag)
                          @if($tag->type == "user")
-                         <div class="badge selabel-user" onclick="addToSearch('{{{ $tag->name }}}')"><i class="fa fa-user"></i>  {{{ $tag->name }}} @if(isset($workoutId) and $workoutId != "") 
+                         <div class="badge selabel-user" onclick="addToSearch('{{{ $tag->name }}}')"> {{{ $tag->name }}} @if(isset($workoutId) and $workoutId != "") 
                          <a class="tag_delete"  href="javascript:void(0)" onClick="removeTag({{ $tag->id }},$(this),event)">X</a>
                         @else
                             <a class="tag_delete" onClick="deleteTag({{ $tag->id }},$(this),event)">X</a>
@@ -28,7 +25,7 @@
                     <div class="wrapper_tags keyword">
                         <h3 class="tags_h3">{{ Lang::get("content.KeywordTags") }}</h3>
                         <hr>
-                        <div class="container" style="position:relative; min-height:50px">
+                        <div class="container" style="position:relative;">
 <!-- KEYWORDS TAGS GO HERE -->
                          @foreach ($tags as $tag)
                          @if($tag->type != "user")

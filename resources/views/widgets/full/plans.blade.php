@@ -15,9 +15,12 @@
                         @csrf
                         <a href="javascript:void(0)" onclick="openPlanShare({{ $plan->id }})"
                             class="bg-add text-white px-4 py-2 rounded hover:bg-add/80 text-sm">Share</a>
-
-
                     </form>
+                    <a href="{{ url('/Plans/' . $plan->id . '/clients') }}"
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-orange-700 text-sm">
+                        Clients
+                    </a>
+
 
                     <div class="flex gap-2">
                         <a href="javascript:void(0)" onclick="editPlan({{ $plan->id }})"

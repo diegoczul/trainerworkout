@@ -12,10 +12,8 @@ $selected = explode(",",$selectedTags);
                 @foreach ($tagsClient as $tag)
                     @if($tag->type == "user")
                         <div class="badge {{ (in_array($tag->name,$selected) ? 'label-user' : 'selabel-user') }}" onclick="addToTags('{{{ $tag->name }}}','user',$(this))" style="cursor:pointer">
-                            <i class="fa fa-user"></i>
                     @else
                         <div class="badge {{ (in_array($tag->name,$selected) ? 'label-tag' : 'selabel-tag') }}" onclick="addToTags('{{{ $tag->name }}}','tag',$(this))" style="cursor:pointer">
-                            <i class="fa fa-tag"></i>
                     @endif
                             {{{ $tag->name }}}
                         </div>
@@ -33,7 +31,6 @@ $selected = explode(",",$selectedTags);
                     @foreach ($tagsTags as $tag)
                         @if($tag->type == "user")
                             <div class="badge {{ (in_array($tag->name,$selected) ? 'label-user' : 'selabel-user') }}" onclick="addToTags('{{{ $tag->name }}}','user',$(this))" style="cursor:pointer">
-                                <i class="fa fa-user"></i>
 
                                 @else
                                     <div class="badge {{ (in_array($tag->name,$selected) ? 'label-tag' : 'selabel-tag') }}" onclick="addToTags('{{{ $tag->name }}}','tag',$(this))" style="cursor:pointer">
@@ -112,7 +109,7 @@ $selected = explode(",",$selectedTags);
                         success:function(data, textStatus, jqXHR)
                         {
                             if($("#tagNameClient").val() != ""){
-                                var output = ' <div class="label badge label-user">'+'<i class="fa fa-user"></i>'+$("#tagNameClient").val()+'</div>';
+                                var output = ' <div class="label badge label-user">'+$("#tagNameClient").val()+'</div>';
                                 $(".usersToAdd").append(output);
                             }
                             if($("#tagNameTag").val() != ""){

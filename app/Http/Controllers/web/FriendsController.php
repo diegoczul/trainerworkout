@@ -346,8 +346,63 @@ class FriendsController extends BaseController
 
     public function myPlansIndex()
     {
+        $trainer_id = Auth::id();
+
+        // Summary totals
+        $frozen = DB::table('trainer_earnings')
+            ->where('trainer_id', $trainer_id)
+            ->where('status', 'frozen')
+            ->sum('amount');
+
+        $available = DB::table('trainer_earnings')
+            ->where('trainer_id', $trainer_id)
+            ->where('status', 'available')
+            ->sum('amount');
+
+        $paid = DB::table('trainer_earnings')
+            ->where('trainer_id', $trainer_id)
+            ->where('status', 'paid')
+            ->sum('amount');
+
+        $totalPaidOut = DB::table('trainer_payouts')
+            ->where('trainer_id', $trainer_id)
+            ->sum('amount');
+
+        $totalEarned = $frozen + $available + $paid;
+
+        $earningsSummary = (object) [
+            'total_earned' => $totalEarned,
+            'total_paid'   => $totalPaidOut,
+            'balance'      => $totalEarned - $totalPaidOut,
+            'frozen'       => $frozen,
+            'available'    => $available,
+            'paid'         => $totalPaidOut
+        ];
+
+        // Recent payouts
+        $payouts = DB::table('trainer_payouts')
+            ->where('trainer_id', $trainer_id)
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        $earningsRows = DB::table('trainer_earnings')
+            ->leftJoin('plans_users', 'trainer_earnings.stripe_subscription_id', '=', 'plans_users.subscriptionStripeKey')
+            ->leftJoin('users', 'plans_users.user_id', '=', 'users.id')
+            ->where('trainer_earnings.trainer_id', $trainer_id)
+            ->orderByDesc('trainer_earnings.created_at', "DESC")
+            ->select(
+                'trainer_earnings.*',
+                'users.email',
+                'users.firstName as first_name',
+                'users.lastName as last_name'
+            )
+            ->get();
 
 
-        return View::make("trainer.plans");
+        return View::make("trainer.plans")
+            ->with('earnings', $earningsSummary)
+            ->with('payouts', $payouts)
+            ->with('earningsRows', $earningsRows);
     }
 }

@@ -11,6 +11,10 @@ use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Stripe\Stripe;
+use Stripe\Webhook;
+use Illuminate\Support\Facades\Log;
+
 
 class PlanSubscriptionController extends Controller
 {
@@ -26,6 +30,60 @@ class PlanSubscriptionController extends Controller
             'link' => $link
         ]);
     }
+
+
+
+    public function handlePlanWebhook(Request $request)
+    {
+        $payload = $request->getContent();
+        $sigHeader = $request->server('HTTP_STRIPE_SIGNATURE');
+        $secret = config('constants.STRIPE_WEBHOOK_SECRET');
+        Log::error("--------> " . $secret);
+
+        Log::debug('🔔 Stripe webhook received', [
+            'sig_header' => $sigHeader,
+            'raw_payload' => $payload,
+        ]);
+
+        try {
+            $event = \Stripe\Webhook::constructEvent($payload, $sigHeader, $secret);
+        } catch (\UnexpectedValueException $e) {
+            Log::error('❌ Invalid Stripe payload', ['exception' => $e]);
+            return response()->json(['error' => 'Invalid payload'], 400);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            Log::error('❌ Signature verification failed', [
+                'message' => $e->getMessage(),
+                'header' => $sigHeader,
+                'expected_secret' => $secret,
+                'payload' => $payload,
+            ]);
+            return response()->json(['error' => 'Invalid signature'], 400);
+        }
+
+        Log::info('✅ Stripe event validated', ['event_type' => $event->type]);
+
+        if ($event->type === 'invoice.paid') {
+            $subscriptionId = $event->data->object->subscription;
+
+            Log::info('🔄 Updating plan status for subscription', ['subscription_id' => $subscriptionId]);
+
+            $updated = DB::table('plans_users')
+                ->where('subscriptionStripeKey', $subscriptionId)
+                ->update([
+                    'status' => 'active',
+                    'updated_at' => now()
+                ]);
+
+            if ($updated) {
+                Log::info('✅ Plan subscription activated for sub: ' . $subscriptionId);
+            } else {
+                Log::warning('⚠️ Subscription ID not found in plans_users: ' . $subscriptionId);
+            }
+        }
+
+        return response()->json(['received' => true], 200);
+    }
+
 
     public function subscribeClientToPlan(Request $request, $planId)
     {

@@ -1807,4 +1807,57 @@ class UsersController extends BaseController
                 ->with("message", Lang::get("messages.Welcome"));
         }
     }
+
+    public function mySubscriptions()
+    {
+        $user = Auth::user();
+
+        $subscriptions = DB::table('plans_users')
+            ->join('plans', 'plans_users.plan_id', '=', 'plans.id')
+            ->join('users as trainers', 'plans.user_id', '=', 'trainers.id')
+            ->where('plans_users.user_id', $user->id)
+            ->select(
+                'plans_users.*',
+                'plans.name as plan_name',
+                'trainers.firstName as trainer_first_name',
+                'trainers.lastName as trainer_last_name'
+            )
+            ->orderByDesc('plans_users.created_at')
+            ->get();
+
+        return view('trainee.plans', compact('subscriptions'));
+    }
+
+    public function requestPayout()
+    {
+        $trainerId = Auth::id();
+
+        $amount = DB::table('trainer_earnings')
+            ->where('trainer_id', $trainerId)
+            ->where('status', 'available')
+            ->sum('amount');
+
+        if ($amount <= 0) {
+            return back()->with('error', 'No available balance for payout.');
+        }
+
+        DB::transaction(function () use ($trainerId, $amount) {
+            // Create payout request
+            DB::table('trainer_payouts')->insert([
+                'trainer_id' => $trainerId,
+                'amount' => $amount,
+                'status' => 'requested',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Mark earnings as requested
+            DB::table('trainer_earnings')
+                ->where('trainer_id', $trainerId)
+                ->where('status', 'available')
+                ->update(['status' => 'requested', 'updated_at' => now()]);
+        });
+
+        return back()->with('message', 'Payout request submitted.');
+    }
 }

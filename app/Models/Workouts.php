@@ -115,25 +115,25 @@ class Workouts extends Model
     {
         if (!empty($search)) {
             $query
-//                ->select(
-//                "workouts.*",
-//                DB::raw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) AS scoreName"),
-//                DB::raw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreNameDescription"),
-//                DB::raw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreDescription"),
-//                DB::raw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) AS scoreTags"),
-//                DB::raw("CHAR_LENGTH(workouts.name) AS multiplier")
-//            )
+                //                ->select(
+                //                "workouts.*",
+                //                DB::raw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) AS scoreName"),
+                //                DB::raw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreNameDescription"),
+                //                DB::raw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreDescription"),
+                //                DB::raw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) AS scoreTags"),
+                //                DB::raw("CHAR_LENGTH(workouts.name) AS multiplier")
+                //            )
                 ->where(function ($query) use ($search) {
                     $query->whereRaw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
                         ->orWhereRaw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
                         ->orWhereRaw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
                         ->orWhereRaw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"]);
                 })
-//                ->orderBy("scoreName", "DESC")
-//                ->orderBy("scoreTags", "DESC")
-//                ->orderBy("scoreNameDescription", "DESC")
-//                ->orderBy("scoreDescription", "DESC")
-//                ->orderBy("multiplier", "ASC")
+                //                ->orderBy("scoreName", "DESC")
+                //                ->orderBy("scoreTags", "DESC")
+                //                ->orderBy("scoreNameDescription", "DESC")
+                //                ->orderBy("scoreDescription", "DESC")
+                //                ->orderBy("multiplier", "ASC")
                 ->orderBy("shares", "DESC")
                 ->orderBy("views", "DESC");
         }
@@ -239,8 +239,8 @@ class Workouts extends Model
     public function getExercises()
     {
         return WorkoutsExercises::with(["exercises" => function ($query) {
-                $query->select("id", "bodygroupId", "userId", "name", "description", "image", "image2", "thumb", "thumb2", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
-            }])
+            $query->select("id", "bodygroupId", "userId", "name", "description", "image", "image2", "thumb", "thumb2", "image as image_url", "image2 as image2_url", "thumb as thumb_url", "thumb2 as thumb2_url", "video", "youtube", "type", "equipment", "deleted_at", "created_at", "updated_at", "authorId", "bodyGroupSec", "views", "used", "nameEngine", "equipmentRequired", "exercisesTypesId", "secondsPerRep");
+        }])
             ->where("workoutId", $this->id)
             ->orderBy("order");
     }
@@ -468,31 +468,43 @@ class Workouts extends Model
         return $name_temp;
     }
 
+    public function getTags()
+    {
+        $tags = $this->tags;
+        $tagsArray = explode(",", $tags);
+
+        $tags = Tags::whereIn("name", $tagsArray)
+            ->where("userId", $this->userId)
+            ->get();
+
+        return $tags;
+    }
+
     public function getImagePDF()
     {
         $workout = Workouts::find($this->id);
 
         $user = Users::find($workout->userId);
         $tags = $workout->tags;
-        $tagsArray = explode(",",$tags);
-        $tags = Tags::whereIn("name",$tagsArray)->where("userId",$workout->userId)->get();
-        $tagsClient = Tags::where("type","user")->where("userId",$workout->userId)->get();
-        $tagsTags = Tags::where("type","tag")->where("userId",$workout->userId)->get();
-        if($user->lang != "") {
+        $tagsArray = explode(",", $tags);
+        $tags = Tags::whereIn("name", $tagsArray)->where("userId", $workout->userId)->get();
+        $tagsClient = Tags::where("type", "user")->where("userId", $workout->userId)->get();
+        $tagsTags = Tags::where("type", "tag")->where("userId", $workout->userId)->get();
+        if ($user->lang != "") {
             App::setLocale($user->lang);
         } else {
             App::setLocale('en');
         }
-        if($workout){
+        if ($workout) {
             $workout->incrementViews();
             $html = view("workoutImage")
-                    ->with("workout",$workout)
-                    ->with("user",$user)
-                    ->with("tags",$tags)
-                    ->with("tagsTags",$tagsTags)
-                    ->with("tagsClient",$tagsClient)
-                    ->with("groups",$workout->getGroups()->get())
-                    ->with("exercises",$workout->getExercises()->get());
+                ->with("workout", $workout)
+                ->with("user", $user)
+                ->with("tags", $tags)
+                ->with("tagsTags", $tagsTags)
+                ->with("tagsClient", $tagsClient)
+                ->with("groups", $workout->getGroups()->get())
+                ->with("exercises", $workout->getExercises()->get());
         } else {
             $html = "";
         }
@@ -523,9 +535,9 @@ class Workouts extends Model
         $data["exercises"] = $this->getExercises()->get();
         $view = view("workoutPrint", $data);
         $pdf = SnappyPdf::loadHTML($view);
-//        $pdf->setOptions(array(
-//            "orientation" => "landscape",
-//        ));
+        //        $pdf->setOptions(array(
+        //            "orientation" => "landscape",
+        //        ));
 
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);
@@ -533,41 +545,41 @@ class Workouts extends Model
             $name = Uuid::uuid4()->toString();
         }
 
-//        if ($is_absolute) {
-//            $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
-//            if (File::exists($name_temp)) {
-//                File::delete($name_temp);
-//            }
-//            $pdf->save($name_temp);
-//
-//            $merger = (new PdfManage())->init();
-//            $merger->addPDF($name_temp);
-//            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
-//            $merger->merge('L', ['file' => $name_temp]);
-//            return $name_temp;
-//        }
-//
-//        if (!$is_absolute) {
-            // SAVING TO PUBLIC PATH
-            $temp_public_name = '/temp/' . $name . '_grid.pdf';
-            if (file_exists(public_path('/temp/')) == false) {
-                mkdir(public_path('/temp/'), 0777, true);
-            }
-            if (file_exists(public_path($temp_public_name))){
-                unlink(public_path($temp_public_name));
-            }
-            $pdf->save(public_path($temp_public_name));
+        //        if ($is_absolute) {
+        //            $name_temp = storage_path() . "/temp/" . $name . "_grid.pdf";
+        //            if (File::exists($name_temp)) {
+        //                File::delete($name_temp);
+        //            }
+        //            $pdf->save($name_temp);
+        //
+        //            $merger = (new PdfManage())->init();
+        //            $merger->addPDF($name_temp);
+        //            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+        //            $merger->merge('L', ['file' => $name_temp]);
+        //            return $name_temp;
+        //        }
+        //
+        //        if (!$is_absolute) {
+        // SAVING TO PUBLIC PATH
+        $temp_public_name = '/temp/' . $name . '_grid.pdf';
+        if (file_exists(public_path('/temp/')) == false) {
+            mkdir(public_path('/temp/'), 0777, true);
+        }
+        if (file_exists(public_path($temp_public_name))) {
+            unlink(public_path($temp_public_name));
+        }
+        $pdf->save(public_path($temp_public_name));
 
-            $merger = (new PdfManage())->init();
-            $merger->addPDF(public_path($temp_public_name));
-            $merger->addPDF(public_path(Config::get("constants.gridPDF")));
-            $merger->merge('L', ['file' => public_path($temp_public_name)]);
-            if (!$is_absolute) {
-                return asset($temp_public_name);
-            }else{
-                return public_path($temp_public_name);
-            }
-//            }
+        $merger = (new PdfManage())->init();
+        $merger->addPDF(public_path($temp_public_name));
+        $merger->addPDF(public_path(Config::get("constants.gridPDF")));
+        $merger->merge('L', ['file' => public_path($temp_public_name)]);
+        if (!$is_absolute) {
+            return asset($temp_public_name);
+        } else {
+            return public_path($temp_public_name);
+        }
+        //            }
     }
 
     public function getImageScreenshot()
@@ -579,10 +591,10 @@ class Workouts extends Model
 
 
         $html = view("workoutImage")
-            ->with("workout",$this)
-            ->with("user",Auth::user())
-            ->with("groups",$this->getGroups()->get())
-            ->with("exercises",$this->getExercises()->get());
+            ->with("workout", $this)
+            ->with("user", Auth::user())
+            ->with("groups", $this->getGroups()->get())
+            ->with("exercises", $this->getExercises()->get());
 
         $image = SnappyImage::loadHTML($html);
 
@@ -697,10 +709,11 @@ class Workouts extends Model
     {
         $this->averageCompleted = $this->getAverageCompleted();
 
-        if (Sets::where("workoutId", $this->id)
-                ->whereBetween("created_at", [date("Y-m-d") . " 00:00:00", date("Y-m-d") . " 23:59:59"])
-                ->where("completed", 1)
-                ->count() <= 1
+        if (
+            Sets::where("workoutId", $this->id)
+            ->whereBetween("created_at", [date("Y-m-d") . " 00:00:00", date("Y-m-d") . " 23:59:59"])
+            ->where("completed", 1)
+            ->count() <= 1
         ) {
             $this->setTimesPerWeek();
             $this->timesPerformed += 1;

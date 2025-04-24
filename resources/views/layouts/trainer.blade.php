@@ -58,7 +58,8 @@
     <meta name="google-site-verification" content="">
     <meta name="title" content="">
     <meta name="description" content="">
-    <!-- Jquery -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <!-- {{ HTML::script(asset('assets/js/jquery.js')) }} -->
     <!-- AJAX SETUP -->
@@ -87,7 +88,6 @@
     {{ HTML::style(asset('assets/css/Trainer/mobileInnerstyle.css'.ASSET_VERSION)) }}
     {{ HTML::style(asset('assets/css/lang/styles_'.Config::get('app.locale').'.css'.ASSET_VERSION)) }}
     {{-- Diego Test --}}
-{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
 
 
     @if(Config::get("app.whitelabel") != "default")

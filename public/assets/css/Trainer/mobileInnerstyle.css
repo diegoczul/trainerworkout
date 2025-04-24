@@ -113,11 +113,12 @@ label {
 
 input, .popup_container .share_content textarea {
   /* height: 40px; */
-  border: 1px solid #aaa;
+  border: 1px solid #EFEFEF;
   border-radius: 4px;
   width: 100%;
   padding: 9px 40px 9px 9px;
   margin-bottom: 15px;
+  text-align: center;
   background: transparent;
  }
 
@@ -324,6 +325,7 @@ td.restBtwSet {
     transform: translateY(2px); }
   .moreOptionsButton svg {
     height: 20px;
+    margin: auto;
     width: auto; }
 
 .addElementButton {
@@ -392,7 +394,9 @@ td.restBtwSet {
   .loader-bg img {
     height: 86.4px;
     width: auto;
-    margin-top: 10.8px; }
+    margin-top: 10.8px;
+  margin-left: auto;
+    margin-right: auto; }
 
 .moveMe {
   top: 0; }
@@ -3119,7 +3123,7 @@ nav {
   border-radius: 2px;
   border: none;
   text-align: center;
-  display: inline-block;
+  display: inline-flex;
   min-width: auto;
   height: auto;
   padding: 8px 12px;
@@ -8540,10 +8544,11 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
       padding: 6px;
     }
 input.input, .popup_container .share_content textarea.input {
-  border: 1px solid #aaa;
+  border: 1px solid #EFEFEF;
   border-radius: 4px;
   font-size: 14px;
   padding: 6px;
+  text-align: center;
   /*color: white;*/
   margin: 0; }
 

@@ -6,7 +6,7 @@
                     
                     @if($tag->type == "user")
                     <div class="badge label-user" onclick="addToSearch('{{{ $tag->name }}}')" style="cursor:default">
-                    <i class="fa fa-user"></i>
+                
                     @else
                     <div class="badge label-tag" onclick="addToSearch('{{{ $tag->name }}}')" style="cursor:default">
                     <i class="fa fa-tag"></i>

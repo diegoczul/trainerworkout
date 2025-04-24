@@ -60,6 +60,9 @@
 
     {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js'.ASSET_VERSION)) }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!-- AJAX SETUP -->
     <script type="text/javascript">
         $.ajaxSetup({
@@ -146,6 +149,22 @@
                 <a href="{{ Lang::get("routes./Trainee/Workouts") }}" class="c-menu__link">{{ Lang::get("content.CMWorkouts") }}</a>
             </li>
         </div>
+        @php
+    $hasPlans = DB::table('plans_users')
+        ->where('user_id', Auth::id())
+        ->where('status', '!=', 'cancelled')
+        ->exists();
+@endphp
+
+@if($hasPlans)
+<div class="menu-section">
+    <li class="c-menu__item">
+            <a href="{{ route('plans.subscriptions') }}" class="c-menu__link menu_myPlans">
+                {{ Lang::get("content.MyPlans") }}
+            </a>
+        </li>
+    </div>
+@endif
         <div class="menu-section">
             <li class="c-menu__item">
                 <a href="javascript:void(Tawk_API.toggle())" class="c-menu__link">{{ Lang::get("content.Support") }}</a>

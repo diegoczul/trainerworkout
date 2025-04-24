@@ -37,6 +37,12 @@ class SharedPlanEmailJob implements ShouldQueue
             ]);
 
             $email = new \SendGrid\Mail\Mail();
+
+            \Log::info('🧪 Using From address', [
+                'address' => env('MAIL_FROM_ADDRESS'),
+                'name' => env('MAIL_FROM_NAME'),
+            ]);
+
             $email->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $email->setSubject("A plan has been shared with you");
             $email->addTo($this->toUser->email);

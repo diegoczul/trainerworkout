@@ -630,6 +630,7 @@ Route::controller(OrdersController::class)->group(function () {
     Route::post('process-subscription-payment', 'processSubscriptionPayment')->name('process-subscription-payment');
     Route::post('complete-subscription-payment', 'completeSubscriptionPayment')->name('complete-subscription-payment');
     Route::get('success/subscription', 'successSubscription')->name('subscription-success');
+    Route::get('success/subscriptionPlan', 'successSubscriptionPlan')->name('subscription-success-plan');
 });
 
 
@@ -757,6 +758,10 @@ Route::middleware(['controlpanel', 'auth'])->group(function () {
     Route::get('ControlPanel/errors/reset', [ControlPanelController::class, 'indexErrorsReset']);
 
     Route::get('ControlPanel/migrateworkoutFromUserToUser/{param1}/{param2}', [SystemController::class, 'migrateWorkout']);
+
+    Route::get('ControlPanel/Payouts', [PlansController::class, 'payoutsIndex']);
+    Route::post('ControlPanel/Payouts/Data', [PlansController::class, 'payoutsData']);
+    Route::post('ControlPanel/Payouts/MarkAsPaid/{id}', [PlansController::class, 'markPayoutAsPaid']);
 });
 
 // CRON JOBS
@@ -869,3 +874,10 @@ Route::post('/subscribe/confirm', [PlanSubscriptionController::class, 'confirm']
 
 Route::post('/process-plan-subscription-payment', [OrdersController::class, 'processPlanSubscriptionPayment'])
     ->name('process-plan-subscription-payment');
+
+Route::get('/Plans/{id}/clients', [PlansController::class, 'viewClients'])->name('plans.clients');
+Route::post('/Plans/{plan_id}/cancel/{user_id}', [PlansController::class, 'cancelClient'])->name('plans.clients.cancel');
+Route::post('/stripe/webhook/plan-subscription', [PlanSubscriptionController::class, 'handlePlanWebhook']);
+Route::post('/plans/cancel-self/{plan_id}', [PlansController::class, 'cancelSelf'])->name('plans.cancel.self')->middleware('auth');
+Route::get('/my-subscriptions', [UsersController::class, 'mySubscriptions'])->name('plans.subscriptions')->middleware('auth');
+Route::post('/trainer/payout/request', [UsersController::class, 'requestPayout'])->name('trainer.request-payout');

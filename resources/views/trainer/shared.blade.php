@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <form action="{{ route('subscribe.plan', $plan->id) }}" method="POST">
+                            <form action="{{ route('subscribe.plan', $plan->id) }}" method="GET">
                                 @csrf
                                 <button type="submit"
                                     class="bg-add text-white px-5 py-2 rounded hover:bg-add/80 text-sm font-medium">
