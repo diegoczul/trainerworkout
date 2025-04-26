@@ -789,6 +789,7 @@ return array(
     "Base Prescription" => "Base Prescription",
     "frontEnd/Login" => "Login",
 
+
     ///------------------------------------------TRANSLATE
     "Manage Subscription Plans for Your Clients" => "Charge subscriptions and create Plans for Your Clients",
     "Create and share your own monthly training plans. Clients can subscribe directly, and Trainer Workout handles billing and invoicing automatically, helping you keep client relationships 100% professional." => "Create and share your own monthly training plans. Clients can subscribe directly, and Trainer Workout handles billing and invoicing automatically, helping you keep client relationships 100% professional.",
