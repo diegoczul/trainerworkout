@@ -792,7 +792,7 @@ class WorkoutsController extends BaseController
 		$workout->incrementViews();
 
 		Event::dispatch('printWorkout', array($user, $workout->name));
-		return $workout->getPrintPDF(false);
+		return response()->json(['status' => true, 'url' => $workout->getPrintPDF(false)]);
 	}
 
 	public function PrintWorkouts($workoutIds)

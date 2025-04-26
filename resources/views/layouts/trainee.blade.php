@@ -61,7 +61,7 @@
     {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js'.ASSET_VERSION)) }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
 
     <!-- AJAX SETUP -->
     <script type="text/javascript">
