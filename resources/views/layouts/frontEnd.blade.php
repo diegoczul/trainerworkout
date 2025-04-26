@@ -217,6 +217,7 @@
                 <div class="page personalTrainers">
                     <h2><a href="/#jumbotron">{{ Lang::get('content.frontEnd/PersonalTrainer') }}</a></h2>
                     <a href="/#primary">{{ Lang::get('content.frontEnd/Mobilefriendly') }}</a>
+                    <a href="/#primary">{{ Lang::get('content.frontEnd/ChargeClients') }}</a>
                     <a
                         href="/#secondary series of tools designed for you">{{ Lang::get('content.frontEnd/Builtfyou_clients') }}</a>
                     <a href="/#third">{{ Lang::get('content.frontEnd/Toolssavetime') }}</a>
