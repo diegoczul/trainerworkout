@@ -254,7 +254,7 @@
                             <h4>{{ Lang::get("content.Do you want control") }}?</h4>
                             <h2>{{ Lang::get("content.Management Module") }}</h2>
                             <p>{!! Lang::get("content.Monthly Fixed Fee<br>(optional)") !!}</p>
-                            <!-- <a href='mailto:corinne@trainerworkout.com'">Contact Us</a> -->
+                            <!-- <a href='mailto:corinne@trainer-workout.com'">Contact Us</a> -->
                         </div>
                         <div class="plan-b">
                             <h4>{{ Lang::get("content.Branding Options") }}</h4>
@@ -265,7 +265,7 @@
                     </div>
                     <div class="fixedPricing">
                         <!-- <p>We also can customize pricing for chains</p> -->
-                        <a href='mailto:corinne@trainerworkout.com'>{{ Lang::get("content.Contact Us") }}</a>
+                        <a href='mailto:corinne@trainer-workout.com'>{{ Lang::get("content.Contact Us") }}</a>
                     </div>
                 </div>
             </div>

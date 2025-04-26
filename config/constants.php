@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Config;
 
 return array(
+  'price'   => '9.99',
   'thumbSize'   => '400',
   'displaySize'  => '800',
   'userPath'  => 'public/users',
@@ -40,8 +41,8 @@ return array(
   'freeTrialMembershipId' => 59,
   'version' => "2.0.8",
   'asset_version' => "?v=2.0.9",
-  'activityEmail' => "activity@trainerworkout.com",
-  'accountDomain' => "trainerworkout.com",
+  'activityEmail' => "activity@trainer-workout.com",
+  'accountDomain' => "trainer-workout.com",
   'videoPlaceholder' => "assets/img/video.jpg",
   'gridPDF' => "grid.pdf",
 

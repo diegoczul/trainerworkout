@@ -53,12 +53,14 @@ class UserMessagesController extends BaseController
     public function dialog($user)
     {
         return View::make("widgets.full.dialog")
-            ->with("messages", UserMessages::where(
-                function ($query) {
-                    $query->orWhere("from", Auth::user()->id);
-                    $query->orWhere("to", Auth::user()->id);
-                }
-            )->orderBy("sent", "ASC")->get()
+            ->with(
+                "messages",
+                UserMessages::where(
+                    function ($query) {
+                        $query->orWhere("from", Auth::user()->id);
+                        $query->orWhere("to", Auth::user()->id);
+                    }
+                )->orderBy("sent", "ASC")->get()
             )
             ->with("friend", Users::find($user));
     }
@@ -72,7 +74,7 @@ class UserMessagesController extends BaseController
         return View::make("widgets.full.composeMail");
     }
 
-    public function composeMailToUser($user,Request $request)
+    public function composeMailToUser($user, Request $request)
     {
         $client = Users::find($user);
         $userId = Auth::user()->id;
@@ -135,7 +137,7 @@ class UserMessagesController extends BaseController
 
     public function eventTest()
     {
-        $response = Http::get("http://www.trainerworkout.com");
+        $response = Http::get("http://www.trainer-workout.com");
         return $response->body();
     }
 

@@ -1,12 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Corinne | New Workout | Tw</title>
     <style type="text/css">
         /*////// RESET STYLES //////*/
-        body, #bodyTable, #bodyCell {
+        body,
+        #bodyTable,
+        #bodyCell {
             height: 100% !important;
             margin: 0;
             padding: 0;
@@ -17,13 +20,19 @@
             border-collapse: collapse;
         }
 
-        img, a img {
+        img,
+        a img {
             border: 0;
             outline: none;
             text-decoration: none;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             margin: 0;
             padding: 0;
         }
@@ -42,12 +51,18 @@
         }
 
         /* Force Hotmail/Outlook.com to display emails at full width. */
-        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
             line-height: 100%;
         }
 
         /* Force Hotmail/Outlook.com to display line heights normally. */
-        table, td {
+        table,
+        td {
             mso-table-lspace: 0pt;
             mso-table-rspace: 0pt;
         }
@@ -63,7 +78,13 @@
         }
 
         /* Force IE to smoothly render resized images. */
-        body, table, td, p, a, li, blockquote {
+        body,
+        table,
+        td,
+        p,
+        a,
+        li,
+        blockquote {
             -ms-text-size-adjust: 100%;
             -webkit-text-size-adjust: 100%;
         }
@@ -71,11 +92,17 @@
         /* Prevent Windows- and Webkit-based mobile platforms from changing declared text sizes. */
 
         /*////// GENERAL STYLES //////*/
-        h1, h2, h3, h4, p, a {
+        h1,
+        h2,
+        h3,
+        h4,
+        p,
+        a {
             font-family: "Avenir", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
-        h1, h1 a {
+        h1,
+        h1 a {
             color: #2C3E50;
             font-size: 44px;
             font-weight: 100;
@@ -83,7 +110,8 @@
             text-align: center;
         }
 
-        h2, h2 a {
+        h2,
+        h2 a {
             color: #2C3E50;
             font-size: 34px;
             font-weight: 100;
@@ -91,7 +119,8 @@
             text-align: left;
         }
 
-        h3, h3 a {
+        h3,
+        h3 a {
             color: #2C3E50;
             font-size: 30px;
             font-weight: 100;
@@ -99,7 +128,8 @@
             text-align: left;
         }
 
-        h4, h4 a {
+        h4,
+        h4 a {
             color: #fff;
             font-size: 26px;
             font-weight: 100;
@@ -107,7 +137,8 @@
             text-align: left;
         }
 
-        p, p a {
+        p,
+        p a {
             color: #2C3E50;
             font-size: 20px;
             font-weight: 200;
@@ -116,7 +147,8 @@
         }
 
 
-        body, #bodyTable {
+        body,
+        #bodyTable {
             background-color: rgb(241, 242, 244);
         }
 
@@ -158,7 +190,8 @@
             word-break: normal;
         }
 
-        .quote1, .quote2 {
+        .quote1,
+        .quote2 {
             width: 20px;
         }
 
@@ -176,7 +209,8 @@
             padding: 60px 40px;
         }
 
-        .hereLink {;
+        .hereLink {
+            ;
         }
 
         .link {
@@ -222,13 +256,22 @@
         }
 
         @media only screen and (max-width: 480px) {
+
             /*////// RESET STYLES //////*/
-            td[id="emailContainer"], td[id="headerContainer"], td[id="introMessageContainer"], td[id="mainActionContainer"], td[id="contentContainer"], td[id="footerContainer"] {
+            td[id="emailContainer"],
+            td[id="headerContainer"],
+            td[id="introMessageContainer"],
+            td[id="mainActionContainer"],
+            td[id="contentContainer"],
+            td[id="footerContainer"] {
                 padding-right: 10px !important;
                 padding-left: 10px !important;
             }
 
-            table[id="headerBlock"], table[id="mainActionBlock"], table[id="contentBlock"], table[id="footerBlock"] {
+            table[id="headerBlock"],
+            table[id="mainActionBlock"],
+            table[id="contentBlock"],
+            table[id="footerBlock"] {
                 max-width: 480px !important;
                 width: 100% !important;
             }
@@ -257,7 +300,8 @@
                 font-size: 20px !important;
             }
 
-            p, p a {
+            p,
+            p a {
                 font-size: 16px !important;
                 text-align: left !important;
                 line-height: 150% !important;
@@ -289,74 +333,110 @@
         }
     </style>
 </head>
-<body style="margin: 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: rgb(241,242,244);height: 100% !important;width: 100% !important;">
-<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;margin: 0;padding: 0;background-color: rgb(241,242,244);height: 100% !important;width: 100% !important;">
-    <tr>
-        <td align="center" valign="top" id="bodyCell" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;margin: 0;padding: 0;height: 100% !important;width: 100% !important;">
-            <!-- // BEGIN EMAIL -->
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" id="emailContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 100%;">
-                <!-- Begin Header -->
-                <tr>
-                    <td class="headerImg" align="center" valign="top" id="headerContainer" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 40px;">
-                        <table align="center" id="headerblock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                            <tr>
-                                <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                    <img height="116" width="200" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;" src="{{asset('assets/img/newsletter/tw_logo.png')}}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                    <p class="title" style="margin: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 28px;font-weight: 200;line-height: 115%;text-align: center;font-style: italic;">Trainer Workout</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <!-- End of Header -->
 
-                @yield("content")
+<body
+    style="margin: 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: rgb(241,242,244);height: 100% !important;width: 100% !important;">
+    <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable"
+        style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;margin: 0;padding: 0;background-color: rgb(241,242,244);height: 100% !important;width: 100% !important;">
+        <tr>
+            <td align="center" valign="top" id="bodyCell"
+                style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;margin: 0;padding: 0;height: 100% !important;width: 100% !important;">
+                <!-- // BEGIN EMAIL -->
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" id="emailContainer"
+                    style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 100%;">
+                    <!-- Begin Header -->
+                    <tr>
+                        <td class="headerImg" align="center" valign="top" id="headerContainer"
+                            style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 40px;">
+                            <table align="center" id="headerblock"
+                                style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                <tr>
+                                    <td
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                        <img height="116" width="200"
+                                            style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;"
+                                            src="{{ asset('assets/img/newsletter/tw_logo.png') }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                        <p class="title"
+                                            style="margin: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 28px;font-weight: 200;line-height: 115%;text-align: center;font-style: italic;">
+                                            Trainer Workout</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- End of Header -->
 
-                <!-- Begin of Footer -->
-                <tr>
-                    <td align="center" valign="top" id="footerContainer" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #e9e9e9;padding: 40px;">
-                        <table border="0" cellpadding="0" cellspacing="0" width="300" id="footerBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                            <tr class="socials">
-                                <td class="socialIcon mail" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
-                                    <a href="mailto: info@trainerworkout.com" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                        <img width="30" height="30" src="{{asset('assets/img/newsletter/social_email.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
-                                    </a>
-                                </td>
-                                <td class="socialIcon facebook" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
-                                    <a href="https://www.facebook.com/tworkout" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                        <img width="30" height="30" src="{{asset('assets/img/newsletter/social_facebook.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
-                                    </a>
-                                </td>
-                                <td class="socialIcon twitter" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
-                                    <a href="https://twitter.com/trainerworkout" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                        <img width="30" height="30" src="{{asset('assets/img/newsletter/social_twitter.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
-                                    </a>
-                                </td>
-                                <td class="socialIcon instagram" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
-                                    <a href="https://instagram.com/trainerworkout/" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
-                                        <img width="30" height="30" src="{{asset('assets/img/newsletter/social_instagram.png')}}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                        <table style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                            <tr>
-                                <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                    <p class="copyright" style="margin: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #808080;font-size: 14px;font-weight: 200;line-height: 115%;text-align: justify;font-style: italic;padding-top: 10px;">Copyright © 2016 Trainer Workout Inc., All rights reserved.</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <!-- End of Footer -->
-            </table>
-            <!-- END EMAIL // -->
-        </td>
-    </tr>
-</table>
+                    @yield('content')
+
+                    <!-- Begin of Footer -->
+                    <tr>
+                        <td align="center" valign="top" id="footerContainer"
+                            style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #e9e9e9;padding: 40px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="300" id="footerBlock"
+                                style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                <tr class="socials">
+                                    <td class="socialIcon mail"
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
+                                        <a href="mailto: info@trainer-workout.com"
+                                            style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                            <img width="30" height="30"
+                                                src="{{ asset('assets/img/newsletter/social_email.png') }}"
+                                                style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                        </a>
+                                    </td>
+                                    <td class="socialIcon facebook"
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
+                                        <a href="https://www.facebook.com/tworkout"
+                                            style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                            <img width="30" height="30"
+                                                src="{{ asset('assets/img/newsletter/social_facebook.png') }}"
+                                                style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                        </a>
+                                    </td>
+                                    <td class="socialIcon twitter"
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
+                                        <a href="https://twitter.com/trainerworkout"
+                                            style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                            <img width="30" height="30"
+                                                src="{{ asset('assets/img/newsletter/social_twitter.png') }}"
+                                                style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                        </a>
+                                    </td>
+                                    <td class="socialIcon instagram"
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;margin-bottom: 10px;">
+                                        <a href="https://instagram.com/trainerworkout/"
+                                            style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                            <img width="30" height="30"
+                                                src="{{ asset('assets/img/newsletter/social_instagram.png') }}"
+                                                style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table
+                                style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                <tr>
+                                    <td
+                                        style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                        <p class="copyright"
+                                            style="margin: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #808080;font-size: 14px;font-weight: 200;line-height: 115%;text-align: justify;font-style: italic;padding-top: 10px;">
+                                            Copyright © 2016 Trainer Workout Inc., All rights reserved.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- End of Footer -->
+                </table>
+                <!-- END EMAIL // -->
+            </td>
+        </tr>
+    </table>
 </body>
+
 </html>

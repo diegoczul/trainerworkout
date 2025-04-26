@@ -24,13 +24,13 @@
     initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
     maximum-scale = 1.0 retains dimensions instead of zooming in if page width < device width
     -->
-    <meta name="author" content="TrainerWorkout.com" />
+    <meta name="author" content="trainer-workout.com" />
     <meta name="robots" content="all" />
     <meta name="distribution" content="global" />
     <meta name="resource-type" content="document" />
     <meta name="language" content="en-us" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+    <meta name="copyright" content="trainer-workout.com Copyright 2013. All Rights Reserved.">
     <meta name="viewport" content="initial-scale=1.0, user-scalable = no, width = device-width">
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.ico') }}">
 
@@ -180,7 +180,7 @@
                             fill="#FFF" fill-rule="evenodd" />
                     </svg>
                 </a>
-                <a href="https://www.trainerworkout.com/blog">
+                <a href="https://www.trainer-workout.com/blog">
                     <svg width="25" height="25" viewBox="0 0 25 25" xmlns="https://www.w3.org/2000/svg">
                         <title>TWSocialIcon</title>
                         <path
@@ -342,7 +342,7 @@
         //   // TODO: The current logged in user's full name
         //   name: "Visitor",
         //   // TODO: The current logged in user's email address.
-        //   email: "norepy@trainerworkout.com",
+        //   email: "norepy@trainer-workout.com",
         //   // TODO: The current logged in user's sign-up date as a Unix timestamp.
         //   app_id: "af0obxyk"
         // };

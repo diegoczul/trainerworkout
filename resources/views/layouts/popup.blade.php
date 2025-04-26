@@ -16,13 +16,13 @@
 <meta name="google-site-verification" content="" />
 <!-- don't forget to set the site up: https://google.com/webmasters -->
 
-<meta name="author" content="TrainerWorkout.com" />
+<meta name="author" content="trainer-workout.com" />
 <meta name="robots" content="all"/>
 <meta name="distribution" content="global"/>
 <meta name="resource-type" content="document"/>
 <meta name="language" content="en-us"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+<meta name="copyright" content="trainer-workout.com Copyright 2013. All Rights Reserved.">
 
 <!--  Mobile Viewport Fix
     j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
