@@ -41,11 +41,7 @@ def send_slack_message(message):
 
 def execute_git_pull():
     try:
-        log_debug(f"🔍 Checking current git branch in {REPO_PATH}")
-        branch_result = subprocess.run(["bash", "-c", f"cd {REPO_PATH} && git branch"], capture_output=True, text=True)
-        log_debug(f"🔍 Current branch:\n{branch_result.stdout}\nErrors:\n{branch_result.stderr}")
-
-        result = subprocess.run(["bash", "-c", f"cd {REPO_PATH} && git pull"], capture_output=True, text=True)
+        result = subprocess.run(["git", "-C", REPO_PATH, "pull"], capture_output=True, text=True)
         log_debug(f"🔁 Git pull output:\n{result.stdout}")
         if result.stderr:
             log_debug(f"⚠️ Git pull errors:\n{result.stderr}")
@@ -53,7 +49,6 @@ def execute_git_pull():
     except Exception as e:
         log_debug(f"❌ Git pull failed: {e}")
         return False
-
 
 def get_default_branch():
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}"
