@@ -263,7 +263,18 @@
                             src="{{ asset('assets/img/socials/social_facebook.png') }}" alt="facebook"></a>
                 </div>
             </div>
-            <!-- <li><a href="{{ Lang::get('routes./TermsAndConditions') }}" class="page-scroll label_opacity">{{ Lang::get('content.frontEnd/terms') }}</a></li> -->
+
+
+
+        </div>
+        <div class="w-full">
+            <ul class="mx-auto p-5 text-center">
+
+                <li><a href="{{ Lang::get('routes./TermsAndConditions') }}"
+                        class="page-scroll label_opacity">{{ Lang::get('content.frontEnd/terms') }}</a></li>
+                <li><a href="PrivacyPolicy" class="page-scroll label_opacity">Privacy
+                        Policy</a></li>
+            </ul>
         </div>
     </footer>
 </body>

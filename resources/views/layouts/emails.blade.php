@@ -425,7 +425,7 @@
                                         style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                         <p class="copyright"
                                             style="margin: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: &quot;Avenir&quot;, &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: #808080;font-size: 14px;font-weight: 200;line-height: 115%;text-align: justify;font-style: italic;padding-top: 10px;">
-                                            Copyright © 2016 Trainer Workout Inc., All rights reserved.</p>
+                                            Copyright © 2024 Trainer Workout Inc., All rights reserved.</p>
                                     </td>
                                 </tr>
                             </table>

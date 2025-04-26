@@ -2,12 +2,12 @@
 {{ HTML::style('css/homepage.css') }}
 @section('content')
     <section id="termsConditions">
-        <div class="termsWrapper">
+        <div class="termsWrapper p-20">
             <p>
                 <strong>TERMS OF SERVICE</strong>
             </p>
             <p>
-                <strong>Last Updated as of August 23, 2016</strong>
+                <strong>Last Updated as of August 23, 2024</strong>
             </p>
             <p>
                 1. Definitions and Interpretation
@@ -173,10 +173,10 @@
                 such termination, if you are subscribed to a monthly Usage Plan; and (B) in respect of any annual billing
                 cycle that had already commenced at the date of
                 such termination, if you are subscribed to an annual Usage Plan (by way of example, if you subscribe for an
-                annual Usage Plan on July 5, 2015 and terminate
-                the Terms of Service on July 10, 2016, then you shall be liable to pay the annual Fee for July 5, 2015 to
-                July 4, 2016 and the annual Fee for July 5, 2016
-                to July 4, 2017, and you shall not be entitled to a refund from the Vendor in relation to any such Fees);
+                annual Usage Plan on July 5, 2024 and terminate
+                the Terms of Service on July 10, 2024, then you shall be liable to pay the annual Fee for July 5, 2024 to
+                July 4, 2024 and the annual Fee for July 5, 2024
+                to July 4, 2024, and you shall not be entitled to a refund from the Vendor in relation to any such Fees);
             </p>
             <p>
                 vi. NOTWITHSTANDING ANY OTHER TERM OF THE TERMS OF SERVICE, THE VENDOR SHALL BE ENTITLED TO AMEND THE FEE
