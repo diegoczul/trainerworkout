@@ -54,6 +54,7 @@ return array(
     "frontEnd/forgotSomething"      => "Oubliez quelque chose?… ",
     "frontEnd/forgotInstructions"   => "Indiquez-nous votre email et nous vous enverrons un mot de passe tout neuf!",
     "frontEnd/Notifications"        => "Notifications",
+    "frontEnd/ChargeClients" => "Facturez vos clients et encaissez des abonnements mensuels",
 
     "frontEnd/GetStarted"                       => "Commencez!",
     "frontEnd/Accounts"                       => "Comptes",

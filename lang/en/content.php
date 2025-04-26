@@ -54,6 +54,7 @@ return array(
     "frontEnd/ContactUs"            => "Contact Us",
     "frontEnd/Language"             => "Language",
     "frontEnd/Mobilefriendly"       => "Mobile friendly",
+    "frontEnd/ChargeClients" => "Charge your clients and collect monthly subscriptions from your clients",
     "frontEnd/Builtfyou_clients"    => "Built for you and your personal training clients",
     "frontEnd/Toolssavetime"        => "Workout tools to make you save time",
     "frontEnd/PricingPlans"         => "Workout App Pricing Plans",
@@ -788,7 +789,7 @@ return array(
     "Base Prescription" => "Base Prescription",
     "frontEnd/Login" => "Login",
     ///------------------------------------------TRANSLATE
-    "Manage Subscription Plans for Your Clients" => "Manage Subscription Plans for Your Clients",
+    "Manage Subscription Plans for Your Clients" => "Charge subscriptions and create Plans for Your Clients",
     "Create and share your own monthly training plans. Clients can subscribe directly, and Trainer Workout handles billing and invoicing automatically, helping you keep client relationships 100% professional." => "Create and share your own monthly training plans. Clients can subscribe directly, and Trainer Workout handles billing and invoicing automatically, helping you keep client relationships 100% professional.",
 
     "Create Custom Plans" => "Create Custom Plans",
