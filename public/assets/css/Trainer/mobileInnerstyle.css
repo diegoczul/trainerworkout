@@ -118,7 +118,7 @@ input, .popup_container .share_content textarea {
   width: 100%;
   padding: 9px 40px 9px 9px;
   margin-bottom: 15px;
-  text-align: center;
+  /* text-align: center; */
   background: transparent;
  }
 
@@ -862,7 +862,8 @@ nav {
   -o-justify-content: space-between;
   justify-content: space-between;
   -ms-flex-pack: justify;
-  width: 155px;
+  /* width: 155px; */
+  width: 200px;
   margin: 4px auto 10px auto; }
   @media (min-height: 700px) {
     .socialIcons {
