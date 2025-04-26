@@ -49,7 +49,6 @@ def execute_git_pull():
         log_debug(f"🔁 Git pull output:\n{result.stdout}")
         if result.stderr:
             log_debug(f"⚠️ Git pull errors:\n{result.stderr}")
-
         return result.returncode == 0
     except Exception as e:
         log_debug(f"❌ Git pull failed: {e}")
