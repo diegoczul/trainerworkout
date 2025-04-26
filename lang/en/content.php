@@ -779,7 +779,6 @@ return array(
     "first name" => "first name",
     "last name" => "last name",
     "phone" => "phone",
-
     "Acitivity Feed" => "Activity Feed",
     "Clients" => "Clients",
     "Created by" => "Created by",
