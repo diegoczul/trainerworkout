@@ -1,0 +1,365 @@
+// This is Desktop first approach. 
+
+
+// This is for all pages that are realted to employee account management. 
+// 1. employee management page 
+// 2. add emloyee accounts
+
+.employee {
+	&--header {
+		@include display(flex);
+		@include justify-content(space-between);
+
+		p {
+			color: #95A5A6;
+			font-size: 12px;
+			margin-top: 5px;
+		}
+
+		button {
+			@include btn($tw_blue, 40px, 120px, 6px, 15px);
+
+			svg {
+				height: 0.8em;
+				width: auto;
+				margin-right: 5px;
+			}
+		}
+	}
+}
+
+.employee_table {
+	margin-top: 22px;
+	th, 
+	td {
+		border: none;
+		vertical-align: middle;
+	}
+	thead tr{
+		background-color: $tw_purple;
+		height: 50px;
+
+		th {
+			font-size: 1em;
+		}	
+	}
+
+	tbody {
+		tr:nth-child(1n + 0) {
+			background-color: #EFEFEF;
+		}
+		tr:nth-child(2n + 0) {
+			background-color: #FAFAFA;
+		}
+	}
+}
+
+.membership_row {
+	width: 100%;
+
+	.user_id {
+		min-width: 200px;
+		width: 45%;
+	}
+
+	.user_actions,
+	.user_options {
+		min-width: 131px;
+		div{
+			cursor:pointer;
+		}
+	}
+
+	.user_status,
+	.user_role {
+		min-width: 80px;
+	}
+}
+
+
+.user_id--content {
+	@include display(flex);
+	padding: 6px 12px;
+
+	.user_icon,
+	img {
+		height: 50px;
+		width: 50px;
+		border-radius: 50%;
+	}
+
+	.user_icon {
+		@include display(flex);
+		@include align-items(center);
+		@include justify-content(center);
+		background-color: $tw_purple;
+		color: #fff;
+		text-transform: uppercase;
+
+		p {
+			font-size: 1.5em;
+		}
+	}
+
+	.user_name {
+		text-align: left;
+		margin: auto 9px;
+
+		p {
+			font-size: 0.8em;
+		}
+	}
+}
+
+
+.user_role {
+	
+	&--owner,
+	&--content {
+		color: $textEmployee_color;
+	}
+	&--content {
+		background-image: url("../../assets/img/Gym/arrowDownDropdown.svg");
+		background-repeat: no-repeat;
+		background-position: 65px;
+		&--select {
+			position: relative;
+			width:80px;
+			text-align: left;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		}
+
+		select {
+			cursor: pointer;
+			@include appearance(none);
+			border: none;
+			background-color: transparent;
+			font-size: 1em;
+			width: 100%;	
+			padding-right: 20px;
+		}
+	}
+}
+
+.user_options {
+	padding: 0 5px;
+	button {
+		@include btn($tw_orange, 48px, auto, 0, 12px);
+	}
+
+	a {
+		color: white;
+	}
+}
+.user_actions {
+	button {
+		@include btn($tw_purple, 48px, auto, 0, 12px);
+	}
+	a {
+		color: white;
+	}
+}
+
+
+// Employee Inivatation 
+
+#user_overlay{
+	background-color: $overlay;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 0%;
+	width: 0%;
+	z-index: 5000;
+	-webkit-backdrop-filter: blur(8px);
+	opacity: 0;
+}
+
+.showOverlay {
+	opacity: 1 !important;
+	height: 100% !important;
+	width: 100% !important;
+
+	.emp_invite {
+		transform: translateY(0);
+	}
+}
+
+.emp_invite {
+	max-height: 80vh;
+	max-width: 950px;
+	margin: 10vh auto;
+	position: relative;
+	text-align: center;
+	transform: translateY(-100vh);
+	@include transition(transform 0.3s);
+
+	h1 {
+		font-size: 1.5em;
+		color: #2C3E50;
+		text-transform: none;
+		margin-top: 6px;
+	}
+
+	p {
+		font-size: 0.7em;
+		color: $textEmployee_color;
+		margin-top: 22px;
+	}
+
+	&--wrapper{
+		border-top: 1px solid #DADADA;
+		width: 90%;
+		margin: 20px auto 0;
+		padding-top: 18px;
+	}
+}
+
+#exitLightbox {
+	cursor: pointer;
+	position: absolute;
+	top: 15px; 
+	right: 15px;
+}
+
+#employee_invitation {
+
+	.emp_individual {
+		@include display(flex);
+		margin-bottom: 15px;
+	}
+
+	.emp_fName {
+		@include flex-grow(1);
+		max-width: 175px;
+	}
+
+	.emp_lName {
+		@include flex-grow(1.5);
+	}
+
+	.emp_email {
+		@include flex-grow(2);
+	}
+
+	.emp_access {
+		@include flex-grow(0.75);
+		max-width: 120px;
+
+		select {
+			cursor: pointer;
+			@include appearance(none);
+			background-color: $tw_purple;
+			color: #fff;
+			font-size: 0.8em;
+			border: none;
+			border-radius: 2px;
+			padding: 4px 25px;
+			width: 100%;
+			background-image: url("../../img/Gym/dropdownArrowWhite.svg");
+			background-repeat: no-repeat;
+			background-position: 80% 50%; 
+		}
+	}
+
+	.emp_info {
+		text-align: left;
+		margin-right: 20px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		label {
+			font-size: 0.8em;
+			color: $textEmployee_color;
+		}
+
+		input {
+			cursor: pointer;
+			@include box-shadow(inset 0px -1px 2px 0px rgba(0,0,0,0.15));
+			border: 1px solid rgba(0,0,0,0.15);
+			border-radius: 2px;
+			margin-bottom: 0;
+			height: auto;
+			padding: 5px 8px;
+		}
+	}
+
+	button {
+		@include btn($tw_green, 30px, 180px);
+		font-size: 1em;
+		margin-top: 50px;
+	}
+}
+
+#emp_individual_add {
+	margin-top: 12px;
+	@include slackStyle($grey);
+	color: $textEmployee_color;
+	width: 100%;
+	height: 25px;
+	font-size: 0.8em;
+	display: inline-block;
+}
+
+
+
+#errorMessageDiv {
+	display: none;
+	color: red;
+	font-size: 1em;
+}
+
+.delete_employee {
+	@include display(flex);
+	@include justify-content(center);
+	@include align-items(flex-end);
+	padding-bottom: 8px;
+}
+
+.not_on_small_device {
+	display: none;
+
+	.widget {
+		margin-top: 15vh;
+		text-align: center;
+	}
+
+	h1 {
+		text-transform: none;
+		color: $tw_dblue;
+		margin-bottom: 20px;
+		line-height: 1.3em;
+	}
+}
+
+@media all and (max-width:700px) {
+	.employee {
+		display: none;
+	}
+
+	.not_on_small_device {
+		display: block;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

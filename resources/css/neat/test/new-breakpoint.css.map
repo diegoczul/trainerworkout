@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGE,IAAK;EACH,UAAU,EAAE,UAAU;;AAItB,sBAEU;EACR,UAAU,EAAE,OAAO;;AC2ErB,oCAAuB;EClF3B,mBAAoB;IAEhB,KAAK,EAAE,IAAI;;AAIf,wBAAyB;EACvB,KAAK,ECiCuB,kBAA+C",
+"sources": ["../app/assets/stylesheets/grid/_box-sizing.scss","../app/assets/stylesheets/grid/_media.scss","new-breakpoint.scss","../app/assets/stylesheets/functions/_new-breakpoint.scss"],
+"names": [],
+"file": "new-breakpoint.css"
+}

@@ -1,0 +1,376 @@
+//reset against browser agents
+@import "global/_reset.scss";
+
+// Definings Variables
+@import "global/_variables.scss";
+
+// Frameworks & mixins 
+@import "bourbon/bourbon";
+@import "global/_mixin.scss";
+
+
+///////////////    Start Style of the page       //////////////
+
+
+
+
+// ************* Unique to this page variable ******************
+
+//cardio
+$ScSetWith: 40px;
+$ScColWidth: 58px;
+$ScPWidth: $ScColWidth - 3px;
+$SctableWidth: $ScSetWith + (16 * $ScColWidth) + (22 * 1pt );
+
+
+//muscle
+
+$ScMuColWidth: ($SctableWidth - (14 * 1pt) - $ScSetWith) / 8;
+$ScMuPWidth: $ScMuColWidth - 3px;
+
+//********************
+///    web page    ///
+//********************
+
+*, p, span, div, td, tr {
+	font-family: $font;
+	color: $printWritting;
+	    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	padding: 5px 5px 5px 5px !important;
+	background: white;
+}
+
+.restBtwExe,
+.exercise {
+    page-break-inside: avoid !important;
+}
+
+.header {
+	margin-bottom: 20px;
+}
+
+.logo {
+	display: inline-block;
+	margin-right: 20px;
+	height: 95px;
+
+	.user-logo {
+		height: 100%;
+	}
+
+	.tw {
+		height: 100%;
+	}
+}
+
+.info {
+	margin-top: auto;
+	display: inline-block;
+}
+
+.w_name {
+	color: $tw_dblue;
+	margin-bottom: 8px;
+	font-style: oblique;
+	max-width: 700px;
+	white-space:nowrap;
+
+
+	span {
+		font-weight: 500;
+		font-size: 1.8em;
+		letter-spacing: 1.28px;
+		margin-right: 10px;
+		color: $tw_dblue;
+		font-style: normal
+	}
+}
+
+.note {
+	@include display(flex);
+	img {
+		height: 50px;
+		width: 50px;
+		border-radius: 100%;
+	}
+
+	p {
+		margin-left: 15px;
+		max-width: 650px;
+	}
+}
+
+.poweredby {
+	float: right;
+	padding-top: 10px;
+
+	p {
+		color: $tw_dblue;
+		font-size: 1em;
+		font-style: oblique;
+		margin-bottom: 6px;
+		text-align: right;
+	}
+	img {
+		margin-left: 64px;
+	}
+}
+
+.group {
+	border: solid 1px $printWorkoutBorder;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.circuit {
+	background: $printCircuitBg;
+
+	h1 {
+		font-size: 1.2em;
+	}
+}
+
+.workout_header {
+	background: $printHeaderBackgroud;
+	margin-bottom: 15px;
+	width: 100%;
+
+	h4 {
+		text-align: center;
+		width: 20%;
+	}
+
+	h4, p {
+		padding: 16px 0;
+		display: inline-block;
+	}
+
+	.exTable {
+		padding-left: 30px;
+		display: inline-block;
+		width: 75%;
+	}
+
+	.first {
+		text-align: center;
+	}
+
+	.day {
+		text-align: left;
+		padding-left: 5px;
+	}
+}
+
+.ccHead {
+	margin-bottom: 25px;
+}
+
+
+.exercise_in_circuit {
+	margin-bottom: 10px;
+}
+
+.exercise_line {
+	@include display(flex);
+	width: 100%;
+}
+
+.exInfo {
+	display: inline-block;
+}
+
+.ccHead,
+.titleText {
+	font-weight: 500;
+}
+
+.titleInfo {
+	max-width: 180px;
+	margin-bottom: 10px;
+}
+
+.imgContainer {
+	margin: auto auto;
+	border: solid 1px white;
+	@include display(inline-flex);
+
+	img {
+		height: 80px;
+		width: 80px;
+	}
+}
+
+/* TEMPO */
+.exeTempo {
+	display: inline-block;
+
+	p {
+		color: #2C3E50;
+		line-height: 16px;
+		padding: 2px 4px;
+		background-color: $exerciseDescriptionBox_color;
+		display: inline-block;
+	    min-width: 25px;
+	    text-align: center;
+	    font-size: 0.6em;
+	    margin: 1em 0;
+	    margin-right: -3px;
+	}
+}
+
+
+.exTable {
+	@include display(inline-flex);
+
+	table {
+		background: white;
+		margin-top: auto;
+	}
+}
+
+.setsTable{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid $printWorkoutBorder;
+}
+
+.cardio {
+	th,
+	td {
+		width: $ScColWidth;
+	}
+
+	th p {
+	    display: block;
+	    max-width: $ScPWidth;
+	    text-overflow: clip;
+	    white-space: normal;
+	    word-wrap: break-word;
+	 	text-align: center;
+	}
+}
+
+.muscle {
+	th, td {
+		width: $ScMuColWidth;
+	}
+
+	th p {
+	    display: block;
+	    max-width: $ScMuPWidth;
+	    text-overflow: clip;
+	    white-space: normal;
+	    word-wrap: break-word;
+	 	text-align: center;
+	}
+}
+
+td, th, {
+	font-size: 12px;
+	font-weight: 300;
+	border: 1px solid $printWorkoutBorder;
+	padding: 4px 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.muscle .set,
+.cardio .set {
+	background: $printHeaderBackgroud;
+	width: $ScSetWith;
+}
+
+.firstColDay {
+	border-left: 2px solid $printWorkoutBorder;
+}
+
+.day0 {
+	background-color: $printHeaderBackgroud;
+}
+
+.restBtwRounds,
+.restBtwExercise {
+	background: white;
+	width: 90%;
+	text-align: center;
+	padding: 6px;
+	margin: 10px auto;
+	border-radius: 2px;
+}
+
+.restBtwExe {
+	padding: 5px 10px;
+	background-color: $printHeaderBackgroud;
+	@include display(flex);
+	@include align-content(center);
+
+	p {
+		color: $printWritting;
+		text-align: center;
+		margin: auto;
+	}
+}
+
+
+
+//********************
+///   Print page   ///
+//********************
+
+
+
+$colWidth: 100% / 17;
+$setWidth: 30pt;
+
+
+	@page {
+		size: landscape;
+		margin-top: 0.2cm;
+		margin-left: 0.5cm;
+		margin-right: 0.5cm;
+	}
+
+
+	* {
+		font-size:12pt;
+		-webkit-print-color-adjust: exact;
+	}
+
+.exTable {
+	width: 79%;
+}
+
+.exInfo {
+	width: 20%
+}
+
+
+.cardio {
+
+	th, 
+	td {
+		// width: $colWidth;
+	}
+
+	p {
+	    display: block;
+	    width: 98%;
+	    text-overflow: clip;
+	    white-space: normal;
+	    word-wrap: break-word;
+	 	text-align: center;
+	}
+}
+
+.exTable .set {
+	width: $setWidth;
+}
+
+
+
+
+

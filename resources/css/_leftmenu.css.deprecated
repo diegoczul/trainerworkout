@@ -1,0 +1,175 @@
+.leftcontainer {
+        background: transparent;
+        border: 0;
+        font-size: 100%;
+        margin: 0;
+        outline: 0;
+        padding: 0;
+        vertical-align: baseline;
+        display: block;
+}
+.leftcontainer {
+        width: 190px;
+        padding: 15px 0 15px 15px;
+        float: left;
+}
+.leftcontainer .features ul li {
+        margin-bottom: 10px;
+        line-height: 22px;
+}
+.leftcontainer .features ul li a {
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border: 1px solid #dcdcdc;
+        position: relative;
+        display: block;
+        padding: 5px 5px 5px 5px;
+        height: 20px;
+        background: url(/images/select.gif) repeat-x 0 0;
+		overflow: hidden;
+}
+.leftcontainer .features ul li > a {
+        z-index: 9;
+}
+.leftcontainer .features ul li .sub {
+        z-index: 1;
+}
+.leftcontainer .features ul li a:hover, .leftcontainer .features ul li.active a {
+        color: #FFF;
+        background: url(/images/select-a.gif) repeat-x 0 0;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+}
+.leftcontainer .features ul li a p {
+        color: #242424;
+        font-size: 12px;
+        float: left;
+        font-weight: bold;
+        background: url(/images/feature-arrow.png) no-repeat right 6px !important;
+        width: 100%;
+        margin: 0px 0 0 0px !important;
+}
+.leftcontainer .features ul li a p:hover, .leftcontainer .features ul li.active a p {
+        background: url(/images/feature-arrow-right.png) no-repeat right 6px !important;
+        color: #FFF;
+}
+.leftcontainer .features ul li a img {
+        margin: 0px 2px;
+        float: left;
+		vertical-align:middle;
+}
+.leftcontainer .sub {
+        background: #edf1f5;
+        border: 1px solid #dcdcdc;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        z-index: -1;
+        margin-top: -30px;
+        padding: 40px 10px 10px 10px;
+        display: none;
+} 
+.leftcontainer .features ul li .sub ul li {
+        margin-bottom: 0px;
+}
+.leftcontainer .features ul li .sub ul li.active a {
+        background: url(/images/list-type-a.gif) no-repeat 0 5px;
+        font-weight: bold;
+        border-radius: 0px;
+        color: #424242 !important;
+}
+.leftcontainer .features ul li .sub ul li a {
+        background: url(/images/list-type.gif) no-repeat 0 5px; color:#424242;
+        line-height: 15px !important;
+        height: 15px !important;
+        border-radius: 0px !important;
+        border: 0px !important;
+        padding: 0 0 5px 10px;
+}
+.leftcontainer .features ul li .sub ul li a:hover {
+        background: url(/images/list-type-a.gif) no-repeat 0 5px;
+        font-weight: bold;
+        border-radius: 0px;
+        color: #424242 !important;
+}
+.leftcontainer .widget {
+        background: #edf1f5;
+        border: 1px solid #dcdcdc;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        width: 100%;
+}
+.leftcontainer .widget {
+        margin-bottom: 10px;
+}
+.leftcontainer .widget h5 {
+        font-weight: normal;
+        text-align: center;
+        margin-top: 10px;
+}
+.leftcontainer .widget ul li a {
+        color: #000;
+        background: url(/images/arrow-right.png) no-repeat 0 5px;
+        padding-left: 20px;
+        margin: 0 10px 10px;
+        display: block;
+}
+.leftcontainer .widget ul li div {
+        color: #000;
+        background: url(/images/arrow-right.png) no-repeat 0 5px;
+        padding-left: 20px;
+        margin: 0 10px 10px;
+        display: block;
+}
+.leftcontainer .widget ul li a:hover {
+        color: #0575c9;
+}
+
+
+.leftcontainer .widget2 {
+        background: #FAFAFA;
+        border: 1px solid #dcdcdc;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        width: 100%;
+}
+.leftcontainer .widget2 {
+        margin-bottom: 10px;
+}
+.leftcontainer .widget2 h5 {
+        font-weight: normal;
+        text-align: center;
+        margin-top: 10px;
+}
+.leftcontainer .widget2 ul li a {
+        color: #0575c9;
+        background: url(/images/arrow-right.png) no-repeat 0 5px;
+        padding-left: 20px;
+        margin: 0 10px 10px;
+        display: block;
+}
+.leftcontainer .widget2 ul li div {
+        color: #000;
+        background: url(/images/arrow-right.png) no-repeat 0 5px;
+        padding-left: 20px;
+        margin: 0 10px 10px;
+        display: block;
+}
+.leftcontainer .widget2 ul li a:hover {
+        color: #000;
+}
+
+p.innerError {
+        color: gray;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 12px;
+        padding: 7px;
+}
+.leftcontainer .widget ul li span {
+        color:#2484d5;
+}

@@ -40,7 +40,7 @@
     <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('assets/img/apple-touch-icon.png') }}" />
     <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('assets/img/apple-touch-icon.png') }}" />
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
     <!-- The is the icon for iOS's web Clip.
              - size: 57x57 for older iPhones, 72x72 for iPads, 114x114 for iPhone4's retina display (IMHO, just go ahead and use the biggest one)

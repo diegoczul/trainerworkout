@@ -1,0 +1,40 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+.span-columns-default {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%; }
+  .span-columns-default:last-child {
+    margin-right: 0; }
+  .span-columns-default .span-columns-nested {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 30.11389%; }
+    .span-columns-default .span-columns-nested:last-child {
+      margin-right: 0; }
+
+.span-columns-table {
+  display: table-cell;
+  width: 50%; }
+
+.span-columns-collapse {
+  float: left;
+  display: block;
+  width: 51.17883%; }
+  .span-columns-collapse:last-child {
+    width: 48.82117%; }
+
+.span-columns-no-display {
+  float: left;
+  margin-right: 2.35765%;
+  width: 48.82117%; }
+  .span-columns-no-display:last-child {
+    margin-right: 0; }
+
+/*# sourceMappingURL=span-columns.css.map */

@@ -1,0 +1,19 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+.pad-default {
+  padding: 2.35765%; }
+
+.pad-explicit {
+  padding: 20px; }
+
+.pad-shorthand {
+  padding: 30px 20px 10px 5px; }
+
+.pad-shorthand-default {
+  padding: 30px 2.35765% 10px 2.35765%; }
+
+/*# sourceMappingURL=pad.css.map */

@@ -58,7 +58,7 @@
     <meta name="google-site-verification" content="">
     <meta name="title" content="">
     <meta name="description" content="">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <!-- {{ HTML::script(asset('assets/js/jquery.js')) }} -->

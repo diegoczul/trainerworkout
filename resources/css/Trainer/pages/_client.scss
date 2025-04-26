@@ -1,0 +1,570 @@
+// **********************************
+//
+//			Client page 
+//
+// **********************************
+
+
+//Background
+.clientpage {
+	@extend .content;
+
+	// @media (min-width:$header_one_row) {
+	// 	padding-top: 290px;
+	// }
+
+	.addElementButton {
+		margin: auto 0 0 auto;
+	}
+}
+
+//Header of the page
+.client_header {
+	background: rgba(110,121,133,0.96);
+	box-shadow: 0 6px 6px 0 rgba(0,0,0,0.24), 0 0 6px 0 rgba(0,0,0,0.12);
+
+	// @media (min-width:$header_one_row) {
+	//     position: fixed;
+	//     width: 100%;
+	//     top: $mainHeader_height;
+	//     z-index: 100;
+	// }
+}
+
+
+.clients_navigation {
+	@include display(flex);
+	@include flex-direction(column);
+	padding: 20px 10px 0px;
+
+	@media (min-width:$header_one_row) {
+		@include flex-direction(row);
+		@include justify-content(space-between);
+	}
+
+	span,
+	a {
+		color: white;
+		font-size: 1em;
+	}
+
+	.message {
+		font-style: italic;
+		font-size: 0.85em;
+	}
+
+	.control {
+		color: $tw_green;
+	}
+
+	.no-control {
+		color: $tw_orange
+	}
+}
+
+.trainingSince {
+	color: #c8c8c8;
+	margin-top: 10px;
+
+	@media (min-width:$header_two_columns) {
+		margin-top: 0;
+	}
+}
+
+
+.client_details {
+	@include display(flex);
+	@include flex-direction(column);
+	@include justify-content(center);
+
+	@media (min-width: $header_one_row) {
+		@include flex-direction(row);
+	}
+}
+
+.profileimage {
+	max-width: 160px;
+	margin: auto auto;
+	padding: 10px;
+
+	@media (min-width: $header_one_row) {
+		width: 30%;
+		max-width: 230px;
+		padding: 30px;
+		margin: 0;
+	}
+
+	img {
+	    width: 100%;
+	    border-radius: 50%;
+	    border: 1px white solid;
+	}
+}
+
+.profieldetails {
+	padding: 0px 10px 20px 10px;
+
+	@media (min-width: $header_two_columns) {
+		padding-bottom: 50px;
+	    margin-top: 20px;
+	}
+
+	@media (min-width: $header_one_row) {
+		padding: 50px 20px;
+		width: 70%;
+	}
+
+	.btnContainer {
+		@include display(flex);
+	}
+}
+
+.saveChanges {
+	@include btn($tw_green, auto, 120px, 6px, 10px);
+	display: none;
+	margin-top: 15px;
+	margin-left: auto;
+}
+
+.infoBlocksContainer {
+	@include display(flex);
+	@include flex-direction(column);
+
+	@media (min-width: $header_two_columns) {
+		@include flex-direction(row);
+	}
+}
+
+.infoColumn {
+	margin: auto auto;
+	width: 100%;
+	max-width: 380px;
+
+	@media (min-width: $header_two_columns) {
+		width: 50%;
+
+		&:first-child {
+			margin-right: 15px;
+		}
+
+		.info:last-child {
+			margin-bottom: 0;
+		}
+	}	
+}
+
+.info {
+	border-bottom: 1px #979797 solid;
+	margin-bottom: 20px;
+	p {
+		color: white;
+	}
+}
+
+input.input {
+	border: none;
+	padding: 0;
+	color: white;
+	margin: 0;
+}
+
+
+.input {
+	font-size: 1.2em;
+	min-height: 39px;
+	padding: 10px 0 10px 5px;
+
+}
+
+
+
+
+//Base widget
+.clientWidget {
+	background: rgba(255,255,255,0.20);
+	box-shadow: 0 4px 4px 0 rgba(0,0,0,0.24), 0 0 4px 0 rgba(0,0,0,0.12);
+	border-radius: 2px;
+	padding: 20px 5px;
+	margin-top: 20px;
+
+
+
+	@media (min-width:$header_two_columns) {
+		padding: 20px;
+	}
+
+	h1 {
+		text-transform: none;
+		color: white;
+		margin-bottom: 22px;
+		font-size: 1.75em;
+		text-align: center;
+
+		@media (min-width:$header_two_columns) {
+			text-align: left;
+		}
+	}
+}
+
+
+// **********************************
+//
+//			Calendar
+//
+// **********************************
+
+.calendar {
+	p, span, tr, td, label, input, a, div {
+		color: white;
+	}
+}
+
+.calendar_navigation {
+	@include display(flex);
+	@include flex-direction(column);
+	padding: 0;
+	margin-bottom: 20px;
+
+	@media (min-width: $header_one_row) {
+		@include flex-direction(row);
+		@include justify-content(space-between);
+	}
+}
+
+.calendarDays {
+	margin-bottom: 13px;
+
+	p, span {
+		font-size: 1em;
+
+		@media (min-width:$header_two_columns) {
+			font-size: 1.2em;
+		}
+	}
+	
+	@media (min-width: $header_one_row) {
+		margin-bottom: 0;
+	}
+}
+
+.selections {
+	@include display(flex);
+
+	a {
+	    padding: 8px 0;
+	    font-size: 0.9em;
+	    text-align: center;
+		color: rgba(255, 255, 255, 0.6);
+		background: rgba(44,62,80,0.40);
+		width: 33.33%;
+		@include transition(all, 0.2s);
+
+		&:first-child {
+			border-radius: 4px 0 0 4px;
+		}
+
+		&:last-child {
+			border-radius: 0 4px 4px 0;
+		}
+
+		@media (min-width:$header_two_columns) {
+			padding: 6px 20px;
+			font-size: 1em;
+		    text-align: left;
+		    width: auto;
+		}
+	}
+}
+
+.date {
+	text-align: center;
+
+	@media (min-width:$header_two_columns) {
+		text-align: left;
+	}
+}
+
+a.option-selected {
+	color: rgba(255, 255, 255, 1);
+	background: rgba(44,62,80, 1);
+}
+
+.calendarOptions {
+	max-width: 404px;
+}
+
+.calendar_customDates {
+	display: none;
+	width: 100%;
+	margin-top: 15px;
+
+	div {
+		display: inline-block;
+		width: 49%;
+
+		&:first-child {
+			float: left;
+			margin-right: 3px;
+		}
+
+		&:nth-child(2) {
+			float: right;
+		}
+
+		input {
+			margin-bottom: 9px;
+		}
+	}
+
+	button {
+		@include btn($tw_blue, auto, auto, 6px, 20px);
+		margin: auto auto;
+		float: right;
+	}
+}
+
+//Calendar itslef
+.weekRow {
+	@include display(flex);
+	margin-bottom: 20px;
+}
+
+.calendar_day {
+	width: calc(100% / 7);
+	text-align: center;
+	padding: 6px 0;
+	border-radius: 5px;
+    font-size: 1em;
+
+    @media (min-width:$header_two_columns) {
+    	font-size: 1.2em;
+    }
+}
+
+.calendar_day_today {
+	background: #FBB147;
+}
+
+.calendar_day_activity {
+	background: #369AD8;
+	cursor: pointer;
+}
+
+
+.pop-up {
+	width: 0;
+	opacity: 0;
+	@include display(flex);
+
+	&--active {
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		position: fixed;
+		min-height: 100vh;
+		opacity: 1;
+		background-color: rgba(44,62,80,0.85);
+		z-index: 1000;
+		overflow-y: scroll;
+
+		.moving-pop {
+			@include transform(translateY(0));
+		}
+
+		.pop-kill {
+			display: block;
+		}
+	}
+}
+
+.pop-kill {
+	@extend .overlayKillChild;
+	display: none;
+}
+
+#calendar_performance {
+	@extend .overlayKillContent;
+}
+
+.moving-pop {
+	@include transform(translateY(-100vh));
+	@include transition(transform 0.3s $ease-out-expo 0.05s);
+	margin: auto;
+	width: 100%;
+}
+
+.calendarPerformanceContainer {
+	padding: 15px;
+	background: white;
+	border-radius: 2px;
+	margin: 0 10px;
+	position: relative;
+	@include box-shadow(8px);
+	max-width: 600px;
+	span {
+		text-decoration: underline;
+	}
+
+	@media (min-width: $calendarPop-UP) {
+		padding: 15px 0 15px 15px;
+	}
+
+	@media (min-width: 620px) {
+		margin: auto auto;
+	}
+
+	.close {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 10px;
+		cursor: pointer;
+	}
+}
+
+@media (min-width: $calendarPop-UP) {
+	.calendarPerformanceHeader, 
+	.calendarPerformance--Details h1 {
+		padding-right: 15px;
+	}
+}
+
+.workoutSwitcher {
+	@include display(flex);
+	margin-bottom: 10px;
+
+	p {
+		font-size: 1em;
+		font-weight: 300;
+		color: $printWritting;
+		margin-right: 5px;
+	}
+
+	a {
+		opacity: 0.7;
+		color: #4A4A4A;
+	}
+
+	.active {
+		opacity: 1;
+		font-size: 1.2em;
+		font-weight: 500;
+	}
+
+	span {
+		margin-right: 4px;
+		margin-left: 2px;
+
+		&:last-of-type {
+			display: none;
+		}
+	}
+}
+
+.workoutPerformanceDate {
+	display: inline-block;
+}
+
+
+
+.calendarPerformance--Details {
+	display: none;
+	// margin-top: 20px;
+
+	h1 {
+		font-size: 1.2em;
+		color: $printWritting;
+		letter-spacing: 1.25px;
+		font-weight: 500;
+	}
+
+	&--active {
+		display: block;
+	}
+}
+
+.calendarPerformance--Info {
+	margin-top: 15px;
+
+	p, span {
+		font-size: 14px;
+	}
+
+	p {
+		margin-bottom: 10px;
+		font-weight: lighter;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	@media (min-width: $calendarPop-UP) {
+		width: 50%;
+	}
+}
+
+#performance_1 {
+	display: block;
+}
+
+.calendarPerformanceComment {
+	background: $tw_blue;
+	margin: 15px -15px -15px -15px;
+	padding: 15px;
+
+	p {
+		color: white;
+		font-size: 1em;
+
+		&:first-child {
+			margin-bottom: 10px;
+			font-size: 1.2em;
+		}
+	}
+
+	@media (min-width: $calendarPop-UP) {
+		width: 50%;
+		margin: 15px 0 -15px 0;
+	}
+}
+
+
+
+@media (min-width: $calendarPop-UP) {
+	.calendarPerformance--Content {
+		@include display(flex);
+	}
+}
+
+
+#w_workoutsClient {
+	.workout_overlay {
+		@extend .workout;
+	}
+
+	.workout_main_container {
+		@extend .workoutContainer;
+	}
+
+	.workoutsHover_status {
+		padding: 10px;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

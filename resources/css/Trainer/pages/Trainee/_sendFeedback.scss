@@ -1,0 +1,109 @@
+/*  ================       Send US Feeddback       ======================
+========================================================================*/
+
+
+
+.fb_overlay {
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	overflow-y: scroll;
+	left: 0;
+	right: 0;
+	top: -100vh;
+	background: rgba(44,62,80,0.98);
+	backdrop-filter: blur(7px);
+	-webkit-backdrop-filter: blur(7px);
+	@include transition(0.3s, ease-in);
+    z-index: 100;
+}
+
+
+.fb_up {
+	top: 0;
+}
+
+.feedbackContainer {
+	margin-top: 15vh;
+	padding-right: 35px;
+	padding-left: 35px;
+	display: flex;
+	flex-direction: column;
+	max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+
+    button {
+    	@include btn($tw_blue, 40px, 140px);
+    	margin-top: 20px;
+    	font-size: 1.2em;
+    }
+
+    textarea {
+    	width: 100%;
+    	border: none;
+    	padding: 20px;
+    	background: rgba(255, 255, 255, 0.1);
+    	color: white;
+    	border-radius: 2px;
+    	box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5);
+    }
+}
+
+.btn_container {
+	text-align: center;
+}
+
+.fb_overlay h1, 
+.fb_overlay h2 {
+	text-align: center;
+	color: white;
+}
+
+.c-menu__close {
+	position: absolute;
+	top: 91px;
+	right: 12px;
+	cursor: pointer;
+}
+
+
+.fb_overlay h1 {
+	margin-top: 15px;
+	font-size: 1.8em;
+	font-weight: 500;
+	text-transform: none;
+
+	@media only screen and (min-device-width: $small_toSmallMedium) {
+		margin-top: 45px;
+		font-size: 2.5em;
+	}
+}
+
+.fb_overlay h2 {
+	margin-top: 25px;
+	margin-bottom: 0;
+	font-size: 1.2em;
+
+	@media only screen and (min-device-width: $small_toSmallMedium) {
+		margin-top: 45px;
+		font-size: 1.5em;
+	}
+}
+
+
+.fb_overlay form {
+	margin-top: 30px;
+	padding-bottom: 20px;
+
+	@media only screen and (min-device-width: $small_toSmallMedium) {
+		margin-top: 60px;
+	}
+}
+
+#feedback {
+	margin-bottom: 0;
+	height: 250px;
+	font-size: 1em;
+}
+

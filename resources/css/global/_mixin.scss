@@ -1,0 +1,98 @@
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
+@mixin box-shadow($height: 4px) {
+  box-shadow: 0 $height $height 0 rgba(0,0,0,0.36), 0 0 $height 0 rgba(0,0,0,0.24);
+}
+
+
+
+@mixin btn($background, $height: auto, $width: auto, $padding_vertical: 0, $padding_horizontal: 6px) {
+	background: $background;
+    border-radius: 2px;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    min-width: $width;
+    height: $height;
+    padding: $padding_vertical $padding_horizontal;
+    color: $button_color;
+    font-size: 1em;
+    cursor: pointer;
+    @include transition(all .1s ease-out);
+    box-shadow: 0 3px 0 0 darken($background, 15%);
+
+    &:active {
+        box-shadow:0 1px 0 0 darken($background, 15%);
+    }
+    
+
+    &:active {
+        @include transform(translateY(2px));
+    }
+}
+
+@mixin btnColor($color) {
+    background: $color;
+    box-shadow: 0 3px 0 0 darken($color, 15%);
+    &:active {
+        box-shadow:0 1px 0 0 darken($color, 15%);
+    }
+}
+
+@mixin btn_shadow($background, $width, $padding_vertical, $padding_horizontal) {
+    @include btn($background, $width, $padding_vertical, $padding_horizontal);
+    box-shadow: 0 3px 0 darken($background, 15%), 0 15px 20px rgba(0, 0, 0, .35);
+
+    &:active {
+        box-shadow:0 1px 0 0 darken($background, 15%), 0 12px 10px rgba(0, 0, 0, .3);
+    }
+}
+
+@mixin moveDown($heigh) {
+    @include transform(translateY($heigh));
+    @include transform-origin;
+}
+
+@mixin overlaysWorkout ($bg_color: $tw_green) {
+    z-index: 4;
+    width: 100%;
+    height: $workout_height;
+    position: absolute;
+    background-color: $bg_color;
+    top: -$workout_height - 10px;
+    @include transition(all .5s $ease-out-back);
+}
+
+@mixin slackStyle($color, $Vpadding: 8px, $Hpadding: 15px) {
+    background-color: $color;
+    padding: $Vpadding $Hpadding;
+    color: #fff;
+    border-radius: 2px;
+    // @include transition(.1s ease-in);
+
+    &:hover {
+        padding-bottom: $Vpadding - 2px;
+        @include box-shadow(0 2px 0 darken($color, 15%));
+    }
+
+    &:active {
+        @include box-shadow(inset 0px 1px 3px 0px rgba(0,0,0,0.30));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

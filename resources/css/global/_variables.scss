@@ -1,0 +1,130 @@
+
+//Brand Color
+
+$tw_blue: #369AD8;
+
+
+$tw_orange: #FBB147;
+
+
+$tw_purple: #7079B1;
+
+
+$tw_dblue: #2C3E50;
+
+
+$tw_green: #52D2B0;
+
+$overlay: rgba(44,62,80,0.95);
+
+$red: #E94F5F;
+
+//Other Colors
+$grey: #D8D8D8;
+$desc_grey: #9B9B9B;
+$button_color: #fff;
+$workout_color: #fff;
+$workoutOptions_bg_color: $tw_dblue;
+$viewMoreBtn: #f2f2f2;
+$deletingWorkout: #fff;
+$workoutHoverColors: #fff;
+$workoutDuplicateBTN: #fff;
+$workoutOptionsButtons_color: #F2F2F2;
+$viewWorkoutTitles_color: #727272;
+$exerciseDescriptionBox_color: #DADADA;
+$exerciseDescriptionAlternate :#A9A9A9;
+
+
+$accountBackgroudTables_color: #F2F1F5;
+$textEmployee_color: #555;
+
+
+$backgroundActionAdding: #7EBEE6;
+
+$printWritting: #4A4A4A;
+$printHeaderBackgroud: #D8D8D8;
+$printWorkoutBorder: #979797;
+$printCircuitBg: #E5E5E5;
+
+
+$greyBorder: #979797;
+
+//Font 
+$font: "Avenir", "Open Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+
+
+// Fixed navigation
+$menuSpacing: 10px;
+$fixedMenuWidth: 280px;
+$fixedMenuBreakPoint: 1220px;
+
+//Sizes
+
+//Workout in workouts height
+$workout_height: 230px;
+$workout_img_height: 80px;
+$mainHeader_height: 72px;
+$workoutOptions_height: 60px;
+$workoutBTN_height: 90px;
+$loaderBg_height: $mainHeader_height * 1.5;
+$loaderBgImg_height: $loaderBg_height * 0.8;
+$printMenu_width: 200px;
+$traingle_size: 36px;
+
+$employeeTableInfo_width: 12%;
+$employeeTableAction_width: 23%;
+
+$exercise_header_height: 50px;
+$exercise_header_circuit_height: 105px;
+$circuit_icons_size: 27px;
+
+
+
+// ******************
+//
+// 	  Breakpoints
+//
+// ******************
+$superSmall_to_small: 400px;
+$small_toSmallMedium: 450px;
+$small_to_medium: 650px;
+
+$device_detection: 768px;
+$medium_to_large: 768px;
+
+
+$table_breakPoints: 450px;
+$desktop_breakPoints: 1060px;
+
+$performanceBreakPointMd: 768px;
+$performanceBreakPointLg: 1000px;
+
+$navBreak: 626px;
+
+$popUpBreakSM : 400px;
+
+$workouts_two_columns: 650px;
+$workouts_three_columns: 975px;
+
+
+$calendarPop-UP: 450px;
+
+//client Profile
+$header_two_columns: 620px;
+$header_one_row: 850px;
+
+//Workouts break points for size of workout
+$workoutBreakOne: 350px;
+$workoutBreakTwo: 380px;
+$workoutBreakThree: 440px;
+$workoutBreakFour: $workouts_two_columns;
+$workoutBreakFive: 735px;
+$workoutBreakSix: 845px;
+$workoutBreakSeven: $workouts_three_columns;
+$workoutBreakHeight: 1080px;
+
+
+$onboardingBreakZero: 550px;
+$onboardingBreakOne: 650px;
+$onboardingBreakTwo: 769px;
+$onboardingBreakThree: 975px;

@@ -1,0 +1,14 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+@media screen and (max-width: 768px) {
+  .responsive-element {
+    color: #000; } }
+
+#visual-grid-breakpoints {
+  value: max-width 768px 12; }
+
+/*# sourceMappingURL=new-breakpoint.css.map */

@@ -60,7 +60,7 @@
     {{ HTML::style(asset('assets/fw/chosen_v1/chosen.css' . ASSET_VERSION)) }}
 
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
 
     <!--    <script>

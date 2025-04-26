@@ -1,0 +1,1241 @@
+ 
+@media only screen and (max-width: 768px), screen and (max-device-width: 768px) {
+
+.resp-appear {
+	display: block !important;
+}
+
+.resp-disapear {
+    display: none !important;
+}
+
+.hide_div {
+	display: none !important;
+}
+
+.margin_left_50 {
+	margin-left: 0 !important;
+}
+
+h1 {
+	font-size:2.2em;
+}
+
+.mockup_image {
+	background: url(../img/headerImageIpad.png) no-repeat center center; 
+	-webkit-background-size: contain;
+  	-moz-background-size: contain;
+ 	-o-background-size: contain;
+ 	background-size: contain;
+ 	background-position: top;
+ 	height: 150%;
+ 	margin: auto auto;
+ 	overflow: visible;
+ 	z-index: 999;
+}
+
+.content_hero {
+	overflow: visible;
+}
+
+.left_content_hero {
+	width: 100%;
+	display: block;
+	height: 40%;
+	top: 0;
+	position: relative;
+	padding: 0 2.5% 0 2.5%;
+}
+
+.left_content_hero h1 {
+	max-width: 800px;
+	text-align: center;
+}
+
+.right_content_hero {
+	position: relative;
+	height: 60%;
+	width: 100%;
+	padding: 0 2.5% 0 2.5%;
+	float: left;
+}
+
+/****************************
+		NAVIGATION
+****************************/
+
+
+.header_hero {
+	display: none;
+}
+
+.header_hero nav {
+	display: none;
+}
+
+#mobileMenu {
+	display: block;
+}
+
+.mobileNav {
+	padding: 15px 20px;
+	background-color: #fff;
+	text-align: center;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 1000;
+	border: none;
+}
+
+.mobileNav a:first-of-type {
+	float: left;
+}
+
+.mobileNav a[href*="freeTrialSignup"] {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	color: #22A0D3;
+	border: 1px #22A0D3 solid;
+	border-radius: 2px;
+	font-weight: 600;
+	display: inline-block;
+}
+
+.mobileNav a:last-of-type {
+	float: right;
+}
+
+#mobileLogo {
+	height: 25px;
+}
+
+
+.navbar {
+	height: 60px;
+	margin: 0;
+}
+
+.mobileSubNav {
+	display: none;
+	width: 100%;
+	background-color: rgba(44, 62, 80, 0.95);
+	z-index: 1000;
+	padding-top: 0;
+	padding-bottom: 0;
+	float: none;
+	position: fixed;
+	top: 60px;
+}
+
+.mobileSubNav a {
+	display: block;
+	width: 100%;
+	text-align:center;
+	color: #fff;
+	padding: 12px 0;
+	font-weight: lighter;
+}
+
+.mobileSubNav a:last-of-type {
+	background-color: #22A0D3;
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.50);
+}
+
+.mobileSubNav hr {
+	width: 100%;
+	height: 1px;
+	background-color: #667582;
+	border: #667582;
+	margin: 0;
+	padding: 0;
+}
+
+.cbp-af-header-shrink {
+
+}
+
+
+/****************************
+		3 Blocks
+****************************/
+
+
+.three_blocks {
+	margin-top: 145px;
+}
+
+.block {
+	width: 100%;
+	background: #fff;
+	position: relative;
+	display: table;
+	overflow: visible;
+}
+
+.children_block  {
+	height: 50%;
+	width: 100%;
+	margin: auto auto;
+	overflow: visible;
+}
+
+.text_block {
+	position: relative;
+	width: 100%;
+	height:150px;
+	margin-bottom: 40px;
+}
+
+.image_block {
+	width: 510px;
+	overflow: visible;
+}
+
+.remove_float{
+	float: none !important;
+}
+
+#two_block {
+	margin-top: -100px;
+	height: 675px;
+}
+
+.block * img {
+	overflow: visible;
+	z-index: 90;
+	top: 20px;
+}
+
+.move_down {
+	margin-top: 120px;
+}
+
+
+/*********************
+Customer testimonial
+**********************/
+
+
+
+
+
+
+
+h3 {
+	font-weight: normal;
+	font-size: 1.5em;
+	color: #fff;
+	line-height: 1.1em;
+	margin-top: 205px !important;
+	vertical-align: bottom;
+}
+
+.pay_widget h3 {
+	margin-top: 0px !important;
+}
+
+h4 {
+	font-weight: lighter;
+	font-size: 1.2em;
+	color: #fff;
+	line-height: 1em;
+	z-index: 89999;
+}
+
+
+
+
+ /************************************
+PAGE: PROFESSIONAL LOOK
+ *************************************/
+
+.professional_look {
+	/*margin-top: 280px;*/
+}
+
+.professional_look img { 
+	max-width: 510px;
+}
+
+
+/************************************
+Block: Create Account
+ *************************************/
+
+.exp-Widget {
+	width: 90%;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.exp-SignUp {
+	display: block;
+	float: none;
+}
+
+.exp-manual,
+.exp-facebook {
+	width: 100%;
+}
+
+.exp-circle {
+	margin: auto auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.exp-Background h1 {
+	font-size: 4em;
+	line-height: 1em;
+}
+
+.freeTrialSignup_h3 {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.exp-Widget h1 {
+	font-size: 32px;
+}
+
+
+ /************************************
+PAGE: PAY PAGE
+ *************************************/
+
+.freeTrialForm {
+	max-width: 540px !important;
+	width: 90%;
+}
+
+.lowerInputs {
+	margin-top: 0px;
+}
+
+
+.freeTrialSignup h1 {
+	line-height: 1em;
+	margin-bottom: 30px;
+}
+
+.freeTrialSignup h3 {
+	font-size: 1.5em;
+}
+
+
+
+
+
+ /************************************
+PAGE: Price page
+ *************************************/
+
+.upgradePlans {
+	padding: 0 20px 20px
+}
+
+
+.upgradeBox {
+	width: 90%;
+}
+
+.upgradeMonthly,
+.upgradeYearly {
+	display: inline-block;
+	width: auto;
+	float:none;
+	width: 100%;
+}
+
+.upgradeDescription {
+	width: 200px;
+	margin: auto auto;
+}
+
+.upgradeDescription ul {
+	padding: 0;
+}
+
+
+
+/******************  End of Tablet & Tablet size screen  ******************/
+}
+/******************  End of Tablet size screen  ******************/
+
+
+
+
+/* Smartphones-size (portrait and landscape) ----------- */
+@media only screen and (min-width: 320px) and (max-width: 480px), screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+
+ /************************************
+                 GENERAL
+ *************************************/
+
+.hide_div_mob {
+	display: none !important;
+}
+
+.margin_left_50 {
+	margin-left: 0 !important;
+}
+
+.move_down {
+	margin-top: 170px !important;
+}
+
+.col-xs-4 {
+	width: 50% !important;
+}
+/************************************
+			NAVIGATION
+ *************************************/
+
+
+nav {
+
+}
+
+
+.cbp-af-header-shrink {
+	max-height: 80px;
+}
+
+/************************************
+                 HEADER
+ *************************************/
+
+.hero {
+	height: 550px;
+}
+
+.header_hero {
+	padding: 0 4%;
+}
+
+.content_hero {
+	padding: 0 5%;
+}
+
+.left_content_hero h1 {
+	font-size: 2em;
+	line-height: 1.5em;
+}
+
+.left_content_hero {
+	padding: 0 5% 0 5%;
+}
+
+.mockup_image {
+	max-width: 100%;
+	height: 80%;
+}
+
+.right_content_hero {
+	padding: 0;
+	height: 100%;
+}
+
+
+/************************************
+                3 Blocks
+ *************************************/
+
+
+.children_block  {
+	height: 40%;
+	width: 100%;
+	margin: 0;
+	overflow: visible;
+	padding: 0 5%;
+}
+
+.image_block {
+	width: 100%;
+	overflow: visible;
+	position: relative;
+	margin-top: 10px;
+}
+
+.text_block {
+	position: relative;
+}
+
+.block * h2 {
+	position: relative;
+	padding-left: 5%;
+	padding-right: 5%;
+	font-size: 1.875em;
+	line-height: 1.5em;
+}
+
+#two_block {
+	height: 530px;
+}
+
+#two_block h2 {
+	margin-top: 20px;
+}
+
+
+#two_text {
+	margin-bottom: 20px !important;
+}
+
+.professional_look img {
+	width: 100%;
+}
+
+
+/************************************
+           Customer Testimonial
+ ************************************/
+
+
+h1, h2 {
+	font-size: 2em;
+	line-height: 1.5em;
+}
+
+.Testimonial,
+.TestimonialContent,
+.testimonialImage {
+	width: 100%;
+	clear: both;
+/*	display: block;*/
+}
+
+.Testimonial,
+.TestimonialContent {
+	height: auto;
+}
+
+.professional_look {
+	/*margin-top: 1024px;*/
+}
+
+.TestimonialContent p {
+	height: auto;
+}
+
+/************************************
+           Professinal Look
+ ************************************/
+
+.professional_look {
+	padding: 0 5%;
+}
+
+
+/************************************
+           Affordable
+ ************************************/
+
+.affordable{
+	padding: 0 5%;
+}
+
+.container_img_bottom_affordable {
+	position: absolute;
+	width: 100%;
+	z-index: -10;
+	text-align: center;
+}
+
+
+
+.container_text_bottom_affordable {
+	width: 100%;
+}
+
+
+
+/************************************
+           Pricing
+ ************************************/
+
+
+.freeTrialForm {
+	width: 90%;
+}
+
+.field {
+	width: 100%;
+	margin-top: 10px;
+}
+
+
+.freeTrialSignup h1 {
+	font-size: 3.2em;
+}
+
+.freeTrialSignup h3 {
+	font-size: 1.2em;
+}
+
+.freeTrialSignup h1, 
+.freeTrialSignup h3 {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+
+
+/************************************
+Block: Create Account
+ *************************************/
+
+
+.exp-Widget {
+	padding: 50px 5%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.exp-form fieldset {
+	padding: 5%;
+	width: auto;
+}
+
+.exp-Background h1 {
+	font-size: 3em;
+}
+
+.exp-Widget h1 {
+	font-size: 2em;
+}
+
+ /************************************
+PAGE: Price page
+ *************************************/
+
+
+
+
+.upgradeHeader h1 {
+	font-size: 3.5em;
+}
+
+
+.upgradeHeader h3 {
+	font-size: 1.4em;
+}
+
+
+/*********   end of mobile size screen   **********/
+}
+/*********   end of mobile size screen  **********/
+
+
+
+.package_name {
+	height: 50%;
+	text-align: center;
+}
+
+.top_line {
+	text-align: center;
+	padding: 5% 0 0 0;
+	width: 100%;
+	display: block;
+	height: 30%;
+}
+
+.top_line img {
+	width: 33px;
+}
+
+.bottom_line {
+	width: 100%;
+	padding: 0;
+	top: 30%;
+	height: 20%;
+}
+
+.description_name_package {
+	font-size: 1.3em;
+}
+
+.package_price {
+	height: 20%;
+	text-align: center;
+}
+
+.inside_container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	padding-top: 0px;
+}
+
+.inside_container h7 {
+	padding-left: 0;
+}
+
+.package_action {
+	height: 30%;
+	text-align: center;
+}
+
+.inside_container_tree {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	padding-top: 0;
+}
+
+.large_orange_button a {
+	padding: 14px 0;
+}
+
+
+.mutliple_membership p {
+	font-size: 1.2em;
+}*/
+
+
+
+/*********   end of mobile size screen   **********/
+}
+/*********   end of mobile size screen  **********/
+
+
+
+
+
+
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+
+
+ /************************************
+                 GENERAL
+ *************************************/
+
+.hide_div_mob {
+	display: none !important;
+}
+
+.margin_left_50 {
+	margin-left: 0 !important;
+}
+
+.move_down {
+	margin-top: 80px !important;
+}
+
+.col-xs-4 {
+	width: 50% !important;
+}
+/************************************
+			NAVIGATION
+ *************************************/
+
+#logo {
+	padding: 15px 0 0 0;
+	height: 60px;
+	width: 84px;
+}
+
+nav {
+	float: right;
+	display: inline-block;
+	padding: 30px 0;
+}
+
+nav a {
+	padding: 0 10px 0 10px;
+	color: #fff;
+}
+
+.cbp-af-header-shrink {
+	max-height: 80px;
+}
+
+
+/************************************
+                 HEADER
+ *************************************/
+
+.hero {
+	height: 550px;
+}
+
+.header_hero {
+	padding: 0 4%;
+	text-align: center;
+}
+
+.content_hero {
+	padding: 0 5%;
+}
+
+.left_content_hero h1 {
+	font-size: 2em;
+	line-height: 1.5em;
+}
+
+.left_content_hero {
+	padding: 0 5% 0 5%;
+}
+
+.mockup_image {
+	max-width: 100%;
+	height: 80%;
+}
+
+.right_content_hero {
+	padding: 0;
+	height: 100%;
+}
+
+
+/************************************
+                3 Blocks
+ *************************************/
+
+
+.children_block  {
+	height: 40%;
+	width: 100%;
+	margin: 0;
+	overflow: visible;
+	padding: 0 5%;
+}
+
+.image_block {
+	width: 100%;
+	overflow: visible;
+	position: relative;
+	margin-top: 33px;
+}
+
+.text_block {
+	position: relative;
+}
+
+.block * h2 {
+	position: relative;
+	padding-left: 5%;
+	padding-right: 5%;
+	font-size: 1.875em;
+	line-height: 1.5em;
+}
+
+#two_block {
+	height: 530px;
+}
+
+#two_text {
+	margin-bottom: 20px !important;
+}
+
+.professional_look img {
+	width: 100%;
+}
+
+
+/************************************
+           Customer Testimonial
+ ************************************/
+
+
+h1, h2 {
+	font-size: 2em;
+	line-height: 1.5em;
+}
+
+.TestimonialContent p {
+	height: auto;
+}
+
+
+/************************************
+           Professinal Look
+ ************************************/
+
+.professional_look {
+	padding: 0 5%;
+}
+
+.Testimonial,
+.TestimonialContent,
+.testimonialImage {
+	width: 100%;
+	clear: both;
+	display: block;
+}
+
+.Testimonial,
+.TestimonialContent {
+	height: auto;
+}
+
+.professional_look {
+	margin-top: 1024px;
+}
+
+
+/************************************
+           Affordable
+ ************************************/
+
+.affordable{
+	padding: 0 5%;
+}
+
+.container_img_bottom_affordable {
+	position: absolute;
+	width: 100%;
+	z-index: -10;
+	text-align: center;
+}
+
+
+
+.container_text_bottom_affordable {
+	width: 100%;
+}
+
+/************************************
+           ERRORS
+ ************************************/
+
+
+.error {
+   color:rgba(255,0,0,0.5) !important;
+}
+.error::-webkit-input-placeholder {
+  color:rgba(255,0,0,0.5);
+}
+.error:-moz-placeholder { /* Firefox 18- */
+  color:rgba(255,0,0,0.5);
+}
+.error::-moz-placeholder {  /* Firefox 19+ */
+  color:rgba(255,0,0,0.5);
+}
+.error:-ms-input-placeholder {  
+  color:rgba(255,0,0,0.5); 
+}
+
+.systemMessages{
+ position:fixed;
+ top:0;right:0;
+ width: 300px;
+ height: auto;
+ font-size: 16px;
+ z-index: 100;
+ margin-top:89px;
+ margin-right: 10px;
+}
+.systemMessages div {
+ position: relative;
+ margin-bottom: 10px;
+ padding: 10px;
+ border-radius: 2px;
+ -webkit-transition: all 1s ease-out;
+ transition: all 1s ease-out;
+ word-wrap: break-word;
+}
+
+.successBox{
+ border-radius: 2px;
+ border: 1px solid rgb(124, 221, 119);
+ box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px;
+ z-index: 9000;
+ color: rgb(0, 100, 0);
+ background-color: rgb(188, 245, 188);
+}
+.errorBox{
+   border: 1px solid rgb(226, 83, 83);
+   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px;
+   z-index: 9000;
+   color: rgb(255, 255, 255);
+   background-color: rgb(255, 129, 129);
+}
+.errorBox .hideErrorMessageButton {
+ position: relative;
+ float: right;
+ color:rgb(226, 83, 83);
+}
+.errorBox .hideErrorMessageButton:hover {
+ color:rgb(0, 0, 0);
+}
+
+.errorBox a:hover {
+ color:rgb(188, 245, 188);
+}
+
+.floatLeft{
+   float:  left;   
+}
+
+
+.error {
+   color:rgba(255,0,0,0.5) !important;
+}
+.error::-webkit-input-placeholder {
+  color:rgba(255,0,0,0.5);
+}
+.error:-moz-placeholder { /* Firefox 18- */
+  color:rgba(255,0,0,0.5);
+}
+.error::-moz-placeholder {  /* Firefox 19+ */
+  color:rgba(255,0,0,0.5);
+}
+.error:-ms-input-placeholder {  
+  color:rgba(255,0,0,0.5); 
+}
+
+.systemMessages{
+ position:fixed;
+ top:0;right:0;
+ width: 300px;
+ height: auto;
+ font-size: 16px;
+ z-index: 100;
+ margin-top:89px;
+ margin-right: 10px;
+}
+.systemMessages div {
+ position: relative;
+ margin-bottom: 10px;
+ padding: 10px;
+ border-radius: 2px;
+ -webkit-transition: all 1s ease-out;
+ transition: all 1s ease-out;
+ word-wrap: break-word;
+}
+
+.successBox{
+ border-radius: 2px;
+ border: 1px solid rgb(124, 221, 119);
+ box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px;
+ z-index: 9000;
+ color: rgb(0, 100, 0);
+ background-color: rgb(188, 245, 188);
+}
+.errorBox{
+   border: 1px solid rgb(226, 83, 83);
+   box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px;
+   z-index: 9000;
+   color: rgb(255, 255, 255);
+   background-color: rgb(255, 129, 129);
+}
+.errorBox .hideErrorMessageButton {
+ position: relative;
+ float: right;
+ color:rgb(226, 83, 83);
+}
+.errorBox .hideErrorMessageButton:hover {
+ color:rgb(0, 0, 0);
+}
+
+.errorBox a:hover {
+ color:rgb(188, 245, 188);
+}
+
+.floatLeft{
+   float:  left;   
+}
+
+/************************************
+           Pricing
+ ************************************/
+.freeTrialForm {
+	width: 90%;
+}
+
+.field {
+	width: 100%;
+	margin-top: 10px;
+}
+
+
+
+
+
+ /************************************
+PAGE: Price page
+ *************************************/
+
+
+
+
+.upgradeHeader h1 {
+	font-size: 3.5em;
+}
+
+
+.upgradeHeader h3 {
+	font-size: 1.4em;
+}
+
+
+
+/*.pricing {
+	padding: 0 5%;
+}
+
+.no_credit_card_pricing {
+	height: 100%;
+}
+
+.txt_btn_pricing {
+	width: 49.5%;
+	border-radius: 2px;
+
+}
+
+.background_package {
+    margin: 2px -5% 60px -5%;
+    border-radius: 2px;
+    height: 350px;
+    position: relative;
+}
+
+.column_package {
+	width: 100%;
+	display: inline-block;
+}
+
+.package_name {
+	height: 50%;
+	text-align: center;
+}
+
+.top_line {
+	text-align: center;
+	padding: 5% 0 0 0;
+	width: 100%;
+	display: block;
+	height: 30%;
+}
+
+.top_line img {
+	width: 33px;
+}
+
+.bottom_line {
+	width: 100%;
+	padding: 0;
+	top: 30%;
+	height: 20%;
+}
+
+.description_name_package {
+	font-size: 1.3em;
+}
+
+.package_price {
+	height: 20%;
+	text-align: center;
+}
+
+.inside_container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	padding-top: 0px;
+}
+
+.inside_container h7 {
+	padding-left: 0;
+}
+
+.package_action {
+	height: 30%;
+	text-align: center;
+}
+
+.inside_container_tree {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	padding-top: 0;
+}
+
+.large_orange_button a {
+	padding: 14px 0;
+}
+
+
+.mutliple_membership p {
+	font-size: 1.2em;
+}
+*/
+
+
+
+/*********   end of mobile version   **********/
+}
+/*********   end of mobile version   **********/
+
+.customer_service h1 {
+	margin-bottom: 10px;
+}
+
+.middle {
+	background-color: #6fb7e3;
+}
+
+@media (min-width: 480px) {
+	.testimonialImage img {
+	    min-height: 100%;
+	    width: 100%;
+	}
+
+	.testimonial_info,
+	.testimonialImage {
+		float: left;
+		width: 50%;
+	}
+
+	.testimonial {
+		height: 265px;
+	}
+
+	.testimonial_info {
+		height: 100%;
+	}
+}
+
+@media (min-width: 845px) {
+	.testimonial_info,
+	.testimonialImage {
+		float: none;
+		width: 100%;
+	}
+
+	.testimonial {
+		width: 33.33%;
+		float: left;
+		height: auto;
+	}
+
+	.professional_look h1 {
+		margin-top: -18px;
+	}
+
+	.testimonial_info p {
+		font-size: 1em;
+	}
+
+	.footer_col {
+		display: block;
+		width: 30%;
+		float: left;
+		margin-right: 3%;
+	}
+
+	.footer_col:last-child {
+		margin-right: 0;
+	}
+
+}

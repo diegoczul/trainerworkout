@@ -1,0 +1,38 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+.shift-default {
+  margin-left: 8.5298%; }
+
+.shift-positive {
+  margin-left: 17.05961%; }
+
+.shift-negative {
+  margin-left: -25.58941%; }
+
+.shifted-parent {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%; }
+  .shifted-parent:last-child {
+    margin-right: 0; }
+  .shifted-parent .shifted-child {
+    margin-left: 34.94305%; }
+
+.post-nested-shift {
+  margin-left: 17.05961%; }
+
+section {
+  display: block; }
+  section::after {
+    clear: both;
+    content: "";
+    display: block; }
+  section .shift-negative {
+    margin-right: -25.58941%; }
+
+/*# sourceMappingURL=shift.css.map */

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGE,IAAK;EACH,UAAU,EAAE,UAAU;;AAItB,sBAEU;EACR,UAAU,EAAE,OAAO;;ACRvB,oBAAqB;EC6DnB,OAAO,EAAE,UAAU;EACnB,KAAK,EAAE,GAAyC;;ADvDhD,qBAAsB;ECyDtB,KAAK,EAAE,IAAsB;EAG3B,OAAO,EAAE,KAAK;EAed,YAAoB,EAAE,QAA+B;EACrD,KAAK,EAAE,SAAuC;EAE9C,gCAAa;IACX,YAAoB,EAAE,CAAC",
+"sources": ["../app/assets/stylesheets/grid/_box-sizing.scss","display-context.scss","../app/assets/stylesheets/grid/_span-columns.scss"],
+"names": [],
+"file": "display-context.css"
+}

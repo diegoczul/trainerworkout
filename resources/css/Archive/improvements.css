@@ -1,0 +1,135 @@
+.clientFeedAction * {
+	box-sizing:border-box;
+		-webkit-box-sizing:border-box;
+			-moz-box-sizing:border-box;
+				-o-box-sizing:border-box;
+}
+
+.clientFeedContainer{
+	width:48%;
+	float: left;
+	clear:left;
+	margin-bottom: 10px;
+	position: relative;
+	background-color: #E5F5FB;
+	padding: 5px;
+	color:#000;
+}
+
+.floatRightFeed{
+	float: right!important;
+	clear: right!important;
+}
+
+.clientFeedAction1{
+	width: 46%;
+	float: left;
+	background-color: #4EB5DF;
+	opacity: 0.9;
+    filter: alpha(opacity=90);
+    height: 100%;
+    display: table-cell; vertical-align: middle;
+    color:#FFF;
+    cursor: pointer;
+    position: relative;
+}
+.clientFeedMessage{
+	width: 46%;
+	float: left;
+	background-color: #F49C31;
+	opacity: 0.9;
+    filter: alpha(opacity=90);
+    height: 100%;
+    display: table-cell; vertical-align: middle;
+    color:#FFF;
+    cursor: pointer;
+    position: relative;
+}
+.clientFeedRemove{
+	width: 8%;
+	float: left;
+	background-color: #59D2B2;
+	opacity: 0.9;
+    filter: alpha(opacity=90);
+    height: 100%;
+    cursor: pointer;
+    display: table-cell; vertical-align: middle;
+    color:#FFF;
+    position: relative;
+}
+.centerVerticalText{
+	font-size: 18px;
+    position: absolute;
+    text-align: left;
+	width: 100%;
+	top:50% !important;
+	-webkit-transform:translateY(-50%);
+		-moz-transform:translateY(-50%);
+			-o-transform:translateY(-50%);
+				transform:translateY(-50%);
+}
+.centerVerticalText img{
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.clientFeedAction{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+	width: 100%;
+	height:100%;
+	
+}
+.clientFeedContainer:hover .clientFeedAction{
+	display: block;
+}
+.floatRight{
+	float: right;
+}
+.clientFeedImage img{
+	height: 55px;
+	width: 55px;
+	-webkit-border-radius: 30px; /* Saf3+, Chrome */
+	border-radius: 30px; /* Opera 10.5, IE 9 */
+	/*-moz-border-radius: 30px;  Disabled for FF1+ */
+}
+.clientFeedImage{
+	height: 55px;
+	width: 55px;
+	float: left;
+	margin-right: 10px;
+}
+.bold{
+	font-weight: bold;
+}
+.removeClientFeed{
+	top: 20%;
+}
+.smalldateClientFeed{
+	color: #A3A7AA;
+}
+.iconFeed{
+	width: 40px;
+	vertical-align: center;
+}
+.margin0{
+	margin:0px!important;
+}
+.iconActivityFeed{
+	float: right;
+	width: 40px;
+	height: 40px;
+}
+.iconActivityFeed img{
+	
+	width: 55px;
+}
+
+.message_label {
+	padding-left: 65px;
+}
+
+.iconFeed {
+	margin-left: 10px;
+}

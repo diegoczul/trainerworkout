@@ -1,0 +1,243 @@
+// This is mobile first approach. 
+
+
+// This page is for all the pages that are used in account management 
+// 	1. Select plan which comes after clicking on upgrade from the main navigation
+//  2. Membership management / allows the user to be able to modify the plan he / she is on. 
+
+
+
+.accountWrapper {
+	max-width: 800px;
+	margin: 10px;
+
+	@media all and (min-width: 820px) {
+		margin: auto;
+	}
+
+	@media all and (min-width: 700px) {
+		.widget{
+			padding-bottom: 65px;
+		}
+	}
+}
+
+.account {
+	h1, 
+	h3,
+	li {
+		color: $tw_green;
+	}
+
+	h2 {
+		color: #fff;
+		font-weight: lighter;
+		text-transform: uppercase;
+	}
+
+	&--header {
+		text-align: center;
+		padding: 10px 0;
+	}
+
+	&--table {
+		margin: 10px auto 0 auto;
+		text-align: center;
+		max-width: 400px;
+		@include display(flex);
+		@include flex-direction(column);
+
+		@media all and (min-width: 700px) {
+			@include flex-direction(row);
+			padding-left: 70px;
+			padding-right: 70px;
+			margin-top: 50px;
+			max-width: none;
+		}
+
+		.plan {
+			margin-bottom: 10px;
+
+			@media all and (min-width: 700px) {
+				margin-right: 2px;
+				margin-bottom: 0;
+			}
+		}
+
+		.plan:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.plan {
+	width: 100%;
+
+	@media all and (min-width: 700px ) {
+		width: 50%;
+	}
+
+	&--header {
+		background-color: $tw_green;
+		height: 50px;
+
+		h2 {
+			line-height: 50px;
+		}
+	}
+
+	&--description {
+		background-color: $accountBackgroudTables_color;
+		padding: 25px 0 30px 0;
+
+		ul {
+			text-align: left;
+			list-style-type: circle;
+			padding-left: 1.2em;
+			display: inline-block;
+
+			li:first-child,
+			li:nth-child(2) {
+				margin-bottom: 5px;
+			}
+		}
+
+		&--mgt {
+			margin-top: 23px;
+		}
+	}
+
+
+	h3 {
+		margin-top: 27px;
+		font-weight: 400;
+		}
+
+	form {
+		position: relative;
+		width: 160px;
+		margin: 22px auto 0 auto;
+
+		button{
+			@include btn($tw_purple, 43px, 100%);
+			color: #fff;
+			font-size: 1em;
+		}
+
+		img {
+			position: absolute;
+			width: 54px;
+			height: 45px;
+			top: -7px;
+			right: -6px;
+		}
+	}
+}
+
+/* ==== Element Styling ===== */
+
+
+.base, 
+.pMonthly,
+.pYearly {
+	p {
+		font-weight: 600;
+	}
+	.plan--description{
+		ul {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+}
+
+.base {
+	.plan--header,
+	form button {
+		background-color: $tw_purple;
+	}
+
+	form button {
+		@include box-shadow(0 3px 0 darken($tw_purple, 15%));
+	}
+
+	li,
+	p {
+		color: $tw_purple;
+	}
+}
+
+
+.pMonthly {
+	.plan--header,
+	form button {
+		background-color: $tw_green;
+	}
+
+	form button {
+		@include box-shadow(0 3px 0 darken($tw_green, 20%));
+	}
+
+	li,
+	p {
+		color: $tw_green;
+	}
+}
+
+
+.pYearly {
+	.plan--header,
+	form button {
+		background-color: $tw_blue;
+	}
+
+	form button {
+		@include box-shadow(0 3px 0 darken($tw_blue, 20%));
+	}
+
+	li,
+	p {
+		color: $tw_blue;
+	}
+}
+
+.membership .account--table {
+
+	@media all and (min-width: 700px) {
+
+		@include flex-direction(column);
+
+		.plan {
+			margin-bottom: 20px;
+			width: 100%;
+
+			&--description {
+				@include display(flex);
+				@include justify-content(space-around);
+
+				ul {
+					margin-top: auto;
+					margin-bottom: auto;
+				}
+
+				&--mgt {
+					margin-top: 0;
+				}
+			}
+		}
+
+		.plan:last-child {
+			margin-bottom: 0px;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

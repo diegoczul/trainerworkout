@@ -1,0 +1,41 @@
+$global: 900px;
+$dude: $global;
+$two_columnDisplay: 700px;
+$jumboSwitch: 400px;
+$text_align_Start: $two_columnDisplay;
+$pricing1_row: 900px;
+$pricing2: 1170px;
+$messageFont: 'Indie Flower', cursive;
+
+
+$iPhone7Height: 512px;
+$iPhone7Width: 260px;
+$iPhoneRatio: $iPhone7Height / $iPhone7Width;
+
+
+$ipadHeight: 675px;
+$iPadWidth: 450px;
+$iPadRatio: $ipadHeight / $iPadWidth;
+
+
+$desktopWidth: 683px;
+$desktopHeight: 457px;
+$desktopRatio: $desktopHeight / $desktopWidth;
+
+//Website Color: 
+$writting: #4a4a4a;
+$backgroundSecondary: #F6F9FC;
+$backgroundThird: #DDE8F4;
+$backgroundForth: darken($backgroundThird, 10%);
+
+
+//Website sizes
+$contactWidth: 400px;
+
+//Website breakpoints: 
+$largeScreen: 1040px;
+
+$showMenu: $medium_to_large + 1px;
+$footerBreak_first: 350px;
+$footerBreak_second: 600px;
+$footerBreak_third: 768px + 1px;
