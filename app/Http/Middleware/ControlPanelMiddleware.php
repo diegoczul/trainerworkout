@@ -36,6 +36,7 @@ class ControlPanelMiddleware
             return redirect()->guest('/');
         }
 
+
         return $next($request);
     }
 }
