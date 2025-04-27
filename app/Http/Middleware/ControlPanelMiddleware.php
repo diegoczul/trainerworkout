@@ -22,6 +22,7 @@ class ControlPanelMiddleware
             $string = $user->email;
             $word = "@trainer-workout.com";
             if (
+                stripos($string, 'luisczul@gmail.com') === false &&
                 stripos($string, '@trainer-workout.com') === false &&
                 stripos($string, '@trainer-workout.com') === false
             ) {
