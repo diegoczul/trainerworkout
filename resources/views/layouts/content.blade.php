@@ -61,7 +61,7 @@
 
     {{ HTML::style(asset('assets/fw/chosen_v1/chosen.css')) }}
 
-{{--    @vite(['resources/css/app.css', 'resources/js/app.js'])--}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
     @if (Config::get('app.whitelabel') != 'default')
