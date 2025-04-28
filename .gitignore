@@ -28,3 +28,4 @@ docker/*
 storage/*
 public/assets/fonts/installed-fonts.json
 public/temp/
+public/blog/
