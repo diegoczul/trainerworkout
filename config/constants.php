@@ -20,6 +20,7 @@ return array(
   "STRIPE_WEBHOOK_SECRET"      => "whsec_7DIfErAOFCRgGAQg1ZYdDVyGTbajyiz0",
   //	"STRIPETestpublishable_key" => "pk_test_51MoIjsSInN8IX2eBKXNpY3NkmBbeBWAMdermHzSmNfeMTrWcgoDszF45nmWDa90rpWIPg2TYzy0Zvtk2sb3lXsK700fIKHzWrn",
   //	"STRIPETestsecret_key"      => "sk_test_51MoIjsSInN8IX2eBrDgFvlYgJ3KNAE5GierIYNUiB6veabWci3bwfrFLrcGQjyycDHKJgki1inXTlsVVP6a2PLPI00fMhf3yeE",
+  "chatGPT" => "***REMOVED***",
   "mixPanelKey" => "ac325f08772f60d01b6478c33c2c47db",
   "onboardingClient" => "24",
   "onboardingUser" => "15",
