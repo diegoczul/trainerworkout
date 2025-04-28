@@ -114,28 +114,36 @@ class Workouts extends Model
     public function scopeSearch($query, $search)
     {
         if (!empty($search)) {
-            $query
-                //                ->select(
-                //                "workouts.*",
-                //                DB::raw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) AS scoreName"),
-                //                DB::raw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreNameDescription"),
-                //                DB::raw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreDescription"),
-                //                DB::raw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) AS scoreTags"),
-                //                DB::raw("CHAR_LENGTH(workouts.name) AS multiplier")
-                //            )
-                ->where(function ($query) use ($search) {
-                    $query->whereRaw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
-                        ->orWhereRaw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
-                        ->orWhereRaw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
-                        ->orWhereRaw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"]);
+            $query->where(function ($query) use ($search) {
+                    $query->where("workouts.name", "LIKE", "%" . $search . "%")
+                        ->orWhere("workouts.description", "LIKE", "%" . $search . "%")
+                        ->orWhere("workouts.tags", "LIKE", "%" . $search . "%");
                 })
-                //                ->orderBy("scoreName", "DESC")
-                //                ->orderBy("scoreTags", "DESC")
-                //                ->orderBy("scoreNameDescription", "DESC")
-                //                ->orderBy("scoreDescription", "DESC")
-                //                ->orderBy("multiplier", "ASC")
                 ->orderBy("shares", "DESC")
                 ->orderBy("views", "DESC");
+
+//            $query
+//                //                ->select(
+//                //                "workouts.*",
+//                //                DB::raw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) AS scoreName"),
+//                //                DB::raw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreNameDescription"),
+//                //                DB::raw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) AS scoreDescription"),
+//                //                DB::raw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) AS scoreTags"),
+//                //                DB::raw("CHAR_LENGTH(workouts.name) AS multiplier")
+//                //            )
+//                ->where(function ($query) use ($search) {
+//                    $query->whereRaw("MATCH(workouts.name) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
+//                        ->orWhereRaw("MATCH(workouts.name, workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
+//                        ->orWhereRaw("MATCH(workouts.description) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"])
+//                        ->orWhereRaw("MATCH(workouts.tags) AGAINST(? IN BOOLEAN MODE) > 0", [$search . "*"]);
+//                })
+//                //                ->orderBy("scoreName", "DESC")
+//                //                ->orderBy("scoreTags", "DESC")
+//                //                ->orderBy("scoreNameDescription", "DESC")
+//                //                ->orderBy("scoreDescription", "DESC")
+//                //                ->orderBy("multiplier", "ASC")
+//                ->orderBy("shares", "DESC")
+//                ->orderBy("views", "DESC");
         }
 
         return $query;

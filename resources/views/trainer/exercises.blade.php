@@ -50,7 +50,7 @@
                     <h4>{{Lang::get("content.YouExerciselibrary")}}</h4>
                     <p>{{Lang::get("content.YourPersonalExercises")}}</p>
                     <div class="searchField">
-                        <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
+                        <input id="exercise_search" name="exercise_search" onkeyup="if($(this).val() == '' || $(this).val() == null){ searchExercise(); }" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
                         <button onClick="searchExercise()">{{ Lang::get("content.Search") }}</button>
                     </div>
                 </div>
@@ -312,28 +312,33 @@
             }
         }
 
+        let previousSearch;
         function searchExercise() {
-            $.ajax({
-                url: widgetsList["w_exercises_full"],
-                type: "POST",
-                data: {search: $("#exercise_search").val()},
-                success: function (data, textStatus, jqXHR) {
-                    $("#w_exercises_full").html(data);
+            if (previousSearch != $("#exercise_search").val()) {
 
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    errorMessage(jqXHR.responseText);
-                },
-                statusCode: {
-                    500: function () {
-                        if (jqXHR.responseText != "") {
-                            errorMessage(jqXHR.responseText);
-                        } else {
+                $.ajax({
+                    url: widgetsList["w_exercises_full"],
+                    type: "POST",
+                    data: {search: $("#exercise_search").val()},
+                    success: function (data, textStatus, jqXHR) {
+                        $("#w_exercises_full").html(data);
+                        previousSearch = $("#exercise_search").val();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        errorMessage(jqXHR.responseText);
+                    },
+                    statusCode: {
+                        500: function () {
+                            if (jqXHR.responseText != "") {
+                                errorMessage(jqXHR.responseText);
+                            } else {
 
+                            }
                         }
                     }
-                }
-            });
+                });
+
+            }
         }
 
         $(document).ready(function () {
