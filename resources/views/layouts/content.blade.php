@@ -55,7 +55,6 @@
     {{ HTML::script(asset('assets/js/jquery-1.11.0.js')) }}
     {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js')) }}
     {{ HTML::script(asset('assets/js/modernizr_touch.js')) }}
-
     {{ HTML::style(asset('assets/fw/fancybox/source/jquery.fancybox.css?v=2.1.5')) }}
     {{ HTML::style(asset('assets/fw/lightbox/css/lightbox.css')) }}
 
