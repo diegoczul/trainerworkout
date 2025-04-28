@@ -1,0 +1,209 @@
+
+/* ================    Share Workouts POP-UP ===============*/
+.no_scroll_overlay{
+	overflow:hidden;
+}
+
+.lightbox_mask {
+	background-color: rgba(44, 62, 80, 0.95);
+	position: fixed;
+	z-index: 3000;
+	top: 0; 
+	left: 0;
+	height: 0%;
+	width: 0%;
+	opacity: 0;
+	@include transition(opacity 0.2s 0.3s, width 0s 0.5s, height 0s 0.5);
+
+	&-activated {
+		height: 100%;
+		width: 100%;
+		opacity: 1;
+		@include transition(opacity 0.2s);
+	}
+}
+
+.lightBox {
+	position: fixed;
+	top: 0; 
+	left: 0;
+	height: 0%;
+	width: 0%;
+	z-index: 4000;
+	@include display(flex);
+	@include justify-content(center);
+	@include align-items(center);
+	//Hover off
+
+	&-activated {
+		height: 100%;
+		width: 100%;
+		// Hover on
+	}
+}
+
+
+
+
+.popup_container {
+	width: 100%;
+	max-width: 500px;
+	margin: auto auto;
+	color: #fff;
+	padding-bottom: 10px;
+	border-radius: 2px;
+	z-index: 5000;
+	padding: 10px;
+	opacity: 0;
+	@include transform(translateY(-100%));
+	//Hover off
+
+	@media all and (min-width: 520px) {
+		padding-left: initial;
+		padding-right: initial;
+	}
+
+	@media all and (min-height: 515px) {
+		padding-top: initial;
+		padding-bottom: initial;
+	}
+
+	&-activated {
+		@include transform(translateY(0));
+		@include transition(transform 0.3s);
+		opacity: 1;
+		z-index: 10000;
+		// Hover on
+	}
+
+	.header {
+		background-color: #2175A9;
+		padding: 20px;
+		text-align: center;
+		@include border-top-radius(2px);
+
+		h1 {
+			color: #fff;
+			text-transform: none;
+		}
+	}
+
+	.share_content {
+		padding: 15px;
+		background-color: $tw_blue;
+
+		@media all and (min-width: 768px) {
+			padding-left: 25px;
+			padding-right: 25px;
+		}
+
+		.input_label {
+			display: block;
+		}
+
+		input {
+			color: #fff;
+			font-size: 0.8em;
+			@include placeholder {
+				color: #fff;
+			}
+		}
+
+		textarea {
+			@extend input;
+			height: 90px;
+			@include placeholder {
+				font-size: 1.2em;
+				color: #fff;
+			}
+		}
+
+		button {
+			margin-top: 14px;
+		}
+
+		button.send {
+			@include btn($tw_purple, 35px, 120px, 3px, 20px);
+			color: #fff;
+		}
+
+		button.cancel {
+			@include btn($grey, 35px, 120px, 3px, 20px);
+			color: $tw_dblue;
+		}
+
+		li,
+		li mark {
+			color: $tw_dblue;
+		}
+
+		li {
+			padding: 0.5em;
+		}
+	}
+}
+
+.awesomplete {
+	display: block;
+}
+
+.sharingOptions {
+	padding-left: 20px;
+	
+	input {
+		width: auto;
+		height: auto;
+	}
+
+	input[type='checkbox'] {
+		margin-bottom: 0;
+	}
+
+	.option {
+		margin-bottom: 8px;
+	}
+}
+
+.addingWorkouts {
+  padding-top: 25px;
+  @include display(flex);
+  @include flex-wrap(wrap);
+  background: white;
+  padding: 25px 10px 0 10px;
+
+
+  @media all and (min-width: 769px) {
+	  .parentWorkout:nth-child(3n+3) {
+	  	margin-right: 0;
+	  }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

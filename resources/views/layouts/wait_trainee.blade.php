@@ -16,13 +16,13 @@
     <meta name="google-site-verification" content="" />
     <!-- don't forget to set the site up: https://google.com/webmasters -->
 
-    <meta name="author" content="TrainerWorkout.com" />
+    <meta name="author" content="trainer-workout.com" />
     <meta name="robots" content="all"/>
     <meta name="distribution" content="global"/>
     <meta name="resource-type" content="document"/>
     <meta name="language" content="en-us"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+    <meta name="copyright" content="trainer-workout.com Copyright 2013. All Rights Reserved.">
     <meta name="viewport" content="width=1024" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -143,7 +143,7 @@
                     <path d="M23.55 1.45C22.637.54 21.54.086 20.26.086H4.74C3.46.085 2.363.54 1.45 1.45.54 2.363.086 3.46.086 4.74v15.52c0 1.282.455 2.378 1.366 3.29.912.91 2.008 1.365 3.29 1.365h15.52c1.282 0 2.378-.455 3.29-1.366.91-.912 1.365-2.008 1.365-3.29V4.74c0-1.282-.456-2.378-1.366-3.29zm-4.47 8.19c.01.096.015.24.015.435 0 .906-.132 1.814-.396 2.724a9.755 9.755 0 0 1-1.213 2.618 10.193 10.193 0 0 1-1.948 2.215c-.755.64-1.66 1.153-2.716 1.535a9.882 9.882 0 0 1-3.395.574 9.526 9.526 0 0 1-5.206-1.52c.26.033.528.05.808.05 1.563 0 2.97-.486 4.22-1.456a3.223 3.223 0 0 1-1.965-.68 3.45 3.45 0 0 1-1.204-1.68c.28.043.49.064.63.064.237 0 .512-.042.825-.13-.787-.15-1.45-.54-1.99-1.17a3.228 3.228 0 0 1-.807-2.158v-.033c.572.268 1.11.408 1.618.42-.98-.658-1.47-1.6-1.47-2.83 0-.603.155-1.174.467-1.713A9.623 9.623 0 0 0 8.46 9.412a9.61 9.61 0 0 0 3.91 1.05 3.122 3.122 0 0 1-.08-.775c0-.937.33-1.737.994-2.4a3.272 3.272 0 0 1 2.4-.995c.992 0 1.817.356 2.474 1.068a6.753 6.753 0 0 0 2.166-.825c-.27.83-.77 1.46-1.503 1.89.7-.096 1.353-.28 1.957-.548A6.6 6.6 0 0 1 19.08 9.64z" fill="#FFF" fill-rule="evenodd"/>
                 </svg>
             </a>
-            <a href="https://www.trainerworkout.com/blog">
+            <a href="https://www.trainer-workout.com/blog">
                 <svg width="25" height="25" viewBox="0 0 25 25" xmlns="https://www.w3.org/2000/svg">
                     <title>
                         TWSocialIcon

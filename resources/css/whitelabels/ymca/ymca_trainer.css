@@ -1,0 +1,199 @@
+h1 {
+  color: #3c3c3c; }
+
+.main_header {
+  background-color: #CC0130; }
+
+.trainer {
+  background: url("/img/whitelabels/ymca/backgroundClient.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  position: relative;
+  background-color: rgba(44, 62, 80, 0.8); }
+  .trainer .Trainer,
+  .trainer .o-wrapper {
+    background: rgba(44, 62, 80, 0.8);
+    min-height: calc( 100vh - 30px); }
+
+.searchWorkout #showButton a {
+  color: #3c3c3c; }
+
+.searchWorkout .search_group a.searchButton {
+  background-color: #5E5E63; }
+
+.addElementButton {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+#w_workoutsClient .workout_main_container,
+.workout_main_container {
+  -webkit-box-shadow: 0 3px 0 #880120, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #880120, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #880120, 0 15px 20px rgba(0, 0, 0, 0.35); }
+  #w_workoutsClient .workout_main_container:hover,
+  .workout_main_container:hover {
+    -webkit-box-shadow: 0 3px 0 #2c2c2f, 0 15px 20px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0 3px 0 #2c2c2f, 0 15px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 3px 0 #2c2c2f, 0 15px 20px rgba(0, 0, 0, 0.35); }
+  #w_workoutsClient .workout_main_container .workoutsHover,
+  .workout_main_container .workoutsHover {
+    background-color: #5E5E63;
+    -webkit-box-shadow: 0 3px 0 #2c2c2f;
+    -moz-box-shadow: 0 3px 0 #2c2c2f;
+    box-shadow: 0 3px 0 #2c2c2f; }
+  #w_workoutsClient .workout_main_container .workoutsHover_BTNContainer,
+  .workout_main_container .workoutsHover_BTNContainer {
+    background-color: #5E5E63;
+    border-right: solid 1px #2c2c2f; }
+    #w_workoutsClient .workout_main_container .workoutsHover_BTNContainer:hover,
+    .workout_main_container .workoutsHover_BTNContainer:hover {
+      border: solid 1px #2c2c2f; }
+  #w_workoutsClient .workout_main_container .workoutsHover a.WorkoutsHoverView:hover,
+  .workout_main_container .workoutsHover a.WorkoutsHoverView:hover {
+    color: #CC0130; }
+  #w_workoutsClient .workout_main_container .workout_overlay,
+  .workout_main_container .workout_overlay {
+    background-image: linear-gradient(-180deg, rgba(204, 0, 47, 0.55) 0%, #CC0130 63%); }
+
+.workoutsHover_status {
+  background-color: #CC0130; }
+
+.moreOptions_view a svg g {
+  stroke: #CC0130; }
+
+.moreOptions_view a svg path {
+  stroke: #CC0130; }
+
+.addTagBtn {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+.archive,
+.viewMore {
+  color: #CC0130; }
+
+.moreOptions_view {
+  background-color: #2C3E50;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5); }
+
+.exerciseNote .noteContainer span {
+  border: solid 1px white; }
+
+.workoutHeaderContainer {
+  background-color: #CC0130; }
+
+.cw-adding .widget {
+  background-color: #2C3E50;
+  box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.5); }
+
+.cw-adding button#completeWorkout {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+.p_form button {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35); }
+
+.exercises .addExercise {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+.btmbuttonholder .greybtn {
+  color: #CC0130; }
+
+.searchField button {
+  background-color: #CC0130; }
+
+.exerciseEdit {
+  color: #CC0130; }
+
+.addexercise .saveex {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+.client_main_container .clientsHover_BTNContainer {
+  background-color: #5E5E63;
+  border-right: solid 1px #2c2c2f; }
+  .client_main_container .clientsHover_BTNContainer:hover {
+    border: solid 1px #2c2c2f; }
+
+.reportSettings input[type="button"] {
+  color: #CC0130; }
+
+.popup_container {
+  background-color: #CC0130; }
+  .popup_container .header {
+    background-color: rgba(0, 0, 0, 0.4); }
+  .popup_container .share_content button {
+    background-color: #3c3c3c;
+    -webkit-box-shadow: 0 3px 0 #090909;
+    -moz-box-shadow: 0 3px 0 #090909;
+    box-shadow: 0 3px 0 #090909; }
+
+.employee--header button {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+.employee_table thead tr {
+  background-color: #5E5E63; }
+
+.user_options button {
+  background-color: #52D2B0;
+  -webkit-box-shadow: 0 3px 0 #279779;
+  -moz-box-shadow: 0 3px 0 #279779;
+  box-shadow: 0 3px 0 #279779; }
+
+.feedbackContainer button {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118;
+  -moz-box-shadow: 0 3px 0 #660118;
+  box-shadow: 0 3px 0 #660118; }
+
+#performanceHeader button {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35); }
+
+#step2 li {
+  background-color: #CC0130;
+  -webkit-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 3px 0 #660118, 0 15px 20px rgba(0, 0, 0, 0.35); }
+
+#jumbotron .top {
+  background: rgba(44, 62, 80, 0.8);
+  transform: skewY(0deg);
+  z-index: 5; }
+
+.accountPages {
+  background: url("/img/whitelabels/ymca/backgroundClient.jpg");
+  background-size: cover;
+  background-repeat: no-repeat; }
+  .accountPages .background {
+    background: rgba(44, 62, 80, 0.8);
+    transform: skewY(0deg);
+    width: 100%;
+    height: 100%; }
+
+#scrollNav {
+  background-color: #CC0130;
+  background-image: none; }
+  #scrollNav .action {
+    display: none; }
+
+/*# sourceMappingURL=ymca_trainer.css.map */

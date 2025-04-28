@@ -1,0 +1,46 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+@media screen and (min-width: 481px) {
+  .media-default {
+    color: #000; } }
+
+@media screen and (max-width: 480px) {
+  .media-max-width {
+    position: relative; } }
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .media-min-max-width {
+    position: relative; } }
+
+@media screen and (min-width: 481px) {
+  .change-media-context {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%; }
+    .change-media-context:last-child {
+      margin-right: 0; } }
+
+@media screen and (max-width: 480px) {
+  .change-media-context-shorthand {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%; }
+    .change-media-context-shorthand:last-child {
+      margin-right: 0; } }
+
+@media screen and (max-width: 768px) and (min-width: 110px) and (orientation: portait) {
+  .composite-media-query {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%; }
+    .composite-media-query:last-child {
+      margin-right: 0; } }
+
+/*# sourceMappingURL=media.css.map */

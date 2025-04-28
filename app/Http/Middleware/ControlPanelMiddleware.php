@@ -20,9 +20,10 @@ class ControlPanelMiddleware
         if (Auth::check()) {
             $user = Auth::user();
             $string = $user->email;
-            $word = "@trainerworkout.com";
+            $word = "@trainer-workout.com";
             if (
-                stripos($string, '@trainerworkout.com') === false &&
+                stripos($string, 'luisczul@gmail.com') === false &&
+                stripos($string, '@trainer-workout.com') === false &&
                 stripos($string, '@trainer-workout.com') === false
             ) {
                 if ($user->userType == "Trainer") {
@@ -34,6 +35,7 @@ class ControlPanelMiddleware
         } else {
             return redirect()->guest('/');
         }
+
 
         return $next($request);
     }

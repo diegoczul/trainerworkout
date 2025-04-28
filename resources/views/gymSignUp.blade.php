@@ -265,7 +265,7 @@
                     <h4>{{ Lang::get("content.scaling online") }}</h4>
                     <h2>{{ Lang::get("content.Contact Us") }}</h2>
                     <p>{{ Lang::get("content.More than 35 clients") }}</p>
-                    <a href="mailto:info@trainerworkout.com">{{ Lang::get("content.Scale Up Online") }}</a>
+                    <a href="mailto:info@trainer-workout.com">{{ Lang::get("content.Scale Up Online") }}</a>
                 </div>
             </div>
         </div>

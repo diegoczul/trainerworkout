@@ -1,0 +1,218 @@
+
+/* ===============  This file style the profile page of trainers and trainees ===============
+=============================================================================================*/
+// Mobile first approach is used
+$profileBreakPoint: 600px;
+
+
+.profile {
+	text-align: center;
+
+	.wrapper {
+		padding: 0 20px;
+		@media all and (min-width: $profileBreakPoint) {
+			margin-top: 50px;
+		}
+	}
+
+	.profileImg {
+		border: none;
+		display: block;
+		height: auto;
+		width: auto;
+		bottom: 100%;
+		padding: 5px;
+		position: absolute;
+		margin: auto;
+	}
+
+	.img {
+		@media all and (min-width: 737px) {
+			.profileImage {
+				height: 130px;
+				width: 130px;
+			}
+		}
+	}
+
+	.img {
+		text-align: center;
+		overflow: hidden;
+		position: relative;
+
+		p{
+			color: #fff;
+			font-size: 0.8em;
+			line-height: 1.5em;
+			cursor: pointer;
+		}
+	}
+
+	form {
+		text-align: left;
+		margin-bottom: 10px;
+		max-width: 374px;
+		margin: auto auto;
+		padding-top: 9px;
+
+		@media all and (min-width: $profileBreakPoint) {
+			max-width: 1000px;
+		}
+ 	}
+
+	label{
+	    font-size: 0.8em;
+	    line-height: 1.6em;
+	    padding-left: 3px;
+	    
+
+	    .profileImage {
+	    	border: none;
+	    	width: 100px;
+	    	height: 100px;
+	    }
+	}
+
+	input {
+		color: #fff;
+		font-size: 0.8em;
+
+		@include placeholder {
+			color: #fff;
+			font-size: 0.8em;
+		}
+	}
+
+	button {
+		@include btn($tw_purple, 40px, 120px);
+		font-size: 1em;
+		letter-spacing: 0.12em;
+	}
+
+	.showInput {
+		border-color: rgba(255,255,255,0);
+		background-color: rgba(255,255,255,0.2);
+		cursor: pointer;
+		@include transition(all, 0.2s);
+
+		&:focus {
+			border-color: rgba(255,255,255,0.2);
+			background-color: transparent;
+			cursor: auto;
+		}
+	}
+
+	.saveButton {
+		text-align: center;
+		padding: 20px 0;
+		// height: 14vh;
+		@include display(flex);
+		@include align-items(center);
+		@include justify-content(center);
+	}
+
+	a {
+		font-size: 1em;
+		color: #fff;
+		margin: 10px 0;
+		display: block;
+	}
+}
+
+#editImg {
+	margin-top: 15px;
+}
+
+.p_form button {
+	@include btn($tw_purple, 40px, auto);
+	font-size: 1em;
+	letter-spacing: 0.12em;
+	padding: 0 20px;
+}
+
+
+.p_Container.profile {
+	label {
+		text-align: left;
+	}
+}
+
+@media all and (min-width: $profileBreakPoint) {
+	.profileContainer {
+		@include display(flex);
+		@include justify-content(center);
+	}
+
+	.profileImagesCol {
+		width: 40%;
+		max-width: 300px;
+		min-width: 200px;
+		padding-right: 20px;
+		margin-right: 30px;
+
+		label {
+			display: block;
+			text-align: center;
+			font-size: 1.25em;
+			font-weight: 500;
+		}
+
+		label.profilePictureContainer {
+			margin-bottom: 10px;
+		}
+	}
+
+	.profileInputsCol {
+		min-width: 350px;
+		width: 40%;
+		@include display(flex);
+    	@include flex-direction(column);
+    	@include justify-content(flex-end);
+	}
+}
+
+
+.logoProfileContainer .logoProfile {
+	border-radius: 0;
+	width: 120px; 
+	height: 100px;
+}
+
+.editImgContainer {
+	@include display(flex);
+	@include align-items(center);
+	margin-top: -7px;
+
+	a:first-of-type {
+		margin: 0;
+		margin-left: auto;
+	}
+
+	a:last-of-type {
+		margin: 0;
+		margin-right: auto;
+	}
+
+	#editImg {
+		margin: 0;
+		margin: auto 10px;
+		text-decoration: underline;
+		font-size: 0.9em;
+		@media all and (min-width: $profileBreakPoint) {
+			font-size: 0.7em;
+		}
+	}
+}
+
+#editImgLogo {
+	text-decoration: underline;
+	font-size: 0.9em;
+	@media all and (min-width: $profileBreakPoint) {
+		font-size: 0.7em;
+	}
+}
+
+
+
+
+

@@ -18,7 +18,7 @@ return [
     'whitelabel_css_trainee' => '/css/whitelabels/ymca/ymca.css',
     'whitelabel_css_trainer' => '/css/whitelabels/ymca/ymca_trainer.css',
     'brand' => 'Trainer Workout',
-    'feedbackEmail' => 'info@trainerworkout.com',
+    'feedbackEmail' => 'info@trainer-workout.com',
     'overrideViews' => array(),
 
     /*

@@ -1,0 +1,1495 @@
+/*  ================     Perform Section    ======================
+========================================================================*/
+
+
+#performanceHeader {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: $tw_dblue;
+	padding: 10px 0;
+	text-align: center;
+
+    @media all and (min-width: $fixedMenuBreakPoint) {
+		padding-left: $fixedMenuWidth;
+	}
+
+	button {
+		@include btn($tw_orange, 40px, auto, 0, 18px);
+		font-size: 1.5em;
+	}
+}
+
+.performanceHeader-Active {
+	height:100vh;
+	background: transparent !important;
+}
+
+#step1 {
+	position: relative;
+
+	@media (min-width: $performanceBreakPointMd) {
+		padding: 0 20px;
+	}
+
+	button {
+		@media (min-width: $performanceBreakPointMd) {
+			float: right;
+		}
+
+		@media (min-width: $performanceBreakPointLg) {
+			float: none;
+		}
+	}
+}
+
+#timer {
+	min-height: 50px;
+
+
+	@media (min-width: $performanceBreakPointMd) {
+		float: left;
+	}
+
+	@media (min-width: $performanceBreakPointLg) {
+		position: absolute;
+		left: 10px;
+		top: 0;
+		bottom: 0;
+		float: none;
+	}
+
+	input[type="button"] {
+		border: none;
+		margin: 0;
+		padding: 0;
+		opacity: 0;
+		color: white;
+		position: absolute;
+		left: 0;
+	}
+
+	.timerButton {
+		position: relative;
+		height: 40px;
+		display: inline-block;
+
+		@media (min-width: $performanceBreakPointLg) { 
+			float: left;
+		}
+
+		input {
+			z-index: 5;
+			text-align: center;
+			padding-left: 30px;
+			@include btn($tw_green, 40px, auto, 0 ,12px);
+		}
+
+		label {
+			@include btn($tw_green, auto, auto, 9px, 12px);
+			padding-left: 41px;
+			position: relative;
+
+			&::before {
+				content: url("/img/svg/timer.svg");
+				position: absolute;
+				left: 12px;
+				top: 6px;
+			}
+		}
+	}
+
+	label,
+	#n1,
+	a {
+		margin-left: 5px;
+		color: white;
+		display: inline-block;
+
+		@media (min-width: $performanceBreakPointLg) { 
+			float: left;
+		}
+	}
+
+	#n1,
+	label {
+		font-size: 1em;
+	}
+
+	#n1 {
+		margin-top: 11px;
+	}
+
+	a {
+		font-size: 0.8em;
+		text-decoration: underline;
+		margin-top: 12px;
+	}
+}
+
+
+.overlayPerform {
+    overflow-y: scroll;
+    left: 0;
+    right: 0;
+    top: -100vh;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    position: relative;
+    background: rgba(44, 62, 80, 0.98);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+	z-index: 5000;
+
+	@include display(flex);
+	@include justify-content(center);
+	@include align-items(center);
+
+	&-active {
+		top: 0 !important;
+	    height: 100%;
+	    width: 100%;
+	    opacity: 1;
+    	padding: 100px 10px 80px 10px;
+	}
+
+	form {
+		width: 100%;
+		height: 100%;
+		@include display(flex);
+		@include justify-content(center);
+		@include align-items(center);
+	}
+}
+
+.performOptions {
+	border-radius: 2px;
+	border: rgba(255, 255, 255, 0.10) 2px solid;
+	background: $tw-dblue;
+	padding: 20px;
+	width: 100%;
+	max-width: 450px;
+	@include transform(translateY(-100vh));
+	@include transition(transform 0.3s ease-in);
+	margin: auto auto;
+	z-index: 10000;
+	position: relative;
+
+	&-active {
+		@include transform(translateY(0));
+	}
+
+	svg {
+		position: absolute;
+		cursor: pointer;
+		top: 10px;
+		right: 10px;
+	}
+
+	h3 {
+	    color: #fff;
+	    font-weight: 500;
+	    margin-bottom: 20px;
+	}
+}
+
+#step2 li {
+	display: block;
+	background-color: $tw_blue;
+	height: 55px;
+	color: white;
+	font-size: 1em;
+	width: 100%;
+	margin-bottom: 10px;
+	position: relative;
+	cursor: pointer;
+	padding: 5px 10px;
+	cursor: pointer;
+	@include box-shadow(0 2px 2px rgba(0,0,0,0.35));
+	@include transition(all .1s ease-out);
+
+	&:active,
+	&:hover {
+		@include box-shadow(0 0 0 rgba(0,0,0,0));
+		@include transform(translateY(2px));
+	}
+
+	input[type="radio"] {
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	label {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 55px;
+		cursor: pointer;
+		padding: 0;
+		@include display(flex);
+
+		p {
+			font-size: 1.2em;
+			margin: auto auto auto 0;
+			padding: 0 10px;
+			width: 100%;
+		}
+	}
+}
+
+#step3 {
+	display: none;
+
+
+	textarea {
+		width: 100%;
+		border-radius: 2px;
+		min-height: 200px;
+		box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.50);
+		padding: 10px;
+		font-size: 1em;
+		background-color: white;
+		-webkit-transform: translate(0px);
+
+		&:focus {
+			background-color: white;
+		}
+	}
+
+	label {
+		margin-right: 4px;
+	}
+
+	input {
+		width: 80px;
+		padding-right: 35px;
+		text-align: right;
+		color: white;
+	}
+
+	.minUnit {
+		color: white;
+		margin-left: -34px;
+	}
+
+	.submit {
+		padding: 20px;
+	}
+}
+
+
+
+
+
+
+
+/*  ================     Header and tag of workout    ======================
+========================================================================*/
+.moreOptions_view {
+	position: fixed;
+	top: $mainHeader_height;
+	left: 0;
+	right: 0;
+	height: $workoutOptions_height;
+	z-index: 40;
+	background-color: $workoutOptions_bg_color;
+	@include display(flex);
+	@include justify-content(center);
+
+	@media all and (min-width: $fixedMenuBreakPoint) {
+		padding-left: $fixedMenuWidth;
+	}
+
+	a {
+		margin-bottom: auto;
+		margin-top: auto;
+		display: block !important;
+	}
+}
+
+.tag {
+	margin-top: 20px + $workoutOptions_height;
+	text-align: center;
+}
+
+.addTagBtn {
+	margin-top: 14px;
+	@include btn($tw_blue, auto, auto, 8px, 12px);
+	line-height: 20px;
+	svg {
+		margin-right: 8px;
+		padding-top: 2px;
+	}
+}
+
+.tags {
+	display: block;
+	margin-top: 15px;
+	padding: 10px;
+	text-align: left;
+
+	@media all and (min-width: $small_to_medium) {
+		@include outer-container;
+
+		.clientTags, 
+		.tagsTags {
+			@include span-columns(6);
+		}
+	}
+
+
+	label {
+		font-size: 0.9em;
+		color: $grey;
+		text-transform: uppercase;
+	}
+
+	input {
+		background: #fff;
+		box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.25);
+	}
+
+	.sizedown {
+		font-size: 1.2em;
+		text-transform: none;
+		padding: 8px 0;
+	}
+}
+
+
+#w_tagsWorkout {
+	text-align:left;
+	margin-top:10px;
+	padding: 10px;
+	@include clearfix;
+}
+
+#w_add_tags {
+	display: none;
+	@include clearfix;
+}
+
+.activeLogo {
+	width: 85px;
+	height: 85px;
+}
+
+.companyLogo {
+	width: 85px;
+	// height: 85px;
+}
+
+.viewWorkoutHeader {
+	// @include display(flex);
+	// @include justify-content(space-between);
+	// @include flex-wrap(wrap);
+	padding: 0 20px;
+	min-height: 190px;
+
+	.top {
+		@include display(flex);
+		@include justify-content(space-between);
+	}
+
+
+	@media all and (min-width: $medium_to_large) {
+		& {
+			@include flex-wrap(nowrap);
+		}
+	}
+
+	.ptLogo_form{
+		@include order(1);
+		min-width: 100px;
+	}
+
+
+	&_info {
+		@include flex-grow(2);
+		@include order(2);
+
+		h2, h3, h4, {
+			color: $viewWorkoutTitles_color;
+		}
+
+		h2, h3 {
+			max-width: 95%;
+			text-overflow: ellipsis;
+			margin-top: 15px;
+		}
+
+		h4 {
+			padding-bottom: 20px;
+			text-align: justify;
+			line-height: 1.2em;
+			font-size: 0.9em;
+			word-wrap: break-word;
+		}
+
+		hr {
+			margin: 15px 0 3px 0;
+			border: none;
+			border-bottom: 1px solid $grey;
+		}
+	}
+
+	@media all and (min-width: $small_to_medium) {
+		&_info {
+			padding: 0 20px;
+		}
+	}
+
+	@media all and (min-width: $medium_to_large) {
+		&_info {
+			@include order(1);
+		}
+	}
+
+
+	&_powered {
+		@include display(flex);
+		@include flex-direction(column);		
+
+		span {
+			font-size: 1.1em;
+			color: $tw_dblue;
+
+			.internal & {
+				color: white;
+				margin-bottom: 5px;
+			}
+		}
+	}
+}
+
+
+/*  ======================     Exercises    =============================
+========================================================================*/
+
+
+/* ======     Legend & Color    ==========
+==========================================*/
+
+
+.lgContainer {
+	width: 300px;
+	margin:	15px auto;
+	@include display(flex);
+}
+
+.lgContainer h4 {
+	margin: 0;
+	line-height: 40px;
+	color: white;
+}
+
+.lg-circuit,
+.lg-cardio,
+.lg-muscle {
+	text-align: center;
+	width: 33%;
+}
+
+.circuit .notification,
+.circuit .unitToggleControl:after,
+.circuit table thead th,
+.circuit .hd,
+.lg-circuit {
+	background-color: $tw_dblue;
+}
+
+.overlayMessage .notification,
+.cardio .notification,
+.cardio .unitToggleControl:after,
+.cardio table thead th,
+.cardio .hd,
+.lg-cardio {
+	background-color: $tw_orange;
+}
+
+.muscle .notification,
+.muscle .unitToggleControl:after,
+.muscle table thead th,
+.muscle .hd,
+.lg-muscle {
+	background-color: $tw_blue;
+}
+
+.muscle, 
+.cardio,
+.circuit {
+	position: relative;
+}
+
+
+
+
+/**  Containers & layout  **/
+
+.exercise {
+	margin-top: 30px;
+	@include box-shadow(0px 3px 6px rgba(0,0,0,0.3));
+	@include border-top-radius(2px);
+	background: white;
+
+	.trainer & {
+		padding: 1px;
+	}
+
+	h5 {
+		font-size: 20px;
+		color: #FFFFFF;
+		font-weight: 400;
+	}
+}
+
+.exercise_Header {
+	width: 100%;
+	height: $exercise_header_height;
+	@include display(flex);
+	@include border-top-radius(2px);
+	@include align-items(center);
+
+	&_imgContainer {
+		width: 60px;
+		padding: 5px;
+		text-align: center;
+
+		img {
+			width: 25px;
+			height: 25px;
+			background-color: #fff;
+		}
+	}
+}
+
+.cardio {
+	.exercise_Header {
+		background-color: $tw_orange;
+	}
+}
+
+.muscle {
+	.exercise_Header{
+		background-color: $tw_blue;
+	}
+}
+
+
+/******* Exercise Description *******/
+
+.exeInfo {
+	padding: 20px;
+	@include display(flex);
+    @include flex-direction(column);
+
+    @media all and (min-width: $superSmall_to_small ) {
+    	& {
+    		@include flex-direction(row);
+    	}
+    }
+
+	.ptAddingNote{
+	    position: fixed;
+	    top: 0;
+    }
+}
+
+
+// add trainee notes view style
+.exerciseNote{
+	position:absolute;
+	top:100px;
+	.noteContainer{
+		position:relative;
+		span{
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			border-radius: 50%;
+			text-align: center;
+			background-color: $tw_dblue;
+			color: white;
+			position:absolute;
+			top: -3px;
+			right: -1px;
+		}
+	}
+	.note p::after {
+        content: "";
+	    position: absolute;
+	    z-index:-1;
+	    bottom: -8px;
+	    left: 1px;
+	    border: 0;
+	    border-right: 5px;
+	    height: 10px;
+	    border-bottom-right-radius: 10px 20px;
+	    border-style: solid;
+	    border-color: rgba(44, 62, 80, 0.95);
+	    display: block;
+	    width: 0;
+	}
+	.note p::before {
+		z-index:-2;
+        content: "";
+	    position: absolute;
+	    bottom: -8px;
+	    left: 3px;
+	    border: 0;
+	    border-right-width: 25px;
+	    border-top-width: 10px;
+	    border-style: solid;
+	    border-color: #fff transparent;
+	    display: block;
+	    width: 0px;
+	}
+}
+
+
+.traineePicContainer{
+	width:100%;
+	position:relative;
+}
+.traineeNote{
+	width:50px;
+	height:auto;
+	border-radius:50%;
+}
+
+.trainerProfilePic{
+	position: absolute;
+	top: 15px;
+	left: -17px;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-color: #fff;
+}
+
+
+
+.viewExerciseNotes{
+	width: 90%;
+	margin: auto;
+	margin-top: 40%;
+	// height: 80%;
+	background-color: #fff;
+	padding:10px;
+	border-radius: 10px;
+	position:relative;
+	line-height: 130%;
+}
+
+.circuit .cExercise_header_bottom {
+	border-top: 1px solid #DADADA;
+}
+
+
+.exeDescription {
+	cursor: pointer;
+	@include flex-basis(80%);
+
+	&_Exp {
+		height: 20px;
+		width: 20px;
+		background-color:$exerciseDescriptionBox_color;
+		@include display(inline-flex);
+
+		svg {
+			margin: auto;
+
+			g path {
+				transition: .3s ease-in;
+			}
+		}
+	}
+
+	p {
+		color: darken($exerciseDescriptionBox_color,50%);
+		display: inline-block;
+		margin: 0;
+		font-size: 12px;
+	}
+
+	&_full {
+		padding: 10px 55px 10px 10px;
+		display: none;
+
+		.internal & {
+			padding: 0;
+		}
+		@media (min-width: $small_to_medium) {
+			padding-right: 0;
+		}
+
+	}
+
+	@media (min-width:$desktop_breakPoints) {
+		& {
+			margin: 20px;
+
+			.internal & {
+				margin: 0;
+				padding-top: 5px;
+			}
+		}
+	}
+
+	h4 {
+		font-weight: 500;
+	}
+
+}
+
+.exerciseDescriptionShow {
+	transform: translateY(1000%);
+}
+
+.exeData {
+	width: 100%;
+
+	&_top {
+		@include display(flex);
+		padding-right: 5px;
+		padding-bottom: 8px;
+	}
+	.tbInt {
+	    max-width: 95%;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    word-wrap: normal;	
+	    padding-left: 4px;
+	}
+
+	tbody th,
+	tbody td {
+		vertical-align: middle;
+	}
+
+	@media all and ( min-width: 768px) {
+		width: 55%;
+		align-self: flex-end;
+	}
+
+	.internal & {
+		display: inline-block;
+		width: 58%;
+		zoom: 1;
+		vertical-align: bottom;
+		overflow: visible;
+		 -ms-overflow-style: none;
+	}
+}
+
+
+
+
+
+/*******   Unit Switcher  *********/
+
+.unitSwitcherContainer {
+	@include display(flex);
+	@include justify-content(flex-end);
+	@include flex-basis(20%);
+	@include flex-grow(1);
+
+	p {
+		line-height: 20px;
+		color: $exerciseDescriptionAlternate;
+		margin-bottom: auto;
+	    margin-top: auto;
+	    font-size: 0.8em;
+	}
+
+	// p:first-child {
+	// 	padding-right: 5px;
+	// }
+
+	// p:last-child {
+	// 	padding-left: 5px;
+	// }
+	label{
+		padding: 0 5px 0 5px;
+	}
+}
+
+.unitToggleLabel {
+	margin-bottom: auto;
+	margin-top: auto;
+	padding: 0;
+	cursor: pointer;
+
+	input {
+		display: none;
+	}
+}
+
+.circuit .exercise_Header_container {
+	.unitSwitcherContainer {
+		p {
+			color: #fff;
+		}
+
+		.unitToggleControl {
+			background-color: #fff;
+			border: 1px solid #fff;
+		}
+
+		.unitToggleControl:after {
+			// border: 1px solid #fff;
+			background-color: $tw_blue;
+			top: -6px;
+			left: -2px;
+			height: 16px;
+			width: 16px;
+		}
+	}
+}
+
+
+.unitToggleControl {
+	width:25px;
+	height:6px;
+	display:block;
+	border-radius: 6px;
+	background-color: $grey;
+	position: relative;
+	@include transition(.2s ease-in);
+
+	&:after {
+		content: "";
+		width: 14px;
+		height: 14px;
+		display: block;
+		border-radius: 50%;
+		position: absolute;
+		left: 0;
+		top: -4px;
+		@include transition(.2s ease-in);
+	}
+}
+
+
+.unitToggleInput:checked + .unitToggleControl:after {
+	@include transform(translateX(11px));
+}
+
+
+.respExeContainer {
+	@include display(flex);
+	@include flex-direction(column);
+	margin-top: 10px;
+
+	@media all and (min-width: $medium_to_large) {
+		@include flex-direction(row);
+		padding-right: 10px;
+		padding-bottom: 10px;
+	}
+
+	.internal & {
+		display: block;
+		width: 100%;
+		@include clearfix;
+		overflow: auto;
+		zoom: 1;
+		clear: both;
+		overflow: visible; 
+		-ms-overflow-style: none;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Exericise Image  */
+
+.exerciseImageTab {
+	width: 100%;
+	@include display(flex);
+	@include flex-direction(row);
+
+}
+
+
+.exerciseVideoTab {
+	padding: 0 5px;
+	width: 100%;
+	@include display(flex);
+}
+
+
+@media all and (min-width: $medium_to_large) {
+.exerciseVisualContainer {
+		width: 45%;
+	}
+}
+
+.exercise_image_container{
+
+	.internal & {
+		width: 40%;
+		display: inline-block;
+		text-align: center;
+		zoom: 1;
+	}
+
+	a {
+		@include display(flex);
+		@include flex-basis(50%);
+		@include flex-grow (1);
+		@include align-items(flex-end);
+		@include justify-content(center);
+		height: auto;
+		text-align: center;
+		padding: 0px 5px;
+
+		.internal & {
+			display: inline-block;
+			width: 49%;
+			vertical-align: bottom;
+		}
+
+		img {
+			width: 100%;
+			max-width: 250px;
+			height: auto;
+			vertical-align: bottom;
+		}
+	}
+}
+
+
+
+/* TEMPO */
+.exeTempo {
+	display: inline-block;
+	margin-left: 10px;
+
+	@media all and (min-width: $medium_to_large) {
+		margin-left: 0;	}
+
+	p {
+		color: #2C3E50;
+		line-height: 16px;
+		padding: 2px 4px;
+		background-color: $exerciseDescriptionBox_color;
+		display: inline-block;
+	    min-width: 25px;
+	    text-align: center;
+	    font-size: 0.6em;
+	    margin: 1em 0;
+	    margin-right: -3px;
+	}
+}
+
+
+/* ======     Tables
+====================================*/
+
+/*   Data Table for Cardio  */
+
+.tbInt {
+	@include column-width(8vw);
+	p {
+		@include ellipsis(95%);
+		display: block;
+		padding-left: 4px
+	}
+}
+
+.tbHr {
+	width: 20%;
+	// padding-right: 17px;
+}
+
+.tbSpeed {
+	width: 20%;
+}
+
+.tbDist {
+	width: 20%;
+}
+
+.tbTime {
+	width: 20%;
+}
+
+
+/*   Data Table for Muscle  */
+
+.tbMode,
+.tbSet {
+	width: 15%;
+}
+
+.tbRep,
+.tbRepType,
+.tbWeight {
+	width: 20%;
+}
+
+
+
+
+/*    RESPONSIVE MUSCLE    */
+@media all and ( min-width: $medium_to_large) {
+
+	.muscle .exeData {
+		margin-top: 50px;
+	}
+
+	.cardio .exeData {
+		margin-top: 61px;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+/*  =======================     Circuit    =============================
+========================================================================*/
+
+.circuit {
+	&::before {
+		height: calc(100% - 40px);
+		position: absolute;
+		content: "";
+		width: 1px;
+		background: $tw_dblue;
+		top: 1px;
+		left: 25px;
+
+		@media (min-width:400px) {
+			& {
+				left: 30px;
+			}
+		}
+	}
+
+	.exercise_Header_btw {
+		@include display(flex);
+		@include justify-content(space-between);
+		width: 100%;
+
+		.internal & {
+			// @include outer-container;
+			padding: 10px 0;
+			display: block;
+		}
+
+	}
+ 
+	.exercise_Header{
+		background-color: $tw_dblue;
+		height: $exercise_header_circuit_height;
+		position: relative;
+		@include flex-direction(column);
+
+		.internal & {
+			height: auto;
+		}
+
+		h2 {
+			color: white;
+			font-weight: lighter;
+			width: 100%;
+			text-align: center;
+			margin: 10px 0;
+		}
+
+		.circuitInfo {
+			margin-top: 0;
+		}
+
+		&_container:first-child {
+			@include display(flex);
+			padding-left: 20px;
+
+		}
+
+		&_container:last-child {			
+			display: none;
+
+			@media (min-width: 500px) {
+				& {
+					@include justify-content(flex-end);
+					@include display(flex);
+					padding-right: 20px;
+				}
+			}
+		}
+
+
+		.internal &_container {
+			// @include span-columns(6);
+			display: inline-block;
+			width: 49%;
+			
+
+			&last-child {
+				display: block;
+			}
+		}
+	}
+}
+ 
+
+.circuitDetails {
+	@include display(flex);
+	@include justify-content(flex-end);
+
+	h3 {
+		color: white;
+	    margin-top: auto;
+	    margin-bottom: auto;
+
+	}
+}
+
+.circuitImg {
+	position: relative;
+	margin-left: 20px;
+	height: 50px;
+	width: 170px;
+	margin: auto 10px;
+
+	.internal & {
+		width: 50px;
+	}
+
+	img {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+		background-color: #fff;
+		position: absolute;
+		top: 0;
+	}
+}
+
+
+.circuitImg img:nth-child(1) {
+	z-index: 1;
+	left: 0;
+}
+
+.circuitImg img:nth-child(2) {
+	z-index: 2;
+	left: 40px;
+}
+
+.circuitImg img:nth-child(3) {
+	z-index: 3;
+	left: 80px;
+}
+
+.circuitImg img:nth-child(4) {
+	z-index: 4;
+	left: 120px;
+}
+
+
+.roundCircle {
+	border: 2px solid white;
+	border-radius: 50%;
+	height: $exercise_header_circuit_height * 0.65;
+	width: $exercise_header_circuit_height * 0.65;
+	@include display(flex);
+	@include flex-direction(column);
+	color: white;
+	margin: auto 10px;
+	text-align: center;
+	float: left;
+
+	&_info {
+		margin: auto;
+
+		p {
+			font-weight: 500;
+			font-size: 1.2em;
+		}
+
+		span {
+			text-transform: uppercase;
+			font-size: 0.5em;
+		}
+	}
+
+}
+
+.circuitContainer{
+	padding-bottom:20px;
+}
+
+
+/* Table size of circuit */
+
+.tbRound {
+	width: 16%;
+}
+
+.circuit {
+	.tbRep, 
+	.tbWeight {
+		width: 35%;
+	}
+
+	.tbRepType {
+		width: 24%;
+	}
+}
+
+
+.cExercise {
+	position: relative;
+	@include border-top-radius(2px);
+
+	.cExercise_header{
+		padding-left: 12px;
+		padding-right: 55px;
+	}
+
+	&_header {
+		padding: 10px 20px 0 7px;
+
+		&_icon {
+			.svgImg,
+			svg {
+				height: 36px;
+				width: 36px;
+			}
+
+			@media all and (min-width: 400px) {
+				.svgImg,
+				svg {
+					height: 35px;
+					width: 35px;
+				}
+			}
+		}
+		
+
+		&_top {
+			@include display(flex);
+			@include flex-direction(row);
+			@include align-items(center);
+
+			p {
+				font-weight: 500;
+				font-size: 1.8em;
+				margin-left: 10px;
+				color: $tw_dblue;
+
+				span {
+					display: none;
+					font-weight: 300;
+					font-size: 16px;
+
+					@media all and (min-width: 400px) {
+						& {
+							display: inline;
+						}
+					}
+				}
+			}
+
+			img {
+				margin-left: 10px;
+				height: 24px;
+				width: 24px;
+			}
+
+			h5 {
+				margin-left: 10px;
+				color: $tw_dblue;
+			}
+		}
+
+		&_bottom {
+			margin-left: 38px;
+			margin-top:8px;
+		}
+
+		&_info {
+			@include display(flex);
+			@include flex-direction(row);
+			@include align-items(center);	
+		}
+	}
+
+	.exerciseVisualContainer {
+		padding-left: 31px;
+		padding-right: 10px;
+		margin-top: 10px;
+
+		@media all and (min-width: 768px) {
+			width: 52%;
+		}
+	}
+
+	.exercise_image_container {
+		.internal & {
+			width: 40%;
+		}
+	}
+
+	
+	.exeData {
+		@media all and (min-width: 768px) {
+			width: 48%;
+		}
+
+		.internal & {
+			width: 58%;
+		}
+	}
+}
+
+.exerciseVisualContainer {
+	.tabSwitcherContainer {
+		padding-left: 6px;
+		margin-bottom: 10px;
+	}
+}
+
+.tabs{ display: none; }
+
+
+
+.restBtwExe {
+	@include display(flex);
+	@include justify-content(center);
+	height: 40px;
+	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.25);
+	margin: 15px 10px;
+	position: relative;
+
+	.svgImg,
+	svg {
+		margin: auto 0;
+	}
+
+	h5 {
+		color: $tw_dblue;
+		padding-left: 2%;
+		margin: auto 0;
+	}
+}
+
+
+
+/* Rest between exercises in circuits */
+
+.exercise .cExercise:last-of-type {
+		// display: none;
+		// background-color: red;
+	}
+
+.circuitRestBtwExe {
+	border: 1px $tw_dblue solid;
+	@include border-left-radius(20px);
+	margin-left: 10px;
+	margin-top: 20px;
+	margin-bottom:10px;
+	height: 36px;
+	width: 96%;
+	text-align: center;
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
+	position: relative;
+    padding-left: 36px;
+    background-color: #fff;
+
+	p {
+		line-height: 36px;
+		color: $tw_dblue;
+		@media all and (max-width: $superSmall_to_small){
+			font-size: 12px;
+		}
+	}
+
+	.svgImg,
+	svg{
+		border-radius:50%;
+		position: absolute;
+		height: 40px;
+		width: 40px;
+		left: -2px;
+		top: -2px;
+	}
+
+}
+
+.endCircuit {
+	@extend .circuitRestBtwExe
+}
+
+
+
+
+.workoutHeaderImage {
+	@include display(flex);
+	.internal & {
+		display: block;
+		width: 100%;
+		@include outer-container;
+	}
+
+	.one_sixth:first-child {
+		text-align: left;
+	}
+}
+
+.one_sixth {
+	width: 100% / 6 * 1;
+	.internal & {
+		width: 20%;
+		display: inline-block;
+		zoom: 1;
+	}
+}
+
+.four_sixth {
+	width: 100% / 6 * 4;
+	.internal & {
+		width: 56%;
+		display: inline-block;
+		zoom: 1;
+
+		h1 {
+			margin-bottom: 10px;
+		}
+	}
+}
+

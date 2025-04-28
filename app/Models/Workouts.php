@@ -517,6 +517,15 @@ class Workouts extends Model
             $html = "";
         }
 
+        // 🛠 Add Debug
+        logger()->info('[getImagePDF] Using snappy binary:', [
+            'pdf_binary' => config('snappy.pdf.binary'),
+            'image_binary' => config('snappy.image.binary'),
+        ]);
+        logger()->info('[getImagePDF] HTML size:', [
+            'length' => strlen($html),
+        ]);
+
         $pdf = SnappyPdf::loadHtml($html);
 
         if (trim($this->name) != "") {
@@ -531,6 +540,11 @@ class Workouts extends Model
         }
 
         $pdf->save($name_temp);
+
+        logger()->info('[getImagePDF] PDF generated at:', [
+            'path' => $name_temp,
+            'exists' => File::exists($name_temp),
+        ]);
 
         return $name_temp;
     }

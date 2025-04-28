@@ -1,0 +1,512 @@
+.pricingContainer {
+	@include display(flex);
+	@include justify-content(center);
+	@include flex-direction(column);
+	@include align-items(center);
+	width: 100%;
+
+	@media (min-width: $pricing1_row) {
+		@include flex-direction(row);
+
+	}
+}
+
+.modified-wrapper {
+	@include display(flex);
+	@include justify-content(center);
+	@include align-items(center);
+	@include flex-direction(column);
+}
+
+
+.background {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: skewY(-10deg);
+    transform-origin: 0;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.parentHolderTab {
+	position: relative;;
+}
+
+#jumbotron {
+	// min-height: 90vh;
+	position: relative;
+
+	.base {
+		@include radial-gradient(31% 69%, #20BAFB 24%, #04A2E4 100%);
+	}
+
+	.content {
+		height: 90vh;
+		max-height: 900px;
+		min-height: 650px;
+		@include display(flex);
+		@include align-items(center);
+		position: relative;
+
+		@media (orientation: landscape) and (max-width:768px) {
+			height: 120vh;
+		}
+	}
+
+	h1 {
+		color: white;
+		max-width: 805px;
+	    margin-top: 45px;
+
+	    @media (min-width: $jumboSwitch) and (orientation: portrait) {
+	    	margin-top: 0;
+	    }
+
+		@media (min-width:$footerBreak_third) {
+			width: 75%;
+		}
+	}
+
+	p {
+		color: white;
+		margin-bottom: 40px;
+		text-align: justify;
+
+		@media(min-width: 450px) {
+			width: 60%;
+			margin-bottom: 60px;
+		}
+
+		@media(min-width: $footerBreak_second) {
+			width: 50%;
+		}
+	}
+
+	a.action{
+		font-size: 1.2em;
+		padding: 12px 20px;
+
+		@media (min-width:$two_columnDisplay) {
+			font-size: 1.5em;
+		}
+
+		@media (min-width: $dude) {
+			font-size: 1.625em;
+		}
+	}
+}
+
+
+.info {
+	margin-top: 40px;
+
+	@media (min-width: $two_columnDisplay) {
+		max-width: 47%;
+		margin-top: 0;
+	}
+
+	p {
+		text-align: center;
+
+		@media (min-width:$two_columnDisplay){
+			text-align: right;
+			margin-left: auto;			
+		}
+
+	}
+}
+
+
+.topSectionContent {
+	max-width: 700px;
+	margin: 0 auto 40px auto;
+
+	@media (min-width: $dude) {
+		margin-bottom: 65px;
+	}
+
+	h1,
+	p {
+		text-align: center;
+	}	
+}
+
+
+.plan-b, 
+.plan-a {
+	text-align: center;
+	border-radius: 8px;
+	padding: 35px 30px 30px 30px;
+
+	@media (min-width: $pricing1_row) {
+		border-radius: 2px;
+		padding: 30px 25px 25px 25px;
+		min-height: 400px;
+		@include display(flex);
+		@include flex-direction(column);
+	}
+
+	@media (min-width: $pricing2) {
+		padding: 35px 40px 30px 40px;
+	}
+
+	p,
+	h4 {
+		font-size: 1.625em;
+		text-align: center;
+		font-weight: 300;
+	}
+
+	h2 {
+		font-size: 2.25em;
+		margin-bottom: 15px;
+	}
+
+	h4 {
+		margin-bottom: 50px;
+		@media (min-width: $pricing1_row) {
+			margin-bottom: 70px;
+		}
+	}
+
+	p {
+		margin-bottom: 45px;
+		@media (min-width: $pricing1_row) {
+			margin-bottom: 60px;
+		}
+	}
+}
+
+.plan-b {
+	background-color: $tw_dblue;
+	width: calc(100vw - 20px);
+	max-width: 450px;
+
+	@media (min-width: $pricing1_row) {
+		width: 33%;
+	}
+
+	@media (min-width: $pricing2) {
+		min-width: 400px;
+	}
+
+	h2, h4, p {
+		color: white;
+	}
+
+	a,
+	button {
+		@include btn($tw_green, auto, auto, 8px, 16px);
+		font-size: 1.625em;
+		margin-top: auto;
+		margin-right: 15px;
+		margin-left: 15px;
+	}
+	
+	&:first-child {
+		padding-bottom: 56px;
+		margin-bottom: -15px;
+
+		@media (min-width: $pricing1_row) {
+			margin-right: -28px;
+			margin-bottom: 0;
+			padding-bottom: 30px;
+		}
+
+		@media (min-width: $pricing2) {
+			margin-right: -40px;
+		}		
+	}
+
+	&:last-child {
+		padding-top: 56px;
+		margin-top: -15px;
+
+		@media (min-width: $pricing1_row) {
+			margin-left: -28px;
+			margin-top: 0;
+			padding-top: 35px;
+		}
+
+		@media (min-width: $pricing2) {
+			margin-left: -40px;
+		}
+	}	
+}
+
+.plan-a {
+	background-color: white;
+	box-shadow: 0 8px 15px 0 rgba(0,0,0,0.08), 0 18px 35px 0 rgba(0,0,0,0.12);
+	z-index: 5;
+	width: calc(100vw - 40px);
+	max-width: 420px;
+
+	@media (min-width: $pricing1_row) {
+		@include transform(translateY(-48px));	
+		width: 33%;
+	}
+
+	@media (min-width: $pricing2) {
+		min-width: 400px;
+	}
+
+	h2, h4, p {
+		color: $tw_dblue;
+	}
+
+	h2 span {
+		font-size: 0.5em;
+	}
+
+	a,
+	button {
+		@include btn($tw_orange, auto, auto, 8px, 16px);
+		font-size: 1.625em;
+		margin-top: auto;
+		margin-right: 15px;
+		margin-left: 15px;
+	}
+}
+
+.hideMe {
+	display: none;
+}
+
+.message {
+	.hideMe {
+		display: none;
+	}
+
+	p {
+		font-family: $messageFont;
+		font-size: 2em;
+		font-weight: 500;
+		position: absolute;
+		display: none;
+
+		@media (min-width:$two_columnDisplay ) {
+			display: block;
+		}
+		
+		#forth &,
+		#secondary & {
+			color: $tw_orange;
+		}
+
+		#third & {
+			color: $red;
+		}
+	}
+}
+
+
+
+.selectableTabContainer {
+	position: relative;
+	margin-bottom: 20px;
+
+	&::after {
+		content: url("/img/website/Triangle.svg");
+		position: absolute;
+		top: calc(50% - 10px);
+		right: 25px;
+	}
+
+	select {
+		border: none;
+		background-image: linear-gradient(-270deg, #2C3E50 0%, #3E5771 100%);
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+		color: white;
+		font-size: 1.2em;
+		border-radius: 35px;
+		width: 100%;
+		padding: 12px 25px;
+	}
+
+	@media (min-width:$two_columnDisplay){
+		display: none;
+	}
+}
+
+.deviceContainer {
+	@include display(flex);
+	@include justify-content(center);
+	@include align-items(center);
+}
+
+
+@media (min-width: $two_columnDisplay){
+	.deviceContainer {
+		width: 60%;
+	}
+}
+
+.tabsContainer {
+	display: none;
+
+	@media (min-width:$two_columnDisplay){
+		@include display(flex);
+		@include flex-direction(column);
+		@include justify-content(center);
+		@include align-items(flex-start);
+		width: 42%;
+		padding-left: 40px;
+
+		p {
+			font-weight: 500;
+			font-size: 1.2em;
+			color: $tw_dblue;
+			padding: 10px 25px;
+			border-radius: 35px;
+			display: inline-block;
+			margin-bottom: 10px;
+			cursor: pointer;
+		}
+
+		.selected {
+			color: white;
+		}
+	}
+}
+
+.mainSectionContent {
+	@include display(flex);
+	@include flex-direction(column);
+	position: relative;
+
+	@media (min-width: $two_columnDisplay) {
+		@include flex-direction(row);
+	}
+}
+
+#primary {
+	h1 {
+		color: $tw_blue;
+	}
+
+	.content {
+		@include display(flex);
+		@include align-items(center);
+		@include flex-direction(column);
+		padding-bottom: 30px;
+		margin-bottom: 30px;
+
+		@media (min-width: 400px) and (orientation:portrait), (min-width: 700px) and (orientation: landscape) {
+			@include transform(translateY(-60px));
+		}
+
+		@media (min-width: $two_columnDisplay) {
+			@include flex-direction(row);
+		}
+
+		@media (min-width: $dude) and (orientation: portrait) {
+			@include transform(translateY(-160px));
+		}
+	}
+
+	.info {
+		text-align: center;
+
+		@media (min-width: $text_align_Start) {
+			text-align: right;
+			margin-left: auto;
+		}
+	}
+}
+
+
+#secondary {
+	
+	.background {
+		background-color: $backgroundSecondary;
+	}
+
+
+	@media (min-width: $two_columnDisplay) {
+		.mainSectionContent > div {
+			margin-bottom: 200px;
+			min-height: 600px;
+		}
+	}
+}
+
+
+
+#secondary,
+#forth {
+	.selected {
+		background-image: linear-gradient(-270deg, #2C3E50 0%, #3E5771 100%);
+	}
+}
+
+
+#third {
+	padding-bottom: 30px;
+	padding-top: 30px;
+
+ 
+	.background{
+		background-color: $backgroundThird;
+		height: 180%;
+	}	
+
+	.selected {
+		background-image: linear-gradient(-90deg, #2C3E50 0%, #3E5771 100%);
+	}
+
+	h1 {
+		color: $tw_dblue;
+	}
+
+	.tabsContainer {
+		@include align-items(flex-end);
+		padding-left: 0;
+		padding-right: 40px;
+	}
+
+	.mainSectionContent {
+		min-height: 550px;
+	}
+}
+
+#forth {
+	padding-bottom: 200px;
+
+	.background {
+		background-color: white;
+		height: 180%;
+	}
+}
+
+
+#pricing {
+	position: relative;
+	padding-top: 110px;
+	overflow: hidden;
+
+	@media (min-width: $two_columnDisplay) {
+		padding-top: 140px;
+	}
+
+	.background {
+		background-color: #F4F7FA;
+	    @include transform(skewY(0deg));
+	}
+
+	h1 {
+		color: $tw_dblue;
+		text-align: center;
+		margin-bottom: 70px;
+
+		@media (min-width: $two_columnDisplay) {
+			margin-bottom: 140px;
+		}
+	}
+}
+
+
+.pricingContainer {
+	padding-bottom: 140px;
+}

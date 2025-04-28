@@ -1,10 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import './website/style.scss';
+@import './Trainer/mobileInnerstyle.scss';
+
+
 
 .ck-content-output {
     color: #000;
-    font-size: 0.875rem; /* Tailwind's text-sm */
+    font-size: 0.875rem; 
     line-height: 1.5rem;
   }
   

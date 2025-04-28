@@ -29,13 +29,13 @@
        initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
        maximum-scale = 1.0 retains dimensions instead of zooming in if page width < device width
        -->
-    <meta name="author" content="TrainerWorkout.com"/>
+    <meta name="author" content="trainer-workout.com"/>
     <meta name="robots" content="all"/>
     <meta name="distribution" content="global"/>
     <meta name="resource-type" content="document"/>
     <meta name="language" content="en-us"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+    <meta name="copyright" content="trainer-workout.com Copyright 2013. All Rights Reserved.">
     <meta name="viewport" content="initial-scale=1.0, user-scalable = no, width = device-width">
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fw/addtohomescreen/style/addtohomescreen.css')}}">

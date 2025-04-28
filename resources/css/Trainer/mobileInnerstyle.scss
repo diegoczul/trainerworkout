@@ -1,0 +1,132 @@
+@charset "utf-8";
+
+//reset against browser agents
+@import "../global/_reset.scss";
+
+// Definings Variables
+@import "../global/_variables.scss";
+
+// Frameworks & mixins 
+@import "../bourbon/bourbon";
+@import "../neat/neat";
+@import "../global/_mixin.scss";
+
+
+/*  ===========     General Rule & Styling     =============
+===========================================================*/
+
+* {
+	box-sizing: border-box;
+}
+
+*:focus {
+	outline: none;
+}
+
+body {
+	overflow: scroll;
+}
+
+
+// Basic Styling
+@import "_global.scss";
+@import "_navigation.scss";
+@import "_notification.scss";
+
+// Pop-ups
+@import "_shareWorkout.scss";
+@import "_newClient.scss";
+@import "_typeWorkout.scss";
+
+// Pages  
+
+	//trainer
+	@import "pages/_workouts.scss";
+	@import "pages/_workout.scss";
+	@import "pages/_profile.scss";
+	@import "pages/_accountManagement.scss";
+	@import "pages/_accountCheckout.scss";
+	@import "pages/_employee.scss";
+	@import "pages/_createWorkout.scss";
+	@import "pages/_exercises.scss";
+	@import "pages/_exercise.scss";
+	@import "pages/_reports.scss";
+	@import "pages/_clients.scss";
+	@import "pages/_client.scss";
+	@import "pages/_shareWorkouts.scss";
+
+	//trainee
+	@import "pages/Trainee/_traineeWorkoutView.scss";
+	@import "pages/Trainee/_profile.scss";
+	@import "pages/Trainee/_sendFeedback.scss";
+
+
+//other
+@import "pages/_animation.scss";
+@import "_chosen.scss";
+
+
+//overwritters
+@import "_overwritters.scss";
+
+
+.phpdebugbar p {
+	font-size: black;
+}
+
+/*        THIS STYLING SHEET IS THE BASE STYLE OF TRAINERS      (with mobile first approach)        *
+====================================================================================================*/
+
+
+
+
+
+
+/*  =====================       Profile Page       ========================
+========================================================================*/
+
+
+
+/* ======     LAYOUT  
+============================*/
+
+.p_Container {
+	padding: 35px;
+	max-width: 350px;
+	margin: auto;
+	padding-top: 107px;
+}
+
+.p_img {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+.p_img img {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	margin: auto;
+}
+
+.p_form {
+	display: flex;
+	flex-direction:column;
+}
+
+
+/* ======     Styling  
+============================*/
+
+.p_img a {
+	opacity: 0.4;
+	font-size: 14px;
+	color: #FFF;
+	line-height: 19px;
+	text-decoration: none;
+	margin: auto;
+}
+

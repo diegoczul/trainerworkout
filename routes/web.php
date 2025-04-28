@@ -881,3 +881,10 @@ Route::post('/stripe/webhook/plan-subscription', [PlanSubscriptionController::cl
 Route::post('/plans/cancel-self/{plan_id}', [PlansController::class, 'cancelSelf'])->name('plans.cancel.self')->middleware('auth');
 Route::get('/my-subscriptions', [UsersController::class, 'mySubscriptions'])->name('plans.subscriptions')->middleware('auth');
 Route::post('/trainer/payout/request', [UsersController::class, 'requestPayout'])->name('trainer.request-payout');
+// in routes/web.php
+// routes/web.php
+
+// Bypass Laravel for WordPress API
+Route::any('/wp-json/{any}', function ($any) {
+    return redirect('https://dev.trainer-workout.com/blog/wp-json/' . $any);
+})->where('any', '.*');

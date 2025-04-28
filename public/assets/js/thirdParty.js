@@ -26,7 +26,7 @@
 
 
 
-// Hotjar Tracking Code for www.trainerworkout.com 
+// Hotjar Tracking Code for www.trainer-workout.com 
 
     // (function(h,o,t,j,a,r){
     //     h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};

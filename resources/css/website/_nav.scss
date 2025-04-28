@@ -1,0 +1,200 @@
+// nav {
+// 	background-color: $tw_blue;
+// }
+
+// Start of styling navigation of TrainerWorkout Website
+
+$nav_height: 60px;
+
+
+nav.top {
+	height:$nav_height;
+	z-index: 500;
+	position: absolute;
+    left: 0;
+    top: 10px;
+    right: 0;
+}
+
+nav {
+
+
+	a {
+		font-size: 1.2em;
+	}
+
+	svg.level_one {
+		height: 60px;
+		cursor: pointer;
+	}
+
+	.logo {
+		a {
+			@include display(inline-flex);
+			@include align-items(baseline);
+			height: 60px;
+			
+		}
+
+		p {
+			margin: auto auto 6px 5px;
+			color: white;
+			font-style: italic;
+		}
+	}
+
+	.secondary,
+	.primary {
+		display: none;
+		@media (min-width: $showMenu) {
+			@include display(flex);
+			@include justify-content(center);
+		}
+	}
+
+	.primary a {
+		margin: auto 15px;
+	}
+
+	.secondary a {
+		margin: auto 0;
+	}
+
+	.mobileMenuContent a.selected,
+	a.selected {
+		font-weight: 600;
+	}
+
+	.mobileMenuContent a.selected {
+		padding-left: 0;
+		// display: inline-block;
+	}
+}
+
+
+.navRoot {
+	position: relative;
+}
+
+.nav_item {
+	padding-right: 5px;
+	padding-left: 5px;
+
+	&:hover {
+		opacity: 0.7;
+	}
+
+	&:active, 
+	&:focus {
+		@extend .selected;
+	}
+}
+
+.nav_block {
+	height: $nav_height;
+
+	&:first-child {
+		position: absolute;
+		left: 20px;
+		top: 0;
+	}
+}
+
+.secondary,
+.mobile {
+	position: absolute;
+	right: 20px;
+	top: 0;
+	cursor: pointer;
+}
+
+.mobile {
+	@media (min-width: $showMenu) { 
+		display: none;
+	}
+
+	svg.level_one {
+		position: absolute;
+		right:0;
+		top:0;
+	}
+}
+
+.mobileMenu {
+	display: none;
+	background: #FFFFFF;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+	border-radius: 5px;
+	position: fixed;
+	top: 12px;
+	right: 12px;
+	width: 300px;
+
+	a {
+		display: block;
+		color: $tw_blue;
+		padding-top: 40px;
+	}
+
+	.nav_item {
+		font-weight: 400;
+	}
+}
+
+.mobileMenuContent{
+	position: relative;
+	padding: 5px 40px 20px 40px;
+
+	svg {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+	}
+}
+
+.mobileMenuLogin {
+	background-color: #f2f2f2;
+	@include display(flex);
+	@include flex-direction(column);
+	padding: 0 15px;
+
+	a {
+		margin: 15px auto;
+		font-size: 1.2em;
+		color: white;
+
+		&:last-child {
+			margin-top: 0;
+		}
+	}
+
+	.login {
+		@include btn($tw_green, auto, 250px, 10px);
+	}
+
+	.signup {
+		@include btn($tw_orange, auto, 250px, 10px);
+	}
+
+	
+}
+
+#scrollNav {
+	background-image: linear-gradient(63deg, #05A2E5 0%, #1FB9FA 95%);
+	position: fixed;
+	width: 100%;
+	left: 0;
+	right: 0;
+	min-height: 60px;
+	z-index: 100;
+
+	@include transition(top 0.3s);
+}
+
+nav.hide {
+	top: -100px;
+}
+
+nav.show {
+	top: 0;
+}

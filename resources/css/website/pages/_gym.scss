@@ -1,0 +1,129 @@
+.topGym {
+	@include linear-gradient(-134deg, #3023AE 0%, rgba(200,109,215,0.54) 100%);
+	z-index: 0;
+}
+
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+
+.gym .content .wrapper {
+	width: 100%;
+}
+
+.spellingWord {
+	// width: 90%;
+	// display: block;
+	background: rgba(255,255,255,0.1);
+	border-bottom: solid 1px rgba(255,255,255,0.5);
+	padding: 0 0 0 10px;
+	border-radius: 2px;
+}
+
+.gym #third {
+	padding-bottom: 200px;
+}
+
+#gbrandingMessage {
+	top: 40px;
+	left: 10%;
+	width: 40%;
+}
+
+#acitivtyLogMessage {
+	top: -20px;
+	left: 5%;
+	width: 90%;
+	text-align: center;
+}
+
+#workoutsMessage {
+	top: 80px;
+	left: 8%;
+	width: 40%;
+}
+
+#gexercisesMessage{
+	top: -20px;
+	left: 15%;
+	width: 70%;
+	text-align: center;
+}
+
+#gbuilderMessage {
+	top: 10px;
+	right: 5%;
+	width: 50%;
+	text-align: right;
+}
+
+#gshareMessage {
+	top: 10px;
+	right: 5%;
+	width: 40%;
+	text-align: right;
+}
+
+#gprintMessage {
+	top: -20px;
+	left: 10%;
+	width: 80%;
+}
+
+#employeeMessage {
+	top: -20px;
+	left: 5%;
+	width: 35%;
+}
+
+#globalMessage {
+	top: -20px;
+	left: 5%;
+	width: 50%;
+}
+
+#collaborationMessage {
+	top: 50px;
+	left: 5%;
+	width: 40%;
+}
+.gym .pricingContainer {
+	padding-bottom: 50px;
+}
+
+.fixedPricing {
+	padding-bottom: 100px;
+	width: calc(100vw - 20px);
+	max-width: 450px;
+
+	p {
+		font-size: 1.625em;
+		color: $tw_dblue;
+		text-align: center;
+		margin-bottom: 20px;
+	}
+
+	a {
+		@include btn($tw_orange, auto, auto, 10px, 30px);
+		display: block;
+		font-size: 1.5em;
+	}
+}

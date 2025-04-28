@@ -1,0 +1,38 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+.omega-default {
+  margin-right: 0; }
+
+.omega-nth-default:nth-child(4n) {
+  margin-right: 0; }
+.omega-nth-default:nth-child(4n+1) {
+  clear: left; }
+
+.omega-complex-nth:nth-child(4n+1) {
+  margin-right: 0; }
+.omega-complex-nth:nth-child(4n+2) {
+  clear: left; }
+
+.omega-complex-nth-negative:nth-child(3n-1) {
+  margin-right: 0; }
+.omega-complex-nth-negative:nth-child(3n-0) {
+  clear: left; }
+
+section {
+  display: block; }
+  section::after {
+    clear: both;
+    content: "";
+    display: block; }
+  section .omega-default-left {
+    margin-left: 0; }
+  section .omega-nth-default-left:nth-child(4n) {
+    margin-left: 0; }
+  section .omega-nth-default-left:nth-child(4n+1) {
+    clear: right; }
+
+/*# sourceMappingURL=omega.css.map */

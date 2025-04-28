@@ -1,0 +1,506 @@
+.exercises {
+	text-align: center;
+
+	button {
+		@include btn($tw_dblue, 40px, auto);
+		color: white;
+		font-size: 1em;
+		line-height: 40px;
+		font-weight: 500;
+		padding: 0 35px;
+
+		i {
+			margin-right: 4px;
+		}
+	}
+
+	.emptyMessage {
+		margin: 40px 0 0 0;
+		text-align: center;
+		font-weight: 500;
+		font-size: 1.5em;
+		line-height: 1.5em;
+		color: white;
+	}
+}
+$addExerciseBreak: 520px;
+
+.exerciseOverlay {
+	@extend .overlayStyle;
+	background: rgba(255, 255, 255, 0.97);
+	overflow:auto;
+	// display: block;
+
+
+	@media (min-width: $addExerciseBreak) {
+		.overlayKillChild {
+			display: none;
+		}
+	}
+	.c-menu__close {
+		position: fixed;
+		top: 0px;
+		right: 0px;
+		padding: 10px;
+	    box-sizing: content-box;
+		cursor: pointer;
+		@media (min-width: $addExerciseBreak) {
+			top: 10px;
+			right: 10px;
+		}
+	}
+}
+
+.addExerciseContainer {
+	width: 100%;
+	max-width:520px;
+	padding: 40px 10px 100px 10px;
+	background-color: #fff;
+	// border-radius: 2px;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+
+	@media all and (min-width: $addExerciseBreak) {
+		padding: 40px;
+		border-radius: 5%;
+		left: 50%;
+		top: 50%;
+		@include transform(translate(-50%, -50%));
+	}
+}
+
+$switcherHeight: 14px;
+$indicatorheight: $switcherHeight - (2 * 2px);
+
+.addexercise {
+	h1 {
+		font-weight: 500;
+		color: $tw_dblue;
+		text-align: center;
+		margin-bottom: 20px;
+		text-transform: none;
+	}
+
+	&-indicatorContainer {
+		margin: 20px auto 25px auto;
+
+		@media all and (min-width: $addExerciseBreak){
+			margin: 25px auto 35px auto;
+		}
+
+		.indicatorSubContainer {
+			@include display(flex);
+			@include justify-content(center);
+
+			label {
+				padding-right: 1px;
+			}
+		}
+
+
+		.labelStepOne {
+			&::after {
+				content: "1";
+			}
+		}
+
+		.labelStepTwo {
+			&::after {
+				content: "2";
+			}
+		}
+
+		.switcher {
+			background-color: $tw_purple;
+			height: $switcherHeight;
+			width: 60px;
+			border-radius: 10px;
+			position: relative;
+			cursor: pointer;
+
+			.stepOne {
+				left:2px;
+			}
+
+			.stepTwo {
+				right:2px;
+			}
+		}
+
+		.indicator {
+			background: white;
+			height: $indicatorheight;
+			width: 60%;
+			border-radius: 10px;
+			position: absolute;
+			top: 2px;
+			@include transition(all 0.3s);
+
+		}
+	}
+
+	label {
+		color: $tw_dblue;
+		text-transform: lowercase;
+	}
+
+	form label {
+		font-size: 1em;
+		display: block;
+		margin-top: 10px;
+
+		@media (min-width: $superSmall_to_small ) {
+			margin-top: 0;
+		}
+	}
+
+	form {
+		overflow: hidden;
+	}
+
+	.required {
+		color: $tw_dblue;
+		text-align:right;
+	}
+
+	.exerciseDescription,
+	input {
+		margin-bottom: 20px;
+	}
+
+	#textarea_counter {
+		color: $tw_dblue;
+	}
+
+	input {
+		padding: 5px 9px;
+		font-size: 16px;
+	}
+
+	.chosen-container,
+	input[type="text"],
+	textarea {
+		background: white;
+		border: solid 1px $tw_dblue;
+		box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.25);
+		border-radius: 2px;
+		font-size: 16px;
+	}
+
+	textarea {
+		padding: 9px;
+		width: 100%;
+	}
+
+	.chosen-container {
+		min-height: 38px;
+	}
+
+	input[type="text"] {
+		height: 38px;
+	}
+
+	input[type="file"] {
+		border: none;
+		padding: 0;
+		opacity: 0;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		height: 30px;
+		margin:0;
+	}
+
+	.submit {
+		text-align: center;
+		padding: 20px;
+		@include flex(1);
+		@include display(flex);
+	}
+
+	.next,
+	button {
+		@include btn($tw_purple, auto, 180px, 10px);
+		color: white;
+		font-size: 1em;
+		margin: auto auto 0 auto;
+		font-weight: 500;
+	}
+
+	.next img {
+		padding-left: 8px;
+	}
+
+	.previous {
+		cursor: pointer;
+		margin-top: auto;
+
+		.previousButton {
+			display: inline-block;
+			padding: 10px;
+			background: $grey;
+			border-radius: 100%;
+		}
+	}
+
+	.col {
+		position: relative;
+		@include span-columns(6);
+		select {
+			width: 100%;
+		}
+	}
+
+	&-step {
+		width: 50%;
+		@include display(flex);
+		@include flex-direction(column);
+	}
+
+	.active {
+		opacity: 1;
+	}
+
+	.inactive {
+		opacity: 0;
+	}
+
+	&-stepContainer {
+		// position: relative;
+		width: 200%;
+		@include display(flex);
+		@include flex-direction(row);
+		@include transition(all .3s);
+	}
+
+	.stepTwoActive {
+		@include transform(translateX(-50%));
+	}
+}
+
+
+.exerice_images {
+	width: 100%;
+	margin-bottom: 20px;
+
+	.button {
+		text-align: center;
+		margin-top: 20px;
+		padding: 0 20px;
+
+		@media (min-width: 395px) {
+			margin-top: 0;
+		}
+	}
+}
+
+.exercise_video {
+	margin-bottom: 20px;
+	@include display(flex);
+    padding-bottom: 20px;
+
+}
+
+.video {
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.exerice_images,
+.exercise_video {
+	.button {
+		@include btn($grey, 30px, 100%);
+		color: $tw_dblue;
+		line-height: 30px;
+		// margin-bottom: 20px;
+	}
+
+	input {
+		position: absolute;
+		// opacity: 0;
+	}
+}
+
+.muscleGroup{
+	margin-bottom: 15px;
+
+	select {
+		display: block;
+		height: 40px;
+		background-color: white;
+		padding-left: 10px;
+		width: 100%;
+		border: solid 1px $tw_dblue;
+		font-size: 16px;
+	}
+}
+
+.execise_equipments {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+	@include display(flex);
+
+	.equipment {
+		flex: 1;
+		margin-bottom: 20px;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.exercisesImageContainer {
+	padding: 10px; 
+}
+
+.exerciseActionsContainer {
+	background-color: $tw_dblue;
+	@include display(flex);
+}
+
+.exerciseOption {
+	width: 25%;
+	height: 30px;
+	cursor: pointer;
+	@include display(flex);
+
+	&:hover .exerciseOptionImg {
+		opacity: 0.6;
+	}
+
+	label.exerciseOptionImg,
+	img.exerciseOptionImg {
+		width: auto;
+		height: auto;
+		margin: auto auto;
+		cursor: pointer;
+		font-weight: 500;
+	}
+}
+
+
+.searchField {
+	@include display(flex);
+}
+
+
+#w_exercises_full .exercisesimages { 
+
+	position: relative;
+	width: 226px;
+	height: 226px;
+
+
+
+	img { 
+		display: block; 
+	}
+
+	span { 
+		padding: 5px; 
+		position: absolute; 
+		bottom: 0px; 
+		left: 0;
+		background: rgba(44,62,80,0.80);
+		width: 100%; 
+		display: block; 
+	   	color: #fff;
+		font-weight: 600;
+		font-size: 1.1em;
+	} 
+}
+
+
+
+
+
+
+.exercises_list {
+	margin-top: 15px;
+}
+
+.showRotate {
+	position: relative;
+}
+
+.deleteicon2, 
+.showRotateReceiver, 
+.showRotateReceiver2 { 
+	position: absolute; 
+	top: 5px; 
+} 
+
+.exerciseEdit {
+	position: absolute;
+	top: 24px;
+	left: 10px;
+	color: $tw_blue;
+	text-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+}
+
+.deleteicon2 {
+	right: 0;
+	top:0;
+	padding: 10px;
+}
+
+.showRotateReceiver {
+	left: 5px;
+}
+
+.showRotateReceiver2 {
+	left: 25px;
+}
+
+.editExerciseLink {
+	color: $tw_blue;
+}
+
+
+
+.btmbuttonholder {
+	margin-top: 10px;
+	padding: 5px;
+    width: 100%;
+    text-align: center;
+
+	.greybtn {
+		@include btn($grey, auto, auto, 10px, 20px);
+		color: $tw_blue;
+	}
+}
+
+.videoIcon {
+	position: relative;
+
+	&::after {
+		content: url("/img/svg/videoPlay.svg");
+		position: absolute;
+		top: calc(50% - 45px);
+		left: calc(50% - 45px);
+		z-index: 4;
+	}
+}
+
+.exerciseSearch {
+	h4 {
+		margin: 20px 0;
+		font-size: 1.2em;
+
+		@media (min-width: 375px) {
+			font-size: 1.4em;
+		}
+
+		@media (min-width: $superSmall_to_small ) {
+			font-size: 1.5em;
+		}
+	}
+
+	p {
+		color: white;
+		margin-bottom: 3px;
+	}
+}

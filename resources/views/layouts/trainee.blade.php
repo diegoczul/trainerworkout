@@ -23,13 +23,13 @@
     <meta name="google-site-verification" content=""/>
     <!-- don't forget to set the site up: https://google.com/webmasters -->
 
-    <meta name="author" content="TrainerWorkout.com"/>
+    <meta name="author" content="trainer-workout.com"/>
     <meta name="robots" content="all"/>
     <meta name="distribution" content="global"/>
     <meta name="resource-type" content="document"/>
     <meta name="language" content="en-us"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+    <meta name="copyright" content="trainer-workout.com Copyright 2013. All Rights Reserved.">
     <meta name="viewport" content="initial-scale=1.0, user-scalable = no,width = device-width">
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}">
     <link rel="apple-touch-icon" href="{{asset('assets/img/apple-touch-icon.png')}}">
@@ -61,7 +61,7 @@
     {{ HTML::script(asset('assets/fw/jquery-ui-1.11.1.custom/jquery-ui.min.js'.ASSET_VERSION)) }}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
     <!-- AJAX SETUP -->
     <script type="text/javascript">
@@ -212,7 +212,7 @@
                           fill="#FFF" fill-rule="evenodd"/>
                 </svg>
             </a>
-            <a href="https://www.trainerworkout.com/blog">
+            <a href="https://www.trainer-workout.com/blog">
                 <svg width="25" height="25" viewBox="0 0 25 25" xmlns="https://www.w3.org/2000/svg">
                     <title>
                         TWSocialIcon

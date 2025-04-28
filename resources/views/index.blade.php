@@ -15,7 +15,7 @@
             <div class="content">
                 <div class="wrapper">
                     <h1>{{{ Lang::get("content.Connect with your clients & scale up your personal training business") }}}</h1>
-                    <p>{{{ Lang::get("content.bestTecno") }}}</p>
+                    <p class="text-lg">{{{ Lang::get("content.bestTecno") }}}</p>
                     <a href="{{ Lang::get("routes./TrainerSignUp") }}" class="action">{{ Lang::get("content.Get started for free") }}</a>
                 </div>
             </div>
@@ -36,12 +36,70 @@
                     </div>
                     <div class="info">
                         <h1>{{ Lang::get("content.Always with you, works on any device, intuitive & easy to use") }}</h1>
-                        <p>{{ Lang::get("content.mobileFriendlyTW") }}</p>
+                        <p class="text-lg">{{ Lang::get("content.mobileFriendlyTW") }}</p>
                     </div>
                 </div>
             </div>
         </section>
-
+        <!-- Plans and Subscription Block -->
+<section class="parentHolderTab" id="plans">
+    <div class="background"></div>
+    <div class="content">
+        <div class="wrapper">
+            <div class="topSectionContent">
+                <h1>{{ Lang::get("content.Manage Subscription Plans for Your Clients") }}</h1>
+                <p class="text-lg">{{ Lang::get("content.Create and share your own monthly training plans. Clients can subscribe directly, and Trainer Workout handles billing and invoicing automatically, helping you keep client relationships 100% professional.") }}</p>
+            </div>
+            <div class="mainSectionContent">
+                <div class="selectableTabContainer">
+                    <select name="mobileTab" class="selectableTab">
+                        <option value="customPlans">{{ Lang::get("content.Create Custom Plans") }}</option>
+                        <option value="clientSubscriptions">{{ Lang::get("content.Client Subscriptions") }}</option>
+                        <option value="billingInvoicing">{{ Lang::get("content.Automatic Billing & Invoicing") }}</option>
+                        <option value="managePlans">{{ Lang::get("content.Manage Plans Anytime") }}</option>
+                    </select>
+                </div>
+                <div class="deviceContainer">
+                    <div class="device none">
+                        <div class="deviceBtn"></div>
+                        <div id="customPlans" class="screen">
+                            <div class="scrollableContainer">
+                                <img alt="{{ Lang::get('content.Create Custom Plans') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-custom.png') }}">
+                            </div>
+                        </div>
+                        <div id="clientSubscriptions" class="screen hideMe">
+                            <div class="scrollableContainer">
+                                <img alt="{{ Lang::get('content.Client Subscriptions') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-subscribe.png') }}">
+                            </div>
+                        </div>
+                        <div id="billingInvoicing" class="screen hideMe">
+                            <div class="scrollableContainer">
+                                <img alt="{{ Lang::get('content.Automatic Billing & Invoicing') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-billing.png') }}">
+                            </div>
+                        </div>
+                        <div id="managePlans" class="screen hideMe">
+                            <div class="scrollableContainer">
+                                <img alt="{{ Lang::get('content.Manage Plans Anytime') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-manage.png') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message">
+                        <p id="customPlansMessage">{{ Lang::get("content.Design unique monthly plans, set your pricing, and invite clients to join.") }}</p>
+                        <p id="clientSubscriptionsMessage" class="hideMe">{{ Lang::get("content.Your clients can easily subscribe to your plans online, no paperwork needed.") }}</p>
+                        <p id="billingInvoicingMessage" class="hideMe">{{ Lang::get("content.We handle payments, invoices, and subscription renewals so you can focus on training.") }}</p>
+                        <p id="managePlansMessage" class="hideMe">{{ Lang::get("content.Update, pause, or cancel client subscriptions anytime from your dashboard.") }}</p>
+                    </div>
+                </div>
+                <div class="tabsContainer">
+                    <p class="tab customPlans selected">{{ Lang::get("content.Create Custom Plans") }}</p>
+                    <p class="tab clientSubscriptions">{{ Lang::get("content.Client Subscriptions") }}</p>
+                    <p class="tab billingInvoicing">{{ Lang::get("content.Automatic Billing & Invoicing") }}</p>
+                    <p class="tab managePlans">{{ Lang::get("content.Manage Plans Anytime") }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
         <!-- Seconday block -->
         <section class="parentHolderTab" id="secondary">
             <div class="background"></div>
@@ -49,7 +107,7 @@
                 <div class="wrapper">
                     <div class="topSectionContent">
                         <h1>{{ Lang::get("content.For you & your clients") }}</h1>
-                        <p>{{ Lang::get("content.twOffersYou") }}</p>
+                        <p class="text-lg">{{ Lang::get("content.twOffersYou") }}</p>
                     </div>
                     <div class="mainSectionContent">
                         <div class="tabsContainer">
@@ -188,7 +246,7 @@
                         </div>
                         <div class="plan-a">
                             <h4>{{ Lang::get("content.base plan") }}</h4>
-                            <h2>$21.99 <span>USD / {{ Lang::get("content.month") }}</span></h2>
+                            <h2>${{ config('constants.price') }} <span>USD / {{ Lang::get("content.month") }}</span></h2>
                             <p style="margin-bottom: 0;">{{ Lang::get("content.Up to 35 connected clients") }}</p>
                             <p>{{ Lang::get("content.Unlimited workouts") }}</p>
                             <a href='{{ Lang::get("routes./trainerGetStartedPaid") }}'>{{ Lang::get("content.Get Started") }}</a>
@@ -198,7 +256,7 @@
                             <h2>{{ Lang::get("content.Contact Us") }}</h2>
                             <p style="margin-bottom: 0;">{{ Lang::get("content.More than 35 clients") }}</p>
                             <p>{{ Lang::get("content.Unlimited workouts") }}</p>
-                            <a href="mailto:info@trainerworkout.com">{{ Lang::get("content.Scale Up Online") }}</a>
+                            <a href="mailto:info@trainer-workout.com">{{ Lang::get("content.Scale Up Online") }}</a>
                         </div>
                     </div>
                 </div>

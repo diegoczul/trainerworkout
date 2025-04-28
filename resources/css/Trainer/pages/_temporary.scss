@@ -1,0 +1,464 @@
+
+/*  ======================    View Workout      =========================
+========================================================================*/
+
+.workoutBg {
+	background-color: #F2F1F5;
+	padding-bottom: 25px;
+}
+
+/* =======    Exercise HEADER   ==========
+==========================================*/
+
+.workoutHeaderContainer {
+	width: 100%;
+/*	height: 130px;*/
+	background-color: #369AD8;
+	box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.25);
+	margin-top: 72px;
+}
+
+.workoutHeaderWrapper {
+	height: 100%;
+}
+
+
+.workoutHedaer {
+	padding: 10px;
+	height: 100%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-content: space-between;
+}
+
+.workoutHedaer h1 {
+	font-weight: 500;
+	margin-bottom: auto;
+}
+
+.trainerWorkoutMessage {
+	background-color: #fff;
+	padding: 15px;
+	border-radius: 10px;
+	position: relative;
+	margin: 10px;
+}
+
+.trainerWorkoutMessage p {
+	font-size: 12px;
+	color: #2C3E50;
+	letter-spacing: 0.2px;
+	line-height: 19px;
+	margin: 0;
+	text-align: left;
+}
+
+.trainerWorkoutMessage:after {
+	content: url(/assets/img/Trainee/bubbleTail.svg);
+	position: absolute;
+	bottom: -9px;
+	left: 17px;
+}
+
+
+.workoutData {
+	display: flex;
+	justify-content: space-between;
+}
+
+.workoutData p {
+	margin: 0;
+
+}
+
+.workoutPT {
+	display: flex;
+}
+
+.workoutPT img {
+	border: solid 2px #fff;
+	border-radius: 50%;
+	height: 35px;
+	width: 35px;
+}
+
+
+.workoutPTname {
+	padding-left: 5px;
+}
+
+.workoutDate {
+	display: flex;
+}
+
+.workoutDate p {
+	margin-top: auto;
+}
+
+.workoutDate p:first-child {
+	padding-right: 7px;
+	color: rgba(255, 255, 255, 0.6);
+}
+
+
+
+
+/* =================     Exercises   =====================
+==========================================================*/
+
+
+/* =============  Exercises General  ===========
+================================================*/
+// .restBtwExe,
+// .exerciseContainer {
+// 	margin-left: 10px;
+// 	margin-right: 10px;
+// 	background-color: #fff;
+// }
+
+
+
+.exeHeader {
+	height: 50px;
+}
+
+.exeHeader h3 {
+	text-transform: uppercase;
+	padding-left: 10px;
+	line-height: 50px;
+	font-weight: 400;
+	max-width: 90%;
+	text-overflow: ellipsis;
+}
+
+/*    Notification on exercises */
+
+.ptNotification {
+	position: absolute;
+	top: -12px;
+	right: -11px;
+}
+
+.ptNotificationWrapper {
+	position: relative;
+}
+
+.ptNotificationWrapper img {
+	border: 2px #fff solid;
+	border-radius: 50%;
+	height: 35px;
+	width: 35px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.notification {
+	position: absolute;
+	top: 0;
+	border: 1px #FFF solid;
+	left: -5px;
+	border-radius: 50%;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	font-size: 12px;
+}
+
+@media all and (min-width: 768px) {
+
+.ptNotificationWrapper img {
+	height: 45px;
+	width: 45px;
+}
+
+.notification {
+	height: 25px;
+	width: 25px;
+	font-size: 16px;
+	left: -12px;
+}
+}
+
+/******* Exercise Message from Personal Trainer *******/
+
+.overlayMessage {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	text-align: left;
+	display: none;
+	background: rgba(44,62,80,0.85);
+	backdrop-filter: blur(7px);
+	-webkit-backdrop-filter: blur(7px);
+	z-index: 50;
+	flex-direction: column;
+}
+
+.overlayMessage svg {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+
+.overlayMessage .trainerWorkoutMessageContainer {
+	margin-top: auto;
+}
+.overlayMessage .ptNotification {
+	margin: 14px auto auto 0px;
+	position: relative;
+}
+
+
+.overlayMessageWrapper {
+	max-width: 600px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	padding: 15px;
+}
+
+
+
+/********   Image & Table ******/
+
+.exeDetails {
+	display: flex;
+	flex-direction: column;
+}
+
+
+/******   Exercise Images  ******/
+
+.exeImg {
+	max-width: 373px;
+	margin: auto;
+}
+
+.exeImg img {
+	width: calc(50% - 3px);
+	height: auto;
+}
+
+/
+
+
+
+
+/* ========      RESPONSIVE      =========*/
+
+
+
+@media all and ( min-width: 970px) {
+
+.restBtwExe,
+.exerciseContainer {
+	max-width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.workoutHeaderWrapper {
+	max-width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+}
+
+/* ========    END RESPONSIVE     =========*/
+
+
+
+/* ========    END EXERCISE GENERAL     ===============
+=======================================================*/
+
+
+
+
+
+
+
+
+
+
+/* ======     CIRCUIT SPECIFIC
+====================================*/
+
+/***   Circuit Header  ***/
+
+.circuitHeader {
+	height: 140px;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.circuitHeader h3 {
+	font-weight: lighter;
+	padding-left: 20px;
+	text-transform: uppercase;
+}
+
+.circuitDetails {
+	display: flex;
+}
+
+.circuitImg {
+	position: relative;
+	margin-left: 20px;
+	height: 50px;
+	width: 170px;
+	margin: auto 10px;
+}
+
+.circuitImg img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+	position: absolute;
+	top: 0;
+}
+
+.circuitImg img:nth-child(1) {
+	z-index: 1;
+	left: 0;
+}
+
+.circuitImg img:nth-child(2) {
+	z-index: 2;
+	left: 40px;
+}
+
+.circuitImg img:nth-child(3) {
+	z-index: 3;
+	left: 80px;
+}
+
+.circuitImg img:nth-child(4) {
+	z-index: 4;
+	left: 120px;
+}
+
+
+/***  END of Circuit Header  ***/
+
+
+
+/*   Exercises  */
+
+
+
+
+/* Postitioning of exercises within circuits */
+
+.circuit .exeImg {
+	margin-left: 21px;
+}
+
+
+
+.circuit .exeTempo {
+	margin-left: 37px;
+}
+
+
+/* exercise name */
+.circuit h4 {
+	font-weight: 600;
+	font-size: 18px;
+	color: #2C3E50;
+	line-height: 24px;
+	text-transform: uppercase;
+	margin: 0;
+	padding-left: 10px;
+}
+
+.circuit h4 span {
+	color: inherit;
+	font-weight: 800;
+	font-size: 30px;
+	padding-right: 10px;
+}
+
+.exeName {
+	display: flex;
+}
+
+
+
+
+
+
+
+/*   Responsive Circuit  */
+
+/* Making sure the image is not overlapping the line in the circuit */
+@media all and ( min-width: 434px) {
+.circuit .exeImg {
+	margin-left: auto;
+}
+}
+
+@media all and ( min-width: 768px) {
+
+.circuitHeader {
+	height: 90px;
+	padding: 0 20px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-content: center;
+}
+
+.circuitHeader h3 {
+	margin: auto 0;
+	padding: 0;
+}
+
+.circuit .exeTempo {
+	margin-left: 0;
+}
+
+.circuit .exeInfo {
+	flex-direction: column;
+}
+
+.circuit .exeDescription {
+	width: 95%;
+}
+
+.circuit .unitSwitcherContainer {
+	width: 100%;
+}
+
+
+
+}
+
+/* ====================        END EXERCISE         =================
+=====================================================================*/
+
+
+
+
+
+
+/* ======     RESTS BTW EXERCISES
+====================================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -29,13 +29,13 @@
        initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
        maximum-scale = 1.0 retains dimensions instead of zooming in if page width < device width
        -->
-    <meta name="author" content="TrainerWorkout.com"/>
+    <meta name="author" content="trainer-workout.com"/>
     <meta name="robots" content="all"/>
     <meta name="distribution" content="global"/>
     <meta name="resource-type" content="document"/>
     <meta name="language" content="en-us"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="copyright" content="TrainerWorkout.com Copyright 2013. All Rights Reserved.">
+    <meta name="copyright" content="trainer-workout.com Copyright 2013. All Rights Reserved.">
     <meta name="viewport" content="initial-scale=1.0, user-scalable = no, width = device-width">
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.ico')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fw/addtohomescreen/style/addtohomescreen.css')}}">
@@ -58,7 +58,7 @@
     <meta name="google-site-verification" content="">
     <meta name="title" content="">
     <meta name="description" content="">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <!-- {{ HTML::script(asset('assets/js/jquery.js')) }} -->
@@ -258,7 +258,7 @@
                             fill="#FFF" fill-rule="evenodd"/>
                     </svg>
                 </a>
-                <a href="https://www.trainerworkout.com/blog">
+                <a href="https://www.trainer-workout.com/blog">
                     <svg width="25" height="25" viewBox="0 0 25 25" xmlns="https://www.w3.org/2000/svg">
                         <title>
                             TWSocialIcon
