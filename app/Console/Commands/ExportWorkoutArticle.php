@@ -11,6 +11,7 @@ class ExportWorkoutArticle extends Command
     protected $signature = 'workout:export-article {workout_id}';
     protected $description = 'Export workout to ChatGPT, generate article, and post to WordPress';
 
+
     // ✅ Hardcoded keys as you asked (real ones)
     private $chatGptKey = '***REMOVED***';
     private $wordpressUrl = 'https://dev.trainer-workout.com/blog';
