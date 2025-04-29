@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReleaseFrozenEarnings extends Command
 {
+
     protected $signature = 'app:release-frozen-earnings';
     protected $description = 'Convert trainer earnings from frozen to available after 7 days';
 
