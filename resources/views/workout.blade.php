@@ -178,7 +178,9 @@
                                 <!-- CREATED BY -->
                                 <h3 id="subtitle_VW">{{ $workout->author->firstName??"N/A" }} {{ $workout->author->lastName??"" }}</h3>
                                 <hr>
-                                <h4>Note: {{ $workout->notes }}</h4>
+                                @if(isset($workout->notes) &&!empty($workout->notes))
+                                    <h4>Note: {{ $workout->notes }}</h4>
+                                @endif
                             </div>
                         </div>
                     </div>
