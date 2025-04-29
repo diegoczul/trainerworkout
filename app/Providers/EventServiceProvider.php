@@ -25,8 +25,49 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $events = [
+            'signUp',
+            'sendInviteToClient',
+            'addedAnExercise',
+            'deletedAnExercise',
+            'addedWorkoutMarket',
+            'createTag',
+            'patchCreateTag',
+            'destroyTag',
+            'removeTagWorkout',
+            'messageClient',
+            'messagePersonalTrainer',
+            'messageNoneClient',
+            'confirmEmail',
+            'editProfileInformation',
+            'loginWithFacebook',
+            'signUpWithFacebook',
+            'apiSignUp',
+            'apiLogin',
+            'printWorkout',
+            'printWorkouts',
+            'userNewWorkout',
+            'editAWorkout',
+            'createAWorkout',
+            'duplicateWorkout',
+            'unArchiveWorkout',
+            'deleteAWorkout',
+            'shareAWorkout',
+            'pdfWorkout',
+            'notifyActivity',
+            'jsTriggeredEvent',
+        ];
+
+        foreach ($events as $eventName) {
+            Event::listen($eventName, function (...$payload) use ($eventName) {
+                $user = $payload[0] ?? null;
+                $params = array_slice($payload, 1);
+
+                app(\App\Listeners\SendSlackNotification::class)->handle($eventName, $user, ...$params);
+            });
+        }
     }
+
 
     /**
      * Determine if events and listeners should be automatically discovered.
