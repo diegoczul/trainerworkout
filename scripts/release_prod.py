@@ -2,6 +2,14 @@ import requests
 import time
 import os
 import subprocess
+import sys
+
+with open("/tmp/supervisor_env_dump.txt", "w") as f:
+    for k, v in os.environ.items():
+        f.write(f"{k}={v}\n")
+
+sys.stdout.flush()
+
 
 # Tokens and configuration
 GITHUB_TOKEN = "***REMOVED***"
@@ -41,14 +49,28 @@ def send_slack_message(message):
 
 def execute_git_pull():
     try:
-        result = subprocess.run(["git", "-C", REPO_PATH, "pull"], capture_output=True, text=True)
-        log_debug(f"🔁 Git pull output:\n{result.stdout}")
-        if result.stderr:
-            log_debug(f"⚠️ Git pull errors:\n{result.stderr}")
-        return result.returncode == 0
+        result = subprocess.run(
+            ["git", "-C", REPO_PATH, "pull"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+        
+        log_debug(f"🔁 Git pull stdout:\n{result.stdout}")
+
+        if result.returncode == 0:
+            if result.stderr.strip():
+                log_debug(f"ℹ️ Git pull notes:\n{result.stderr}")
+            return True
+        else:
+            log_debug(f"❌ Git pull failed with errors:\n{result.stderr}")
+            return False
+
     except Exception as e:
-        log_debug(f"❌ Git pull failed: {e}")
+        log_debug(f"❌ Git pull subprocess error: {e}")
         return False
+
+
 
 def get_default_branch():
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}"
@@ -99,7 +121,7 @@ def main():
                     update_production_branch(latest_sha)
 
                     if execute_git_pull():
-                        send_slack_message(f"{SLACK_USER_ID} 🚀 Released commit `{latest_sha}` to production:\n> {commit_message}")
+                        send_slack_message(f"🚀 Released commit `{latest_sha}` to production:\n> {commit_message}")
                     else:
                         send_slack_message(f"{SLACK_USER_ID} ❌ Git pull failed after updating production branch for commit `{latest_sha}`")
                 else:
@@ -108,7 +130,6 @@ def main():
                 save_last_commit_sha(latest_sha)
             else:
                 log_debug("🔄 No new commits.")
-
         except Exception as e:
             log_debug(f"❌ Error: {e}")
 

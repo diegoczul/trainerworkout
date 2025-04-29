@@ -527,6 +527,8 @@ class Workouts extends Model
         ]);
 
         $pdf = SnappyPdf::loadHtml($html);
+        $pdf->setTimeout(500); // 3 minutes
+
 
         if (trim($this->name) != "") {
             $name = Config::get("constants.filePrefix") . Helper::formatURLString($this->name);
@@ -557,6 +559,7 @@ class Workouts extends Model
         $data["exercises"] = $this->getExercises()->get();
         $view = view("workoutPrint", $data);
         $pdf = SnappyPdf::loadHTML($view);
+        $pdf->setTimeout(500); // 3 minutes
         //        $pdf->setOptions(array(
         //            "orientation" => "landscape",
         //        ));
@@ -619,6 +622,7 @@ class Workouts extends Model
             ->with("exercises", $this->getExercises()->get());
 
         $image = SnappyImage::loadHTML($html);
+        $image->setTimeout(500); // 3 minutes
 
 
 

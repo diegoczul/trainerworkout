@@ -1547,6 +1547,8 @@ class WorkoutsController extends BaseController
 					if ($pdf) {
 						$html = $this->PrintWorkout($workout->id);
 						$pdf = SnappyPdf::loadHTML($html);
+						$pdf->setTimeout(500); // 3 minutes
+
 						$pdfPath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . "_grid.pdf";
 						$name_temp = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . "_grid.pdf";
 						$pdf->save($name_temp);
@@ -3571,6 +3573,7 @@ class WorkoutsController extends BaseController
 				if ($pdf) {
 					$html = $this->PrintWorkout($workout->id);
 					$pdf = SnappyPdf::loadHTML($html);
+					$pdf->setTimeout(300);
 					$pdfPath = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . "_grid.pdf";
 					$name_temp = $path . "/" . Helper::formatURLString($counter . " - " . $workout->name . " " . $workout->author->getCompleteName()) . "_grid.pdf";
 					$pdf->save($name_temp);
