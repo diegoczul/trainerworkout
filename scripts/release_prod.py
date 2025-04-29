@@ -71,6 +71,7 @@ def execute_git_pull():
         return False
 
 
+
 def get_default_branch():
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}"
     headers = {
