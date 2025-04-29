@@ -49,7 +49,7 @@ def send_slack_message(message):
 
 def execute_git_pull():
     try:
-        result = subprocess.run(["git", "-C", REPO_PATH, "pull"], capture_output=True, text=True)
+        subprocess.run(["git", "-C", REPO_PATH, "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         
         log_debug(f"🔁 Git pull stdout:\n{result.stdout}")
 
