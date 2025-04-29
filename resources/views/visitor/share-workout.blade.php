@@ -81,31 +81,31 @@
 
                                         @if($group->circuitType == "emom")
                                             <!-- If this is a emom -->
-{{--                                            <div class="emom">--}}
-{{--                                                <div class="circleInstruction">--}}
-{{--                                                    <p class="emomMeasure">{{{ $group->emom }}}</p>--}}
-{{--                                                    <span>minutes</span>--}}
-{{--                                                </div>--}}
-{{--                                                <span>EMOM</span>--}}
-{{--                                            </div>--}}
+                                            <div class="emom">
+                                                <div class="circleInstruction">
+                                                    <p class="emomMeasure">{{{ $group->emom }}}</p>
+                                                    <span>minutes</span>
+                                                </div>
+                                                <span>EMOM</span>
+                                            </div>
 
                                         @elseif($group->circuitType == "amrap")
                                             <!-- If this is AMRAP type circuit -->
-{{--                                            <div class="amrap">--}}
-{{--                                                <div class="circleInstruction">--}}
-{{--                                                    <p class="amrapMeasure">{{{ $group->maxTime }}}</p>--}}
-{{--                                                    <span>minutes</span>--}}
-{{--                                                </div>--}}
-{{--                                                <span>AMRAP</span>--}}
-{{--                                            </div>--}}
+                                            <div class="amrap">
+                                                <div class="circleInstruction">
+                                                    <p class="amrapMeasure">{{{ $group->maxTime }}}</p>
+                                                    <span>minutes</span>
+                                                </div>
+                                                <span>AMRAP</span>
+                                            </div>
                                             <!-- If this is EMOM type circuit -->
                                         @else
-{{--                                            <div class="nbrounds">--}}
-{{--                                                <div class="circleInstruction">--}}
-{{--                                                    <p class="roundsMeasure">{{{ $group->intervals }}}</p>--}}
-{{--                                                    <span>rounds</span>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
+                                            <div class="nbrounds">
+                                                <div class="circleInstruction">
+                                                    <p class="roundsMeasure" style="color: #ffffff">{{{ $group->intervals }}}</p>
+                                                    <span>rounds</span>
+                                                </div>
+                                            </div>
 
                                         @endif
                                     </div>
