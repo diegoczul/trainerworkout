@@ -636,7 +636,7 @@ class WorkoutsController extends BaseController
 
 
 
-								Event::dispatch('shareAWorkout', array(Auth::user(), $user->id));
+//								Event::dispatch('shareAWorkout', array(Auth::user(), $user->id));
 								$comments = $request->get("comments");
 
 
