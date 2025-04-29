@@ -130,7 +130,6 @@ def main():
                 save_last_commit_sha(latest_sha)
             else:
                 log_debug("🔄 No new commits.")
-
         except Exception as e:
             log_debug(f"❌ Error: {e}")
 
