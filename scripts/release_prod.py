@@ -45,6 +45,7 @@ def execute_git_pull():
         
         log_debug(f"🔁 Git pull stdout:\n{result.stdout}")
 
+
         if result.returncode == 0:
             if result.stderr.strip():
                 log_debug(f"ℹ️ Git pull notes:\n{result.stderr}")
