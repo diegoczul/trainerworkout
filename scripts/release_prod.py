@@ -49,7 +49,12 @@ def send_slack_message(message):
 
 def execute_git_pull():
     try:
-        subprocess.run(["git", "-C", REPO_PATH, "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        result = subprocess.run(
+            ["git", "-C", REPO_PATH, "pull"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
         
         log_debug(f"🔁 Git pull stdout:\n{result.stdout}")
 
@@ -64,6 +69,7 @@ def execute_git_pull():
     except Exception as e:
         log_debug(f"❌ Git pull subprocess error: {e}")
         return False
+
 
 def get_default_branch():
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}"
