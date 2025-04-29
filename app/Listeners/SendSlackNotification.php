@@ -22,6 +22,7 @@ class SendSlackNotification
         }
 
 
+
         $paramText = json_encode($params);
 
         $text = "[{$userEmail}] - {$eventName} {$paramText}";
