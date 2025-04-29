@@ -121,7 +121,7 @@ def main():
                     update_production_branch(latest_sha)
 
                     if execute_git_pull():
-                        send_slack_message(f"{SLACK_USER_ID} 🚀 Released commit `{latest_sha}` to production:\n> {commit_message}")
+                        send_slack_message(f"🚀 Released commit `{latest_sha}` to production:\n> {commit_message}")
                     else:
                         send_slack_message(f"{SLACK_USER_ID} ❌ Git pull failed after updating production branch for commit `{latest_sha}`")
                 else:
