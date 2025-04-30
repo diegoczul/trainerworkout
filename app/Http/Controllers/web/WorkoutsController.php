@@ -2110,7 +2110,9 @@ class WorkoutsController extends BaseController
                 ->with(['set' => function ($q) {
                     $q->select('id','number','workoutsExercisesId');
                 }])
-                ->where('ref_exercise_id',$exerciseId)->get()->toArray();
+                ->where('ref_exercise_id',$exerciseId)
+                ->get()
+                ->toArray();
             $responseHTML = view('weight-history',['originalSet' => $originalSet, 'setsHistory' => $setsHistory])->render();
             return $this::sendResponse("Sets History",$responseHTML);
         }catch (\Exception $exception){

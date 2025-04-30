@@ -4,7 +4,6 @@
         <tr>
             <th>Set</th>
             <th>Weight</th>
-            <th>Weight</th>
             <th>Date/Time.</th>
             <th>Action</th>
         </tr>
@@ -26,7 +25,7 @@
 
     @foreach($setsHistory??[] as $row)
         <tr>
-            <td>{{$row['template_set']['number']??0}}</td>
+            <td>{{$row['set']['number']??0}}</td>
             <td>{{$row['weight']??0}}</td>
             @if(isset($row['date']) && !empty($row['date']))
                 <td>{{\Illuminate\Support\Carbon::make($row['date'])}}</td>
