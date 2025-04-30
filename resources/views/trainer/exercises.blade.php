@@ -312,33 +312,28 @@
             }
         }
 
-        let previousSearch;
         function searchExercise() {
-            if (previousSearch != $("#exercise_search").val()) {
+            $.ajax({
+                url: widgetsList["w_exercises_full"],
+                type: "POST",
+                data: {search: $("#exercise_search").val()},
+                success: function (data, textStatus, jqXHR) {
+                    $("#w_exercises_full").html(data);
+                    previousSearch = $("#exercise_search").val();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText);
+                },
+                statusCode: {
+                    500: function () {
+                        if (jqXHR.responseText != "") {
+                            errorMessage(jqXHR.responseText);
+                        } else {
 
-                $.ajax({
-                    url: widgetsList["w_exercises_full"],
-                    type: "POST",
-                    data: {search: $("#exercise_search").val()},
-                    success: function (data, textStatus, jqXHR) {
-                        $("#w_exercises_full").html(data);
-                        previousSearch = $("#exercise_search").val();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        errorMessage(jqXHR.responseText);
-                    },
-                    statusCode: {
-                        500: function () {
-                            if (jqXHR.responseText != "") {
-                                errorMessage(jqXHR.responseText);
-                            } else {
-
-                            }
                         }
                     }
-                });
-
-            }
+                }
+            });
         }
 
         $(document).ready(function () {

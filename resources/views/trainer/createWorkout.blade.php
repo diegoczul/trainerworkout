@@ -2487,9 +2487,7 @@ function searchExercise(el, event, page, more) {
 
         var handler = el;
         var preload;
-
-        if ( ($("#exercise_search").val() != globalExName || filters.length > 0) || (more !== undefined && more !== null && more == true)) {
-
+        // if ( ($("#exercise_search").val() != globalExName || filters.length > 0) || (more !== undefined && more !== null && more == true)) {
             showTopLoader();
 
             if($("#exercise_search").val() != globalExName) totalExDisplayed = 0;
@@ -2535,7 +2533,7 @@ function searchExercise(el, event, page, more) {
                   }
               }
             });
-        }
+        // }
         globalExName = $("#exercise_search").val();;
     }, 800);
   }
