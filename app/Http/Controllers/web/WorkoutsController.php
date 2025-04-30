@@ -17,6 +17,7 @@ use App\Models\Sharings;
 use App\Models\Tags;
 use App\Models\TemplateSets;
 use App\Models\Users;
+use App\Models\UserSetsHistory;
 use App\Models\UserUpdates;
 use App\Models\Workouts;
 use App\Models\WorkoutsExercises;
@@ -2082,6 +2083,15 @@ class WorkoutsController extends BaseController
 		$sets = Sets::where("id", $request->get('set_id'))->first();
 		$sets->weight = $weight;
 		$sets->save();
+
+        // SET HISTORY
+        $setHistory = new UserSetsHistory();
+        $setHistory->ref_user_id = Auth::user()->id;
+        $setHistory->ref_workout_id = $request->get('workout_id');
+        $setHistory->ref_exercise_id = $request->get('exercise_id');
+        $setHistory->ref_set_id = $request->get('set_id');
+        $setHistory->weight = $weight;
+        $setHistory->save();
 	}
 
 	public function saveAllSets(Request $request)
