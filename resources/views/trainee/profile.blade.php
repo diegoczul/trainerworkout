@@ -14,8 +14,8 @@
 {{ Form::open(array('url' => Lang::get('routes./Trainee/EditProfile'), "class"=>"p_form", "files"=>true)) }}
 <div class="content">
 <div class="traineeBackgroundFilter"></div>
-	<div class="contentContainer">
-		<div class="p_Container profile">
+	<div class="contentContainer trainer">
+		<div class="p_Container profile trainee-profile-form">
 			<div class="p_img showRotate exercisesimages showDelete rotatingParent_bottom trainee">
 				<img class="refreshImage" src="/{{{ Helper::image(Auth::user()->image) }}}">
                 <div class="editImgContainer">
