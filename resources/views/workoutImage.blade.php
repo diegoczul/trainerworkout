@@ -48,7 +48,7 @@
                         <div class="workoutData">
                             <div class="workoutPT">
 
-                                <img src="{{ Helper::imageToBase64(public_path(($workout->author) ? Helper::image($workout->author->image) : Helper::image("")))  }}">
+                                <img style="width: 50px; height: 50px" src="{{ Helper::imageToBase64(public_path(($workout->author) ? Helper::image($workout->author->image) : Helper::image("")))  }}">
                                 <div class="workoutPTname">
                                     <p>{{{ ($workout->author) ? $workout->author->firstName : "" }}}</p>
                                     <p>{{{ ($workout->author) ? $workout->author->lastName : "" }}}</p>
