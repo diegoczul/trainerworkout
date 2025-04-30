@@ -27,7 +27,7 @@ class SendSlackNotification
 
         $text = "[{$userEmail}] - {$eventName} {$paramText}";
 
-        Http::post(env('SLACK_WEBHOOK_URL'), [
+        Http::post("***REMOVED***", [
             'text' => $text,
         ]);
     }
