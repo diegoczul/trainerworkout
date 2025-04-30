@@ -2,7 +2,8 @@
 <table style="border: 1px solid #ffffff;">
     <thead>
         <tr>
-            <th>No.</th>
+            <th>Set</th>
+            <th>Weight</th>
             <th>Weight</th>
             <th>Date/Time.</th>
             <th>Action</th>
@@ -11,7 +12,7 @@
     <tbody>
     @foreach($originalSet??[] as $row)
         <tr>
-            <td>{{$globalIndex}}</td>
+            <td>{{$row['number']}}</td>
             <td>{{$row['weight']??0}}</td>
             @if(isset($row['date']) && !empty($row['date']))
                 <td>{{\Illuminate\Support\Carbon::make($row['date'])}}</td>
@@ -25,7 +26,7 @@
 
     @foreach($setsHistory??[] as $row)
         <tr>
-            <td>{{$globalIndex}}</td>
+            <td>{{$row['template_set']['number']??0}}</td>
             <td>{{$row['weight']??0}}</td>
             @if(isset($row['date']) && !empty($row['date']))
                 <td>{{\Illuminate\Support\Carbon::make($row['date'])}}</td>
