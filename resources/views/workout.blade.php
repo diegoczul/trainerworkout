@@ -1469,14 +1469,6 @@
         }
 
         function viewSetHistory(element,exercise_id){
-            $(".lightBox").addClass("lightBox-activated");
-            $(".popup_container").addClass("popup_container-activated");
-            $(".lightbox_mask").addClass("lightbox_mask-activated");
-            $("body").addClass('no_scroll_overlay');
-            var div = $('.sharewokoutform');
-            div.attr("workout",selectedItems.join(","));
-
-            
             $.ajax({
                 url: "{{route('workout.weight-history')}}",
                 type: "POST",
@@ -1484,11 +1476,22 @@
                     exercise_id: exercise_id,
                     workout_id: {{ $workout->id }},
                 },
-                success: function (data, textStatus, jqXHR) {
-
+                beforeSend: function () {
+                    showTopLoader();
+                },
+                success: function (data) {
+                    $("#shareContentContainer").html(data.data);
+                    $(".lightBox").addClass("lightBox-activated");
+                    $(".popup_container").addClass("popup_container-activated");
+                    $(".lightbox_mask").addClass("lightbox_mask-activated");
+                    $("body").addClass('no_scroll_overlay');
+                    var div = $('.sharewokoutform');
+                    div.attr("workout",selectedItems.join(","));
+                    hideTopLoader();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText);
+                    hideTopLoader();
                 }
             });
         }
@@ -1500,11 +1503,17 @@
                 data: {
                     weight_history_id: set_id,
                 },
+                beforeSend: function () {
+                    showTopLoader();
+                },
                 success: function (data, textStatus, jqXHR) {
-                    successMessage(data);
+                    successMessage(data.message);
+                    hidelightboxWithoutE();
+                    hideTopLoader();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText);
+                    hideTopLoader();
                 }
             });
         }

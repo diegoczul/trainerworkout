@@ -2105,10 +2105,11 @@ class WorkoutsController extends BaseController
             }
 
             $exerciseId = $request->get('exercise_id');
-            $originalSet = Sets::select('id','weight','created_at as date')->where('workoutsExercisesId',$exerciseId)->orderBy('id','desc')->get()->toArray();
-            $setsHistory = UserSetsHistory::select('id','weight','created_at as date')->where('ref_exercise_id',$exerciseId)->orderBy('id','desc')->get()->toArray();
+            $originalSet = TemplateSets::select('id','weight','created_at as date')->where('workoutsExercisesId',$exerciseId)->get()->toArray();
+            $setsHistory = UserSetsHistory::select('id','weight','created_at as date')->where('ref_exercise_id',$exerciseId)->get()->toArray();
 
-            return $this::responseJson(array('originalSet'=>$originalSet,'setsHistory'=>$setsHistory));
+            $responseHTML = view('weight-history',['originalSet' => $originalSet, 'setsHistory' => $setsHistory])->render();
+            return $this::sendResponse("Sets History",$responseHTML);
         }catch (\Exception $exception){
             return $this::responseJsonError($exception->getMessage());
         }
