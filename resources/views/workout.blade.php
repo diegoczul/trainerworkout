@@ -1363,7 +1363,12 @@
 
     </section>
 
-    @include('popups.shareWorkout')
+    @if( Auth::user()->userType == "Trainer")
+        @include('popups.shareWorkout')
+    @else
+        @include('popups.setHistory')
+    @endif
+    
     <!-- ////////////////////////////////////////////////////// -->
 
     @if($workout->isOwner() && Auth::user()->userType == "Trainee" )
@@ -1464,6 +1469,14 @@
         }
 
         function viewSetHistory(element,exercise_id){
+            $(".lightBox").addClass("lightBox-activated");
+            $(".popup_container").addClass("popup_container-activated");
+            $(".lightbox_mask").addClass("lightbox_mask-activated");
+            $("body").addClass('no_scroll_overlay');
+            var div = $('.sharewokoutform');
+            div.attr("workout",selectedItems.join(","));
+
+            
             $.ajax({
                 url: "{{route('workout.weight-history')}}",
                 type: "POST",
