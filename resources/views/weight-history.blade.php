@@ -1,4 +1,9 @@
-@php $globalIndex = 1; @endphp
+@php
+    $globalIndex = 1;
+    function lbsToKg($pounds) {
+        return number_format($pounds * 0.453592,2);
+    }
+@endphp
 <table style="border: 1px solid #ffffff;">
     <thead>
         <tr>
@@ -12,9 +17,9 @@
     @foreach($originalSet??[] as $row)
         <tr>
             <td>{{$row['number']}}</td>
-            <td>{{$row['weight']??0}}</td>
+            <td>{{number_format($row['weight']??0,2)}}</td>
             @if(isset($row['date']) && !empty($row['date']))
-                <td>{{\Illuminate\Support\Carbon::make($row['date'])}}</td>
+                <td>{{\Illuminate\Support\Carbon::make($row['date'])->timezone($timezone??"UTC")}}</td>
             @else
                 <td>N/A</td>
             @endif
@@ -26,9 +31,13 @@
     @foreach($setsHistory??[] as $row)
         <tr>
             <td>{{$row['set']['number']??0}}</td>
-            <td>{{$row['weight']??0}}</td>
+            @if(isset($row['set']['units']) && $row['set']['units'] == 'Metric')
+                <td>{{lbsToKg($row['weight']??0)}}</td>
+            @else
+                <td>{{number_format($row['weight']??0,2)}}</td>
+            @endif
             @if(isset($row['date']) && !empty($row['date']))
-                <td>{{\Illuminate\Support\Carbon::make($row['date'])}}</td>
+                <td>{{\Illuminate\Support\Carbon::make($row['date'])->timezone($timezone??"UTC")}}</td>
             @else
                 <td>N/A</td>
             @endif
