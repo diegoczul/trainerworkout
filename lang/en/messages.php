@@ -43,6 +43,8 @@ return array(
         "NoFriendsFound"                => "We were unable to find anybody with that name",
         "/ProfileSaved"                  => "Your profile has been saved",
         "WorkoutCreated"                => "Workout details have been saved successfully.",
+        "weightRemoved"                 => "Weight history has been removed successfully.",
+        "somethingWentWrong"            => "Opps! Something went wrong.",
         "UserNotFound"                  => "We couldn't access the user you are looking for",
         "WorkoutNotFound"               => "We couldn't access the workout you are looking for",
         "TrendingWorkoutsEmpty"         => "We don't have any new workouts to show you",

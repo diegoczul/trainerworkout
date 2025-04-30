@@ -491,6 +491,8 @@ Route::get(__('routes./Workout/exercisePerformance/') . "{workoutexercise}", [Wo
 Route::post(__('routes./Workout/addCustomPicture/'), [WorkoutsController::class, 'addCustomPicture'])->middleware('auth');
 Route::post(__('routes./Workout/unit/update'), [WorkoutsController::class, 'updateUnitExerciseGroup'])->middleware('auth');
 Route::post('/Workout/weight/update', [WorkoutsController::class, 'updateWeightExerciseGroup'])->name('workout.weight-update')->middleware('auth');
+Route::post('/Workout/weight/history', [WorkoutsController::class, 'historyWeightExerciseGroup'])->name('workout.weight-history')->middleware('auth');
+Route::post('/Workout/weight/remove-history', [WorkoutsController::class, 'removeWeightHistory'])->name('workout.remove-weight-history')->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');

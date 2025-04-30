@@ -42,6 +42,8 @@ return array(
         "NoFriendsFound"                => "Aucun utilisateur ne porte ce nom",
         "/ProfileSaved"                  => "Your profil a été enregistré",
         "WorkoutCreated"                => "Es détails de l'entraînement ont été enregistrés avec succès.",
+        "weightRemoved"                 => "L'historique du poids a été supprimé avec succès.",
+        "somethingWentWrong"            => "Oups ! Une erreur s'est produite.",
         "UserNotFound"                  => "Nous ne pouvons accéder à cet utilisateur",
         "WorkoutNotFound"               => "Nous ne pouvons accéder au programme que vous cherchez",
         "TrendingWorkoutsEmpty"         => "Nous n'avons pas de nouveaux programmes à vous montrer",

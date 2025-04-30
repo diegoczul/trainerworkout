@@ -2094,6 +2094,48 @@ class WorkoutsController extends BaseController
         $setHistory->save();
 	}
 
+    public function historyWeightExerciseGroup(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'exercise_id' => 'required|numeric',
+            ]);
+            if ($validator->fails()){
+                return $this::responseJsonError($validator->errors()->first());
+            }
+
+            $exerciseId = $request->get('exercise_id');
+            $originalSet = Sets::select('id','weight','created_at as date')->where('workoutsExercisesId',$exerciseId)->orderBy('id','desc')->get()->toArray();
+            $setsHistory = UserSetsHistory::select('id','weight','created_at as date')->where('ref_exercise_id',$exerciseId)->orderBy('id','desc')->get()->toArray();
+
+            return $this::responseJson(array('originalSet'=>$originalSet,'setsHistory'=>$setsHistory));
+        }catch (\Exception $exception){
+            return $this::responseJsonError($exception->getMessage());
+        }
+    }
+
+    public function removeWeightHistory(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'weight_history_id' => 'required|numeric|exists:user_sets_history,id',
+            ]);
+            if ($validator->fails()){
+                return $this::responseJsonError($validator->errors()->first());
+            }
+
+            $delete = UserSetsHistory::where('id',$request->get('weight_history_id'))->delete();
+            if ($delete){
+                return $this::sendSuccess(__("messages.weightRemoved"));
+            }else{
+                return $this::sendError(__('messages.somethingWentWrong'));
+            }
+
+        }catch (\Exception $exception){
+            return $this::responseJsonError($exception->getMessage());
+        }
+    }
+
 	public function saveAllSets(Request $request)
 	{
 

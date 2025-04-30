@@ -1464,7 +1464,36 @@
         }
 
         function viewSetHistory(element,exercise_id){
+            $.ajax({
+                url: "{{route('workout.weight-history')}}",
+                type: "POST",
+                data: {
+                    exercise_id: exercise_id,
+                    workout_id: {{ $workout->id }},
+                },
+                success: function (data, textStatus, jqXHR) {
 
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText);
+                }
+            });
+        }
+
+        function removeSetHistory(element,set_id){
+            $.ajax({
+                url: "{{route('workout.remove-weight-history')}}",
+                type: "POST",
+                data: {
+                    weight_history_id: set_id,
+                },
+                success: function (data, textStatus, jqXHR) {
+                    successMessage(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText);
+                }
+            });
         }
 
         function toggleTimer(action) {
