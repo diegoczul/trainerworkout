@@ -101,23 +101,31 @@
 
 .workoutPT {
 	@include display(flex);
+	align-items: center;
 }
 
 .workoutPT img {
 	border: solid 2px #fff;
 	border-radius: 50%;
-	height: 35px;
-	width: 35px;
+	// height: 35px;
+	// width: 35px;
+	height: 40px;
+	width: 40px;
+}
+@media(min-width:768px) {
+	.workoutPT img {
+		height: 50px;
+		width: 50px;
+	}
 }
 
-
 .workoutPTname {
-	padding-left: 5px;
+	padding-left: 6px;
 	@include display(flex);
 	@include flex-direction(column);
 
 	p {
-		font-size: 0.7em;
+		font-size: 12px;
 		font-weight: lighter;
 		color: white;
 		letter-spacing: 0.035em;
@@ -127,7 +135,7 @@
 		}
 
 		&:last-child {
-			margin-top: auto;
+			margin-top: 2px;
 			margin-bottom: 5px;
 		}
 	}
@@ -214,29 +222,3 @@
 	padding: 10px;
 	position: relative;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
