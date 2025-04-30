@@ -1,7 +1,7 @@
 @php
     $globalIndex = 1;
     function lbsToKg($pounds) {
-        return number_format($pounds * 0.453592,2);
+        return number_format(round($pounds * 0.453592),2);
     }
 @endphp
 <table style="border: 1px solid #ffffff;">

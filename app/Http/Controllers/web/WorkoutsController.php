@@ -2042,12 +2042,11 @@ class WorkoutsController extends BaseController
 		if ($exercise) {
 			$sets = Sets::where("workoutsExercisesId", $exercise->id)->get();
 			foreach ($sets as $set) {
-
 				if ($exercise->units == "" and $units == "Imperial") {
 					$set->units = "Imperial";
 				} else if ($exercise->units == "" and $units == "Metric") {
 					$set->units = "Metric";
-					$set->weight = number_format($set->weight / 2.2, 1);
+					$set->weight = round(number_format($set->weight / 2.2, 1));
 					$set->distance = number_format($set->distance / 1.609344, 2);
 					$set->speed = number_format($set->speed / 1.609344);
 				} else {
@@ -2055,14 +2054,14 @@ class WorkoutsController extends BaseController
 
 						if ($units == "Imperial") {
 							if ($set->units == "Metric") {
-								$set->weight = number_format($set->weight / 2.2, 1);
+								$set->weight = round($set->weight / 2.2);
 								$set->distance = number_format($set->distance / 1.609344, 2);
 								$set->speed = number_format($set->speed / 1.609344, 1);
 							}
 							$set->units = "Imperial";
 						} else if ($units == "Metric") {
 							if ($set->units == "Imperial") {
-								$set->weight = number_format($set->weight * 2.2, 1);
+								$set->weight = round($set->weight * 2.2);
 								$set->distance = number_format($set->distance * 1.609344, 2);
 								$set->speed = number_format($set->speed * 1.609344, 1);
 							}
@@ -2081,6 +2080,9 @@ class WorkoutsController extends BaseController
 	{
 		$weight = $request->get("weight");
 		$sets = Sets::where("id", $request->get('set_id'))->first();
+        if(isset($sets->units) && $sets->units == "Metric"){
+            $weight = $weight * 2.2;
+        }
 		$sets->weight = $weight;
 		$sets->save();
 
