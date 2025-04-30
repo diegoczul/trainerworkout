@@ -121,7 +121,7 @@
             }
             if (valid) {
                 document.getElementById('login_form').submit();
-                $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex;margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">
+                $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex; margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">
                                         <img src="{{asset('/assets/img/tw-gif.gif')}}" style="width: 40px;">
                                     </p>`);
             }
