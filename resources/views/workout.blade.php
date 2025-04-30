@@ -1475,6 +1475,7 @@
                 data: {
                     exercise_id: exercise_id,
                     workout_id: {{ $workout->id }},
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 },
                 beforeSend: function () {
                     showTopLoader();
