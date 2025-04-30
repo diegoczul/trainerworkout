@@ -761,6 +761,7 @@ class ExercisesController extends BaseController
                 'exercises.id',
                 'exercises.views',
                 'exercises.userId',
+                'exercises.used',
                 'exercises.authorId',
                 'exercises.name',
                 'exercises.created_at',
