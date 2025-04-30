@@ -18,7 +18,7 @@
             @if (!Auth::user()->membershipValidButAtLimit())
                 <div id="membershipMessage">
                     <div class="upgradeMessage">
-                        <p>{{ Lang::get('content.upgrade1') }} <span>{{ Lang::get('content.upgrade2') }} </span>
+                        <p class="text-white">{{ Lang::get('content.upgrade1') }} <span>{{ Lang::get('content.upgrade2') }} </span>
                             <a href="{{ Lang::get('routes./MembershipManagement') }}">{{ Lang::get('content.upgrade3') }}</a>
                         </p>
                     </div>

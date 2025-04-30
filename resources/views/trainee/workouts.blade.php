@@ -11,7 +11,7 @@
 
 <div class="content client">
     <div class="traineeBackgroundFilter"></div>
-	<div class="contentContainer">
+	<div class="contentContainer trainer">
         <div class="workouts_options workouts_options_down">
             <a title="Archive" href="javascript:void(0)" class="moreOptionsButton" id="archiveWorkouts" onclick="archiveWorkouts()">
                 <svg width="20" height="16" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

@@ -9868,3 +9868,10 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   margin: auto; }
 
 /*# sourceMappingURL=mobileInnerstyle.css.map */
+
+.mb-0{
+  margin-bottom: 0 !important;
+}
+.min-h-auto{
+  min-height: auto !important;
+}

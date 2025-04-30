@@ -12,7 +12,7 @@
 
 @section('content')
 {{ Form::open(array('url' => Lang::get('routes./Trainee/EditProfile'), "class"=>"p_form", "files"=>true)) }}
-<div class="content">
+<div class="content min-h-auto">
 <div class="traineeBackgroundFilter"></div>
 	<div class="contentContainer trainer">
 		<div class="p_Container profile trainee-profile-form">

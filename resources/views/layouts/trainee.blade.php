@@ -11,7 +11,7 @@
 <!--[if IE 9 ]>
 <html class="ie ie9 no-js" lang="en"> <![endif]-->
 <!--[if gt IE 9]><!-->
-<html class="no-js" lang="en">
+<html class="no-js mb-0" lang="en">
 <!--<![endif]-->
 <head>
     <meta charset="utf-8">
