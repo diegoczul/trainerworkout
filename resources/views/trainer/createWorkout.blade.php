@@ -927,14 +927,14 @@
 
             <div class="circuitInfo">
                 <div class="nbrounds">
-                    <div class="circleInstruction"><p class="roundsMeasure">4</p><span>{{ Lang::get("content.rounds") }}</span></div>
+                    <div class="circleInstruction"><p class="roundsMeasure" style="color: #ffffff">4</p><span>{{ Lang::get("content.rounds") }}</span></div>
                 </div>
                 <div class="amrap">
-                    <div class="circleInstruction"><p class="amrapMeasure">4</p><span>{{ Lang::get("content.minutes") }}</span></div>
+                    <div class="circleInstruction"><p class="amrapMeasure" style="color: #ffffff">4</p><span>{{ Lang::get("content.minutes") }}</span></div>
                     <span>{{ Lang::get("content.AMRAP") }}</span>
                 </div>
                 <div class="emom">
-                    <div class="circleInstruction"><p class="emomMeasure">4</p><span>{{ Lang::get("content.minutes") }}</span></div>
+                    <div class="circleInstruction"><p class="emomMeasure" style="color: #ffffff">4</p><span>{{ Lang::get("content.minutes") }}</span></div>
                     <span>{{ Lang::get("content.EMOM") }}</span>
                 </div>
             </div>

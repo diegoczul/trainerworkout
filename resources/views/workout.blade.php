@@ -275,7 +275,7 @@
                                                 @else
                                                     <div class="nbrounds">
                                                         <div class="circleInstruction">
-                                                            <p class="roundsMeasure">{{{ $group->intervals }}}</p>
+                                                            <p class="roundsMeasure" style="color: #ffffff">{{{ $group->intervals }}}</p>
                                                             <span>rounds</span>
                                                         </div>
                                                     </div>
