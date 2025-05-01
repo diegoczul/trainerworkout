@@ -6186,17 +6186,18 @@ li.tab {
   display: none; }
 
 @media (min-height: 768px) {
-  #tags-exercise {
-    display: block; } }
-#tags-exercise,
+  #tags-exercise { display: block; }
+}
+
+#tags-muscle,
 li.tab:nth-child(1) {
   background: rgba(255, 255, 255, 0.12); }
 
-#tags-muscle,
+#tags-equipment,
 li.tab:nth-child(2) {
   background: rgba(255, 255, 255, 0.24); }
 
-#tags-equipment,
+#tags-exercise,
 li.tab:nth-child(3) {
   background: rgba(255, 255, 255, 0.36); }
 

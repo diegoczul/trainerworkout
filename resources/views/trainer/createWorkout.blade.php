@@ -118,24 +118,24 @@
                 <div id="selectedFilters" class="selectedFilters"></div>
                 <div class="tagContainer">
                     <ul class="tabs">
-                        <li class="tab active" onclick="openTab('tags-exercise');setActiveTab(this);">{{ Lang::get("content.Exercise Type") }}</li>
-                        <li class="tab" onclick="openTab('tags-muscle');setActiveTab(this);">{{ Lang::get("content.Muscle Group") }}</li>
+                        <li class="tab active" onclick="openTab('tags-muscle');setActiveTab(this);">{{ Lang::get("content.Muscle Group") }}</li>
                         <li class="tab" onclick="openTab('tags-equipment');setActiveTab(this);">{{ Lang::get("content.Equipment") }}</li>
+                        <li class="tab" onclick="openTab('tags-exercise');setActiveTab(this);">{{ Lang::get("content.Exercise Type") }}</li>
                         <li class="tab" onclick="closeTabs();setActiveTab(this);searchExercise();" id="myExerciseTab">{{ Lang::get("content.myExercises") }}</li>
                     </ul>
-                    <div id="tags-exercise" class="tabContent">
-                        @foreach($exercisesTypes as $exercisesType)
-                            <div class="searchTag" onclick='addToFilter("{{ $exercisesType->name }}","type",{{ $exercisesType->id }},this)'>{{{ $exercisesType->name }}}</div>
-                        @endforeach
-                    </div>
-                    <div id="tags-muscle" class="tabContent">
+                    <div id="tags-muscle" class="tabContent" style="display: block;">
                         @foreach($bodygroups as $bodyGroup)
                             <div class="searchTag" onclick='addToFilter("{{ $bodyGroup->name }}","bodygroup",{{ $bodyGroup->id }},this)'>{{{ $bodyGroup->name }}}</div>
                         @endforeach
                     </div>
-                    <div id="tags-equipment" class="tabContent">
+                    <div id="tags-equipment" class="tabContent" style="display: none;">
                         @foreach($equipments as $equipment)
                             <div class="searchTag" onclick='addToFilter("{{ $equipment->name }}","equipment",{{ $equipment->id }},this)'>{{{ $equipment->name }}}</div>
+                        @endforeach
+                    </div>
+                    <div id="tags-exercise" class="tabContent" style="display: none;">
+                        @foreach($exercisesTypes as $exercisesType)
+                            <div class="searchTag" onclick='addToFilter("{{ $exercisesType->name }}","type",{{ $exercisesType->id }},this)'>{{{ $exercisesType->name }}}</div>
                         @endforeach
                     </div>
                 </div>
