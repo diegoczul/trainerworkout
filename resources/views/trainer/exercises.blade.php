@@ -111,17 +111,6 @@
                             <textarea id="description" class="addexdescription" name="description" maxlength="500" placeholder="{{ Lang::get("content.Exercisedescription") }}">{{ request()->old("description") }}</textarea>
                             <div id="textarea_counter"></div>
                         </fieldset>
-                        <div>
-                            <label for="">{{ Lang::get("content.Type") }}</label>
-                            <div style="display: flex; align-items: center;">
-                                <div style="display: flex; align-items: center; justify-content: center; margin-right: 10px">
-                                    <input style="margin: 0; padding: 0" type="radio" value="public" name="image_type" id="type_radio_public" checked>&nbsp;&nbsp;<label for="type_radio_public">Public</label>
-                                </div>
-                                <div style="display: flex; align-items: center; justify-content: center;">
-                                    <input style="margin: 0; padding: 0" type="radio" value="private" name="image_type" id="type_radio_private">&nbsp;&nbsp;<label for="type_radio_private">Private</label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="equipment mb-6">
                             <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
                             {{ FORM::select("bodygroupId", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select w-100"]) }}

@@ -29,17 +29,6 @@
                     <input type="text" name="nameEngine" placeholder="bench press, bicep curl, etc..." value="{{ request()->old('nameEngine') }}" tabindex="2">
                     <input type="hidden" name="id"/>
                     <input name="action" value="addexercise" type="hidden"/>
-                    <div>
-                        <label for="">{{ Lang::get("content.Type") }}</label>
-                        <div style="display: flex; align-items: center;">
-                            <div style="display: flex; align-items: center; justify-content: center; margin-right: 10px">
-                                <input style="margin: 0; padding: 0" type="radio" value="public" name="image_type" id="type_radio_public" checked>&nbsp;&nbsp;<label for="type_radio_public">Public</label>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: center;">
-                                <input style="margin: 0; padding: 0" type="radio" value="private" name="image_type" id="type_radio_private">&nbsp;&nbsp;<label for="type_radio_private">Private</label>
-                            </div>
-                        </div>
-                    </div>
                     <fieldset class="exerciseDescription">
                         <label for="description">{{ Lang::get("content.Exercisedescription") }}</label>
                         <textarea id="description" class="addexdescription" name="description" maxlength="500" placeholder="{{ Lang::get("content.Exercisedescription") }}" tabindex="3">{{ request()->old("description") }}</textarea>

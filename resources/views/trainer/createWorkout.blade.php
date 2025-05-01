@@ -1215,6 +1215,16 @@ function addExercise() {
   detectFile("video");
 }
 
+function suggestExercise() {
+    $(".overlayKillParent").addClass("overlayKillParent-active");
+    $("#o-wrapper *").not(".exerciseOverlay, .exerciseOverlay *").addClass("gone");
+    $(".overlayKillChild").click(function() {
+        closeExercise();
+    });
+
+    document.getElementById("suggest_form").reset();
+}
+
 //Adding a note to your workout POP UP
 function workoutNote(object) {
     var HaddingNote = $(object).closest(".ptAddNote");
@@ -2614,7 +2624,7 @@ function displayResults(results) {
         totalExDisplayed = response.length;
     }else{
         if($('.add_ex').length <= 0){
-            html = "<div class=\"clearfix\"></div><button onclick='addExercise();' class='bluebtn add_ex more_ex'>{{ Lang::get("content.Add_your_own_exercises") }}</button></div>";
+            html = `<div class="clearfix"><button onclick='addExercise();' style="margin-right: 10px;" class='bluebtn add_ex more_ex'>{{ Lang::get("content.Add_your_own_exercises") }}</button><button onclick='suggestExercise();' class='bluebtn add_ex more_ex'>Suggest an exercise</button></div>`;
             $("#search_results").append(html);
         }
     }
