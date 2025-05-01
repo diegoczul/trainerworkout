@@ -41,5 +41,4 @@ for i in 1 2 3; do
     if [ "$i" -ne 3 ]; then
         sleep 20
     fi
-
 done
