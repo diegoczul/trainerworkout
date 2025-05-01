@@ -15,7 +15,7 @@ sys.stdout.flush()
 GITHUB_TOKEN = "***REMOVED***"
 SLACK_USER_ID = "<@U089NKWDGUC>"
 SLACK_WEBHOOK_URL = "***REMOVED***"
-REPO_PATH = "/home/trainerworkout/dev.trainer-workout.com"
+REPO_PATH = "/home/trainerworkout/public_html"
 REPO_OWNER = "luisczul"
 REPO_NAME = "trainerworkout_v3"
 LAST_COMMIT_FILE = "last_commit.txt"
