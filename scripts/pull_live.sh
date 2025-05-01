@@ -1,8 +1,8 @@
 #!/bin/bash
 
-target_dir="/home/trainerworkout/dev.trainerworkout"
+target_dir="/home/trainerworkout/public_html"
 repo_url="git@github.com:luisczul/trainerworkout_v3.git"
-branch="main"
+branch="production"
 
 # Loop to run the script 3 times with 20 seconds interval
 for i in 1 2 3; do
