@@ -14,9 +14,9 @@ class ExportWorkoutArticle extends Command
 
     // ✅ Hardcoded keys as you asked (real ones)
     private $chatGptKey = '***REMOVED***';
-    private $wordpressUrl = 'https://dev.trainer-workout.com/blog';
+    private $wordpressUrl = 'https://trainer-workout.com/blog';
     private $wordpressUsername = 'root';
-    private $wordpressAppPassword = 'KJ5y rO5V dv5j bR5M 3EyW XWZv'; // your APP password directly
+    private $wordpressAppPassword = '***REMOVED***'; // your APP password directly
 
     public function handle()
     {
@@ -44,7 +44,7 @@ class ExportWorkoutArticle extends Command
 
         $this->info('Sending workout to ChatGPT...');
         $chatGptPrompt = <<<EOT
-You are a certified personal trainer writing a blog post. Write a detailed, engaging 500-word article about the following workout. Analyze why each exercise is chosen, and how it benefits a beginner. Speak like a friendly expert. Mention the benefits for posture, strength, and fitness goals. Include reasons why someone should add this workout to their routine.
+You are a certified personal trainer writing a blog post. Write a detailed, engaging 500-word article about the following workout. Analyze why each exercise is chosen, and how it benefits a beginner, use h2 tags for the excersises. Speak like a friendly expert. Mention the benefits for posture, strength, and fitness goals. Include reasons why someone should add this workout to their routine.
 
 End the article with a strong call to action encouraging readers to visit Trainer-Workout.com for free workouts, download the PDF, and view the full workout online.
 
