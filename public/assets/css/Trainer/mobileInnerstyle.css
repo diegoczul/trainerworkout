@@ -6148,12 +6148,16 @@ FRAMEWORK OVERRIDE CHOSEN
 .searchField.search-exercise{
   position: relative;
 }
+.input-section{
+  position: relative;
+  width: 100%;
+}
 .cancel-btn{
   position: absolute;
   top: 8px;
   left: auto;
   bottom: auto;
-  right: 115px;
+  right: 10px;
 }
 .cancel-btn svg{
   width: 26px;
@@ -6161,11 +6165,11 @@ FRAMEWORK OVERRIDE CHOSEN
 .cancel-btn svg fill{
   color: gray;
 }
-@media (min-width: 650px){
-  .cancel-btn{
-    right: 138px;
-  }
-}
+/*@media (min-width: 650px){*/
+/*  .cancel-btn{*/
+/*    right: 138px;*/
+/*  }*/
+/*}*/
 ul.tabs {
   width: 100%;
   overflow: hidden;
@@ -6196,17 +6200,18 @@ li.tab {
   display: none; }
 
 @media (min-height: 768px) {
-  #tags-exercise {
-    display: block; } }
-#tags-exercise,
+  #tags-exercise { display: block; }
+}
+
+#tags-muscle,
 li.tab:nth-child(1) {
   background: rgba(255, 255, 255, 0.12); }
 
-#tags-muscle,
+#tags-equipment,
 li.tab:nth-child(2) {
   background: rgba(255, 255, 255, 0.24); }
 
-#tags-equipment,
+#tags-exercise,
 li.tab:nth-child(3) {
   background: rgba(255, 255, 255, 0.36); }
 

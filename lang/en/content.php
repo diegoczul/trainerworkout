@@ -538,6 +538,7 @@ return array(
     "Muscle Group"                  => "Muscle Group",
     "Equipment"                     => "Equipment",
     "Add your own personal exercises to your personal collection"   => "Add your own personal exercises to your personal collection",
+    "Add_your_own_exercises"   => "Add your own excersie",
     "Duplicate"                     => "Duplicate",
     "See Exercise Description"      => "See Exercise Description",
     "exercise description"          => "exercise description",

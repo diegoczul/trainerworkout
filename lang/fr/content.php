@@ -578,6 +578,7 @@ return array(
     "Equipment"                         => "Équipement",
     "myExercises"                         => "Mes Exercices",
     "Add your own personal exercises to your personal collection"                         => "Ajoutez vos propres exercices à votre librairie personnelle",
+    "Add_your_own_exercises"   => "Ajoutez vos propres exercices",
     "Duplicate"                         => "Copier",
     "See Exercise Description"                         => "Voir description de l’exercice",
     "exercise description"                         => "Description de l’exercice",
