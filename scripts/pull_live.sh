@@ -32,8 +32,8 @@ for i in 1 2 3; do
     # Hard reset to match origin
     git reset --hard "origin/$branch"
 
-    # Fix ownership
-    chown -R trainerworkout:trainerworkout "$target_dir"
+    # # Fix ownership
+    # chown -R trainerworkout:trainerworkout "$target_dir"
 
     # # Set default permissions
     # find "$target_dir" -type f -exec chmod 644 {} \;
