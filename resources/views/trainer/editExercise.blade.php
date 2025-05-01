@@ -93,9 +93,9 @@
                             <input type="checkbox" name="removeGreenScreen"  id="removeGreenScreen"><label>{{ Lang::get("content.Removegreenscreen") }}</label>
                         </div>
                         <div class="fltright">
-                            <div style="display: flex; gap: 10px;">
-                                <button type="button" onclick="window.location.href='{{route('ExercisesHomeTrainer')}}'" style="background: #FFF; color: #0b97c4" class="bluebtn heavy">{{ Lang::get("content.Cancel") }}</button>
-                                <input type="submit" class="bluebtn heavy"  value="{{ Lang::get("content.UpdateExercise") }}" onClick="lightBoxLoadingTwSpinner()" />
+                            <div class="edit-btn-section">
+                                <button type="button" class="cancel-bluebtn bluebtn heavy" onclick="window.location.href='{{route('ExercisesHomeTrainer')}}'">{{ Lang::get("content.Cancel") }}</button>
+                                <input type="submit" class=" bluebtn heavy"  value="{{ Lang::get("content.UpdateExercise") }}" onClick="lightBoxLoadingTwSpinner()" />
                             </div>
                         </div>
                     </fieldset>

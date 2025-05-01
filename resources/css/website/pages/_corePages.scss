@@ -58,7 +58,7 @@
 	h1 {
 		color: white;
 		max-width: 805px;
-	    margin-top: 45px;
+	    margin-top: 80px;
 
 	    @media (min-width: $jumboSwitch) and (orientation: portrait) {
 	    	margin-top: 0;
@@ -117,7 +117,9 @@
 
 	}
 }
-
+.info .info-p{
+	color: black;
+}
 
 .topSectionContent {
 	max-width: 700px;
@@ -295,6 +297,7 @@
 			color: $tw_orange;
 		}
 
+		#plans &,
 		#third & {
 			color: $red;
 		}
@@ -367,6 +370,7 @@
 
 		.selected {
 			color: white;
+			background-image: linear-gradient(-270deg, #2C3E50 0%, #3E5771 100%);
 		}
 	}
 }
@@ -412,6 +416,18 @@
 		@media (min-width: $text_align_Start) {
 			text-align: right;
 			margin-left: auto;
+		}
+	}
+}
+
+#plans {
+	padding-bottom: 30px;
+    padding-top: 30px;
+
+	@media (min-width: $two_columnDisplay) {
+		.mainSectionContent > div {
+			margin-bottom: 200px;
+			min-height: 600px;
 		}
 	}
 }

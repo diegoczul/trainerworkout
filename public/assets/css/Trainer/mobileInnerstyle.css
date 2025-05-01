@@ -187,6 +187,16 @@ td.restBtwSet {
 
 .fltright {
   float: right; }
+  .fltright .edit-btn-section{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .fltright .edit-btn-section .cancel-bluebtn{
+    background-color: #FFFFFF;
+    color: #0b97c4;
+  }
 
 .overlayStyle, #lightBoxLoading, .overlay, .leftOverBound, .exerciseOverlay {
   top: 0;
@@ -7696,6 +7706,11 @@ th.bound,
   -o-transform: translateX(-50%);
   transform: translateX(-50%); }
 
+  .submit .next-step-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 .exerice_images {
   width: 100%;
   margin-bottom: 20px; }
@@ -8549,8 +8564,8 @@ input.input, .popup_container .share_content textarea.input {
   border-radius: 4px;
   font-size: 14px;
   padding: 6px;
-  text-align: center;
-  /*color: white;*/
+  /* text-align: center; */
+  color: black;
   margin: 0; }
 
 .input {
@@ -9496,7 +9511,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   overflow: hidden;
   padding: 0 0 0 8px;
   /* height: 25px; */
-  height: 33px;
+  height: 40px;
   border: 1px solid #aaa;
   border-radius: 5px;
   background-color: #fff;
@@ -9514,7 +9529,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   display: block;
   overflow: hidden;
   /* margin-right: 26px; */
-  margin:4px 26px 0px 0px;
+  margin:8px 26px 0px 0px;
   text-overflow: ellipsis;
   white-space: nowrap; }
 .chosen-container-single .chosen-single-with-deselect span {

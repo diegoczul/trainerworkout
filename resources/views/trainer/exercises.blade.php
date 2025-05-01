@@ -112,13 +112,13 @@
                             <div id="textarea_counter"></div>
                         </fieldset>
 
-                        <div class="equipment">
+                        <div class="equipment mb-6">
                             <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
                             {{ FORM::select("bodygroupId", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select w-100"]) }}
                         </div>
 
                         <div class="submit">
-                            <label class="next" onclick="addExerciseSwtichStep()">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
+                            <label class="next next-step-btn" onclick="addExerciseSwtichStep()">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
                         </div>
 
                     </div>

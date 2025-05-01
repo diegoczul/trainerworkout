@@ -15,7 +15,7 @@
             <div class="content">
                 <div class="wrapper">
                     <h1>{{{ Lang::get("content.Connect with your clients & scale up your personal training business") }}}</h1>
-                    <p class="text-lg">{{{ Lang::get("content.bestTecno") }}}</p>
+                    <p>{{{ Lang::get("content.bestTecno") }}}</p>
                     <a href="{{ Lang::get("routes./TrainerSignUp") }}" class="action">{{ Lang::get("content.Get started for free") }}</a>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="info">
                         <h1>{{ Lang::get("content.Always with you, works on any device, intuitive & easy to use") }}</h1>
-                        <p class="text-lg">{{ Lang::get("content.mobileFriendlyTW") }}</p>
+                        <p class="text-lg info-p">{{ Lang::get("content.mobileFriendlyTW") }}</p>
                     </div>
                 </div>
             </div>
@@ -64,22 +64,22 @@
                         <div class="deviceBtn"></div>
                         <div id="customPlans" class="screen">
                             <div class="scrollableContainer">
-                                <img alt="{{ Lang::get('content.Create Custom Plans') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-custom.png') }}">
+                                <img alt="{{ Lang::get('content.Create Custom Plans') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-custom-plans-.png') }}">
                             </div>
                         </div>
                         <div id="clientSubscriptions" class="screen hideMe">
                             <div class="scrollableContainer">
-                                <img alt="{{ Lang::get('content.Client Subscriptions') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-subscribe.png') }}">
+                                <img alt="{{ Lang::get('content.Client Subscriptions') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-client-subscription.png') }}">
                             </div>
                         </div>
                         <div id="billingInvoicing" class="screen hideMe">
                             <div class="scrollableContainer">
-                                <img alt="{{ Lang::get('content.Automatic Billing & Invoicing') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-billing.png') }}">
+                                <img alt="{{ Lang::get('content.Automatic Billing & Invoicing') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-billing-invoice.png') }}">
                             </div>
                         </div>
                         <div id="managePlans" class="screen hideMe">
                             <div class="scrollableContainer">
-                                <img alt="{{ Lang::get('content.Manage Plans Anytime') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-manage.png') }}">
+                                <img alt="{{ Lang::get('content.Manage Plans Anytime') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-custom-plans-.png') }}">
                             </div>
                         </div>
                     </div>
@@ -275,13 +275,20 @@
 
 
         //cache a reference to the tabs
+        // var first_tabs = $('#plans .tab');
         var sec_tabs = $('#secondary .tab');
         var third_tabs = $('#third .tab');
+        
+        var first_time = 10000;
+        var sec_time = 12000;
+        var third_time = 14000;
 
-        var sec_time = 10000;
-        var third_time = 12000;
 
-
+         // switching the tabs in the second section
+         function switchFirstTab() {
+            switchTab(first_tabs);
+        }
+        
         // switching the tabs in the second section
         function switchSecondTab() {
             switchTab(sec_tabs);
@@ -291,6 +298,9 @@
         function switchThirdTab() {
             switchTab(third_tabs);
         }
+
+        //auto-rotate Second Section tabs every 8 seconds
+        var firstTimer = setInterval(switchFirstTab, first_time);
 
         //auto-rotate Second Section tabs every 8 seconds
         var secondTimer = setInterval(switchSecondTab, sec_time);

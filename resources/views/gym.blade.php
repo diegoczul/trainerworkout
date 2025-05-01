@@ -48,7 +48,7 @@
                     </div>
                     <div class="info">
                         <h1>{{ Lang::get("content.gym/alwaysMobile") }}</h1>
-                        <p>{{ Lang::get("content.gym/alwaysMobileText") }}</p>
+                        <p class="info-p">{{ Lang::get("content.gym/alwaysMobileText") }}</p>
                     </div>
                 </div>
             </div>

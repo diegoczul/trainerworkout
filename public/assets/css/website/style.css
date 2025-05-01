@@ -132,10 +132,15 @@ a.action {
 
 h1 {
   color: #369AD8;
-  font-size: 2em;
+  font-size: 1.5em;
   margin-bottom: 20px;
   font-weight: 300;
   line-height: 1.2em; }
+
+  @media (min-width: 600px) {
+    h1 {
+      font-size: 2em; } }
+
   @media (min-width: 900px) {
     h1 {
       font-size: 2.625em; } }
@@ -427,7 +432,7 @@ nav .mobileMenuContent a.selected, nav .mobileMenuContent a.nav_item:active, nav
   .mobileMenu a {
     display: block;
     color: #369AD8;
-    padding-top: 40px; }
+    padding-top: 30px; }
   .mobileMenu .nav_item {
     font-weight: 400; }
 
@@ -981,7 +986,7 @@ div.newsletter button.newsletter {
   #jumbotron h1 {
     color: white;
     max-width: 805px;
-    margin-top: 45px; }
+    margin-top: 0px; }
     @media (min-width: 400px) and (orientation: portrait) {
       #jumbotron h1 {
         margin-top: 0; } }
@@ -1077,14 +1082,22 @@ div.newsletter button.newsletter {
     margin-bottom: 15px; }
   .plan-b h4,
   .plan-a h4 {
-    margin-bottom: 50px; }
+    margin-bottom: 30px; }
+    @media (min-width: 600px) {
+      .plan-b h4,
+      .plan-a h4 {
+        margin-bottom: 50px; } }
     @media (min-width: 900px) {
       .plan-b h4,
       .plan-a h4 {
         margin-bottom: 70px; } }
   .plan-b p,
   .plan-a p {
-    margin-bottom: 45px; }
+    margin-bottom: 30px; }
+    @media (min-width: 600px) {
+      .plan-b p,
+      .plan-a p {
+        margin-bottom: 45px; } }
     @media (min-width: 900px) {
       .plan-b p,
       .plan-a p {
@@ -1119,7 +1132,7 @@ div.newsletter button.newsletter {
     -moz-transition: all 0.1s ease-out;
     transition: all 0.1s ease-out;
     box-shadow: 0 3px 0 0 #2cab89;
-    font-size: 1.625em;
+    font-size: 1.5em;
     margin-top: auto;
     margin-right: 15px;
     margin-left: 15px; }
@@ -1194,7 +1207,7 @@ div.newsletter button.newsletter {
     -moz-transition: all 0.1s ease-out;
     transition: all 0.1s ease-out;
     box-shadow: 0 3px 0 0 #f09005;
-    font-size: 1.625em;
+    font-size: 1.5em;
     margin-top: auto;
     margin-right: 15px;
     margin-left: 15px; }
@@ -1489,7 +1502,7 @@ div.newsletter button.newsletter {
   #pricing h1 {
     color: #2C3E50;
     text-align: center;
-    margin-bottom: 70px; }
+    margin-bottom: 50px; }
     @media (min-width: 700px) {
       #pricing h1 {
         margin-bottom: 140px; } }
