@@ -32,8 +32,17 @@ for i in 1 2 3; do
     # Hard reset to match origin
     git reset --hard "origin/$branch"
 
-    # Fix permissions
+    # Fix ownership
     chown -R trainerworkout:trainerworkout "$target_dir"
+
+    # Set default permissions
+    find "$target_dir" -type f -exec chmod 644 {} \;
+    find "$target_dir" -type d -exec chmod 755 {} \;
+
+    # Restore special permissions for writable folders
+    if [ -d "$target_dir/storage/temp" ]; then
+        chmod -R 777 "$target_dir/storage/temp"
+    fi
 
     echo "[`date`] Sync attempt $i complete."
 
