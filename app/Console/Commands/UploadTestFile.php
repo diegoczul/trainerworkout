@@ -12,34 +12,40 @@ class UploadTestFile extends Command
 
     public function handle()
     {
-        $pdfPath = public_path('temp/chestbeginner_grid.pdf'); // <-- adjust path if needed
-        $wordpressUrl = 'https://dev.trainer-workout.com/blog/wp-json/wp/v2';
-        $wordpressUser = 'root'; // <-- your WP username
-        $wordpressPassword = 'Cool**88'; // <-- your WP password
+        $pdfPath = public_path('temp/sideabs_grid.pdf');
+        $wordpressUrl = 'https://trainer-workout.com/blog/wp-json/wp/v2/media';
+        $wordpressUser = 'root';
+        $wordpressPassword = '***REMOVED***';
 
         if (!file_exists($pdfPath)) {
             $this->error('File not found: ' . $pdfPath);
             return 1;
         }
 
-        $this->info('Uploading PDF directly...');
+        $this->info('Uploading PDF to WordPress...');
 
-        $uploadResponse = Http::attach(
-            'file',
-            fopen($pdfPath, 'r'),
-            basename($pdfPath)
-        )
-            ->withBasicAuth($wordpressUser, $wordpressPassword)
-            ->post($wordpressUrl . '/media');
+        $response = Http::withBasicAuth($wordpressUser, $wordpressPassword)
+            ->attach(
+                'file',
+                fopen($pdfPath, 'r'),
+                basename($pdfPath)
+            )
+            ->withHeaders([
+                'Content-Disposition' => 'attachment; filename="' . basename($pdfPath) . '"',
+                'Content-Type' => 'application/pdf'
+            ])
+            ->post($wordpressUrl);
+        $this->line('Raw JSON: ' . $response->body());
 
-        if (!$uploadResponse->ok()) {
-            $this->error('Failed to upload. Response:');
-            $this->line($uploadResponse->body()); // <-- show exact WordPress error
+
+        if (!$response->successful()) {
+            $this->error('Upload failed. Response:');
+            $this->line($response->body());
             return 1;
         }
 
-        $this->info('Uploaded successfully!');
-        $this->info('PDF URL: ' . $uploadResponse->json('source_url'));
+        $this->info('✅ Upload succeeded!');
+        $this->info('📎 PDF URL: ' . $response->json('source_url'));
 
         return 0;
     }

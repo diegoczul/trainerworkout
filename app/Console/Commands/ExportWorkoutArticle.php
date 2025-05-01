@@ -93,7 +93,11 @@ EOT;
 
         // ➡️ Build final post content
         $finalContent = <<<HTML
-<p><img src="{$imageUrl}" alt="Workout Preview" style="max-width:100%; height:auto;" /></p>
+<p>
+    <a href="https://trainer-workout.com/workout/{$workout->id}" target="_blank">
+        <img src="{$imageUrl}" alt="Workout Preview" style="max-width:100%; height:auto;" />
+    </a>
+</p>
 
 {$articleContent}
 
