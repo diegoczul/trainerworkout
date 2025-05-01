@@ -21,7 +21,20 @@ class ExportWorkoutArticle extends Command
     public function handle()
     {
         $workoutId = $this->argument('workout_id');
-        $workout = Workouts::find($workoutId);
+
+        if ($workoutId) {
+            $workout = Workouts::find($workoutId);
+        } else {
+            $workout = Workouts::where('social', 1)
+                ->whereNull('post_sent')
+                ->orderBy('id', 'asc')
+                ->first();
+        }
+
+        if (!$workout) {
+            $this->info('No eligible workout found to post.');
+            return 0;
+        }
 
         if (!$workout) {
             $this->error('Workout not found');
@@ -124,6 +137,9 @@ HTML;
 
         $postUrl = $createPost->json('link') ?? 'unknown';
         $this->info("✅ Workout article posted: $postUrl");
+
+        $workout->post_sent = now();
+        $workout->save();
 
         return 0;
     }
