@@ -30,6 +30,17 @@
                                 <input name="action" value="addexercise" type="hidden" />
                             </div>
                             <div class="input-section">
+                                <p for="">{{ Lang::get("content.Type") }}</p>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center; margin-right: 10px">
+                                        <input style="margin: 0; padding: 0" type="radio" value="public" name="image_type" id="type_radio_public" @if($exercise->image_type == 'public') checked @endif>&nbsp;&nbsp;<label style="color: #000;" for="type_radio_public">Public</label>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: center;">
+                                        <input style="margin: 0; padding: 0" type="radio" value="private" name="image_type" id="type_radio_private" @if($exercise->image_type == 'private') checked @endif>&nbsp;&nbsp;<label style="color: #000;" for="type_radio_private">Private</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-section">
                                 <p>{{ Lang::get("content.MuscleGroup") }}</p>
                                 {{ FORM::select( "bodygroupId", $bodygroups, $exercise->bodygroupId, array("class"=>"chosen-select","id"=>"bodygroup")) }}
                             </div>
