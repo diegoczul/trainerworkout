@@ -88,6 +88,7 @@ EOT;
         $articleContent = $chatResponse->json('choices.0.message.content');
 
 
+
         preg_match('/Tags:\s*(.*)/i', $articleContent, $tagsMatch);
         preg_match('/Category:\s*(.*)/i', $articleContent, $categoryMatch);
 
