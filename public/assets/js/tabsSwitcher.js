@@ -78,11 +78,11 @@ $(".tab").click(function($this) {
    //get the right device back on
    $(this).closest(".mainSectionContent").find(".device").attr('class', 'device').addClass(device[tab]);
 
-   if ($id == "secondary"){
+   if ($id == "plans"){
 
     //clear interval and reset if in second
     clearInterval(firstTimer);
-    secondTimer = setInterval(switchFirstTab, first_time);
+    firstTimer = setInterval(switchFirstTab, first_time);
 
    } else if ($id == "secondary"){
 

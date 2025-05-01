@@ -275,7 +275,7 @@
 
 
         //cache a reference to the tabs
-        // var first_tabs = $('#plans .tab');
+        var first_tabs = $('#plans .tab');
         var sec_tabs = $('#secondary .tab');
         var third_tabs = $('#third .tab');
         
