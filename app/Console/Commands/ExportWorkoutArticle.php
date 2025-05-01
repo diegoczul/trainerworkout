@@ -57,13 +57,18 @@ class ExportWorkoutArticle extends Command
 
         $this->info('Sending workout to ChatGPT...');
         $chatGptPrompt = <<<EOT
-You are a certified personal trainer writing a blog post. Write a detailed, engaging 500-word article about the following workout. Analyze why each exercise is chosen, and how it benefits a beginner, use h2 tags for the excersises. Speak like a friendly expert. Mention the benefits for posture, strength, and fitness goals. Include reasons why someone should add this workout to their routine.
+You are a certified personal trainer writing a blog post.
 
-End the article with a strong call to action encouraging readers to visit Trainer-Workout.com for free workouts, download the PDF, and view the full workout online.
+Write a detailed, engaging 500-word article about the following workout. Analyze why each exercise is chosen, how it benefits a beginner, and use h2 tags for the exercises. Speak like a friendly expert. Mention benefits for posture, strength, and fitness goals. End with a strong call to action encouraging readers to visit Trainer-Workout.com for more.
+
+Also include at the end:
+- A list of 5-7 relevant tags (keywords or exercises)
+- One category that best represents the main muscle group focus (e.g., Chest, Back, Legs, Core, Full Body)
 
 Workout name: {$workout->name}
 Workout description: {$workout->description}
 EOT;
+
 
         $chatResponse = Http::withToken($this->chatGptKey)
             ->timeout(600)
@@ -80,7 +85,15 @@ EOT;
             return 1;
         }
 
-        $articleContent = $chatResponse->json('choices.0.message.content');
+        preg_match('/Tags:\s*(.*)/i', $articleContent, $tagsMatch);
+        preg_match('/Category:\s*(.*)/i', $articleContent, $categoryMatch);
+
+        $tags = isset($tagsMatch[1]) ? array_map('trim', explode(',', $tagsMatch[1])) : [];
+        $category = $categoryMatch[1] ?? 'General';
+
+        // Remove tags/category section from content
+        $articleContent = preg_replace('/Tags:\s*.*$/is', '', $articleContent);
+        $articleContent = preg_replace('/Category:\s*.*$/is', '', $articleContent);
 
         $this->info('Uploading files to WordPress...');
 
@@ -101,6 +114,8 @@ EOT;
             return 1;
         }
         $imageUrl = $uploadImage->json('source_url');
+        $imageId = $uploadImage->json('id');
+
 
         $this->info('✅ Uploaded assets.');
 
@@ -128,7 +143,45 @@ HTML;
                 'title' => $workout->name,
                 'content' => $finalContent,
                 'status' => 'publish',
+                'featured_media' => $imageId, // ✅ Set as featured image
             ]);
+        $postId = $createPost->json('id');
+
+        // 🔁 Create/find category
+        $categoryResponse = Http::withBasicAuth($this->wordpressUsername, $this->wordpressAppPassword)
+            ->get("{$this->wordpressUrl}/wp-json/wp/v2/categories", ['search' => $category]);
+        $categoryId = collect($categoryResponse->json())->firstWhere('name', $category)['id'] ?? null;
+
+        if (!$categoryId) {
+            $newCat = Http::withBasicAuth($this->wordpressUsername, $this->wordpressAppPassword)
+                ->post("{$this->wordpressUrl}/wp-json/wp/v2/categories", ['name' => $category]);
+            $categoryId = $newCat->json('id');
+        }
+
+        // 🔁 Create/find tags
+        $tagIds = [];
+        foreach ($tags as $tag) {
+            $tag = trim($tag);
+            $existing = Http::withBasicAuth($this->wordpressUsername, $this->wordpressAppPassword)
+                ->get("{$this->wordpressUrl}/wp-json/wp/v2/tags", ['search' => $tag]);
+            $tagId = collect($existing->json())->firstWhere('name', $tag)['id'] ?? null;
+
+            if (!$tagId) {
+                $newTag = Http::withBasicAuth($this->wordpressUsername, $this->wordpressAppPassword)
+                    ->post("{$this->wordpressUrl}/wp-json/wp/v2/tags", ['name' => $tag]);
+                $tagId = $newTag->json('id');
+            }
+
+            if ($tagId) $tagIds[] = $tagId;
+        }
+
+        // 📝 Update post with category and tags
+        Http::withBasicAuth($this->wordpressUsername, $this->wordpressAppPassword)
+            ->post("{$this->wordpressUrl}/wp-json/wp/v2/posts/{$postId}", [
+                'categories' => [$categoryId],
+                'tags' => $tagIds,
+            ]);
+
 
         if ($createPost->failed()) {
             $this->error('❌ Failed to create WordPress post');
