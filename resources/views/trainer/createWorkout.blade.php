@@ -1080,11 +1080,17 @@
 <script src="{{asset('assets/js/jquery.bpopup.min.js')}}"></script>
  <!-- CHOSEN SELCT BOX -->
 <script>
+    $(document).on('keyup','#exercise_search', function (e){
+        if(e.keyCode == 13) {
+            searchExercise();
+        }
+    });
+
     function clearSearch(){
         $("#exercise_search").val("");
     }
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
+document.addEventListener("keyup", function(event) {
+    if (event.key === "Enter"|| e.keyCode === 13) {
         const activeElement = document.activeElement;
         if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
             activeElement.blur(); // Closes the keyboard
