@@ -111,7 +111,8 @@
                             <textarea id="description" class="addexdescription" name="description" maxlength="500" placeholder="{{ Lang::get("content.Exercisedescription") }}">{{ request()->old("description") }}</textarea>
                             <div id="textarea_counter"></div>
                         </fieldset>
-                        <div class="equipment mb-6">
+
+                        <div class="equipment select-equipment-section mb-6">
                             <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
                             {{ FORM::select("bodygroupId", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select w-100"]) }}
                         </div>
@@ -167,7 +168,7 @@
 
                         </fieldset>
                         <div class="previous">
-                            <span onclick="addExerciseSwtichStep()"><div class="previousButton"><img src="{{asset('assets/img/svg/arrowPrevious.svg')}}"></div> previous step</span>
+                            <span onclick="addExerciseSwtichStep()" class="previous-section"><div class="previousButton"><img src="{{asset('assets/img/svg/arrowPrevious.svg')}}"></div> previous step</span>
                         </div>
                         <div class="submit">
                             <button type="submit" class="saveex" onClick="lightBoxLoadingTwSpinner();">{{ Lang::get("content.CreateExercise") }}</button>

@@ -7711,6 +7711,20 @@ th.bound,
   -o-transform: translateX(-50%);
   transform: translateX(-50%); }
 
+  .select-equipment-section .select2-selection.select2-selection--single{
+    height: 38px !important;
+  }
+  .select-equipment-section .select2-container .select2-selection--single .select2-selection__rendered{
+    padding-top: 4px;
+  }
+  .select-equipment-section .select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 5px;
+  }
+  .select-equipment-section .select2-container--default .select2-selection--single{
+    background-color: #fff;
+    border: 1px solid #2C3E50;
+    border-radius: 2px;
+  }
   .submit .next-step-btn{
     display: flex;
     justify-content: center;
@@ -7803,6 +7817,13 @@ th.bound,
     margin-bottom: 20px; }
     .execise_equipments .equipment:last-of-type {
       margin-bottom: 0; }
+
+      .previous .previous-section{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
 
 .exercisesImageContainer {
   padding: 10px; }
