@@ -58,11 +58,11 @@ use Stripe\SetupIntent;
 */
 
 //Route::middleware(['guest'])->group(function () {
-Route::get('apple-app-site-association', function () {
-    $path = public_path('.well-known/apple-app-site-association');
+Route::get('.well-known/apple-app-site-association', function () {
+    $path = public_path('apple-app-site-association');
 
     if (file_exists($path)) {
-        return response()->download($path, 'apple-app-site-association.json', [
+        return response()->download($path, 'apple-app-site-association', [
             'Content-Type' => 'application/json',
         ]);
     }
