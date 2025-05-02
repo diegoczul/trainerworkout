@@ -1958,6 +1958,22 @@ div.newsletter button.newsletter {
   width: auto;
   height: auto; }
 
+
+.term-condition-section{
+  display: flex;
+  gap: 10px;
+  height: auto;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.term-condition-section label{
+  margin: 0px;
+}
+
+.termsAndConditions #terms{
+  box-shadow: none;
+  margin: 0px;
+}
 .termsAndConditions label,
 .termsAndConditions a {
   display: inline-block; }
