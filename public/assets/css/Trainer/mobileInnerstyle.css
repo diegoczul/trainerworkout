@@ -2820,6 +2820,17 @@ nav {
     #step1 button {
       float: none; } }
 
+      /* .timer-section{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .timer-section .show-timing{
+        margin: 0px;
+      }
+      .timer-section .restart-timer{
+        margin: 0px;
+      } */
 #timer {
   min-height: 50px; }
   @media (min-width: 768px) {
@@ -9919,6 +9930,10 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   .p_Container.trainee-profile-form{
     padding: 107px 35px 35px;
   }
+}
+
+.p_Container.trainee-profile-form input{
+  border: 1px solid #EFEFEF;
 }
 
 .p_img {

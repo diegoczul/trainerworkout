@@ -1247,9 +1247,25 @@ div.newsletter button.newsletter {
 .selectableTabContainer {
   position: relative;
   margin-bottom: 20px; }
-  .selectableTabContainer select{
+
+  /* ---- */
+  .selectableTabContainer.select-tab select{
     -webkit-appearance: none;
+    padding: 12px 40px 12px 12px;
   }
+  .selectableTabContainer.select-tab::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+    transform: rotate(315deg);
+  }
+  /* ---- */
+
   .selectableTabContainer::after {
     content: url("/img/website/Triangle.svg");
     position: absolute;
