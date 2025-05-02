@@ -440,55 +440,16 @@
         }
     </script>
     <script>
-        {{--// window.intercomSettings = {--}}
-        {{--//   //The current logged in user's full name--}}
-        {{--//   name: "{{{ Auth::user()->getCompleteName() }}}",--}}
-        {{--//   //The current logged in user's email address.--}}
-        {{--//   email: "{{{ Auth::user()->email }}}",--}}
-        {{--//   user_id: "{{{ Auth::user()->id }}}",--}}
-        {{--//   //The current logged in user's sign-up date as a Unix timestamp.--}}
-        {{--//   created_at: {{ Helper::dateToUnix(Auth::user()->created_at) }},--}}
-        {{--//   //UserType--}}
-        {{--//   "userType": "trainer",--}}
-        {{--//   //Language--}}
-        {{--//   "lang": "{{{ Auth::user()->lang }}}",--}}
-        {{--//   //Memberhsip type--}}
-        {{--//   "membership_plan": "{{{ (Auth::user()->getTrainerWorkoutMembership() and Auth::user()->getTrainerWorkoutMembership()->membership) ? Auth::user()->getTrainerWorkoutMembership()->membership->name : "" }}}",--}}
-        {{--//   // Nb of clients--}}
-        {{--//   "number_of_clients": "{{{ Auth::user()->getNumberOfClients() }}}",--}}
-        {{--//   //Nb of workouts in account--}}
-        {{--//   "number_of_workouts": "{{{ Auth::user()->getNumberOfWorkouts() }}}",--}}
-        {{--//   //Nb of exercise created--}}
-        {{--//   "number_of_exercises": "{{{ Auth::user()->getNumberOfExercises() }}}",--}}
-
-        {{--//   // HIDE INTERCOM CHAT ICON ON Create Workout page--}}
-        {{--//   "hide_default_launcher": onPage,--}}
-
-        {{--//   //Where did the user come from--}}
-        {{--//   <?php--}}
-        {{--         //     $params = explode("&",Auth::user()->marketing);--}}
-        {{--         //     foreach($params as $param){--}}
-        {{--         //       $pa = explode("=",$param);--}}
-        {{--         //       if($pa > 1 and count($pa) > 1){--}}
-        {{--         //         echo '"'.$pa[0].'":"'.$pa[1].'",';--}}
-        {{--         //       }--}}
-        {{--         //     }--}}
-        {{--         //     ?>--}}
-        {{--//   //Our app ID--}}
-        {{--//   app_id: "af0obxyk",--}}
-        {{--//   //Class click that launches our intercom messenger--}}
-        {{--//   custom_launcher_selector: '#intercomWindow',--}}
-        {{--// };--}}
-
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-        (function () {
-            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/583dad9f73e3d85bf11b9b76/default';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
+       
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+ (function(){
+ var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+ s1.async=true;
+ s1.src='https://embed.tawk.to/67c8619b8857401908652631/1iljbqier';
+ s1.charset='UTF-8';
+ s1.setAttribute('crossorigin','*');
+ s0.parentNode.insertBefore(s1,s0);
+ })();
     </script>
     <!--End of Tawk.to Script-->
     <script>
@@ -498,41 +459,6 @@
             email: '{{ Auth::user()->email }}'
         };
         @endif
-    </script>
-    <script>
-        (function () {
-            var w = window;
-            var ic = w.Intercom;
-            if (typeof ic === "function") {
-                ic('reattach_activator');
-                ic('update', intercomSettings);
-            } else {
-                var d = document;
-                var i = function () {
-                    i.c(arguments)
-                };
-                i.q = [];
-                i.c = function (args) {
-                    i.q.push(args)
-                };
-                w.Intercom = i;
-
-                function l() {
-                    var s = d.createElement('script');
-                    s.type = 'text/javascript';
-                    s.async = true;
-                    s.src = 'https://widget.intercom.io/widget/af0obxyk';
-                    var x = d.getElementsByTagName('script')[0];
-                    x.parentNode.insertBefore(s, x);
-                }
-
-                if (w.attachEvent) {
-                    w.attachEvent('onload', l);
-                } else {
-                    w.addEventListener('load', l, false);
-                }
-            }
-        })()
     </script>
     <!-- Facebook Pixel Code -->
     <script>

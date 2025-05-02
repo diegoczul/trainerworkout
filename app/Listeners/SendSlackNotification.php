@@ -21,13 +21,14 @@ class SendSlackNotification
             $userEmail = 'unknown@example.com';
         }
 
-
-
         $paramText = json_encode($params);
+        if (env('APP_ENV') != 'production') { // Will send a yellow circle in Slack if not in production
+            $text = "[{$userEmail}] - [:large_yellow_circle:] {$eventName} {$paramText}";
+        }else{
+            $text = "[{$userEmail}] - {$eventName} {$paramText}";
+        }
 
-        $text = "[{$userEmail}] - {$eventName} {$paramText}";
-
-        Http::post(env('SLACK_WEBHOOK_URL'), [
+        Http::post("***REMOVED***", [
             'text' => $text,
         ]);
     }

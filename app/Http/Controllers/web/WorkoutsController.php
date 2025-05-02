@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Helper;
+use App\Listeners\SendSlackNotification;
 use App\Models\BodyGroups;
 use App\Models\Clients;
 use App\Models\Equipments;
@@ -2962,6 +2963,23 @@ class WorkoutsController extends BaseController
 			return redirect()->route("trainerWorkouts", ['userName' => $username])->withError(__("messages.Permissions"));
 		}
 	}
+
+
+    public function suggestExercise(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'exercise_name' => 'required|string|max:255',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->with("error",$validator->messages()->first())->withInput();
+        }
+
+        // Send slack webhook
+        $webhook = new SendSlackNotification();
+        $webhook->handle('Exercise Suggestion',Auth::user(),"You have new exercise suggestion :- ".$request->get('exercise_name'));
+
+        return redirect()->back()->with("message",__("messages.ExerciseSuggested"));
+    }
 
 	//=======================================================================================================================
 	// API

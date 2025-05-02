@@ -184,6 +184,7 @@ return array(
 
 
     "Logout"                       => "Déconnexion",
+    "DeleteAccount"                 => "Supprimer le compte",
     "Workouts"                       => "Programmes",
     "Exercises"                       => "Exercices",
     "remind/title"                       => "Tout s'oublie, un mot de passe aussi",

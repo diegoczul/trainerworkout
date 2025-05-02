@@ -58,6 +58,17 @@ use Stripe\SetupIntent;
 */
 
 //Route::middleware(['guest'])->group(function () {
+Route::get('.well-known/apple-app-site-association', function () {
+    $path = public_path('apple-app-site-association');
+
+    if (file_exists($path)) {
+        return response()->download($path, 'apple-app-site-association', [
+            'Content-Type' => 'application/json',
+        ]);
+    }
+
+    abort(404, 'File not found');
+});
 
 // Pay Page
 Route::get(__('routes./payment/{package}'), [OrdersController::class, 'indexPaypage']);
@@ -505,6 +516,7 @@ Route::get(__('routes./editWorkout/') . "{id}", [WorkoutsController::class, 'edi
 Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
 Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}/{param2}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
 Route::get(__('routes./Workouts/addWorkoutToClient') . "/{param1}/{param2}", [WorkoutsController::class, 'addToWorkoutClient'])->middleware('auth');
+Route::post('suggest-exercise',[WorkoutsController::class, 'suggestExercise'])->name('suggest-exercise')->middleware('auth');
 
 // THIS CANNOT BE TRANSLATED
 Route::get("/WorkoutInternal/{id}/{locale}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutInternal']);
