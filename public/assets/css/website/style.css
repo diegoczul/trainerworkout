@@ -795,11 +795,11 @@ div.newsletter button.newsletter {
   -webkit-box-pack: justify;
   -moz-box-pack: justify;
   box-pack: justify;
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
-  -ms-justify-content: space-between;
-  -o-justify-content: space-between;
-  justify-content: space-between;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  -ms-justify-content: space-around;
+  -o-justify-content: space-around;
+  justify-content: space-around;
   -ms-flex-pack: justify;
   max-width: 400px;
   margin: auto; }
@@ -1247,6 +1247,9 @@ div.newsletter button.newsletter {
 .selectableTabContainer {
   position: relative;
   margin-bottom: 20px; }
+  .selectableTabContainer select{
+    -webkit-appearance: none;
+  }
   .selectableTabContainer::after {
     content: url("/img/website/Triangle.svg");
     position: absolute;

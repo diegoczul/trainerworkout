@@ -43,7 +43,7 @@
 				<input type="password" placeholder="" name="password" id="password">
 				<label for="password_confirmation">{{{ Lang::get("content.reset/placeholder") }}}</label>
 				<input type="password" placeholder="" name="password_confirmation" id="password_confirmation">	
-				<div class="saveButton">    
+				<div class="saveButton detail-save-btn">    
                     <button>{{{ Lang::get("content.save") }}}</button>
                 </div>	
 			

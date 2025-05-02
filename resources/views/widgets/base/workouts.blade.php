@@ -404,20 +404,18 @@
 @endif
 
 
-<div class="viewMore_holder">
-
-    @if (isset($countArchiveWorkouts) and $countArchiveWorkouts > 0)
-        <a id="viewArchivedWorkouts" class="archive" href="javascript:void(0)" onClick="viewArchivedWorkouts()"
-            style="{{ $archive ? 'display: none' : '' }}">{{ Lang::get('content.viewArchivedWorkouts') }}</a>
-        <a id="viewUnArchivedWorkouts" class="archive" href="javascript:void(0)" onClick="viewUnArchivedWorkouts()"
-            style="display: {{ $archive ? 'inline-block' : 'none' }}">{{ Lang::get('content.viewNotArchivedWorkouts') }}</a>
-    @endif
-    @if ($total > $workouts->count())
-        <a href="javascript:void(0)"
-            onclick="callWidget('w_workouts',{{ $workouts->count() }},null,$(this),{archive: '{{ $archive ? 'true' : 'false' }}', search:'{!! isset($search) ? $search : '' !!}'})"
-            class="viewMore">{{ Lang::get('content.ViewMore') }}</a>
-    @endif
-
+<div class="viewMore_holder view-more-btn-section pb-4 md:pb-0">
+        @if (isset($countArchiveWorkouts) and $countArchiveWorkouts > 0)
+            <a id="viewArchivedWorkouts" class="archive archive-btn" href="javascript:void(0)" onClick="viewArchivedWorkouts()"
+                style="{{ $archive ? 'display: none' : '' }}">{{ Lang::get('content.viewArchivedWorkouts') }}</a>
+            <a id="viewUnArchivedWorkouts" class="archive archive-btn" href="javascript:void(0)" onClick="viewUnArchivedWorkouts()"
+                style="display: {{ $archive ? 'inline-block' : 'none' }}">{{ Lang::get('content.viewNotArchivedWorkouts') }}</a>
+        @endif
+        @if ($total > $workouts->count())
+            <a href="javascript:void(0)"
+                onclick="callWidget('w_workouts',{{ $workouts->count() }},null,$(this),{archive: '{{ $archive ? 'true' : 'false' }}', search:'{!! isset($search) ? $search : '' !!}'})"
+                class="viewMore viewmore-btn">{{ Lang::get('content.ViewMore') }}</a>
+        @endif
 </div>
 
 <script type="text/javascript">
