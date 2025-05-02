@@ -86,7 +86,7 @@
                 {{ Lang::get("content.Add Circuit") }}
             </button>
             <!-- *********** -->
-            <button class="add-modal-btns" onclick="exercisemodal()">Add</button>
+{{--            <button class="add-modal-btns" onclick="exercisemodal()">Add</button>--}}
             
         </div>
     </div>
