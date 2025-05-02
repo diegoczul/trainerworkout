@@ -5,7 +5,7 @@
       {
         "appID": "5RD29Q8U85.com.app.trainerworkout",
         "paths": [
-          "/trainer-workout.com/auth/google/callback/*"
+          "*/auth/google/callback/*"
         ]
       }
     ]
