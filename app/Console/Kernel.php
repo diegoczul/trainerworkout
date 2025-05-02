@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('workout:export-article')->dailyAt('09:00'); // 2AM server time
         $schedule->command('plans:sync-cancellations')->everyTenMinutes();
         $schedule->command('sync:stripe-transactions')->dailyAt('02:00'); // 2AM server time
         $schedule->command('app:release-frozen-earnings')->daily();
