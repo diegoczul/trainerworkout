@@ -319,7 +319,7 @@ class ExercisesController extends BaseController
             $exercise->youtube = Helper::extractYoutubeTag($request->get("youtube"));
             $exercise->nameEngine = $request->get("nameEngine");
             $exercise->type = $request->has("publicLicense") ? "public" : "private";
-            $exercise->image_type = $request->has("image_type","public");
+//            $exercise->image_type = $request->has("image_type","public");
             $exercise->equipmentRequired = $request->has("equipmentRequired") ? 1 : 0;
 
             $exercise->userId = $user->id;
@@ -485,7 +485,7 @@ class ExercisesController extends BaseController
             $exercise->youtube = Helper::extractYoutubeTag($request->get("youtube"));
             $exercise->nameEngine = $request->get("nameEngine");
             $exercise->type = $request->has("publicLicense") ? "public" : "private";
-            $exercise->image_type = $request->has("image_type",'public');
+//            $exercise->image_type = $request->has("image_type",'public');
             $exercise->equipmentRequired = $request->has("equipmentRequired") ? 1 : 0;
             $exercise->userId = Auth::id();
             $exercise->authorId = Auth::id();
