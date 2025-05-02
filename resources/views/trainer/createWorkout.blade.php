@@ -85,6 +85,9 @@
                 </svg>
                 {{ Lang::get("content.Add Circuit") }}
             </button>
+            <!-- *********** -->
+            <button class="add-modal-btns" onclick="exercisemodal()">Add</button>
+            
         </div>
     </div>
 </div>
@@ -1073,6 +1076,8 @@
 
 
 @include('popups.addExerciseInWorkout', array("bodygroups" => $bodygroups, "equipments"=>$equipments))
+
+@include('popups.suggested-exercise')
 
 
 @endsection
@@ -3455,6 +3460,36 @@ function showExercisePopUp(){
 }
 
 
+</script>
+
+<script>
+    
+    function exercisemodal(){
+        $(".lightBox").addClass("lightBox-activated");
+        $(".popup_container").addClass("popup_container-activated");
+        $(".lightbox_mask").addClass("lightbox_mask-activated");
+        $("body").addClass('no_scroll_overlay');
+
+    }
+
+    function hideexerclosemodal(e) {
+        if (e.target == $('.lightBox')[0]){
+            resetTypeWorkout();
+            $(".lightBox").removeClass("lightBox-activated");
+            $(".popup_container").removeClass("popup_container-activated");
+            $(".lightbox_mask").removeClass("lightbox_mask-activated");
+            $("body").removeClass('no_scroll_overlay');
+        }
+    }
+
+    function hideexerclosemodalWithoutE() {
+        $(".lightBox").removeClass("lightBox-activated");
+        $(".popup_container").removeClass("popup_container-activated");
+        $(".lightbox_mask").removeClass("lightbox_mask-activated");
+        $("body").removeClass('no_scroll_overlay');
+    }
+
+    
 </script>
 
 @endsection

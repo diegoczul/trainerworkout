@@ -28,7 +28,7 @@
                 <input type="password" id="password" name="password" required placeholder="{{ Lang::get("content.Password") }}" value="{{ request()->old("password") }}"/>
                 <input id="timezone" type="hidden" name="timezone" value="{{request()->old("timezone")}}"/>
                 <input id="paid" type="hidden" name="paid" value="{{ isset($paid) ? "yes" : "" }}"/>
-                <fieldset class="termsAndConditions">
+                <fieldset class="termsAndConditions term-condition-section">
                     <input name="termsAndConditions" id="terms" required type="checkbox" value="Yes">
                     <label for="terms">{{ Lang::get("content.I agree with the") }}
                         <a target="_blank" href="/TermsAndConditions/">{{ Lang::get("content.Terms and Conditions") }}</a>
