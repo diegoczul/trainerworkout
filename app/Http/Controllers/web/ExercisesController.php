@@ -315,10 +315,11 @@ class ExercisesController extends BaseController
             $exercise = new Exercises;
             $exercise->name = ucfirst($request->get("name"));
             $exercise->description = $request->get("description");
-            $exercise->bodygroupId = $request->get("bodygroup");
+            $exercise->bodygroupId = $request->get("bodygroupId");
             $exercise->youtube = Helper::extractYoutubeTag($request->get("youtube"));
             $exercise->nameEngine = $request->get("nameEngine");
             $exercise->type = $request->has("publicLicense") ? "public" : "private";
+//            $exercise->image_type = $request->has("image_type","public");
             $exercise->equipmentRequired = $request->has("equipmentRequired") ? 1 : 0;
 
             $exercise->userId = $user->id;
@@ -480,10 +481,11 @@ class ExercisesController extends BaseController
             $exercise = Exercises::find($id);
             $exercise->name = ucfirst($request->get("name"));
             $exercise->description = $request->get("description");
-            $exercise->bodygroupId = $request->get("bodygroup");
+            $exercise->bodygroupId = $request->get("bodygroupId");
             $exercise->youtube = Helper::extractYoutubeTag($request->get("youtube"));
             $exercise->nameEngine = $request->get("nameEngine");
             $exercise->type = $request->has("publicLicense") ? "public" : "private";
+//            $exercise->image_type = $request->has("image_type",'public');
             $exercise->equipmentRequired = $request->has("equipmentRequired") ? 1 : 0;
             $exercise->userId = Auth::id();
             $exercise->authorId = Auth::id();
@@ -761,6 +763,7 @@ class ExercisesController extends BaseController
                 'exercises.id',
                 'exercises.views',
                 'exercises.userId',
+                'exercises.used',
                 'exercises.authorId',
                 'exercises.name',
                 'exercises.created_at',

@@ -133,7 +133,7 @@
                                     <th>Translated Name Engine</th>
                                     <th>Equipment</th>
                                     <th>Optional Equipment</th>
-                                    <th>Views</th>
+                                    <th>Used</th>
                                     <th>User</th>
                                     <th>Author</th>
                                     <th>Created</th>
@@ -292,8 +292,8 @@
                     },
 
                     {
-                        title: "Views",
-                        data: "views",
+                        title: "Used",
+                        data: "used",
                         class: "text-center"
                     },
                     {

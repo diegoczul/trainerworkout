@@ -28,7 +28,7 @@
                 <input type="password" id="password" name="password" required placeholder="{{ Lang::get("content.Password") }}" value="{{ request()->old("password") }}"/>
                 <input id="timezone" type="hidden" name="timezone" value="{{request()->old("timezone")}}"/>
                 <input id="paid" type="hidden" name="paid" value="{{ isset($paid) ? "yes" : "" }}"/>
-                <fieldset class="termsAndConditions">
+                <fieldset class="termsAndConditions term-condition-section">
                     <input name="termsAndConditions" id="terms" required type="checkbox" value="Yes">
                     <label for="terms">{{ Lang::get("content.I agree with the") }}
                         <a target="_blank" href="/TermsAndConditions/">{{ Lang::get("content.Terms and Conditions") }}</a>
@@ -56,7 +56,7 @@
         })
 
         $(document).on('submit','#login_form', function (){
-            $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: block; margin:auto; padding: 0; height: auto; width: 120px; text-align: center;">
+            $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex;margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">
                                     <img src="{{asset('/assets/img/tw-gif.gif')}}" style="width: 40px;">
                                 </p>`);
         })

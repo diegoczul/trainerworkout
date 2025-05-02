@@ -178,7 +178,9 @@
                                 <!-- CREATED BY -->
                                 <h3 id="subtitle_VW">{{ $workout->author->firstName??"N/A" }} {{ $workout->author->lastName??"" }}</h3>
                                 <hr>
-                                <h4>Note: {{ $workout->notes }}</h4>
+                                @if(isset($workout->notes) &&!empty($workout->notes))
+                                    <h4>Note: {{ $workout->notes }}</h4>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -273,7 +275,7 @@
                                                 @else
                                                     <div class="nbrounds">
                                                         <div class="circleInstruction">
-                                                            <p class="roundsMeasure">{{{ $group->intervals }}}</p>
+                                                            <p class="roundsMeasure" style="color: #ffffff">{{{ $group->intervals }}}</p>
                                                             <span>rounds</span>
                                                         </div>
                                                     </div>
@@ -435,24 +437,31 @@
                                                     </div>
                                                     <div class="exeData">
                                                         <div class="exeData_top">
-                                                            @if($exercise->tempo1 != "" or $exercise->tempo2 != "" or $exercise->tempo3 != "" or $exercise->tempo4 != "")
-                                                                <div class="exeTempo">
-                                                                    <p>{{ Lang::get("content.Tempo") }}</p>
-                                                                    <p>{{ ($exercise->tempo1 != "" ? $exercise->tempo1 : "-") }}</p>
-                                                                    <p>{{ ($exercise->tempo2 != "" ? $exercise->tempo2 : "-") }}</p>
-                                                                    <p>{{ ($exercise->tempo3 != "" ? $exercise->tempo3 : "-") }}</p>
-                                                                    <p>{{ ($exercise->tempo4 != "" ? $exercise->tempo4 : "-") }}</p>
-                                                                </div>
-                                                            @endif
+                                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; width: 100%;">
+                                                                @if($exercise->tempo1 != "" or $exercise->tempo2 != "" or $exercise->tempo3 != "" or $exercise->tempo4 != "")
+                                                                    <div class="exeTempo">
+                                                                        <p>{{ Lang::get("content.Tempo") }}</p>
+                                                                        <p>{{ ($exercise->tempo1 != "" ? $exercise->tempo1 : "-") }}</p>
+                                                                        <p>{{ ($exercise->tempo2 != "" ? $exercise->tempo2 : "-") }}</p>
+                                                                        <p>{{ ($exercise->tempo3 != "" ? $exercise->tempo3 : "-") }}</p>
+                                                                        <p>{{ ($exercise->tempo4 != "" ? $exercise->tempo4 : "-") }}</p>
+                                                                    </div>
+                                                                @endif
+                                                                @if(Auth::user()->userType == "Trainee")
+                                                                    <div style="margin: 0px 10px">
+                                                                        <a href="javascript:void(0);" onclick="viewSetHistory(this, {{ $exercise->id }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">View History</a>
+                                                                    </div>
+                                                                @endif
 
-                                                            <div class="unitSwitcherContainer">
-                                                                <input type="hidden" id="exercise_units_{{ $exercise->id }}" value="{{ $exercise->units }}"/>
-                                                                <p>{{ Lang::get("content.Lbs") }}</p>
-                                                                <label class="unitToggleLabel">
-                                                                    <input type="checkbox" class="unitToggleInput" onChange="changeUnits({{ $exercise->id }},this.value,this)" value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
-                                                                    <div class="unitToggleControl"></div>
-                                                                </label>
-                                                                <p>{{ Lang::get("content.Kg") }}</p>
+                                                                <div class="unitSwitcherContainer" style="margin: 0px">
+                                                                    <input type="hidden" id="exercise_units_{{ $exercise->id }}" value="{{ $exercise->units }}"/>
+                                                                    <p>{{ Lang::get("content.Lbs") }}</p>
+                                                                    <label class="unitToggleLabel">
+                                                                        <input type="checkbox" class="unitToggleInput" onChange="changeUnits({{ $exercise->id }},this.value,this)" value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
+                                                                        <div class="unitToggleControl"></div>
+                                                                    </label>
+                                                                    <p>{{ Lang::get("content.Kg") }}</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <table>
@@ -490,7 +499,7 @@
                                                                 <tr>
                                                                     <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
                                                                     <td style="display: flex; padding: 0">
-                                                                        <input class="form-input exercise_units_weight_{{ $exercise->id }}" style="margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%" @if($workout->isOwner() && Auth::user()->userType != "Trainee" ) readonly @endif>
+                                                                        <input class="form-input exercise_units_weight_{{ $exercise->id }}" style="border: none; margin: 0px" type="number" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%" @if($workout->isOwner() && Auth::user()->userType != "Trainee" ) readonly @endif>
                                                                         <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                     </td>
                                                                     @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
@@ -994,6 +1003,7 @@
                                                 <div class="exeData">
                                                     <!-- EXERCISE TEMPO -->
 
+                                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                                                     @if($exercise->tempo1 != "" or $exercise->tempo2 != "" or $exercise->tempo3 != "" or $exercise->tempo4 != "")
                                                         <div class="exeTempo">
                                                             <p>{{ Lang::get("content.Tempo") }}</p>
@@ -1003,6 +1013,12 @@
                                                             <p>{{ ($exercise->tempo4 != "" ? $exercise->tempo4 : "-") }}</p>
                                                         </div>
                                                     @endif
+                                                    @if(Auth::user()->userType == "Trainee")
+                                                        <div>
+                                                            <a href="javascript:void(0);" onclick="viewSetHistory(this, {{ $exercise->id }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">View History</a>
+                                                        </div>
+                                                    @endif
+                                                    </div>
 
                                                     <table class="exeData_table">
                                                         <caption>muscle exercise</caption>
@@ -1040,7 +1056,7 @@
                                                             <tr>
                                                                 <th scope="row">{{ Helper::setNumber($set->number,$set->workoutsExercises->sets) }}</th>
                                                                 <td style="display: flex; padding: 0">
-                                                                    <input class="form-input exercise_units_weight_{{ $exercise->id }}" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" style="margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%" @if($workout->isOwner() && Auth::user()->userType != "Trainee" ) readonly @endif>
+                                                                    <input class="form-input exercise_units_weight_{{ $exercise->id }}" onchange="updateWorkoutWeight(this, {{$exercise->id}}, {{$set->id}});" style="border: none; margin: 0px; padding: 10px" type="number"  value="{{ ($set->weight == "" ? 0 : Helper::formatWeight($set->weight)) }}" width="50%" @if($workout->isOwner() && Auth::user()->userType != "Trainee" ) readonly @endif>
                                                                     <span style="margin: 10px;" class="exercise_units_weight_unit_{{ $exercise->id }}">{{$exercise->units == "Metric"?Lang::get("content.Kg"):Lang::get("content.Lbs") }}</span>
                                                                 </td>
                                                                 @if(($exercise->metric == "time" || $set->metric == "time" || $set->metric == "temps") and ($set->metric != "maxRep" and $set->metric != "range"))
@@ -1347,7 +1363,12 @@
 
     </section>
 
-    @include('popups.shareWorkout')
+    @if( Auth::user()->userType == "Trainer")
+        @include('popups.shareWorkout')
+    @else
+        @include('popups.setHistory')
+    @endif
+    
     <!-- ////////////////////////////////////////////////////// -->
 
     @if($workout->isOwner() && Auth::user()->userType == "Trainee" )
@@ -1412,6 +1433,7 @@
         </div>
     @endif
 
+
 @endsection
 
 
@@ -1444,6 +1466,57 @@
                     });
                 },500);
             }
+        }
+
+        function viewSetHistory(element,exercise_id){
+            $.ajax({
+                url: "{{route('workout.weight-history')}}",
+                type: "POST",
+                data: {
+                    exercise_id: exercise_id,
+                    workout_id: {{ $workout->id }},
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                },
+                beforeSend: function () {
+                    showTopLoader();
+                },
+                success: function (data) {
+                    $("#shareContentContainer").html(data.data);
+                    $(".lightBox").addClass("lightBox-activated");
+                    $(".popup_container").addClass("popup_container-activated");
+                    $(".lightbox_mask").addClass("lightbox_mask-activated");
+                    $("body").addClass('no_scroll_overlay');
+                    var div = $('.sharewokoutform');
+                    div.attr("workout",selectedItems.join(","));
+                    hideTopLoader();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText);
+                    hideTopLoader();
+                }
+            });
+        }
+
+        function removeSetHistory(element,set_id){
+            $.ajax({
+                url: "{{route('workout.remove-weight-history')}}",
+                type: "POST",
+                data: {
+                    weight_history_id: set_id,
+                },
+                beforeSend: function () {
+                    showTopLoader();
+                },
+                success: function (data, textStatus, jqXHR) {
+                    successMessage(data.message);
+                    hidelightboxWithoutE();
+                    hideTopLoader();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText);
+                    hideTopLoader();
+                }
+            });
         }
 
         function toggleTimer(action) {

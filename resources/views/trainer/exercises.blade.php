@@ -50,7 +50,7 @@
                     <h4>{{Lang::get("content.YouExerciselibrary")}}</h4>
                     <p>{{Lang::get("content.YourPersonalExercises")}}</p>
                     <div class="searchField">
-                        <input id="exercise_search" name="exercise_search" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
+                        <input id="exercise_search" name="exercise_search" onkeyup="if($(this).val() == '' || $(this).val() == null){ searchExercise(); }" placeholder="{{ Lang::get("content.searchPlaceholder") }}">
                         <button onClick="searchExercise()">{{ Lang::get("content.Search") }}</button>
                     </div>
                 </div>
@@ -112,13 +112,13 @@
                             <div id="textarea_counter"></div>
                         </fieldset>
 
-                        <div class="equipment">
+                        <div class="equipment select-equipment-section mb-6">
                             <label for="muscleGroup" tabindex="3">{{ Lang::get("content.Musclegroups") }}*</label>
                             {{ FORM::select("bodygroupId", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select w-100"]) }}
                         </div>
 
                         <div class="submit">
-                            <label class="next" onclick="addExerciseSwtichStep()">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
+                            <label class="next next-step-btn" onclick="addExerciseSwtichStep()">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
                         </div>
 
                     </div>
@@ -168,7 +168,7 @@
 
                         </fieldset>
                         <div class="previous">
-                            <span onclick="addExerciseSwtichStep()"><div class="previousButton"><img src="{{asset('assets/img/svg/arrowPrevious.svg')}}"></div> previous step</span>
+                            <span onclick="addExerciseSwtichStep()" class="previous-section"><div class="previousButton"><img src="{{asset('assets/img/svg/arrowPrevious.svg')}}"></div> previous step</span>
                         </div>
                         <div class="submit">
                             <button type="submit" class="saveex" onClick="lightBoxLoadingTwSpinner();">{{ Lang::get("content.CreateExercise") }}</button>
@@ -319,7 +319,7 @@
                 data: {search: $("#exercise_search").val()},
                 success: function (data, textStatus, jqXHR) {
                     $("#w_exercises_full").html(data);
-
+                    previousSearch = $("#exercise_search").val();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText);

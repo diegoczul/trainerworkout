@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Helper;
+use App\Listeners\SendSlackNotification;
 use App\Models\BodyGroups;
 use App\Models\Clients;
 use App\Models\Equipments;
@@ -17,6 +18,7 @@ use App\Models\Sharings;
 use App\Models\Tags;
 use App\Models\TemplateSets;
 use App\Models\Users;
+use App\Models\UserSetsHistory;
 use App\Models\UserUpdates;
 use App\Models\Workouts;
 use App\Models\WorkoutsExercises;
@@ -636,7 +638,7 @@ class WorkoutsController extends BaseController
 
 
 
-								Event::dispatch('shareAWorkout', array(Auth::user(), $user->id));
+//								Event::dispatch('shareAWorkout', array(Auth::user(), $user->id));
 								$comments = $request->get("comments");
 
 
@@ -792,7 +794,7 @@ class WorkoutsController extends BaseController
 		$workout->incrementViews();
 
 		Event::dispatch('printWorkout', array($user, $workout->name));
-		return $workout->getPrintPDF(false);
+		return response()->json(['status' => true, 'url' => $workout->getPrintPDF(false)]);
 	}
 
 	public function PrintWorkouts($workoutIds)
@@ -2041,12 +2043,11 @@ class WorkoutsController extends BaseController
 		if ($exercise) {
 			$sets = Sets::where("workoutsExercisesId", $exercise->id)->get();
 			foreach ($sets as $set) {
-
 				if ($exercise->units == "" and $units == "Imperial") {
 					$set->units = "Imperial";
 				} else if ($exercise->units == "" and $units == "Metric") {
 					$set->units = "Metric";
-					$set->weight = number_format($set->weight / 2.2, 1);
+					$set->weight = round(number_format($set->weight / 2.2, 1));
 					$set->distance = number_format($set->distance / 1.609344, 2);
 					$set->speed = number_format($set->speed / 1.609344);
 				} else {
@@ -2054,14 +2055,14 @@ class WorkoutsController extends BaseController
 
 						if ($units == "Imperial") {
 							if ($set->units == "Metric") {
-								$set->weight = number_format($set->weight / 2.2, 1);
+								$set->weight = round($set->weight / 2.2);
 								$set->distance = number_format($set->distance / 1.609344, 2);
 								$set->speed = number_format($set->speed / 1.609344, 1);
 							}
 							$set->units = "Imperial";
 						} else if ($units == "Metric") {
 							if ($set->units == "Imperial") {
-								$set->weight = number_format($set->weight * 2.2, 1);
+								$set->weight = round($set->weight * 2.2);
 								$set->distance = number_format($set->distance * 1.609344, 2);
 								$set->speed = number_format($set->speed * 1.609344, 1);
 							}
@@ -2080,9 +2081,69 @@ class WorkoutsController extends BaseController
 	{
 		$weight = $request->get("weight");
 		$sets = Sets::where("id", $request->get('set_id'))->first();
+        if(isset($sets->units) && $sets->units == "Metric"){
+            $weight = $weight * 2.2;
+        }
 		$sets->weight = $weight;
 		$sets->save();
+
+        // SET HISTORY
+        $setHistory = new UserSetsHistory();
+        $setHistory->ref_user_id = Auth::user()->id;
+        $setHistory->ref_workout_id = $request->get('workout_id');
+        $setHistory->ref_exercise_id = $request->get('exercise_id');
+        $setHistory->ref_set_id = $request->get('set_id');
+        $setHistory->weight = $weight;
+        $setHistory->save();
 	}
+
+    public function historyWeightExerciseGroup(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'exercise_id' => 'required|numeric',
+            ]);
+            if ($validator->fails()){
+                return $this::responseJsonError($validator->errors()->first());
+            }
+
+            $exerciseId = $request->get('exercise_id');
+            $originalSet = TemplateSets::select('id','number','workoutsExercisesId','weight','created_at as date')->where('workoutsExercisesId',$exerciseId)->get()->toArray();
+            $setsHistory = UserSetsHistory::select('id','ref_exercise_id','ref_set_id','weight','created_at as date')
+                ->with(['set' => function ($q) {
+                    $q->select('id','number','workoutsExercisesId','units');
+                }])
+                ->where('ref_exercise_id',$exerciseId)
+                ->get()
+                ->toArray();
+            $responseHTML = view('weight-history',['originalSet' => $originalSet, 'setsHistory' => $setsHistory, 'timezone' => $request->get('timezone')])->render();
+            return $this::sendResponse("Sets History",$responseHTML);
+        }catch (\Exception $exception){
+            return $this::responseJsonError($exception->getMessage());
+        }
+    }
+
+    public function removeWeightHistory(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'weight_history_id' => 'required|numeric|exists:user_sets_history,id',
+            ]);
+            if ($validator->fails()){
+                return $this::responseJsonError($validator->errors()->first());
+            }
+
+            $delete = UserSetsHistory::where('id',$request->get('weight_history_id'))->delete();
+            if ($delete){
+                return $this::sendSuccess(__("messages.weightRemoved"));
+            }else{
+                return $this::sendError(__('messages.somethingWentWrong'));
+            }
+
+        }catch (\Exception $exception){
+            return $this::responseJsonError($exception->getMessage());
+        }
+    }
 
 	public function saveAllSets(Request $request)
 	{
@@ -2902,6 +2963,23 @@ class WorkoutsController extends BaseController
 			return redirect()->route("trainerWorkouts", ['userName' => $username])->withError(__("messages.Permissions"));
 		}
 	}
+
+
+    public function suggestExercise(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'exercise_name' => 'required|string|max:255',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->with("error",$validator->messages()->first())->withInput();
+        }
+
+        // Send slack webhook
+        $webhook = new SendSlackNotification();
+        $webhook->handle('Exercise Suggestion',Auth::user(),"You have new exercise suggestion :- ".$request->get('exercise_name'));
+
+        return redirect()->back()->with("message",__("messages.ExerciseSuggested"));
+    }
 
 	//=======================================================================================================================
 	// API

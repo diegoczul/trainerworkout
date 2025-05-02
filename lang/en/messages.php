@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Config;
 
 return array(
+        "ExerciseSuggested"             => "New exercise suggested to admin",
         "Welcome"                       => "Welcome to ".Config::get("app.brand"),
         "WrongLogin"                    => "You have entered a wrong email or password",
         "ProfileSaved"                  => "Your profile has been saved",
@@ -22,7 +23,7 @@ return array(
         "PicturesAdded"                 => "Pictures added",
         "PicturesDeleted"               => "Pictures deleted",
         "PicturesEmpty"                 => "Pictures can be a great way to visualize results. Give it a try!",
-        "ExerciseAdded"                 => "Exercise added",
+        "ExerciseAdded"                 => "Exercise has been saved successfully.",
         "ExerciseDeleted"               => "Exercise deleted",
         "ExercisesEmpty"                => "Personalize your workouts by adding your own exercises to your own private library",
         "VideoUploadFailed"             => "Your video was not uploaded, try a smaller size",
@@ -42,7 +43,9 @@ return array(
         "NoFriendChosen"                => "You can only send message to people you follow or they follow you, and your trainers offcourse",
         "NoFriendsFound"                => "We were unable to find anybody with that name",
         "/ProfileSaved"                  => "Your profile has been saved",
-        "WorkoutCreated"                => "Workout created",
+        "WorkoutCreated"                => "Workout details have been saved successfully.",
+        "weightRemoved"                 => "Weight history has been removed successfully.",
+        "somethingWentWrong"            => "Opps! Something went wrong.",
         "UserNotFound"                  => "We couldn't access the user you are looking for",
         "WorkoutNotFound"               => "We couldn't access the workout you are looking for",
         "TrendingWorkoutsEmpty"         => "We don't have any new workouts to show you",

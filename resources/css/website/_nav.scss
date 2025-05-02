@@ -33,6 +33,13 @@ nav {
 			@include display(inline-flex);
 			@include align-items(baseline);
 			height: 60px;
+
+			svg{
+				width: 50px;
+				@media (min-width: $footerBreak_second) {
+					width: 65px;
+				}
+			}
 			
 		}
 
@@ -114,9 +121,15 @@ nav {
 	}
 
 	svg.level_one {
+		width: 32px;
 		position: absolute;
 		right:0;
 		top:0;
+
+				@media (min-width: $footerBreak_second) {
+					width: 40px;
+				}
+
 	}
 }
 

@@ -491,6 +491,8 @@ Route::get(__('routes./Workout/exercisePerformance/') . "{workoutexercise}", [Wo
 Route::post(__('routes./Workout/addCustomPicture/'), [WorkoutsController::class, 'addCustomPicture'])->middleware('auth');
 Route::post(__('routes./Workout/unit/update'), [WorkoutsController::class, 'updateUnitExerciseGroup'])->middleware('auth');
 Route::post('/Workout/weight/update', [WorkoutsController::class, 'updateWeightExerciseGroup'])->name('workout.weight-update')->middleware('auth');
+Route::post('/Workout/weight/history', [WorkoutsController::class, 'historyWeightExerciseGroup'])->name('workout.weight-history')->middleware('auth');
+Route::post('/Workout/weight/remove-history', [WorkoutsController::class, 'removeWeightHistory'])->name('workout.remove-weight-history')->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
@@ -503,6 +505,7 @@ Route::get(__('routes./editWorkout/') . "{id}", [WorkoutsController::class, 'edi
 Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
 Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}/{param2}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
 Route::get(__('routes./Workouts/addWorkoutToClient') . "/{param1}/{param2}", [WorkoutsController::class, 'addToWorkoutClient'])->middleware('auth');
+Route::post('suggest-exercise',[WorkoutsController::class, 'suggestExercise'])->name('suggest-exercise')->middleware('auth');
 
 // THIS CANNOT BE TRANSLATED
 Route::get("/WorkoutInternal/{id}/{locale}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutInternal']);

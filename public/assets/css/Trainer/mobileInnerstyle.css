@@ -118,7 +118,7 @@ input, .popup_container .share_content textarea {
   width: 100%;
   padding: 9px 40px 9px 9px;
   margin-bottom: 15px;
-  text-align: center;
+  /* text-align: center; */
   background: transparent;
  }
 
@@ -187,6 +187,16 @@ td.restBtwSet {
 
 .fltright {
   float: right; }
+  .fltright .edit-btn-section{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .fltright .edit-btn-section .cancel-bluebtn{
+    background-color: #FFFFFF;
+    color: #0b97c4;
+  }
 
 .overlayStyle, #lightBoxLoading, .overlay, .leftOverBound, .exerciseOverlay {
   top: 0;
@@ -862,7 +872,8 @@ nav {
   -o-justify-content: space-between;
   justify-content: space-between;
   -ms-flex-pack: justify;
-  width: 155px;
+  /* width: 155px; */
+  width: 200px;
   margin: 4px auto 10px auto; }
   @media (min-height: 700px) {
     .socialIcons {
@@ -6137,12 +6148,16 @@ FRAMEWORK OVERRIDE CHOSEN
 .searchField.search-exercise{
   position: relative;
 }
+.input-section{
+  position: relative;
+  width: 100%;
+}
 .cancel-btn{
   position: absolute;
   top: 8px;
   left: auto;
   bottom: auto;
-  right: 115px;
+  right: 10px;
 }
 .cancel-btn svg{
   width: 26px;
@@ -6150,11 +6165,11 @@ FRAMEWORK OVERRIDE CHOSEN
 .cancel-btn svg fill{
   color: gray;
 }
-@media (min-width: 650px){
-  .cancel-btn{
-    right: 138px;
-  }
-}
+/*@media (min-width: 650px){*/
+/*  .cancel-btn{*/
+/*    right: 138px;*/
+/*  }*/
+/*}*/
 ul.tabs {
   width: 100%;
   overflow: hidden;
@@ -6185,17 +6200,18 @@ li.tab {
   display: none; }
 
 @media (min-height: 768px) {
-  #tags-exercise {
-    display: block; } }
-#tags-exercise,
+  #tags-exercise { display: block; }
+}
+
+#tags-muscle,
 li.tab:nth-child(1) {
   background: rgba(255, 255, 255, 0.12); }
 
-#tags-muscle,
+#tags-equipment,
 li.tab:nth-child(2) {
   background: rgba(255, 255, 255, 0.24); }
 
-#tags-equipment,
+#tags-exercise,
 li.tab:nth-child(3) {
   background: rgba(255, 255, 255, 0.36); }
 
@@ -7695,6 +7711,25 @@ th.bound,
   -o-transform: translateX(-50%);
   transform: translateX(-50%); }
 
+  .select-equipment-section .select2-selection.select2-selection--single{
+    height: 38px !important;
+  }
+  .select-equipment-section .select2-container .select2-selection--single .select2-selection__rendered{
+    padding-top: 4px;
+  }
+  .select-equipment-section .select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 5px;
+  }
+  .select-equipment-section .select2-container--default .select2-selection--single{
+    background-color: #fff;
+    border: 1px solid #2C3E50;
+    border-radius: 2px;
+  }
+  .submit .next-step-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 .exerice_images {
   width: 100%;
   margin-bottom: 20px; }
@@ -7782,6 +7817,13 @@ th.bound,
     margin-bottom: 20px; }
     .execise_equipments .equipment:last-of-type {
       margin-bottom: 0; }
+
+      .previous .previous-section{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+      }
 
 .exercisesImageContainer {
   padding: 10px; }
@@ -8548,8 +8590,8 @@ input.input, .popup_container .share_content textarea.input {
   border-radius: 4px;
   font-size: 14px;
   padding: 6px;
-  text-align: center;
-  /*color: white;*/
+  /* text-align: center; */
+  color: black;
   margin: 0; }
 
 .input {
@@ -9495,7 +9537,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   overflow: hidden;
   padding: 0 0 0 8px;
   /* height: 25px; */
-  height: 33px;
+  height: 40px;
   border: 1px solid #aaa;
   border-radius: 5px;
   background-color: #fff;
@@ -9513,7 +9555,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   display: block;
   overflow: hidden;
   /* margin-right: 26px; */
-  margin:4px 26px 0px 0px;
+  margin:8px 26px 0px 0px;
   text-overflow: ellipsis;
   white-space: nowrap; }
 .chosen-container-single .chosen-single-with-deselect span {
@@ -9867,3 +9909,10 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   margin: auto; }
 
 /*# sourceMappingURL=mobileInnerstyle.css.map */
+
+.mb-0{
+  margin-bottom: 0 !important;
+}
+.min-h-auto{
+  min-height: auto !important;
+}

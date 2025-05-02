@@ -2,6 +2,10 @@
 
 //Device list Object
 var device = {
+    customPlans: "none",
+    clientSubscriptions: "iPhone7-portrait",
+    billingInvoicing: "iPad-portrait",
+    managePlans: "none",
     branding : "iPhone7-portrait",
     clientFiles : "iPad-landscape",
     notifications : "iPad-portrait",
@@ -27,7 +31,7 @@ var device = {
 //cliker for the next tab to be clicked
 function switchTab(tab) {
     //get currently-selected tab
-    var selectedTab = tab.filter('.selected');
+    var selectedTab = tab.filter('.selected');  
 
     //click either next tab, if exists, else first one
     var nextTab = selectedTab.index() < tab.length-1 ? selectedTab.next() : tab.first();
@@ -74,8 +78,13 @@ $(".tab").click(function($this) {
    //get the right device back on
    $(this).closest(".mainSectionContent").find(".device").attr('class', 'device').addClass(device[tab]);
 
+   if ($id == "plans"){
 
-   if ($id == "secondary"){
+    //clear interval and reset if in second
+    clearInterval(firstTimer);
+    firstTimer = setInterval(switchFirstTab, first_time);
+
+   } else if ($id == "secondary"){
 
        //clear interval and reset if in second
        clearInterval(secondTimer);

@@ -184,6 +184,7 @@ return array(
 
 
     "Logout"                       => "Déconnexion",
+    "DeleteAccount"                 => "Supprimer le compte",
     "Workouts"                       => "Programmes",
     "Exercises"                       => "Exercices",
     "remind/title"                       => "Tout s'oublie, un mot de passe aussi",
@@ -574,10 +575,14 @@ return array(
     "Add Exercise"                         => "Ajouter exercice",
     "Search Exercises"                         => "Rechercher exercice",
     "Exercise Type"                         => "Type d’exercices",
+    "Type"                         => "Type d'image",
+    "Public"                         => "Public",
+    "Private"                         => "Privé",
     "Muscle Group"                         => "Groupe musculaire",
     "Equipment"                         => "Équipement",
     "myExercises"                         => "Mes Exercices",
     "Add your own personal exercises to your personal collection"                         => "Ajoutez vos propres exercices à votre librairie personnelle",
+    "Add_your_own_exercises"   => "Ajoutez vos propres exercices",
     "Duplicate"                         => "Copier",
     "See Exercise Description"                         => "Voir description de l’exercice",
     "exercise description"                         => "Description de l’exercice",

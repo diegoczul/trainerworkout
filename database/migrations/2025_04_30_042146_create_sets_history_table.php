@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('user_sets_history', function (Blueprint $table) {
             $table->id();
+            $table->integer('ref_user_id');
+            $table->integer('ref_workout_id');
+            $table->integer('ref_exercise_id');
+            $table->integer('ref_set_id');
+            $table->string('weight');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('sets_history');
     }
 };

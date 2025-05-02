@@ -102,7 +102,7 @@
                                         @else
                                             <div class="nbrounds">
                                                 <div class="circleInstruction">
-                                                    <p class="roundsMeasure">{{{ $group->intervals }}}</p>
+                                                    <p class="roundsMeasure" style="color: #ffffff">{{{ $group->intervals }}}</p>
                                                     <span>rounds</span>
                                                 </div>
                                             </div>
@@ -377,6 +377,9 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
+                                                <div style="margin-top: 10px">
+                                                    <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -663,8 +666,9 @@
                                                     @endforeach
                                                     </tbody>
                                                 </table>
-
-
+                                                <div style="margin-top: 10px">
+                                                    <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -963,6 +967,9 @@
                                                 @endforeach
                                                 </tbody>
                                             </table>
+                                            <div style="margin-top: 10px">
+                                                <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>   <!-- End MUSCLE EXERCISE -->
