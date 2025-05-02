@@ -1,6 +1,7 @@
 <?php
 
 return array(
+        "ExerciseSuggested"             => "Nouvel exercice suggéré à l'administrateur",
         "Welcome"                       => Config::get("app.brand")." vous souhaite la Bienvenue", 
         "WrongLogin"                    => "Vous avez entré un mauvais mot de passe ou email",
         "ProfileSaved"                  => "Votre profil a été sauvegardé",

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Config;
 
 return array(
+        "ExerciseSuggested"             => "New exercise suggested to admin",
         "Welcome"                       => "Welcome to ".Config::get("app.brand"),
         "WrongLogin"                    => "You have entered a wrong email or password",
         "ProfileSaved"                  => "Your profile has been saved",

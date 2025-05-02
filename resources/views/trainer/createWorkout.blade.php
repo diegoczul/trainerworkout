@@ -85,9 +85,6 @@
                 </svg>
                 {{ Lang::get("content.Add Circuit") }}
             </button>
-            <!-- *********** -->
-{{--            <button class="add-modal-btns" onclick="exercisemodal()">Add</button>--}}
-            
         </div>
     </div>
 </div>
@@ -1076,7 +1073,6 @@
 
 
 @include('popups.addExerciseInWorkout', array("bodygroups" => $bodygroups, "equipments"=>$equipments))
-
 @include('popups.suggested-exercise')
 
 
@@ -2629,7 +2625,7 @@ function displayResults(results) {
         totalExDisplayed = response.length;
     }else{
         if($('.add_ex').length <= 0){
-            html = `<div class="clearfix"><button onclick='addExercise();' style="margin-right: 10px;" class='bluebtn add_ex more_ex'>{{ Lang::get("content.Add_your_own_exercises") }}</button><button onclick='suggestExercise();' class='bluebtn add_ex more_ex'>Suggest an exercise</button></div>`;
+            html = `<div class="clearfix"><button onclick='addExercise();' style="margin-right: 10px;" class='bluebtn add_ex more_ex'>{{ Lang::get("content.Add_your_own_exercises") }}</button><button onclick='exercisemodal();' class='bluebtn add_ex more_ex'>Suggest an exercise</button></div>`;
             $("#search_results").append(html);
         }
     }
