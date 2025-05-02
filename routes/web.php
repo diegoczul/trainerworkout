@@ -58,6 +58,17 @@ use Stripe\SetupIntent;
 */
 
 //Route::middleware(['guest'])->group(function () {
+Route::get('apple-app-site-association', function () {
+    $path = public_path('.well-known/apple-app-site-association');
+
+    if (file_exists($path)) {
+        return response()->download($path, 'apple-app-site-association.json', [
+            'Content-Type' => 'application/json',
+        ]);
+    }
+
+    abort(404, 'File not found');
+});
 
 // Pay Page
 Route::get(__('routes./payment/{package}'), [OrdersController::class, 'indexPaypage']);
