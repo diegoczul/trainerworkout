@@ -891,6 +891,11 @@ return array(
     'MonthlyPriceUSD' => 'Monthly Price (USD)',
     'PriceNote' => 'Enter price in dollars, e.g., 25 = $25/month',
     'required' => 'Required field',
+    'renewal_note' => 'As part of our terms and conditions, any subscription change—whether an upgrade or downgrade—will take effect at the start of your next billing cycle. Your current plan benefits will remain active until then.',
+    'downgrade_note' => 'You will be downgraded on ',
+    'next_renewal' => 'Your next renewal date is ',
+    'pending_downgrade' => 'Pending Downgrade',
+    'cancel_downgrade' => 'Cancel downgrade - Keep my current plan',
 
 
 );
