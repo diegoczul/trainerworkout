@@ -2773,7 +2773,7 @@ nav {
   left: 0;
   right: 0;
   background: #2C3E50;
-  padding: 10px 0;
+  padding: 18px 0;
   text-align: center; }
   @media all and (min-width: 1220px) {
     #performanceHeader {
@@ -7433,7 +7433,9 @@ th.bound,
 
 .svglogo {
   margin: auto auto;
-  height: 80%; }
+  /* height: 80%; */
+  height: 60%;
+ }
 
 .failed {
   opacity: 0;
@@ -8059,7 +8061,17 @@ margin-bottom: 10px; }
   border: 1px solid #e1e1e1;
   border-radius: 3px;
   text-align: center;
+ 
   margin: 0; }
+  @media (max-width:900px){
+    .bluebtn{
+      display: flex;
+      width: auto;
+      align-items: center;
+      margin: 0px 10px;
+      justify-content: center;
+    }
+  }
 
 .fltleft {
   width: 100%;
