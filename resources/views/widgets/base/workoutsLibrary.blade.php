@@ -44,7 +44,7 @@
 
                     <!-- end of the div -->
 
-                    <div class="workout_overlay">
+                    <div class="workout_overlay {{ $workout->status == 'Draft' ? 'draft' : '' }}">
                         <div class="exe_imgs">
                             <img src="{{ asset(Helper::image($images[0])) }}">
                             <img src="{{ asset(Helper::image($images[1])) }}">

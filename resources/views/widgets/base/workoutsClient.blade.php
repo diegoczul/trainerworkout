@@ -87,7 +87,7 @@
 
                     <!-- end of the div -->
 
-                    <div class="workout_overlay">
+                    <div class="workout_overlay {{ $workout->status == 'Draft' ? 'draft' : '' }}">
 
                         <div class="exe_imgs">
                             <img src="/{{ Helper::image($images[0]) }}" >

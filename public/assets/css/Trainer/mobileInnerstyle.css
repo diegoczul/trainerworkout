@@ -2154,6 +2154,9 @@ nav {
         @media (min-width: 1080px) {
           .workout_main_container .workoutsHover_BTNtxt span, .client_main_container .workoutsHover_BTNtxt span, .workout_main_container .clientsHover_BTNtxt span, .client_main_container .clientsHover_BTNtxt span {
             font-size: 0.85em; } }
+            .workout_main_container .workout_overlay.draft, .client_main_container .workout_overlay.draft, .workout_main_container .client_overlay.draft, .client_main_container .client_overlay.draft {
+              background-image: linear-gradient(0deg, #BBBBBB 42%, rgba(153, 153, 153, 0.6) 100%)
+            }
   .workout_main_container .workout_overlay, .client_main_container .workout_overlay, .workout_main_container .client_overlay, .client_main_container .client_overlay {
     width: 100%;
     height: 230px;
