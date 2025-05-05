@@ -6325,6 +6325,14 @@ div[id^="tags"] {
     min-height: 150px;
     height: 150px;
     overflow: hidden; }
+.searchResultsContainer li::after {
+  content: url("/assets/img/star.svg");
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
     .searchResultsContainer li:hover .favorite {
       bottom: 0; }
     .searchResultsContainer li:hover .addToWorkout {
@@ -8378,7 +8386,7 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
       .noClients p {
         margin: 120px auto; }
         .noClients p::after {
-          content: url("/assets/img/svg/onboardingCWarrow3.svg");
+            content: url("/assets/img/svg/onboardingCWarrow3.svg");
           display: inline-block;
           margin-left: 10px;
           position: absolute;
