@@ -117,7 +117,7 @@
                             {{ FORM::select("bodygroupId", [""=>Lang::get("content.MuscleGroupChoose")] + $bodygroups->toArray(), request()->old("bodygroup"), ["id"=>"muscleGroup", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"select2-select w-100"]) }}
                         </div>
 
-                        <div class="submit">
+                        <div class="submit submit-btn-section">
                             <label class="next next-step-btn" onclick="addExerciseSwtichStep()">Next step <img src="{{asset('assets/img/svg/arrowNext.svg')}}"></label>
                         </div>
 
