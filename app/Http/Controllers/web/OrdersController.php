@@ -309,9 +309,9 @@ class OrdersController extends BaseController
             return [
                 'status' => true,
                 'data' => [
-                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret,
+                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret??null,
                     'subscription_id' => $subscription->id,
-                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
+                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id??null,
                 ]
             ];
 

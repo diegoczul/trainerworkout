@@ -545,7 +545,8 @@
                                     $("#payform_submit").attr('disabled', true);
                                 },
                                 success: function(data) {
-                                    Stripe.confirmCardPayment(data.data.clientSecret).then(
+                                    if(data.data.hasOwnProperty('clientSecret') && data.data.clientSecret != null){
+                                        Stripe.confirmCardPayment(data.data.clientSecret).then(
                                         function(result) {
                                             if (result.error) {
                                                 errorMessage(response.error.message);
@@ -559,6 +560,9 @@
                                                 }
                                             }
                                         });
+                                    }else{
+                                        window.location.href = "{{ route('subscription-success') }}";
+                                    }
                                 },
                                 error: function(data) {
                                     hideLoadWithElement(preLoad);
