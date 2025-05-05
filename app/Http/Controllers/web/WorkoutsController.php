@@ -2392,7 +2392,7 @@ class WorkoutsController extends BaseController
 	public function createNewWorkoutAddEditTrainer(Request $request)
 	{
 		try {
-			DB::beginTransaction();
+//			DB::beginTransaction();
 			//DEFAULTS
 			$DEFAULT_REST = 0;
 			$DEFAULT_REPS = array("12", "12", "12");
@@ -2777,7 +2777,7 @@ class WorkoutsController extends BaseController
 				Sharings::shareWorkout(Auth::user()->id, $client, $workout, "Workout", null, true, true, true, true, true, true);
 				$user = Users::find($client);
 				$client = Clients::where("userId", $user->id)->where("trainerId", Auth::user()->id)->first();
-				//Workouts::AddWorkoutToUser($workout->id,$client,null,true);
+				Workouts::AddWorkoutToUser($workout->id,$client->id,null,true);
 				$name = ($user) ? $user->getCompleteName() : "";
 				if ($client) {
 					return redirect()->to("/Client/" . $client->id . "/" . Helper::formatURLString($name))
@@ -2791,7 +2791,7 @@ class WorkoutsController extends BaseController
 			}
 
 
-			DB::commit();
+//			DB::commit();
 			if ($request->filled('is_webview_request')) {
 				Auth::logout();
 				return redirect()->route("webview.create-trainer-workout-success");
@@ -2806,8 +2806,9 @@ class WorkoutsController extends BaseController
 			//                ->with("permissions",$permissions)
 			//                ->with("total",Workouts::where("userId","=",$userId)->count());
 		} catch (\Exception $e) {
-			DB::rollback();
-			return redirect()->back()->withErrors("Something went wrong !");
+//			DB::rollback();
+            return$e->getMessage();
+			return redirect()->back()->withErrors($e->getMessage())->withInput();
 			//            return $this::responseJsonError();
 		}
 	}
