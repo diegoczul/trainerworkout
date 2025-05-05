@@ -259,37 +259,52 @@ class ClientsController extends BaseController
 
     public function addClientTrainer(Request $request)
     {
+        $isVirtual = $request->get("clientLink") === "Yes";
+
         $validation = Validator::make($request->all(), [
             "firstName" => "required",
-            'email' => ['required','email',Rule::unique('users','email')->whereNull("deleted_at")],
-            'phone' => ['sometimes','nullable','regex:/^([0-9\s\-\+\(\)]*)$/','min:10'],
+            'email' => [
+                $isVirtual ? 'nullable' : 'required',
+                'email',
+                Rule::unique('users', 'email')->whereNull("deleted_at")
+            ],
+            'phone' => ['sometimes', 'nullable', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
         ]);
 
         if ($validation->fails()) {
             return $this::responseJsonErrorValidation($validation->messages());
+        }
+
+        $email = $request->get("email");
+
+        // ✅ Skip strict email validation if it's a virtual client with no email
+        if (!$isVirtual && !Helper::isValid($email)) {
+            return $this::responseJsonErrorValidation([
+                'email' => ['The email format is invalid or contains forbidden characters.']
+            ]);
+        }
+
+        $user = Users::where("email", $email)->first();
+
+        if (!$user) {
+            $user = new Users();
+            $user->userType = "Trainee";
+            $user->firstName = $request->get("firstName");
+            $user->lastName = $request->get("lastName");
+            $user->email = $email;
+            $user->phone = Helper::formatPhone($request->get("phone"));
+            $user->virtual = $isVirtual ? 0 : 1;
+            $user->save();
+        }
+
+        $subscribe = $request->get("subscribe") === "Yes";
+        $message = $request->get("personalizedTxt");
+
+        if (Clients::where("userId", $user->id)->where("trainerId", Auth::user()->id)->count() == 0) {
+            $client = Auth::user()->addClient($user, null, $subscribe, $message);
+            return $this::responseJson(Lang::get("messages.ClientInvitation"));
         } else {
-            $user = Users::where("email", $request->get("email"))->first();
-
-            if (!$user) {
-                $user = new Users();
-                $user->userType = "Trainee";
-                $user->firstName = $request->get("firstName");
-                $user->lastName = $request->get("lastName");
-                $user->email = $request->get("email");
-                $user->phone = Helper::formatPhone($request->get("phone"));
-                $user->virtual = $request->get("clientLink") === "Yes" ? 0 : 1;
-                $user->save();
-            }
-
-            $subscribe = $request->get("subscribe") === "Yes";
-            $message = $request->get("personalizedTxt");
-
-            if (Clients::where("userId", $user->id)->where("trainerId", Auth::user()->id)->count() == 0) {
-                $client = Auth::user()->addClient($user, null, $subscribe, $message);
-                return $this::responseJson(Lang::get("messages.ClientInvitation"));
-            } else {
-                return $this::responseJsonError(Lang::get("messages.ClientAlreadyInvited"));
-            }
+            return $this::responseJsonError(Lang::get("messages.ClientAlreadyInvited"));
         }
     }
 
@@ -458,36 +473,36 @@ class ClientsController extends BaseController
     public function API_listClients(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'search' => 'sometimes',
             'limit' => 'sometimes',
             'offset' => 'sometimes',
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
 
         $result = Helper::APIOK();
         $search = $request->get('search');
-        $clients = Clients::select('id','userId','trainerId')
-                    ->with(['user' => function ($query) {
-                        $query->select('id','firstName','lastName','email','phone','image as image_url','thumb as thumb_url');
-                    }])
-                    ->whereHas('user', function ($query) use ($search) {
-                        $query->where(function ($query2) use ($search) {
-                            $query2->orWhere('firstName', 'LIKE', "%$search%")
-                                ->orWhere('lastName', 'LIKE', "%$search%")
-                                ->orWhere('email', 'LIKE', "%$search%")
-                                ->orWhere('phone', 'LIKE', "%$search%");
-                        });
-                    })
-                    ->where("trainerId", Auth::user()->id)
-                    ->orderBy('updated_at', 'DESC');
+        $clients = Clients::select('id', 'userId', 'trainerId')
+            ->with(['user' => function ($query) {
+                $query->select('id', 'firstName', 'lastName', 'email', 'phone', 'image as image_url', 'thumb as thumb_url');
+            }])
+            ->whereHas('user', function ($query) use ($search) {
+                $query->where(function ($query2) use ($search) {
+                    $query2->orWhere('firstName', 'LIKE', "%$search%")
+                        ->orWhere('lastName', 'LIKE', "%$search%")
+                        ->orWhere('email', 'LIKE', "%$search%")
+                        ->orWhere('phone', 'LIKE', "%$search%");
+                });
+            })
+            ->where("trainerId", Auth::user()->id)
+            ->orderBy('updated_at', 'DESC');
         $clientsCount = $clients->count();
         $clients = $clients->take($request->get('limit', 10))
-                    ->skip($request->get('offset', 0))
-                    ->get();
+            ->skip($request->get('offset', 0))
+            ->get();
         $clients->filter(function ($item) {
             $item['number_of_workouts'] = $item->numberOfWorkoutsSharedFromTrainerToClient(Auth::user()->id);
             $item['last_workout_performed'] = $item->lastWorkoutPerformedFromTrainer(Auth::user()->id);
@@ -501,15 +516,15 @@ class ClientsController extends BaseController
     public function API_inviteClient(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
+        $validation = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => ['required','email',Rule::unique('users','email')->whereNull("deleted_at")],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->whereNull("deleted_at")],
             'phone' => 'sometimes',
             'subscribe' => 'sometimes|boolean',
             'comments' => 'sometimes',
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
@@ -539,11 +554,11 @@ class ClientsController extends BaseController
     public function API_notifyClientActivity(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
-            'client_id' => ['required',Rule::exists('users','id')->whereNull("deleted_at")],
+        $validation = Validator::make($request->all(), [
+            'client_id' => ['required', Rule::exists('users', 'id')->whereNull("deleted_at")],
             'subscribe' => 'required|boolean',
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
@@ -566,10 +581,10 @@ class ClientsController extends BaseController
     public function API_removeClients(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
-            'client_id' => ['required',Rule::exists('users','id')->whereNull("deleted_at")],
+        $validation = Validator::make($request->all(), [
+            'client_id' => ['required', Rule::exists('users', 'id')->whereNull("deleted_at")],
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
@@ -590,17 +605,17 @@ class ClientsController extends BaseController
     public function API_getClient(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
-            'client_id' => ['required',Rule::exists('users','id')->whereNull("deleted_at")],
+        $validation = Validator::make($request->all(), [
+            'client_id' => ['required', Rule::exists('users', 'id')->whereNull("deleted_at")],
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
 
         $client = Clients::select('id', 'userId', 'trainerId', 'deletedByUser', 'deletedByTrainer', 'approvedTrainer', 'approvedClient', 'subscribeClient', 'created_at')
             ->with(['user' => function ($query) {
-                $query->select('id','firstName','lastName','email','phone','image as image_url','thumb as thumb_url');
+                $query->select('id', 'firstName', 'lastName', 'email', 'phone', 'image as image_url', 'thumb as thumb_url');
             }])
             ->where('id', $request->get('client_id'))
             ->first();
@@ -613,30 +628,30 @@ class ClientsController extends BaseController
     public function API_clientActivities(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
-            'user_id' => ['required', Rule::exists('users','id')->whereNull('deleted_at')],
+        $validation = Validator::make($request->all(), [
+            'user_id' => ['required', Rule::exists('users', 'id')->whereNull('deleted_at')],
             'custom_dates' => 'required|boolean',
             'start_date' => 'required_if:custom_dates,true|date_format:Y-m-d',
             'end_date' => 'required_if:custom_dates,true|date_format:Y-m-d',
             'limit' => 'sometimes|numeric',
             'offset' => 'sometimes|numeric',
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
 
         $response = Helper::APIOK();
-        $performances = WorkoutsPerformances::select('id','workoutId','comments','ratingId','timeInSeconds','dateCompleted')
+        $performances = WorkoutsPerformances::select('id', 'workoutId', 'comments', 'ratingId', 'timeInSeconds', 'dateCompleted')
             ->where("forTrainer", Auth::user()->id)
             ->where("userId", $request->get('user_id'))
             ->when($request->get('custom_dates'), function ($query) use ($request) {
                 $query->whereDate("dateCompleted", ">=", $request->get('start_date'))
-                      ->whereDate("dateCompleted", "<=", $request->get('end_date'));
+                    ->whereDate("dateCompleted", "<=", $request->get('end_date'));
             })
             ->when($request->get('custom_dates') == false, function ($query) use ($request) {
                 $query->whereDate("dateCompleted", ">=", Carbon::now()->subDays(30))
-                      ->whereDate("dateCompleted", "<=", date("Y-m-d"));
+                    ->whereDate("dateCompleted", "<=", date("Y-m-d"));
             })
             ->get();
 
@@ -647,14 +662,14 @@ class ClientsController extends BaseController
     public function API_clientWorkouts(Request $request)
     {
         $result = Helper::APIERROR();
-        $validation = Validator::make($request->all(),[
-            'client_id' => ['required', Rule::exists('clients','id')->whereNull('deleted_at')],
+        $validation = Validator::make($request->all(), [
+            'client_id' => ['required', Rule::exists('clients', 'id')->whereNull('deleted_at')],
             'search' => 'sometimes',
             'limit' => 'sometimes|numeric',
             'offset' => 'sometimes|numeric',
             'is_archive' => 'sometimes|boolean',
         ]);
-        if($validation->fails()){
+        if ($validation->fails()) {
             $result["message"] = $validation->messages()->first();
             return $this::responseJsonError($result);
         }
@@ -664,15 +679,15 @@ class ClientsController extends BaseController
         $offset = $request->get('offset', 0);
         $client_id = $request->get('client_id');
         $client = Clients::find($client_id);
-        $workouts = Workouts::where("userId",$client->user->id)
-            ->when($request->filled('search'), function ($query) use($request){
+        $workouts = Workouts::where("userId", $client->user->id)
+            ->when($request->filled('search'), function ($query) use ($request) {
                 $query->search($request->get('search'));
             })
             ->when(($request->filled('is_archive') && $request->get('is_archive')),
-                function ($query){
+                function ($query) {
                     $query->whereNotNull("archived_at");
                 },
-                function ($query){
+                function ($query) {
                     $query->whereNull("archived_at");
                 },
             );
@@ -680,12 +695,11 @@ class ClientsController extends BaseController
         $workoutCounts = $workouts->count();
         $workouts = $workouts->take($limit)
             ->skip($offset)
-            ->orderBy("created_at","Desc")
+            ->orderBy("created_at", "Desc")
             ->get();
         $result['data'] = $workouts;
         $result['count'] = $workoutCounts;
         $result['message'] = __("messages.ClientWorkouts");
         return $this::responseJson($result);
     }
-
 }

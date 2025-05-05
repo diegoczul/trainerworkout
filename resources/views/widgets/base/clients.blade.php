@@ -98,6 +98,10 @@
                             </div>
                             <div class="client_workout_info">
                                 <div class="client_nbWorkouts">
+                                    <span>{{ Lang::get("content.Created") }}: </span>
+                                    <span>{{ Helper::date($client->created_at) }}</span>
+                                </div>
+                                <div class="client_nbWorkouts">
                                     <span>{{ Lang::get("content.nbWorkouts") }}: </span>
                                     <span>{{ $client->numberOfWorkoutsSharedFromTrainerToClient(Auth::user()->id) }}</span>
                                 </div>

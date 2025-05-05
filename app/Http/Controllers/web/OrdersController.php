@@ -309,9 +309,9 @@ class OrdersController extends BaseController
             return [
                 'status' => true,
                 'data' => [
-                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret??null,
+                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret ?? null,
                     'subscription_id' => $subscription->id,
-                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id??null,
+                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id ?? null,
                 ]
             ];
 
@@ -755,8 +755,8 @@ class OrdersController extends BaseController
 
             if ($result['status'] == true) {
                 // Update Membership
-                $subscriptionId = $result['data']['subscription_id']??null;
-                $paymentIntentId = $result['data']['payment_intent_id']??null;
+                $subscriptionId = $result['data']['subscription_id'] ?? null;
+                $paymentIntentId = $result['data']['payment_intent_id'] ?? null;
                 MembershipsUsers::where("userId", $user->id)->delete();
                 OrderItems::where("orderId", $cart["orderId"])
                     ->where("itemType", "Membership")
@@ -800,6 +800,7 @@ class OrdersController extends BaseController
             $user = Auth::user();
             if (!$user) {
                 $email = $request->get('email');
+                $email = Helper::clean($email);
                 $user = Users::where('email', $email)->first();
 
                 if (!$user) {

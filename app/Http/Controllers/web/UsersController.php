@@ -627,6 +627,13 @@ class UsersController extends BaseController
     {
         $user = null;
 
+        $email = Helper::cleanEmail($request->get('email'));
+
+        if (!Helper::isValid($email)) {
+            return Redirect::back()->withInput()->withErrors(['email' => 'Invalid email address.']);
+        }
+
+
         if ($request->filled('invite')) {
             $invite = Invites::where('key', request('invite'))->first();
             if ($invite) {
@@ -733,6 +740,12 @@ class UsersController extends BaseController
             return redirect()->route('TrainerSignUp')->withInput()->withErrors($validator->errors());
         }
 
+        $email = Helper::cleanEmail($request->get('email'));
+
+        if (!Helper::isValid($email)) {
+            return redirect()->route('TrainerSignUp')->withInput()->withErrors(['email' => 'Invalid email address.']);
+        }
+
         $user = new Users;
         $user->firstName = ucfirst($request->get('firstName'));
         $user->lastName = ucfirst($request->get('lastName'));
@@ -797,6 +810,12 @@ class UsersController extends BaseController
 
         if (!$request->has('termsAndConditions')) {
             return redirect()->back()->withInput()->withErrors(__('messages.termsAndConditions'));
+        }
+
+        $email = Helper::cleanEmail($request->get('email'));
+
+        if (!Helper::isValid($email)) {
+            return redirect()->route('TrainerSignUp')->withInput()->withErrors(['email' => 'Invalid email address.']);
         }
 
         $user = new Users;
@@ -914,6 +933,12 @@ class UsersController extends BaseController
             'email' => 'required|email',
             'phone' => 'required|string',
         ]);
+
+        $email = Helper::cleanEmail($request->get('email'));
+
+        if (!Helper::isValid($email)) {
+            return Redirect::back()->withInput()->withErrors(['email' => 'Invalid email address.']);
+        }
 
         $user = new Users;
         $user->firstName = ucfirst($request->get('firstName'));
