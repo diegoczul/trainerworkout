@@ -858,7 +858,7 @@ nav {
 
 .socialIcons_container p {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 16px;
   color: #fff;
   margin-bottom: 15px; }
@@ -881,7 +881,7 @@ nav {
   justify-content: space-between;
   -ms-flex-pack: justify;
   /* width: 155px; */
-  width: 200px;
+  width: 120px;
   margin: 4px auto 10px auto; }
   @media (min-height: 700px) {
     .socialIcons {
@@ -7777,6 +7777,15 @@ th.bound,
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0px;  
+  }
+  .submit.submit-btn-section{
+    display: inherit;
+    background-color: transparent;
+    box-shadow: none;
+    margin: 0px auto;
+    flex: initial;
+    justify-content: center;
   }
 .exerice_images {
   width: 100%;
