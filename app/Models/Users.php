@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Http\Libraries\Helper;
@@ -89,8 +90,9 @@ class Users extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    public static function validate($data,$extra = array()){
-        foreach($extra as $ex =>$val){
+    public static function validate($data, $extra = array())
+    {
+        foreach ($extra as $ex => $val) {
             static::$rules[$ex] = $val;
         }
         return Validator::make($data, static::$rules);
@@ -101,14 +103,16 @@ class Users extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 
-    public function getCompleteName(){
-        return trim(ucfirst($this->firstName)." ".ucfirst($this->lastName));
+    public function getCompleteName()
+    {
+        return trim(ucfirst($this->firstName) . " " . ucfirst($this->lastName));
     }
 
-    public function getInitials(){
+    public function getInitials()
+    {
         $string = "";
-        $string .= substr($this->firstName,0,1);
-        $string .= substr($this->lastName,0,1);
+        $string .= substr($this->firstName, 0, 1);
+        $string .= substr($this->lastName, 0, 1);
         return $string;
     }
 
@@ -117,8 +121,9 @@ class Users extends Authenticatable implements JWTSubject
         return $this->password;
     }
 
-    public function activeLogo(){
-        return $this->hasOne(UserLogos::class,"userId","id")->where("active",1);
+    public function activeLogo()
+    {
+        return $this->hasOne(UserLogos::class, "userId", "id")->where("active", 1);
     }
 
     /**
@@ -136,8 +141,9 @@ class Users extends Authenticatable implements JWTSubject
         $this->remember_token = $value;
     }
 
-    public function getURL(){
-        return Helper::userType($this->userType)."/".$this->id."/".Helper::formatURLString($this->firstName.$this->lastName );
+    public function getURL()
+    {
+        return Helper::userType($this->userType) . "/" . $this->id . "/" . Helper::formatURLString($this->firstName . $this->lastName);
     }
 
     public function getRememberTokenName()
@@ -150,35 +156,42 @@ class Users extends Authenticatable implements JWTSubject
         return $this->email;
     }
 
-    public function getPath(){
-        return Config::get("constants.userPath")."/".$this->id;
+    public function getPath()
+    {
+        return Config::get("constants.userPath") . "/" . $this->id;
     }
 
-    public function friends(){
+    public function friends()
+    {
         return $this->hasMany(Friends::class);
     }
 
-    public function workouts(){
-        return $this->hasMany(Workouts::class,"userId","id");
+    public function workouts()
+    {
+        return $this->hasMany(Workouts::class, "userId", "id");
     }
 
-    public function workoutsReleased(){
-        return $this->hasMany(Workouts::class,"userId","id")->where("status","Released");
+    public function workoutsReleased()
+    {
+        return $this->hasMany(Workouts::class, "userId", "id")->where("status", "Released");
     }
 
-    public function group(){
-        return $this->hasOne(UserGroups::class,"userId","id");
+    public function group()
+    {
+        return $this->hasOne(UserGroups::class, "userId", "id");
     }
 
-    public function membership(){
-        return $this->hasOne(MembershipsUsers::class,"userId","id");
+    public function membership()
+    {
+        return $this->hasOne(MembershipsUsers::class, "userId", "id");
     }
 
-    public function doubleCheckOnboardingClient(){
+    public function doubleCheckOnboardingClient()
+    {
         $ALAIN = 24;
         $Corinne = 15;
 
-        if(Clients::where("userId",$ALAIN)->where("trainerId",Auth::user()->id)->count() == 0){
+        if (Clients::where("userId", $ALAIN)->where("trainerId", Auth::user()->id)->count() == 0) {
             $client = new Clients();
             $client->userId = $ALAIN; // ALAIN TRAINEE
             $client->trainerId = $this->id;
@@ -187,14 +200,14 @@ class Users extends Authenticatable implements JWTSubject
             $client->save();
         }
 
-        if(Friends::where("userId",$Corinne)->where("followingId",Auth::user()->id)->count() == 0){
+        if (Friends::where("userId", $Corinne)->where("followingId", Auth::user()->id)->count() == 0) {
             $friend = new Friends();
             $friend->userId = $Corinne; // ALAIN TRAINEE
             $friend->followingId = Auth::user()->id;
             $friend->save();
         }
 
-        if(Friends::where("userId",Auth::user()->id)->where("followingId",$Corinne)->count() == 0){
+        if (Friends::where("userId", Auth::user()->id)->where("followingId", $Corinne)->count() == 0) {
             $friend = new Friends();
             $friend->userId = Auth::user()->id; // ALAIN TRAINEE
             $friend->followingId = $Corinne;
@@ -202,57 +215,63 @@ class Users extends Authenticatable implements JWTSubject
         }
     }
 
-    public function freebesTrainer(){
+    public function freebesTrainer()
+    {
         $ALAIN = 24;
-        Workouts::AddWorkoutToUser(4652,$this->id,false,false);
+        Workouts::AddWorkoutToUser(4652, $this->id, false, false);
     }
 
-    public function membershipValid(){
-        $membershipUser = MembershipsUsers::where("userId",Auth::user()->id)->first();
-        if($membershipUser){
+    public function membershipValid()
+    {
+        $membershipUser = MembershipsUsers::where("userId", Auth::user()->id)->first();
+        if ($membershipUser) {
             $membership = $membershipUser->membership;
-            if(date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) <= $membership->workoutsAllowed){
+            if (date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) <= $membership->workoutsAllowed) {
                 return true;
             }
         } else {
-            if(count($this->workoutsReleased) <= Config::get("constants.maxFreeWorkouts")) return true;
+            if (count($this->workoutsReleased) <= Config::get("constants.maxFreeWorkouts")) return true;
         }
         return false;
     }
 
-    public function membershipValidButAtLimit(){
-        $membershipUser = MembershipsUsers::where("userId",Auth::user()->id)->first();
-        if($membershipUser){
+    public function membershipValidButAtLimit()
+    {
+        $membershipUser = MembershipsUsers::where("userId", Auth::user()->id)->first();
+        if ($membershipUser) {
             $membership = $membershipUser->membership;
-            if(date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) < $membership->workoutsAllowed){
+            if (date($membershipUser->expiry) >= Helper::nowDate() and count($this->workoutsReleased) < $membership->workoutsAllowed) {
                 return true;
             }
         } else {
-            if(count($this->workoutsReleased) < Config::get("constants.maxFreeWorkouts")) return true;
+            if (count($this->workoutsReleased) < Config::get("constants.maxFreeWorkouts")) return true;
         }
         return false;
     }
 
-    public function freebesTrainee(){
-        Workouts::AddWorkoutToUser(4652,$this->id,false,false);
+    public function freebesTrainee()
+    {
+        Workouts::AddWorkoutToUser(4652, $this->id, false, false);
     }
 
-    public function sendActivationEmail(){
+    public function sendActivationEmail()
+    {
         $guid = Uuid::uuid4()->toString();
         $this->token = $guid;
         $this->save();
 
         $user = Users::find($this->id);
         $lang = App::getLocale();
-        ActivationMailJob::dispatch($user,$lang);
-//        Mail::queue(new ActivationEmail($user,$lang));
+        ActivationMailJob::dispatch($user, $lang);
+        //        Mail::queue(new ActivationEmail($user,$lang));
     }
 
-    public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail){
+    public function sendInviteGroup($authorFirstName, $authorLastName, $authorEmail)
+    {
         $guid = Uuid::uuid4()->toString();
         $this->token = $guid;
         $password = "";
-        if($this->activated == "" and $this->created_at == $this->updated_at) {
+        if ($this->activated == "" and $this->created_at == $this->updated_at) {
             $password = str_random(8);
             $this->password = Hash::make($password);
         }
@@ -262,96 +281,102 @@ class Users extends Authenticatable implements JWTSubject
 
         $user = Users::find($this->id);
 
-        Mail::queueOn(App::environment(),'emails.'.Config::get("app.whitelabel").'.user.'.App::getLocale().'.inviteGroup', array("user"=>serialize($user),"password"=>$password,"authorFirstName"=>$authorFirstName,"authorLastName"=>$authorLastName,"authorEmail"=>$authorEmail), function($message) use ($user,$subject)
-        {
+        Mail::queueOn(App::environment(), 'emails.' . Config::get("app.whitelabel") . '.user.' . App::getLocale() . '.inviteGroup', array("user" => serialize($user), "password" => $password, "authorFirstName" => $authorFirstName, "authorLastName" => $authorLastName, "authorEmail" => $authorEmail), function ($message) use ($user, $subject) {
             $message->to($user->email)
                 ->cc(Config::get("constants.activityEmail"))
                 ->subject($subject);
         });
     }
 
-    public function postFBTimeline($userObject,$message,$url,$replaceArray=array(),$forceFacebook = false) {
-        if($userObject == null){
+    public function postFBTimeline($userObject, $message, $url, $replaceArray = array(), $forceFacebook = false)
+    {
+        if ($userObject == null) {
             $userObject = Auth::user();
         }
 
-        if($userObject->fbUsername != ""){
-            foreach($replaceArray as $key => $value){
-                $message = str_replace("{".$key."}",$value,$message);
+        if ($userObject->fbUsername != "") {
+            foreach ($replaceArray as $key => $value) {
+                $message = str_replace("{" . $key . "}", $value, $message);
             }
             $config = array(
                 'appId' => '430853867021763',
                 'secret' => '3f8d4530282a97ca54fcb2e8a091d2d2',
-                'cookie' => true ,
+                'cookie' => true,
                 'scope' => 'publish_stream',
             );
 
             $fb = new Facebook($config);
 
             try {
-                $ret_obj = $fb->api('/'.Auth::user()->fbUsername.'/feed', 'POST', array( 'link' => $url, 'message' => $message ));
-                return array("error"=>false,"message"=>Lang::get("messages.FacebookPosted"));
-            } catch(FacebookApiException $e) {
-                return array("error"=>false,"message"=>Lang::get("messages.FacebookError"));
+                $ret_obj = $fb->api('/' . Auth::user()->fbUsername . '/feed', 'POST', array('link' => $url, 'message' => $message));
+                return array("error" => false, "message" => Lang::get("messages.FacebookPosted"));
+            } catch (FacebookApiException $e) {
+                return array("error" => false, "message" => Lang::get("messages.FacebookError"));
             }
         } else {
-            if($forceFacebook) return array("error"=>false,"message"=>Lang::get("messages.NoFacebookUser"));
+            if ($forceFacebook) return array("error" => false, "message" => Lang::get("messages.NoFacebookUser"));
         }
     }
 
-    public function clientLink(){
-        return "/Client/".$this->id."/".Helper::formatURLString($this->getCompleteName());
+    public function clientLink()
+    {
+        return "/Client/" . $this->id . "/" . Helper::formatURLString($this->getCompleteName());
     }
 
-    public function addClient($user,$approved=true,$notify=true,$message=""){
-        if(Clients::where("userId",$user->id)->where("trainerId",$this->id)->count() == 0){
+    public function addClient($user, $approved = true, $notify = true, $message = "")
+    {
+        if (Clients::where("userId", $user->id)->where("trainerId", $this->id)->count() == 0) {
             $client = new Clients;
             $client->userId = $user->id;
             $client->trainerId = $this->id;
             $client->approvedClient = ($approved) ? 1 : 0;
             $client->approvedTrainer = 1;
-            if($notify){
+            if ($notify) {
                 $client->subscribeClient = 1;
             } else {
                 $client->subscribeClient = 0;
             }
             $client->save();
 
-            if($user->virtual == 0){
-                $invite = Auth::user()->sendInvite($user,"client",$message);
+            if ($user->virtual == 0) {
+                $invite = Auth::user()->sendInvite($user, "client", $message);
             } else {
                 //$invite = Auth::user()->sendInvite($user,"client");
             }
 
             return $client;
         } else {
-            return Clients::where("userId",$user->id)->where("trainerId",$this->id)->first();
+            return Clients::where("userId", $user->id)->where("trainerId", $this->id)->first();
         }
     }
 
-    public function getNumberOfClients(){
-        $number = Clients::leftJoin("users",function($join){
-            $join->on("clients.userId","=","users.id");
-        })->whereNotNull("users.id")->where("trainerId",$this->id)->count();
+    public function getNumberOfClients()
+    {
+        $number = Clients::leftJoin("users", function ($join) {
+            $join->on("clients.userId", "=", "users.id");
+        })->whereNotNull("users.id")->where("trainerId", $this->id)->count();
         return $number;
     }
 
-    public function getNumberOfWorkouts(){
-        $number = Workouts::where("userId",$this->id)->count();
+    public function getNumberOfWorkouts()
+    {
+        $number = Workouts::where("userId", $this->id)->count();
         return $number;
     }
 
-    public function getNumberOfExercises(){
-        $number = Exercises::where("userId",$this->id)->count();
+    public function getNumberOfExercises()
+    {
+        $number = Exercises::where("userId", $this->id)->count();
         return $number;
     }
 
-    public function sendInvite($user,$type="client",$message = ""){
-        $invited = Users::where("id",$user->id)->whereNotNull("lastLogin")->first();
-        if(!$invited){
-            $sentInvite = Invites::where("userId",$this->id)->where("fakeId",$user->id)->where("completed",0)->first();
-            if($sentInvite){
-                if($type=="client"){
+    public function sendInvite($user, $type = "client", $message = "")
+    {
+        $invited = Users::where("id", $user->id)->whereNotNull("lastLogin")->first();
+        if (!$invited) {
+            $sentInvite = Invites::where("userId", $this->id)->where("fakeId", $user->id)->where("completed", 0)->first();
+            if ($sentInvite) {
+                if ($type == "client") {
                     $sentInvite->sendInviteClient($message);
                 } else {
                     $sentInvite->sendInvite();
@@ -365,14 +390,14 @@ class Users extends Authenticatable implements JWTSubject
                 $invite->lastName = $user->lastName;
                 $invite->email = $user->email;
                 $invite->key = Uuid::uuid4()->toString();
-                if($type=="client"){
+                if ($type == "client") {
                     $invite->type = "ClientRequest";
                 } else {
                     $invite->type = "FriendRequest";
                 }
                 $invite->save();
 
-                if($type=="client"){
+                if ($type == "client") {
                     $invite->sendInviteClient($message);
                 } else {
                     $invite->sendInvite();
@@ -385,12 +410,13 @@ class Users extends Authenticatable implements JWTSubject
         }
     }
 
-    public function getStripeSubscription(){
+    public function getStripeSubscription()
+    {
         $debug = Config::get('app.debug');
-        if($debug){
-            Stripe::setApiKey(Config::get('constants.debugApiKey'));
+        if ($debug) {
+            Stripe::setApiKey(Config::get('constants.STRIPETestsecret_key'));
         } else {
-            Stripe::setApiKey(Config::get('constants.apiKey'));
+            Stripe::setApiKey(Config::get('constants.STRIPEsecret_key'));
         }
         try {
             $subscription = Stripe::subscriptions()->all([
@@ -403,15 +429,18 @@ class Users extends Authenticatable implements JWTSubject
         }
     }
 
-    public function subscriptions(){
-        return $this->hasMany("Subscriptions","userId","id");
+    public function subscriptions()
+    {
+        return $this->hasMany("Subscriptions", "userId", "id");
     }
 
-    public function scopeNonSoftDeleted($query){
+    public function scopeNonSoftDeleted($query)
+    {
         return $query->whereNull("deleted_at");
     }
 
-    public function scopeSoftDeleted($query){
+    public function scopeSoftDeleted($query)
+    {
         return $query->whereNotNull("deleted_at");
     }
 
@@ -429,7 +458,8 @@ class Users extends Authenticatable implements JWTSubject
         return $this->subscriptions()->where('userId', $user->id)->first();
     }
 
-    public function updateToMembership($membershipId){
+    public function updateToMembership($membershipId)
+    {
         $stripeMemberhsip = null;
         $twMembership = null;
         $today = date("Y-m-d");
@@ -440,57 +470,56 @@ class Users extends Authenticatable implements JWTSubject
         //Check to what membership should I update;
         $membership = Memberships::find($membershipId);
 
-        if($membership){
-            if($membership->durationType == "yearly"){
+        if ($membership) {
+            if ($membership->durationType == "yearly") {
                 $interval = "years";
-            }elseif ($membership->durationType == "monthly"){
+            } elseif ($membership->durationType == "monthly") {
                 $interval = "months";
             } else {
                 $interval = "days";
             }
             //Check if I am upgrading to Stripe or to Fre
-            if($membership->free == 1){
+            if ($membership->free == 1) {
                 //Check if there is a strip membership IN PLACE and CANCEL IT
-                $mem = MembershipsUsers::where("userId",$this->id)->first();
+                $mem = MembershipsUsers::where("userId", $this->id)->first();
 
-                if($mem){
+                if ($mem) {
                     $stripeMemberhsip = $this->getStripeSubscription();
-                    if($stripeMemberhsip){
+                    if ($stripeMemberhsip) {
                         //$sub->cancel();
                         Log::error("CANCEL MEMBERSHIP STRIPE");
                     }
 
-                    if(date($mem->expiry) < date("Y-m-d")){
-                        $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
-                        $mem->renewedTimes = $mem->renewedTimes+1;
+                    if (date($mem->expiry) < date("Y-m-d")) {
+                        $mem->expiry = date('Y-m-d', strtotime($today . " + " . $quantity . " " . $interval));
+                        $mem->renewedTimes = $mem->renewedTimes + 1;
                         $mem->save();
                     }
                 } else {
                     $mem = new MembershipsUsers();
                     $mem->membershipId = $membershipId;
-                    $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
+                    $mem->expiry = date('Y-m-d', strtotime($today . " + " . $quantity . " " . $interval));
                     $mem->registrationDate = date("Y-m-d");
                     $mem->userId = $this->id;
                     $mem->save();
                 }
-
             } else {
                 $stripeMemberhsip = $this->getStripeSubscription();
-                $mem = MembershipUsers::where("userId",$this->id)->first();
+                $mem = MembershipUsers::where("userId", $this->id)->first();
 
-                if($this->stripeCheckoutToken == "" or $stripeMemberhsip == null){
-                    if(date($mem->expiry) < date("Y-m-d")){
-                        $mem->expiry = date('Y-m-d', strtotime($today." + ".$quantity." ".$interval));
-                        $mem->renewedTimes = $mem->renewedTimes+1;
+                if ($this->stripeCheckoutToken == "" or $stripeMemberhsip == null) {
+                    if (date($mem->expiry) < date("Y-m-d")) {
+                        $mem->expiry = date('Y-m-d', strtotime($today . " + " . $quantity . " " . $interval));
+                        $mem->renewedTimes = $mem->renewedTimes + 1;
                         $mem->save();
                     }
                 } else {
 
-                    if($membership->idAPI == $stripeMemberhsip->plan->id){
+                    if ($membership->idAPI == $stripeMemberhsip->plan->id) {
                         //UPDATE THE EXPIRY DATE;
                         $mem->membershipId = $membershipId;
                         $mem->expiry = date('Y-m-d', $stripeMemberhsip->current_period_end);
-                        $mem->renewedTimes = $mem->renewedTimes+1;
+                        $mem->renewedTimes = $mem->renewedTimes + 1;
                         $mem->save();
                     } else {
                         //CHANGE STRIPE PLANS
@@ -501,16 +530,15 @@ class Users extends Authenticatable implements JWTSubject
                         $mem->expiry = date('Y-m-d', $stripeMemberhsip->current_period_end);
                         $mem->save();
                     }
-
                 }
             }
-
         }
     }
 
-    public function getTrainerWorkoutMembership(){
-        $membership = MembershipsUsers::where("userId",$this->id)->first();
-        if($membership) return $membership;
+    public function getTrainerWorkoutMembership()
+    {
+        $membership = MembershipsUsers::where("userId", $this->id)->first();
+        if ($membership) return $membership;
 
         $membership = new MembershipsUsers;
         $membership->userId = $this->id;
@@ -531,25 +559,76 @@ class Users extends Authenticatable implements JWTSubject
 
         $user = Users::find($this->id);
         $lang = App::getLocale();
-        NewEmailConfirmationMailJob::dispatch($user,$lang);
-//        Mail::queue(new NewEmailConfirmationMail($user,$lang));
+        NewEmailConfirmationMailJob::dispatch($user, $lang);
+        //        Mail::queue(new NewEmailConfirmationMail($user,$lang));
     }
 
     public function getThumbUrlAttribute($image)
     {
-        if (!empty($image) && file_exists(public_path($image))){
+        if (!empty($image) && file_exists(public_path($image))) {
             return asset($image);
-        }else{
+        } else {
             return null;
         }
     }
 
+    public function cancelStripePlan()
+    {
+        $debug = config('app.debug');
+
+        if ($debug) {
+            Stripe::setApiKey(config('constants.STRIPETestsecret_key'));
+        } else {
+            Stripe::setApiKey(config('constants.STRIPEsecret_key'));
+        }
+
+        $memberships = MembershipsUsers::where('userId', $this->id)
+            ->whereNotNull('subscriptionStripeKey')
+            ->get();
+
+        foreach ($memberships as $membership) {
+            try {
+                Subscription::update($membership->subscriptionStripeKey, [
+                    'cancel_at_period_end' => true,
+                ]);
+                $membership->renew = 0;
+                $membership->save();
+            } catch (\Exception $e) {
+                Log::error("❌ Failed to cancel Stripe subscription for user {$this->id}: " . $e->getMessage());
+            }
+        }
+    }
+
+
     public function getImageUrlAttribute($image)
     {
-        if (!empty($image) && file_exists(public_path($image))){
+        if (!empty($image) && file_exists(public_path($image))) {
             return asset($image);
-        }else{
+        } else {
             return null;
+        }
+    }
+
+    public function resumeStripePlan()
+    {
+        $debug = config('app.debug');
+
+        Stripe::setApiKey($debug ? config('constants.STRIPETestsecret_key') : config('constants.STRIPEsecret_key'));
+
+        $memberships = MembershipsUsers::where('userId', $this->id)
+            ->whereNotNull('subscriptionStripeKey')
+            ->get();
+
+        foreach ($memberships as $membership) {
+            try {
+                Subscription::update($membership->subscriptionStripeKey, [
+                    'cancel_at_period_end' => false,
+                ]);
+                $membership->renew = 1;
+                $membership->save();
+            } catch (\Exception $e) {
+                Log::error("❌ Failed to resume Stripe subscription for user {$this->id}: " . $e->getMessage());
+            }
         }
     }
 }

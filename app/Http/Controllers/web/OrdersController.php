@@ -698,7 +698,6 @@ class OrdersController extends BaseController
             $cart["orderId"] = $order->id;
             Session::put("cart", $cart);
 
-
             $membershipPurchase = 0;
             $membership = "";
             foreach ($cart["items"] as $x => $item) {
@@ -724,6 +723,30 @@ class OrdersController extends BaseController
                 $cart["items"][$x] = $item;
             }
             Session::put("cart", $cart);
+
+            // ✅ NEW: If total is 0, skip Stripe
+            if ($order->total <= 0) {
+                MembershipsUsers::where("userId", $user->id)->update(["renew" => 0]);
+                $user->cancelStripePlan();
+
+                foreach ($cart["items"] as $item) {
+                    $orderItem = OrderItems::find($item["orderItemId"]);
+                    $itemPurchased = Memberships::find($item["id"]);
+                    $membership = new MembershipsUsers();
+                    $membership->userId = $user->id;
+                    $membership->membershipId = $itemPurchased->id;
+                    $membership->registrationDate = now();
+                    $membership->expiry = $itemPurchased->durationType == "monthly" ? now()->addMonth() : now()->addYear();
+                    $membership->subscriptionStripeKey = null;
+                    $membership->payment_intent_id = null;
+                    $membership->paid = now();
+                    $membership->orderItemId = $orderItem->id;
+                    $membership->renew = 0; // ✅ Disable auto-renewal
+                    $membership->save();
+                }
+
+                return $this::sendResponse('subscription', ['message' => 'Free plan scheduled successfully']);
+            }
 
             $debug = Config::get('app.debug');
             $mem = Memberships::find($membership);
@@ -1039,5 +1062,20 @@ class OrdersController extends BaseController
         } catch (\Exception $exception) {
             Log::driver('webhook_exceptions_log')->error($exception->getMessage());
         }
+    }
+
+    public function cancelDowngrade()
+    {
+        Session::forget('cart');
+        if (!Auth::user()->membership) {
+            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
+        } else {
+            Auth::user()->membership->renew = 1;
+            Auth::user()->membership->save();
+            Auth::user()->resumeStripePlan(); // <- call here
+
+        }
+
+        return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
     }
 }

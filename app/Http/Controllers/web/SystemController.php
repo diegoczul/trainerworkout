@@ -54,7 +54,7 @@ class SystemController extends BaseController
         return View::make("ControlPanel.index");
     }
 
-    public function syncWithStripeAndCheckMemberships(Request $request)
+    public function syncWithStripeAndCheckMemberships()
     {
         $stripeKey = Config::get("app.debug") ? Config::get("constants.STRIPETestsecret_key") : Config::get("constants.STRIPEsecret_key");
         \Stripe\Stripe::setApiKey($stripeKey);
@@ -113,14 +113,14 @@ class SystemController extends BaseController
         }
     }
 
-    public function dailyActivity(Request $request)
+    public function dailyActivity()
     {
         Log::info("Running DAILY ACTIVITY");
         $this->ControlPanelFeeds();
         Log::info("Sending confirmation Emails DAILY ACTIVITY");
         $this->reminderConfirmEmails();
         Log::info("Syncing with Stripe");
-        $this->syncWithStripeAndCheckMemberships($request);
+        $this->syncWithStripeAndCheckMemberships();
     }
 
     public function reminderConfirmEmails()
@@ -148,7 +148,7 @@ class SystemController extends BaseController
     public function sendFeedback(Request $request)
     {
         $validator = Validator::make($request->all(), [
-           'feedback' => 'required'
+            'feedback' => 'required'
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -158,20 +158,18 @@ class SystemController extends BaseController
         $user = Auth::user();
         $email = Config::get("app.feedbackEmail");
         FeedbackMailJob::dispatch($date, $user, $feedback);
-//        Mail::to($email)->queue(new FeedbackMail($date, $user, $feedback));
+        //        Mail::to($email)->queue(new FeedbackMail($date, $user, $feedback));
 
         $message = __("messages.thankyoufeedback");
-        $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
+        $username = strtolower(Auth::user()->firstName . Auth::user()->lastName);
         return Auth::check() ? match (Auth::user()->userType) {
-                "Trainer" => redirect()->route("trainerWorkouts")->with("message", $message),
-                "Trainee" => redirect()->route("traineeWorkouts")->with("message", $message),
-                default => redirect()->route("home")->with("message", $message),
-            } : redirect()->route("home")->with("message", $message);
+            "Trainer" => redirect()->route("trainerWorkouts")->with("message", $message),
+            "Trainee" => redirect()->route("traineeWorkouts")->with("message", $message),
+            default => redirect()->route("home")->with("message", $message),
+        } : redirect()->route("home")->with("message", $message);
     }
 
-    public function weeklyActivity()
-    {
-    }
+    public function weeklyActivity() {}
 
     public function ControlPanelFeeds()
     {
@@ -298,7 +296,8 @@ class SystemController extends BaseController
         $newWorkout = Workouts::copyWorkoutsFromTo($fromUserId, $toUserId);
     }
 
-    public function migrateWorkouts($workoutNumber = "") {
+    public function migrateWorkouts($workoutNumber = "")
+    {
         $cutInDate = "2016-08-23";
 
         ini_set('max_execution_time', 420000);
@@ -428,7 +427,8 @@ class SystemController extends BaseController
         }
     }
 
-    public function changeLanguange($locale, Request $request) {
+    public function changeLanguange($locale, Request $request)
+    {
         $url = URL::previous();
         $url = str_replace(Config::get("app.url"), "", $url);
 
@@ -459,7 +459,8 @@ class SystemController extends BaseController
         }
     }
 
-    public function _indexScripts() {
+    public function _indexScripts()
+    {
         return View::make("ControlPanel.MaintenanceScripts")
             ->with("users", Users::select(DB::raw("concat('id: ', id, ' - ', firstName, ' ', lastName, ' ', email) as name"), "id")
                 ->orderBy("firstName", "ASC")
@@ -471,7 +472,8 @@ class SystemController extends BaseController
                 ->get());
     }
 
-    public function fixExercisesTranslations() {
+    public function fixExercisesTranslations()
+    {
         $previous_locale = App::getLocale();
         $outputToPrint = [];
         $exercises = Exercises::all()->toArray();
@@ -527,7 +529,8 @@ class SystemController extends BaseController
         return $this::responseJson($outputToPrint);
     }
 
-    public function removeUserFromDatabase(Request $request) {
+    public function removeUserFromDatabase(Request $request)
+    {
         $userId = $request->get("userId");
 
         Appointments::where("userId", $userId)->forceDelete();
@@ -560,7 +563,8 @@ class SystemController extends BaseController
         return $this::responseJson("Completed");
     }
 
-    public function restoreWorkout(Request $request) {
+    public function restoreWorkout(Request $request)
+    {
         $workoutId = $request->get("workoutId");
 
         $workout = Workouts::withTrashed()->find($workoutId);
@@ -568,12 +572,12 @@ class SystemController extends BaseController
         return $this::responseJson("Completed");
     }
 
-    public function workoutsToRestore(Request $request) {
+    public function workoutsToRestore(Request $request)
+    {
         $workoutId = $request->get("workoutId");
 
         $workout = Workouts::withTrashed()->find($workoutId);
         $workout->restore();
         return $this::responseJson("Completed");
     }
-
 }

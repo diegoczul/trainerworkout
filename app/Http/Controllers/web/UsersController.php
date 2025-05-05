@@ -1166,9 +1166,20 @@ class UsersController extends BaseController
     public function destroy($id)
     {
         $user = Users::find($id);
-        $user->delete();
-        return response()->json("User Deleted");
+
+        if ($user) {
+            // Set renew = 0 on all active memberships for this user
+            \App\Models\MembershipsUsers::where('userId', $user->id)->update(['renew' => 0]);
+            $user->cancelStripePlan();
+
+
+            $user->delete();
+            return response()->json("User Deleted");
+        }
+
+        return response()->json("User Not Found", 404);
     }
+
     public function logout()
     {
         if (Auth::check()) {

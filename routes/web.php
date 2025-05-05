@@ -516,7 +516,7 @@ Route::get(__('routes./editWorkout/') . "{id}", [WorkoutsController::class, 'edi
 Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
 Route::get(__('routes./Workouts/createUserDownload') . "/{workouts}/{param1}/{param2}", [WorkoutsController::class, 'createUserDownload'])->middleware('auth');
 Route::get(__('routes./Workouts/addWorkoutToClient') . "/{param1}/{param2}", [WorkoutsController::class, 'addToWorkoutClient'])->middleware('auth');
-Route::post('suggest-exercise',[WorkoutsController::class, 'suggestExercise'])->name('suggest-exercise')->middleware('auth');
+Route::post('suggest-exercise', [WorkoutsController::class, 'suggestExercise'])->name('suggest-exercise')->middleware('auth');
 
 // THIS CANNOT BE TRANSLATED
 Route::get("/WorkoutInternal/{id}/{locale}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutInternal']);
@@ -638,6 +638,7 @@ Route::controller(OrdersController::class)->group(function () {
     Route::get(__('routes./Store/Checkout'), 'checkout')->name('StoreCheckout');
     Route::post(__('routes./Store/ProcessPayment'), 'processPayment')->name('checkout');
     Route::get(__('routes./Store/CreateAccount'), 'createAccount')->name('StoreCreateAccount');
+    Route::get("Store/CancelDowngrade", 'cancelDowngrade')->name('StoreCancelDowngrade');
 
     // STRIPE WEBHOOK
     Route::post('webhook/stripe', 'webhook')->name('webhook.stripe');

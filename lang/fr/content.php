@@ -838,6 +838,7 @@ return array(
     'MonthlyPriceUSD' => 'Prix Mensuel (USD)',
     'PriceNote' => 'Entrez le prix en dollars, ex: 25 = 25$/mois',
     'required' => 'Champ requis',
+    'renewal_note' => 'Conformément à nos conditions générales, tout changement d’abonnement — qu’il s’agisse d’une mise à niveau ou d’une rétrogradation — prendra effet au début de votre prochain cycle de facturation. Les avantages de votre forfait actuel resteront actifs jusqu’à cette date.',
 
 
 );
