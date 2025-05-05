@@ -1030,6 +1030,7 @@ Array.prototype.clean = function(deleteValue) {
 
 
 function callForEvent(eventName,arrayOfMetas){
+	return;
 	$.ajax(
     {
         url : "/events/postEvent",
