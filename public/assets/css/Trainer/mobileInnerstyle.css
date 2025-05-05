@@ -7598,7 +7598,8 @@ th.bound,
   overflow: hidden; }
 .addexercise .required {
   color: #2C3E50;
-  text-align: right; }
+  text-align: right;
+margin-bottom: 10px; }
 .addexercise .exerciseDescription,
 .addexercise input,
 .addexercise .popup_container .share_content textarea,
@@ -7691,7 +7692,7 @@ th.bound,
   padding-left: 8px; }
 .addexercise .previous {
   cursor: pointer;
-  margin-top: auto; }
+  margin-top: 0px; }
   .addexercise .previous .previousButton {
     display: inline-block;
     padding: 10px;
@@ -7799,7 +7800,7 @@ th.bound,
         margin-top: 0; } }
 
 .exercise_video {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   display: -webkit-box;
   display: -moz-box;
   display: box;
@@ -7860,7 +7861,7 @@ th.bound,
     font-size: 16px; }
 
 .execise_equipments {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   padding-bottom: 10px;
   display: -webkit-box;
   display: -moz-box;
@@ -9733,7 +9734,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   width: 100%;
   height: 30px;
   border-radius: 2px;
-  border: none;
+  border: none !important;
   background-color: #fff;
   background-image: -webkit-linear-gradient(#eee 1%, #fff 15%);
   background-image: linear-gradient(to   , #fff 15%);
@@ -9752,6 +9753,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
     .chosen-container-multi .chosen-choices li.search-field input[type="text"], .chosen-container-multi .chosen-choices li.search-field .popup_container .share_content textarea[type="text"], .popup_container .share_content .chosen-container-multi .chosen-choices li.search-field textarea[type="text"] {
       margin: 1px 0;
       padding: 0;
+      padding-top: 10px;
       height: 25px;
       outline: 0;
       border: 0 !important;

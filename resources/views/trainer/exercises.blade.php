@@ -156,12 +156,12 @@
 
                         <fieldset class="execise_equipments">
 
-                            <div class="equipment" style="margin-right: 10px">
+                            <div class="equipment select-equipment-section" style="margin-right: 10px">
                                 <label for="equipment">{{ Lang::get("content.Listtheequipmentneeded") }}</label>
                                 {{ Form::select("equipment[]",$equipmentsList,"",array("id"=>"equipment", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select", "multiple")) }}
                             </div>
 
-                            <div class="equipment">
+                            <div class="equipment select-equipment-section">
                                 <label for="equipmentOptional">{{ Lang::get("content.Listoptionalequipment") }}</label>
                                 {{ Form::select("equipmentOptional[]",$equipmentsList,"",array("id"=>"equipmentOptional", "data-placeholder"=> Lang::get("content.selectequipment"), "class"=>"chosen-select","multiple")) }}
                             </div>
@@ -170,7 +170,7 @@
                         <div class="previous">
                             <span onclick="addExerciseSwtichStep()" class="previous-section"><div class="previousButton"><img src="{{asset('assets/img/svg/arrowPrevious.svg')}}"></div> previous step</span>
                         </div>
-                        <div class="submit">
+                        <div class="submit submit-btn-section">
                             <button type="submit" class="saveex" onClick="lightBoxLoadingTwSpinner();">{{ Lang::get("content.CreateExercise") }}</button>
                         </div>
                     </div>
