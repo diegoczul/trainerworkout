@@ -94,62 +94,62 @@
 	<?php $nbPerformanceDay = 0; ?>
 	<?php $day = date('d', $timestamp); ?>
 
-	<div class="calendar_day calendar_{{ $dayW }} {{ ($activitiy == date("Y-m-d")) ? "calendar_day_today" : ""  }} {{ (count($data["performance"]) > 0) ? "calendar_day_activity" : "" }}" {{ (count($data["performance"]) > 0) ? "onclick='showDetails(this)'" : "" }}>
-		@if(count($data["performance"]) > 0)
-		{{ $day }}
-				<div class="hide">
-					<div class="calendarPerformanceContainer">
-						<div onclick="closePop()" class="close">
-							<img src="/assets/img/svg/closeDark.svg">
-						</div>
-						<div class="calendarPerformanceHeader">
-							@if(count($data["performance"]) > 1)
-							<div class="workoutSwitcher">
-								<!-- <p>workout of the day </p> -->
-								<?php $performanceNb = 0; ?>
-								@foreach($data["performance"] as $performance)
-									<?php $performanceNb++; ?>
-									<a class="Anchorperformance <?php if($performanceNb == 1) {echo "active";} ?>" href="javascript:void(0)" onclick="toggleTo(this, '{{ $performance->id }}')">{{ Lang::get("content.workout") }} <?php echo $performanceNb; ?> / {{count($data["performance"])}} </a><span>, </span>
-								@endforeach
+	<div class="calendar_day calendar_{{ $dayW }} @if($activitiy == date("Y-m-d")) calendar_day_today @endif  @if(isset($data["performance"]) && count($data["performance"]) > 0) calendar_day_activity @endif" @if(isset($data["performance"]) && count($data["performance"]) > 0) onclick="showDetails(this)" @endif>
+			@if(count($data["performance"]) > 0)
+			{{ $day }}
+					<div class="hide">
+						<div class="calendarPerformanceContainer">
+							<div onclick="closePop()" class="close">
+								<img src="/assets/img/svg/closeDark.svg">
 							</div>
-							@endif
-							
-						</div>
-
-						<?php $performanceId = 0; ?>
-
-						
-						
-						@foreach($data["performance"] as $performance)
-						
-						<?php $performanceId++; ?>
-						<div class="calendarPerformance--Details <?php if($performanceId == 1) {echo "calendarPerformance--Details--active";} ?> performance_{{ $performance->id }}">
-							<h1>{{ ($performance->workout) ? $performance->workout->name : "No name to this workout" }}</h1>
-							<div class="calendarPerformance--Content">
-								<div class="calendarPerformance--Info">
-									<p><span>{{ Lang::get("content.Client") }}</span>: {{ ($performance->user) ? ($performance->user->getCompleteName() == "" ? $performance->user->email : $performance->user->getCompleteName()) : "" }}</p>
-									<p><span>{{ Lang::get("content.Date") }}</span>: {{ Helper::date($performance->dateCompleted) }}</p>
-									<p><span>{{ Lang::get("content.Rating") }}</span>: {{ $performance->rating->name }}</p>
-									<p><span>{{ Lang::get("content.Times Performed") }}</span>: {{ ($performance->workout) ? $performance->workout->getCountPerformed($performance->workout->user->id) : 0 }} </p>
-									<p><span>{{ Lang::get("content.Duration") }}</span>: {{ number_format($performance->timeInSeconds/60,1) }} min</p>
+							<div class="calendarPerformanceHeader">
+								@if(count($data["performance"]) > 1)
+								<div class="workoutSwitcher">
+									<!-- <p>workout of the day </p> -->
+									<?php $performanceNb = 0; ?>
+									@foreach($data["performance"] as $performance)
+										<?php $performanceNb++; ?>
+										<a class="Anchorperformance <?php if($performanceNb == 1) {echo "active";} ?>" href="javascript:void(0)" onclick="toggleTo(this, '{{ $performance->id }}')">{{ Lang::get("content.workout") }} <?php echo $performanceNb; ?> / {{count($data["performance"])}} </a><span>, </span>
+									@endforeach
 								</div>
-								@if($performance->comments != "")
-								<div class="calendarPerformanceComment">
-									<p>{{ ($performance->user) ? $performance->user->getCompleteName() : "User Not Found" }} {{ Lang::get("content.says") }}:</p>
-									<p>{{ $performance->comments}}</p>
-								</div>
-							
-							@endif
+								@endif
+
 							</div>
+
+							<?php $performanceId = 0; ?>
+
+
+
+							@foreach($data["performance"] as $performance)
+
+							<?php $performanceId++; ?>
+							<div class="calendarPerformance--Details <?php if($performanceId == 1) {echo "calendarPerformance--Details--active";} ?> performance_{{ $performance->id }}">
+								<h1>{{ ($performance->workout) ? $performance->workout->name : "No name to this workout" }}</h1>
+								<div class="calendarPerformance--Content">
+									<div class="calendarPerformance--Info">
+										<p><span>{{ Lang::get("content.Client") }}</span>: {{ ($performance->user) ? ($performance->user->getCompleteName() == "" ? $performance->user->email : $performance->user->getCompleteName()) : "" }}</p>
+										<p><span>{{ Lang::get("content.Date") }}</span>: {{ Helper::date($performance->dateCompleted) }}</p>
+										<p><span>{{ Lang::get("content.Rating") }}</span>: {{ $performance->rating->name }}</p>
+										<p><span>{{ Lang::get("content.Times Performed") }}</span>: {{ ($performance->workout) ? $performance->workout->getCountPerformed($performance->workout->user->id) : 0 }} </p>
+										<p><span>{{ Lang::get("content.Duration") }}</span>: {{ number_format($performance->timeInSeconds/60,1) }} min</p>
+									</div>
+									@if($performance->comments != "")
+									<div class="calendarPerformanceComment">
+										<p>{{ ($performance->user) ? $performance->user->getCompleteName() : "User Not Found" }} {{ Lang::get("content.says") }}:</p>
+										<p>{{ $performance->comments}}</p>
+									</div>
+
+								@endif
+								</div>
+							</div>
+							@endforeach
 						</div>
-						@endforeach
 					</div>
-				</div>
-			
 
-		@else
-				{{ $day }}
-		@endif
+
+			@else
+					{{ $day }}
+			@endif
 	</div>
 
 
@@ -188,7 +188,7 @@ $(document).ready(function(){
 			dateFormat: 'yy-mm-dd',
 			yearRange: '1920:2019',
 		});
-		
+
 	});
 
 });
