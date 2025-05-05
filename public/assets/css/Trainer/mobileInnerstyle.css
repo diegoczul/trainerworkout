@@ -112,7 +112,7 @@ label {
   padding: 0 0 4px 0; }
 
 input, .popup_container .share_content textarea {
-  /* height: 40px; */
+  height: auto;
   border: 1px solid #EFEFEF;
   border-radius: 4px;
   width: 100%;
