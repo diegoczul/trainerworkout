@@ -2685,6 +2685,7 @@ function addToFavorite(exId,equipmentId,object){
             equipmentId: equipmentId
         },
         'success': function(data) {
+            searchExercise();
             successMessage(data);
         }
     });
