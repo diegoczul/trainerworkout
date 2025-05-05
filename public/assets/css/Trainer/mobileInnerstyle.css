@@ -6325,7 +6325,8 @@ div[id^="tags"] {
     min-height: 150px;
     height: 150px;
     overflow: hidden; }
-.searchResultsContainer li::after {
+.favourite-star::after {
+  position: absolute;
   content: url("/assets/img/star.svg");
   top: 10px;
   right: 10px;

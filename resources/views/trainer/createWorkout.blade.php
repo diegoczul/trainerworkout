@@ -2642,13 +2642,13 @@ function  removeMoreButton(){
 function addToSearchResultView(exercise,index){
   var html = '';
   if(exercise.image !== undefined && exercise.image !== null){
-  html = '<li class="elementSearch" id="search_'+exercise.elementID+'">'+
+  html = '<li class="elementSearch favourite-star" id="search_'+exercise.elementID+'">'+
                 '<div class="addToWorkout" onclick="addToWorkout(\''+exercise.id+'\','+exercise.bodygroupId+','+index+')">'+dict["add to workout"]+'</div>' +
                 '<img onclick="addToWorkout(\''+exercise.id+'\','+exercise.bodygroupId+','+index+')" src="/'+exercise.thumb+'"/><div class="exeName"><span>'+exercise.name+'</span></div>'+
                  (exercise.favorite ? '<div onClick="addToFavorite('+exercise.id+','+exercise.equipmentId+',this)" class=" '+(exercise.video != "" ? "videoIcon" : "")+' favorite removeFavorite">'+dict["remove from favorites"]+'</div>' : '<div class="favorite" onClick="addToFavorite('+exercise.id+','+exercise.equipmentId+',this)">'+dict["add to favorites"]+'</div>')+
             '</li>';
   } else {
-  html = '<li class="elementSearch" id="search_'+exercise.elementID+'">'+
+  html = '<li class="elementSearch favourite-star" id="search_'+exercise.elementID+'">'+
                   '<div class="addToWorkout" onclick="addToWorkout(\''+exercise.id+'\','+exercise.bodygroupId+','+index+')">'+dict["add to workout"]+'</div>' +
                 '<img  onclick="addToWorkout(\''+exercise.id+'\','+exercise.bodygroupId+','+index+')" src="/'+placeholder+'"/><div class=" '+(exercise.video != "" ? "videoIcon" : "")+' exeName"><span>'+exercise.name+'</span></div>'+
                 (exercise.favorite ? '<div onClick="addToFavorite('+exercise.id+','+exercise.equipmentId+',this)" class="favorite removeFavorite">'+dict["remove from favorites"]+'</div>' : '<div class="favorite" onClick="addToFavorite('+exercise.id+','+exercise.equipmentId+',this)">'+dict["add to favorites"]+'</div>')+
