@@ -1204,6 +1204,10 @@ function closeExercise() {
 
 // open exercsie adding
 function addExercise() {
+    if($('.addexercise-step').first().hasClass('inactive')){
+        addExerciseSwtichStep();
+    }
+  $("#exercise_form").trigger("reset");
   $(".overlayKillParent").addClass("overlayKillParent-active");
   $("#o-wrapper *").not(".exerciseOverlay, .exerciseOverlay *").addClass("gone");
   $(".overlayKillChild").click(function() {
