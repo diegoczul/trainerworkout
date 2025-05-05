@@ -755,8 +755,8 @@ class OrdersController extends BaseController
 
             if ($result['status'] == true) {
                 // Update Membership
-                $subscriptionId = $result['data']['subscription_id'];
-                $paymentIntentId = $result['data']['payment_intent_id'];
+                $subscriptionId = $result['data']['subscription_id']??null;
+                $paymentIntentId = $result['data']['payment_intent_id']??null;
                 MembershipsUsers::where("userId", $user->id)->delete();
                 OrderItems::where("orderId", $cart["orderId"])
                     ->where("itemType", "Membership")
