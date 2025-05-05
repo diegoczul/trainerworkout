@@ -14,16 +14,16 @@
                     </td>
                 </tr>
                 <tr style="width:100%;">
-                    <td style="width:100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><h4 class="friendMessage" style="margin: 0;padding: 0;font-family: Avenir, Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 26px;font-weight: 300;line-height: 115%;text-align: center;word-break: normal;">{{ $user->firstName }} {{ $user->lastName }} vous invite à joindre Trainer Workout!</h4></td>
+                    <td style="width:100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%; padding-bottom:8px;"><h4 class="friendMessage" style="margin: 0;padding: 0;font-family: Avenir, Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 26px;font-weight: 300;line-height: 115%;text-align: center;word-break: normal;">{{ $user->firstName }} {{ $user->lastName }} vous invite à joindre Trainer Workout!</h4></td>
                 </tr>
                 @if($comments != "")
                     <tr>
                         <td colspan="3" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><h4 class="messageFromFriend" style="margin: 0;padding: 0;font-family: Avenir, Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;color: #fff;font-size: 26px;font-weight: 100;line-height: 115%;text-align: center;padding-bottom: 10px;font-style: italic;">message from {{ $user->firstName }} {{ $user->lastName }}:</h4></td>
                     </tr>
                     <tr>
-                        <td class="quote1" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 20px;vertical-align: top;padding-right: 5px;"><img src="{{ asset("assets/img/newsletter/quote1.png") }}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;"></td>
-                        <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><h4 class="friendMessage" style="margin: 0;padding: 0;font-family: Avenir, Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 26px;font-weight: 300;line-height: 115%;text-align: center;">{{{ $comments }}}</h4></td>
-                        <td class="quote2" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 20px;vertical-align: bottom;padding-left: 5px;"><img src="{{ asset("assets/img/newsletter/quote2.png") }}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;"></td>
+                        <td class="quote1" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 20px;vertical-align: top;padding-right: 5px; display:block;"><img src="{{ asset("assets/img/newsletter/quote1.png") }}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;"></td>
+                        <td style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%; display:flex;"><h4 class="friendMessage" style="margin: 0;padding: 0;font-family: Avenir, Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;color: #2C3E50;font-size: 26px;font-weight: 300;line-height: 115%;text-align: center;">{{{ $comments }}}</h4></td>
+                        <td class="quote2" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;width: 20px;vertical-align: bottom;padding-left: 5px; display:block; justify-self:end;"><img src="{{ asset("assets/img/newsletter/quote2.png") }}" style="border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;"></td>
                     </tr>
                 @endif
             </table>
