@@ -400,7 +400,7 @@ return array(
     "createAccountManually"         =>  "Enter info manually",
     "Payment"                       => "Payment",
 
-    "upgrade1"                      => "Your current plan limits your account to 3 workouts.",
+    "upgrade1"                      => "Your current plan limits your account to 3 workouts. You can archive or delete workouts to free up space.",
     "upgrade2"                      => "It's time to upgrade.",
     "upgrade3"                      => "Let's do it!",
     // Employee Management

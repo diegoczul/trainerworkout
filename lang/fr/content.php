@@ -435,7 +435,7 @@ return array(
     "createAccountManually"                =>  "Enregistrez-vous",
     "Payment"                              => "Paiement",
 
-    "upgrade1"                              => "Votre plan actuel vous autorise à conserver un maximum de 3 programmes.",
+    "upgrade1" => "Votre plan actuel limite votre compte à 3 programmes. Vous pouvez archiver ou supprimer des programmes pour libérer de l’espace.",
     "upgrade2"                              => "C'est le temps d'acheter un plan",
     "upgrade3"                              => "Allons-y",
     "createAccountPhone"                   =>  "Numéro de téléphone",
