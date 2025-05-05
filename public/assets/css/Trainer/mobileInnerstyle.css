@@ -394,7 +394,7 @@ td.restBtwSet {
   top: -162px;
   left: 0;
   right: 0;
-  height: 108px;
+  height: 72px;
   z-index: 10000;
   background-color: #2C3E50;
   text-align: center;
@@ -402,11 +402,19 @@ td.restBtwSet {
   -moz-transition: all 0.3s;
   transition: all 0.3s; }
   .loader-bg img {
-    height: 86.4px;
+    height: 40px;
     width: auto;
     margin-top: 10.8px;
   margin-left: auto;
     margin-right: auto; }
+    @media (min-width: 600px) {
+      .loader-bg{
+        height: 108px;
+      }
+      .loader-bg img{
+        height: 86.4px;
+      }
+    }
 
 .moveMe {
   top: 0; }
@@ -2367,6 +2375,16 @@ nav {
     .viewMore_holder .loading img {
       max-width: 120px; }
 
+  .view-more-btn-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .view-more-btn-section .archive-btn, .view-more-btn-section .viewmore-btn{
+    margin: 0px;
+  }
+
 .viewMore, .archive {
   display: inline-block;
   background: #f2f2f2;
@@ -2606,13 +2624,13 @@ nav {
       content: url("/assets/img/svg/onboardingCWarrow3.svg");
       display: block;
       position: fixed;
-      bottom: 66px;
-      right: 50%;
+      bottom: 20px;
+      right: 85%;
       -webkit-transform: translateX(50%) rotate(180deg);
       -moz-transform: translateX(50%) rotate(180deg);
       -ms-transform: translateX(50%) rotate(180deg);
       -o-transform: translateX(50%) rotate(180deg);
-      transform: translateX(50%) rotate(180deg);
+      transform: translateX(50%) rotate(124deg);
       z-index: 500; }
       @media (orientation: landscape) {
         .onboardingCreateWorkoutContainer a.noWorkout::after {
@@ -2802,6 +2820,17 @@ nav {
     #step1 button {
       float: none; } }
 
+      /* .timer-section{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .timer-section .show-timing{
+        margin: 0px;
+      }
+      .timer-section .restart-timer{
+        margin: 0px;
+      } */
 #timer {
   min-height: 50px; }
   @media (min-width: 768px) {
@@ -4462,6 +4491,11 @@ nav {
   font-size: 1em;
   letter-spacing: 0.12em;
   padding: 0 20px; }
+
+ .saveButton.detail-save-btn button{
+    padding: 0px 40px;
+  }
+
   .p_form button:active {
     box-shadow: 0 1px 0 0 #4b548a; }
   .p_form button:active {
@@ -9371,6 +9405,14 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
 
 .fb_up {
   top: 0; }
+  .fb_overlay.fb-content{
+    padding-left: 0px;
+  }
+  @media all and (min-width: 1220px) {
+    .fb_overlay.fb-content {
+      padding-left: 280px;
+     } 
+  }
 
 .feedbackContainer {
   margin-top: 15vh;
@@ -9880,6 +9922,19 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   max-width: 350px;
   margin: auto;
   padding-top: 107px; }
+
+.p_Container.trainee-profile-form{
+  padding: 35px 35px 35px;
+}
+@media (min-width: 600px) {
+  .p_Container.trainee-profile-form{
+    padding: 107px 35px 35px;
+  }
+}
+
+.p_Container.trainee-profile-form input{
+  border: 1px solid #EFEFEF;
+}
 
 .p_img {
   display: flex;

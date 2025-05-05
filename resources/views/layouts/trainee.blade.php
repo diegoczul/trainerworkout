@@ -230,7 +230,7 @@
 
 <!-- FEEDBACK OVERLAY -->
 
-<div class="fb_overlay">
+<div class="fb_overlay fb-content">
     <svg class="c-menu__close" width="15" height="15" viewBox="0 0 15 15" xmlns="https://www.w3.org/2000/svg"
          onclick="moveFeedbackDown();">
         <title>

@@ -51,7 +51,7 @@
                 <p class="text-lg">{{ Lang::get("content.Create and share your own monthly training plans. Clients can subscribe directly, and Trainer Workout handles billing and invoicing automatically, helping you keep client relationships 100% professional.") }}</p>
             </div>
             <div class="mainSectionContent">
-                <div class="selectableTabContainer">
+                <div class="selectableTabContainer select-tab">
                     <select name="mobileTab" class="selectableTab">
                         <option value="customPlans">{{ Lang::get("content.Create Custom Plans") }}</option>
                         <option value="clientSubscriptions">{{ Lang::get("content.Client Subscriptions") }}</option>
@@ -116,7 +116,7 @@
                             <p class="tab notifications">{{ Lang::get("content.frontEnd/Notifications") }}</p>
                             <p class="tab tracking">{{ Lang::get("content.Tracking & reporting") }}</p>
                         </div>
-                        <div class="selectableTabContainer">
+                        <div class="selectableTabContainer select-tab">
                             <select name="mobileTab" class="selectableTab">
                                 <option value="branding">{{ Lang::get("content.Your branding") }}</option>
                                 <option value="clientFiles">{{ Lang::get("content.Client files") }}</option>
@@ -175,7 +175,7 @@
                         <p>{{ Lang::get("content.thirdLongText") }}</p>
                     </div>
                     <div class="mainSectionContent">
-                        <div class="selectableTabContainer">
+                        <div class="selectableTabContainer select-tab">
                             <select name="mobileTab" class="selectableTab">
                                 <option value="exercises">{{ Lang::get("content.Over 2,500 exercises") }}</option>
                                 <option value="builder">{{ Lang::get("content.Workout Builder") }}</option>
