@@ -364,7 +364,8 @@ class Exercises extends Model implements TranslatableContract
             ->where('exercises.equipmentRequired', 0)
             ->where(function ($q) use ($restrictToUser, $userId) {
                 if ($restrictToUser == true) {
-                    $q->where('exercises.authorId', $userId);
+                    $q->where('exercises.authorId', $userId)
+                        ->orWhere('exercises_users.favorite', 1);
                 }else{
                     $q->where('exercises.type', 'public')
                         ->orWhere(function ($subQ) use ($userId) {
@@ -447,7 +448,8 @@ class Exercises extends Model implements TranslatableContract
             ->whereNull('exercises_equipments.deleted_at')
             ->where(function ($q) use ($restrictToUser, $userId) {
                 if ($restrictToUser == true) {
-                    $q->where('exercises.authorId', $userId);
+                    $q->where('exercises.authorId', $userId)
+                        ->orWhere('exercises_users.favorite', 1);
                 }else{
                     $q->where('exercises.type', 'public')
                         ->orWhere(function ($subQ) use ($userId) {
