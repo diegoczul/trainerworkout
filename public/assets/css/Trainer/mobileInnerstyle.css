@@ -549,8 +549,8 @@ div.showTab {
   background-color: #369AD8; }
 
 .main_header_account,
-.trainer_account {
-  /* background-color: #2C3E50; } */
+/* .trainer_account {
+  background-color: #2C3E50; } */
 
 /* ======     MAIN - NAV  
 ============================*/
@@ -3158,6 +3158,7 @@ nav {
   text-align: center; }
 
 .addTagBtn {
+  align-items: center;
   margin-top: 14px;
   background: #369AD8;
   border-radius: 2px;
@@ -6322,6 +6323,7 @@ div[id^="tags"] {
     background: white;
     cursor: pointer;
     min-height: 150px;
+    height: 150px;
     overflow: hidden; }
     .searchResultsContainer li:hover .favorite {
       bottom: 0; }
@@ -6898,14 +6900,17 @@ div[id^="tags"] {
 
 th.bound,
 .tbRepType {
-  position: relative; }
+  position: relative; padding-right: 18px; }
   th.bound::after,
   .tbRepType::after {
     cursor: pointer;
     content: url("/assets/img/svg/dropDown.svg");
     right: 5%;
     position: absolute;
-    top: 24%; }
+    top: 40%; 
+    bottom: auto; 
+    left: auto;
+  }
 
 .set .tbSet {
   text-indent: 10px; }
