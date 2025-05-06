@@ -114,7 +114,11 @@ class ExercisesController extends BaseController
         $action = "added";
 
         $ex = Exercises::find($id);
-        $exercise = ExercisesUser::where("userId", $userId)->where("locale", app()->getLocale())->where("exerciseId", $id)->where("equipmentId", $equipmentId)->first();
+        $exercise = ExercisesUser::where("userId", $userId)
+            ->where("locale", app()->getLocale())
+            ->where("exerciseId", $id)
+//            ->where("equipmentId", $equipmentId)
+            ->first();
 
         if ($id && $ex) {
             if (!$exercise) {
