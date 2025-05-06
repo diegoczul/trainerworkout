@@ -8260,8 +8260,10 @@ margin-bottom: 10px; }
   background: #D8D8D8;
   text-align: left;
   padding: 10px;
-  z-index: 15;
-  border: 1px #979797 solid;
+  z-index: 99999999999;
+  opacity: 1;
+  visibility: visible;
+  border: 1px solid #979797;
   border-radius: 3px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24), 0px 0px 4px 0px rgba(0, 0, 0, 0.12); }
   @media (min-width: 600px) {

@@ -6,7 +6,7 @@
 @endphp
 
 
-<table class="datatables reportTable" cellspacing="0" width="100%">
+<table class="datatables reportTable" cellspacing="0" width="100%" style="z-index: 99; position: relative;">
 <thead>
 	<tr>
 		<th>Clients</th>
