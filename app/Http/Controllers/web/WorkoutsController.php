@@ -2343,6 +2343,7 @@ class WorkoutsController extends BaseController
 		}
 
 		$workout->name = $request->get("workoutName");
+		$workout->description = $request->get("WorkoutDescription");
 
 		$workout->sale = 0;
 		$workout->availability = "private";
@@ -2436,6 +2437,7 @@ class WorkoutsController extends BaseController
 				$workout->authorId = $userId;
 			}
 			$workout->name = $request->get("workoutName");
+			$workout->description = $request->get("WorkoutDescription");
 			//$workout->price = $workoutDetails["price"];
 
 

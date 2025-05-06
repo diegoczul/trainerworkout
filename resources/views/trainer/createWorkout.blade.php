@@ -24,9 +24,12 @@
                 <img src="/{{ Helper::image(Auth::user()->activeLogo->thumb) }}">
             @endif
         </div>
-        <div class="cw-header-description">
+        <div class="cw-header-description" style="padding: 0px">
             <input type="text" placeholder="{{ Lang::get("content.createWorkout/name") }}" id="workout_name" name="workout_name" onkeyup="updateWorkoutName()" value="{{ $workout->name }}" required />
             <input type="hidden" id="client" name="client" value="{{ (isset($client) ? $client : "" ) }}" />
+            <div style="margin-bottom: 10px;" class="share_content">
+                <textarea rows="5" style="border: 1px #F0F0F0 solid; box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.15); border-radius: 2px 0px 0px 2px;padding: 5px; width: 100%" placeholder="Enter Workout description" id="workout_description" onchange="updateWorkoutDescription()">{{ $workout->description }}</textarea>
+            </div>
             <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
         </div>
         <!-- The add note links to a pop-up that allow the user to add a note to the workout -->
@@ -43,6 +46,7 @@
                     <input type="hidden" name="exercise" id="noteWorkout"/>
             </div>
         </div>
+
     </div>
 </div>
 @if($workout->notes != "")
@@ -1064,6 +1068,7 @@
 <input type="hidden" name="exerciseGroup" id="exerciseGroup" value="">
 <input type="hidden" name="exerciseGroupsRest" id="exerciseGroupsRest" value="">
 <input type="hidden" name="workoutName" id="workoutName" value="">
+<input type="hidden" name="WorkoutDescription" id="WorkoutDescription" value="">
 <input type="hidden" name="clientId" id="clientId" value="">
 <input type="hidden" name="notes" id="noteToWorkoutForm" value="">
 <input type='hidden' name='id' value="{{ $workout->id }}" id="id" />
@@ -1146,6 +1151,7 @@ var reserverConstant = "40";
 var rangeCardioConstant = "120-150";
 var maxCardioConstant = "Max";
 var workoutName = "";
+var WorkoutDescription = "";
 var weightConstant = 0;
 var editId = "";
 var addToCircuit = "";
@@ -2490,6 +2496,9 @@ function saveWorkoutName(){
  function updateWorkoutName(){
   workoutName = $("#workout_name").val();
  }
+ function updateWorkoutDescription(){
+     WorkoutDescription = $("#workout_description").val();
+ }
 
 function setActiveTab(element){
     $(".tab").removeClass("active");
@@ -2729,6 +2738,7 @@ function createWorkout(){
   //$("#tags").val(JSON.stringify(tags));
   //alert($("#workout_name").val());
   $("#workoutName").val($("#workout_name").val());
+  $("#WorkoutDescription").val($("#workout_description").val());
   $("#clientId").val($("#client").val());
   $("#noteToWorkoutForm").val($("#noteToWorkout").val());
     if($("#workout_name").val() == ""){
@@ -2819,6 +2829,7 @@ function autoSaveWorkout(){
   //$("#tags").val(JSON.stringify(tags));
   //alert($("#workout_name").val());
   $("#workoutName").val($("#workout_name").val());
+  $("#WorkoutDescription").val($("#workout_description").val());
   $("#noteToWorkoutForm").val($("#noteToWorkout").val());
 
   var $clone = $("#ptLogo").clone();

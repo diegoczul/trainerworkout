@@ -175,10 +175,11 @@
                             </div>
                             <div class="viewWorkoutHeader_info">
                                 <h2 id="title_VW">{{ $workout->name }}</h2>
+                                <h4>{{$workout->description}}</h4>
                                 <!-- CREATED BY -->
                                 <h3 id="subtitle_VW">{{ $workout->author->firstName??"N/A" }} {{ $workout->author->lastName??"" }}</h3>
-                                <hr>
                                 @if(isset($workout->notes) &&!empty($workout->notes))
+                                    <hr>
                                     <h4>Note: {{ $workout->notes }}</h4>
                                 @endif
                             </div>
@@ -191,6 +192,7 @@
                     <div class="workoutHeaderWrapper">
                         <div class="workoutHedaer">
                             <h1>{{ $workout->name }}</h1>
+                            <h4>{{ $workout->description }}</h4>
                             <!-- Message from the personal trainer about the workout -->
                             @if($workout->notes != "")
                                 <div class="trainerWorkoutMessageContainer">
