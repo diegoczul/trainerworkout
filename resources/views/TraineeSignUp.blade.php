@@ -42,10 +42,10 @@
 @endsection
 
 @section("scripts")
-<script type="text/javascript">
-    function showForm() {
-        $(".exp-form").toggle();
-        $("#exp-manualBTN").toggle();
-    }
-</script>
+    <script type="text/javascript">
+        function showForm() {
+            $(".exp-form").toggle();
+            $("#exp-manualBTN").toggle();
+        }
+    </script>
 @endsection

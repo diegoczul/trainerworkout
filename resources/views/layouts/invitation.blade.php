@@ -50,6 +50,7 @@
     {{ HTML::style(asset('assets/css/lang/styles_' . Config::get('app.locale') . '.css')) }}
 
     {{ HTML::script(asset('assets/js/modernizr.js')) }}
+    {{ HTML::script(asset('assets/js/global.js')) }}
 
     @if (Config::get('app.whitelabel') != 'default')
         {{ HTML::style(Config::get('app.whitelabel_css')) }}
@@ -240,27 +241,19 @@
 
 @yield('scripts')
 
-@if ($errors->any())
-    {{ $message = '' }}
+@if($errors->any())
+        <?php $message = ""; ?>
     @foreach ($errors->all() as $error)
-        {{ $message .= $error . '</br>' }}
+            <?php $message .= $error . "</br>"; ?>
     @endforeach
-    <script>
-        errorMessage("{!! $message !!}")
-    </script>
+    <script>errorMessage("{!! $message !!}")</script>
 @endif
-
-@if (Session::has('message'))
-    <script>
-        successMessage("{!! Session::get('message') !!}")
-    </script>
+@if(Session::has("message"))
+    <script>successMessage("{!! Session::get("message") !!}")</script>
     @php session()->forget('message') @endphp
 @endif
-
-@if (Session::has('error'))
-    <script>
-        errorMessage("{!! Session::get('error') !!}")
-    </script>
+@if(Session::has("error"))
+    <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif
 
 @if (!Config::get('app.debug'))
