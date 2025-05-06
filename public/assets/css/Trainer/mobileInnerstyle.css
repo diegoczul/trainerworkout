@@ -3311,12 +3311,15 @@ nav {
     -ms-flex-order: 2; }
     .viewWorkoutHeader_info h2, .viewWorkoutHeader_info h3, .viewWorkoutHeader_info h4 {
       color: #727272;
-    margin-bottom: 10px; }
+     }
     .viewWorkoutHeader_info h2, .viewWorkoutHeader_info h3 {
       max-width: 95%;
       text-overflow: ellipsis;
       margin-top: 15px;
-    margin-bottom: 10px; }
+     }
+    .viewWorkoutHeader_info h2, .viewWorkoutHeader_info h3, .viewWorkoutHeader_info h4{
+      margin-bottom: 10px;
+    }
     .viewWorkoutHeader_info h4 {
       padding-bottom: 20px;
       text-align: justify;
