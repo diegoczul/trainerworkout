@@ -13,7 +13,7 @@
 		@foreach($dates as $date)
 			<th scope="col">{{ Helper::date($date) }}</th>
 		@endforeach
-	</tr>
+</tr>
 </thead>
 <tbody>
 	@foreach($clients as $client)
@@ -29,11 +29,8 @@
 				@if($performance->workout)
 				<div class="workoutPerformanceContainer">
 				<p class="workoutPerformancep" onclick='$(this).closest(".workoutPerformanceContainer").find(".workoutPerformance--Details").toggle();' onmouseover='$(this).closest(".workoutPerformanceContainer").find(".workoutPerformance--Details").show();' onmouseout='$(this).closest(".workoutPerformanceContainer").find(".workoutPerformance--Details").hide();'>{{ ($performance->workout) ? $performance->workout->name : "" }}</p>
-
-				
 			
 				<div class="workoutPerformance--Details">
-					
 					<div class="workoutPerformance--Each">
 					<p class="title">{{ $performance->workout->name }}</p>
 					
@@ -44,7 +41,6 @@
 							<p><span>Comments:</span> {{ $performance->comments}}</p>
 						@endif
 					</div>
-					
 				</div>
 
 				</div>

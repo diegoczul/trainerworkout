@@ -121,6 +121,10 @@ input, .popup_container .share_content textarea {
   /* text-align: center; */
   background: transparent;
  }
+ /* .dataTables_filter label input{
+  appearance: none;
+  -webkit-appearance: none;
+ } */
 
 caption {
   display: none; }
@@ -3306,7 +3310,8 @@ nav {
     order: 2;
     -ms-flex-order: 2; }
     .viewWorkoutHeader_info h2, .viewWorkoutHeader_info h3, .viewWorkoutHeader_info h4 {
-      color: #727272; }
+      color: #727272;
+    margin-bottom: 10px; }
     .viewWorkoutHeader_info h2, .viewWorkoutHeader_info h3 {
       max-width: 95%;
       text-overflow: ellipsis;
@@ -8694,6 +8699,7 @@ input.input, .popup_container .share_content textarea.input {
   /* text-align: center; */
   color: black;
   margin: 0; }
+  
 
 .input {
   font-size: 1.2em;
