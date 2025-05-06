@@ -33,15 +33,19 @@
             <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
             
             <div class="pt-4 mt-4" style="border-top: 1px solid #eeeeee;">
-                <h5 style="color: #2C3E50; font-weight: 500; font-size: 16px; padding-bottom: 15px;">Visibility (This section is currently under development):</h5>
+                <h5 style="color: #2C3E50; font-weight: 500; font-size: 16px; padding-bottom: 15px;">Visibility (This feature is comin soon ):</h5>
                 <div class="flex align-center gap-3">
                     <div class="flex items-center gap-1"> 
-                        <input type="radio" id="private" name="access" style="margin: 0;">
+                        <input type="radio" id="private" name="access" style="margin: 0;" checked>
                         <label for="private" style="color: #333333; padding: 0; font-size: 14px;">Private</label>
                     </div>
                     <div class="flex items-center gap-1"> 
                         <input type="radio" id="public" name="access" style="margin: 0;">
                         <label for="public" style="color: #333333; padding: 0; font-size: 14px;">Public</label>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <input type="radio" id="marketplace" name="access" style="margin: 0;">
+                        <label for="marketplace" style="color: #333333; padding: 0; font-size: 14px;">Marketplace</label>
                     </div>
                 </div>            
             </div>
