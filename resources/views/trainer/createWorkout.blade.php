@@ -113,7 +113,7 @@
 
 
                     <button type="button" onClick="searchExercise();">{{ Lang::get('content.Search') }}</button>
-                    <select id="langSelector" style="height: 41px;">
+                    <select id="langSelector">
                         <option value="en" {{ (app()->getLocale()  == "en") ? "selected" : "" }}>EN</option>
                         <option value="fr" {{ (app()->getLocale()  == "fr") ? "selected" : "" }}>FR</option>
                     </select>
@@ -995,7 +995,7 @@
     </div>
 
 
-    <div class="addExerciseToCircuit">
+    <div class="addExerciseToCircuit flex justify-center">
         <button onclick="showSearch('circuit',this)">
             <svg width="14" height="14" viewBox="0 0 14 14" xmlns="https://www.w3.org/2000/svg">
                 <title>
