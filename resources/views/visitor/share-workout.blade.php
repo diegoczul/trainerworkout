@@ -378,7 +378,7 @@
                                                     </tbody>
                                                 </table>
                                                 <div style="margin-top: 10px">
-                                                    <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
+                                                    <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn workout-bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -667,7 +667,7 @@
                                                     </tbody>
                                                 </table>
                                                 <div style="margin-top: 10px">
-                                                    <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
+                                                    <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn workout-bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -968,7 +968,7 @@
                                                 </tbody>
                                             </table>
                                             <div style="margin-top: 10px">
-                                                <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
+                                                <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn workout-bluebtn" style="padding: 5px">Create a FREE account and save your weights and workout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -1235,7 +1235,7 @@
     </section>
     <div id="performanceHeader">
         <div id="step1">
-            <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn" style="padding: 5px">Create account and add to my workouts</a>
+            <a href="{{route('trainee-invite-with-workout',['workout_id' => $workoutId])}}" class="bluebtn workout-bluebtn" style="padding: 5px">Create account and add to my workouts</a>
         </div>
     </div>
 @endsection

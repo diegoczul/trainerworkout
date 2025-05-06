@@ -400,26 +400,32 @@ td.restBtwSet {
   text-align: center;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
-  transition: all 0.3s; }
-  .loader-bg img {
-    height: 40px;
-    width: auto;
-    margin-top: 10.8px;
+  transition: all 0.3s; 
+}
+.loader-bg img {
+  height: 40px;
+  width: auto;
+  margin-top: 16px;
   margin-left: auto;
-    margin-right: auto; }
-    @media (min-width: 600px) {
-      .loader-bg{
-        height: 108px;
-      }
-      .loader-bg img{
-        height: 86.4px;
-      }
+  margin-right: auto; 
+}
+  @media (min-width: 600px) {
+    .loader-bg{
+      height: 108px;
     }
+    .loader-bg img{
+      height: 86.4px;
+      margin-top: 10.8px;
+    }
+  }
 
 .moveMe {
   top: 0; }
 
 /*   TAGS SYSTEM   */
+.container.tag-content{
+  margin-top: 10px;
+}
 .badge {
   border: 1px solid;
   border-radius: 3px;
@@ -1816,7 +1822,7 @@ nav {
       -o-justify-content: flex-end;
       justify-content: flex-end;
       -ms-flex-pack: end;
-      min-width: 368px;
+      min-width: 50%;
       width: 50%;
       padding: 0 0 12px 0; }
     .workouts_options .moreOptionsWorkoutButton, .workouts_options .workout_main_container .workout_overlay .moreOption, .workout_main_container .workout_overlay .workouts_options .moreOption, .workouts_options .client_main_container .workout_overlay .moreOption, .client_main_container .workout_overlay .workouts_options .moreOption, .workouts_options .workout_main_container .client_overlay .moreOption, .workout_main_container .client_overlay .workouts_options .moreOption, .workouts_options .client_main_container .client_overlay .moreOption, .client_main_container .client_overlay .workouts_options .moreOption,
@@ -6928,7 +6934,7 @@ th.bound,
   text-indent: 10px; }
   .set .tbSet::after {
     cursor: pointer;
-    content: url("/img/svg/dropDownB.svg");
+    content: url("/assets/img/svg/dropDownB.svg");
     right: 2%;
     position: absolute; }
 
@@ -7186,11 +7192,14 @@ th.bound,
   text-align: center;
   position: relative; }
   .addExerciseToCircuit button {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 8px;
     background: #369AD8;
     border-radius: 2px;
     border: none;
     text-align: center;
-    display: inline-block;
     min-width: 185px;
     height: 52px;
     padding: 0 6px;
@@ -8067,7 +8076,7 @@ margin-bottom: 10px; }
  
   margin: 0; }
   @media (max-width:900px){
-    .bluebtn{
+    .bluebtn.workout-bluebtn{
       display: flex;
       width: auto;
       align-items: center;
@@ -8435,7 +8444,9 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
   margin: auto 0 auto auto; }
 
 .clientpage .addElementButton {
-  margin: auto 0 0 auto; }
+  /* margin: auto 0 0 auto; */
+  margin: auto 0;
+ }
 
 .client_header {
   background: rgba(110, 121, 133, 0.96);
@@ -8539,6 +8550,11 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
       -moz-flex-direction: row;
       flex-direction: row;
       -ms-flex-direction: row; } }
+      .client_details .profileimage{
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+      }
 
 .profileimage {
   max-width: 160px;
@@ -8639,7 +8655,7 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
   max-width: 380px; }
   @media (min-width: 620px) {
     .infoColumn {
-      width: 50%; }
+      width: 100%; }
       .infoColumn:first-child {
         margin-right: 15px; }
       .infoColumn .info:last-child {
@@ -8657,6 +8673,18 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
     .chosen-select{
       width: 100%;
       padding: 6px;
+    }
+    .infoColumn .info{
+    width: 100%;
+    max-width: 100%;
+    }
+    .infoColumn .info p{
+      text-align: left;
+    }
+    @media (max-width:700px) {
+      .infoColumn .info{
+        margin-top: 20px;
+      }
     }
 input.input, .popup_container .share_content textarea.input {
   border: 1px solid #EFEFEF;
@@ -8690,6 +8718,7 @@ input.input, .popup_container .share_content textarea.input {
     @media (min-width: 620px) {
       .clientWidget h1 {
         text-align: left; } }
+        
 
 .calendar p, .calendar span, .calendar tr, .calendar td, .calendar label, .calendar input, .calendar .popup_container .share_content textarea, .popup_container .share_content .calendar textarea, .calendar a, .calendar div {
   color: white; }
@@ -9299,6 +9328,20 @@ a.option-selected {
   height: 35px;
   width: 35px; }
 
+  @media (min-width:475px) {
+    .workoutPT img{
+      width: 50px;
+      height: 50px;
+    }
+  }
+  @media (min-width:768px) {
+    .workoutPT img{
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+
 .workoutPTname {
   padding-left: 5px;
   display: -webkit-box;
@@ -9323,6 +9366,13 @@ a.option-selected {
     font-weight: lighter;
     color: white;
     letter-spacing: 0.035em; }
+
+    @media (min-width:768px) {
+      .workoutPTname p{
+      font-size: 1em;
+      }
+    }
+    
     .workoutPTname p:first-child {
       margin-top: 4px; }
     .workoutPTname p:last-child {

@@ -6,7 +6,7 @@
                     <div class="wrapper_tags client">
                         <h3 class="tags_h3">{{ Lang::get("content.ClientTags") }}</h3>
                         <hr>
-                        <div class="container" style="position:relative;">
+                        <div class="container tag-content" style="position:relative;">
 <!-- CLIENTS TAGS GO HERE -->
                          @foreach ($tags as $tag)
                          @if($tag->type == "user")
@@ -25,7 +25,7 @@
                     <div class="wrapper_tags keyword">
                         <h3 class="tags_h3">{{ Lang::get("content.KeywordTags") }}</h3>
                         <hr>
-                        <div class="container" style="position:relative;">
+                        <div class="container tag-content" style="position:relative;">
 <!-- KEYWORDS TAGS GO HERE -->
                          @foreach ($tags as $tag)
                          @if($tag->type != "user")
