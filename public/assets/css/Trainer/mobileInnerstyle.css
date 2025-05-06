@@ -2868,6 +2868,16 @@ nav {
     position: relative;
     height: 40px;
     display: inline-block; }
+    .timer-button-content{
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .timer-button-content a{
+      margin-top:0px ;
+    }
     @media (min-width: 1000px) {
       #timer .timerButton {
         float: left; } }
@@ -2944,11 +2954,11 @@ nav {
   #timer label {
     font-size: 1em; }
   #timer #n1 {
-    margin-top: 11px; }
+    margin-top: 0px; }
   #timer a {
     font-size: 0.8em;
     text-decoration: underline;
-    margin-top: 12px; }
+    margin-top: 0px; }
 
 .overlayPerform {
   overflow-y: scroll;
@@ -3104,7 +3114,8 @@ nav {
       font-size: 1.2em;
       margin: auto auto auto 0;
       padding: 0 10px;
-      width: 100%; }
+      width: 100%;
+    color: white; }
 
 #step3 {
   display: none; }
@@ -5785,7 +5796,9 @@ FRAMEWORK OVERRIDE CHOSEN
       color: #727272; }
       @media (min-width: 650px) {
         .cw-header-description input, .cw-header-description .popup_container .share_content textarea, .popup_container .share_content .cw-header-description textarea {
-          max-width: 60%; } }
+          /* max-width: 60%; */
+          max-width: 100%;
+         } }
 .cw .widget {
   margin-bottom: 20px;
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.18), 0 1px 2px 0 rgba(0, 0, 0, 0.3); }
