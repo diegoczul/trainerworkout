@@ -76,9 +76,9 @@ $(document).ready(function() {
 	$(document).ready(function () {
 	  // Handle click and touchstart for iOS and other mobile devices
 	  $('.workoutPerformancep')
-		.off('click touchstart') // Clear any existing event handlers to avoid duplicates
+		.off('click touchstart') 
 		.on('click touchstart', function (e) {
-		  e.preventDefault(); // Optional: Prevent link or default behavior
+		  e.preventDefault(); 
 		  $(this)
 			.closest('.workoutPerformanceContainer')
 			.find('.workoutPerformance--Details')
