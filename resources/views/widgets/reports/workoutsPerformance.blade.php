@@ -27,8 +27,8 @@
 				@foreach($performances[(string)$client->userId][$date] as $performance)
 
 				@if($performance->workout)
-				<div class="workoutPerformanceContainer">
-				<p class="workoutPerformancep" onclick='$(this).closest(".workoutPerformanceContainer").find(".workoutPerformance--Details").toggle();' onmouseover='$(this).closest(".workoutPerformanceContainer").find(".workoutPerformance--Details").show();' onmouseout='$(this).closest(".workoutPerformanceContainer").find(".workoutPerformance--Details").hide();'>{{ ($performance->workout) ? $performance->workout->name : "" }}</p>
+				<div class="workoutPerformanceContainer cursor-pointer">
+				<p class="workoutPerformancep">{{ ($performance->workout) ? $performance->workout->name : "" }}</p>
 			
 				<div class="workoutPerformance--Details">
 					<div class="workoutPerformance--Each">
@@ -72,5 +72,37 @@ $(document).ready(function() {
 </script>
 
 
-
+<script>
+	$(document).ready(function () {
+	  // Handle click and touchstart for iOS and other mobile devices
+	  $('.workoutPerformancep')
+		.off('click touchstart') // Clear any existing event handlers to avoid duplicates
+		.on('click touchstart', function (e) {
+		  e.preventDefault(); // Optional: Prevent link or default behavior
+		  $(this)
+			.closest('.workoutPerformanceContainer')
+			.find('.workoutPerformance--Details')
+			.toggle();
+		});
+  
+	  // Only bind hover handlers for non-touch (desktop) devices
+		if (!('ontouchstart' in window)) {
+			$('.workoutPerformancep')
+			.off('mouseenter mouseleave')
+			.on('mouseenter', function () {
+				$(this)
+				.closest('.workoutPerformanceContainer')
+				.find('.workoutPerformance--Details')
+				.show();
+			})
+			.on('mouseleave', function () {
+				$(this)
+				.closest('.workoutPerformanceContainer')
+				.find('.workoutPerformance--Details')
+				.hide();
+			});
+		}
+	});
+</script>
+  
 
