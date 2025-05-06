@@ -121,10 +121,10 @@ input, .popup_container .share_content textarea {
   /* text-align: center; */
   background: transparent;
  }
- /* .dataTables_filter label input{
+ .dataTables_filter label input{
   appearance: none;
   -webkit-appearance: none;
- } */
+ }
 
 caption {
   display: none; }
@@ -3315,7 +3315,8 @@ nav {
     .viewWorkoutHeader_info h2, .viewWorkoutHeader_info h3 {
       max-width: 95%;
       text-overflow: ellipsis;
-      margin-top: 15px; }
+      margin-top: 15px;
+    margin-bottom: 10px; }
     .viewWorkoutHeader_info h4 {
       padding-bottom: 20px;
       text-align: justify;
@@ -8080,6 +8081,13 @@ margin-bottom: 10px; }
   text-align: center;
  
   margin: 0; }
+ 
+  .bluebtn.workout-bluebtn.main-btn{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
   @media (max-width:900px){
     .bluebtn.workout-bluebtn{
       display: flex;
@@ -8088,7 +8096,11 @@ margin-bottom: 10px; }
       margin: 0px 10px;
       justify-content: center;
     }
+    .bluebtn.workout-bluebtn.main-btn{
+      width: auto;
+      margin:0px 10px;
   }
+}
 
 .fltleft {
   width: 100%;
