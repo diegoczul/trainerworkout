@@ -1,6 +1,8 @@
 <?php
 
 return array(
+    "tag_removal_confirmation" => "Êtes-vous sûr de vouloir supprimer ce tag ? Il sera retiré de tous les entraînements où il est présent.",
+    "no_tags_found" => "Aucun tag trouvé.",
     "ExerciseSuggested"             => "Nouvel exercice suggéré à l'administrateur",
     "Welcome"                       => Config::get("app.brand") . " vous souhaite la Bienvenue",
     "WrongLogin"                    => "Vous avez entré un mauvais mot de passe ou email",
