@@ -33,7 +33,7 @@
             <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
             
             <div class="pt-4 mt-4" style="border-top: 1px solid #eeeeee;">
-                <h5 style="color: #2C3E50; font-weight: 500; font-size: 16px; padding-bottom: 15px;">Visibility (This section is currently underdeath):</h5>
+                <h5 style="color: #2C3E50; font-weight: 500; font-size: 16px; padding-bottom: 15px;">Visibility (This section is currently under development):</h5>
                 <div class="flex align-center gap-3">
                     <div class="flex items-center gap-1"> 
                         <input type="radio" id="private" name="access" style="margin: 0;">
