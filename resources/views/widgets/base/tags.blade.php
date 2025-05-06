@@ -7,41 +7,46 @@
                         <h3 class="tags_h3">{{ Lang::get("content.ClientTags") }}</h3>
                         <hr>
                         <div class="container tag-content" style="position:relative;">
-<!-- CLIENTS TAGS GO HERE -->
+                        <!-- CLIENTS TAGS GO HERE -->
+                            @php $hasClientTags = false;@endphp
                          @foreach ($tags as $tag)
-                         @if($tag->type == "user")
-                         <div class="badge selabel-user" onclick="addToSearch('{{{ $tag->name }}}')"> {{{ $tag->name }}} @if(isset($workoutId) and $workoutId != "") 
-                         <a class="tag_delete"  href="javascript:void(0)" onClick="removeTag({{ $tag->id }},$(this),event)">X</a>
-                        @else
-                            <a class="tag_delete" onClick="deleteTag({{ $tag->id }},$(this),event)">X</a>
-                        @endif
-                         </div>
-                         @endif
-
+                            @if($tag->type == "user")
+                                    @php $hasClientTags = true;@endphp
+                             <div class="badge selabel-user" onclick="addToSearch('{{{ $tag->name }}}')"> {{{ $tag->name }}}
+                                @if(isset($workoutId) and $workoutId != "")
+                                    <a class="tag_delete"  href="javascript:void(0)" onClick="removeTag({{ $tag->id }},$(this),event)">X</a>
+                                @else
+                                    <a class="tag_delete" onClick="deleteTag({{ $tag->id }},$(this),event)">X</a>
+                                @endif
+                             </div>
+                             @endif
                          @endforeach
-
+                        @if(!$hasClientTags)
+                            {{__('messages.no_tags_found')}}
+                        @endif
                         </div>
                     </div>
                     <div class="wrapper_tags keyword">
                         <h3 class="tags_h3">{{ Lang::get("content.KeywordTags") }}</h3>
                         <hr>
                         <div class="container tag-content" style="position:relative;">
-<!-- KEYWORDS TAGS GO HERE -->
+                        <!-- KEYWORDS TAGS GO HERE -->
+                         @php $hasKeywordTags = false; @endphp
                          @foreach ($tags as $tag)
-                         @if($tag->type != "user")
-
-
-                         <div class="badge selabel-tag" onclick="addToSearch('{{{ $tag->name }}}')"><i class="fa fa-tag"></i>  {{{ $tag->name }}} @if(isset($workoutId) and $workoutId != "") 
-
-                         <a class="tag_delete"  href="javascript:void(0)" onClick="removeTag({{ $tag->id }},$(this),event)">X</a>
-                        @else
-                            <a class="tag_delete" onClick="deleteTag({{ $tag->id }},$(this),event)">X</a>
-                        @endif
-                         </div>
-                         @endif
-
+                             @if($tag->type != "user")
+                                @php $hasKeywordTags = true; @endphp
+                                 <div class="badge selabel-tag" onclick="addToSearch('{{{ $tag->name }}}')"><i class="fa fa-tag"></i>  {{{ $tag->name }}}
+                                     @if(isset($workoutId) and $workoutId != "")
+                                            <a class="tag_delete"  href="javascript:void(0)" onClick="removeTag({{ $tag->id }},$(this),event)">X</a>
+                                     @else
+                                        <a class="tag_delete" onClick="deleteTag({{ $tag->id }},$(this),event)">X</a>
+                                    @endif
+                                 </div>
+                             @endif
                          @endforeach
-
+                        @if(!$hasKeywordTags)
+                            {{__('messages.no_tags_found')}}
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -52,7 +57,7 @@
 
     function deleteTag(id,obj,event){
         event.stopPropagation();
-        if(confirm('{{{ Lang::get("messages.Confirmation") }}}')){
+        if(confirm('{{__('messages.tag_removal_confirmation')}}')){
          $.ajax(
             {
                 url : "/widgets/tags/"+id,
@@ -77,7 +82,7 @@
     </script>
 
  @else
-   
+
 @endif
 
 @if($total > $tags->count())

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Config;
 
 return array(
+        "tag_removal_confirmation"      => "Are you sure you want to delete this tag? The tag will be removed from all workouts where it is present.",
+        "no_tags_found"      => "No tags found.",
         "ExerciseSuggested"             => "New exercise suggested to admin",
         "Welcome"                       => "Welcome to " . Config::get("app.brand"),
         "WrongLogin"                    => "You have entered a wrong email or password",
