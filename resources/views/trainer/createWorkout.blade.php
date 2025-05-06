@@ -27,7 +27,7 @@
         <div class="cw-header-description" style="padding: 0px">
             <input type="text" placeholder="{{ Lang::get("content.createWorkout/name") }}" id="workout_name" name="workout_name" onkeyup="updateWorkoutName()" value="{{ $workout->name }}" required />
             <input type="hidden" id="client" name="client" value="{{ (isset($client) ? $client : "" ) }}" />
-            <div style="margin-bottom: 10px; max-width:60%;" class="share_content">
+            <div style="margin-bottom: 10px; max-width:100%;" class="share_content">
                 <textarea rows="3" style="border: 1px #F0F0F0 solid; box-shadow: inset 0px 0px 2px 0px rgba(0, 0, 0, 0.15); border-radius: 2px 0px 0px 2px;padding: 9px; width: 100%" placeholder="Enter Workout description" id="workout_description" onchange="updateWorkoutDescription()">{{ $workout->description }}</textarea>
             </div>
             <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
