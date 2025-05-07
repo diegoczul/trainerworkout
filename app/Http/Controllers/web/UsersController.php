@@ -4,7 +4,9 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Helper;
 use App\Http\Libraries\Messages;
+use App\Jobs\ResetPasswordMailJob;
 use App\Jobs\TestMailJob;
+use App\Mail\ResetPassword;
 use App\Mail\TestMail;
 use App\Models\Exercises;
 use App\Models\Feeds;
@@ -27,6 +29,7 @@ use App\Models\WorkoutsExercises;
 use App\Services\SendGridSubscriptionService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -1699,20 +1702,25 @@ class UsersController extends BaseController
                 return $this->responseJson($result);
             }
 
-            $response = Password::sendResetLink(['email' => $request->get('email')]);
+            // Generate a reset token
+            $token = Str::random(60);
+
+            // Store the token in the password_resets table
+            DB::table('password_resets')->insert([
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ]);
+
+            // Send the reset email (you can create a custom email view for this)
+            $resetUrl = route('password.reset', ['token' => $token, 'email' => $request->email]);
+            ResetPasswordMailJob::dispatch($request->get('email'),$resetUrl);
+
             $result = [
-                "status" => "error",
-                "message" => Lang::get("messages.email_sent_error"),
+                "status" => "ok",
+                "message" => Lang::get("messages.email_sent_success"),
             ];
-            if ($response == Password::RESET_LINK_SENT) {
-                $result = [
-                    "status" => "ok",
-                    "message" => Lang::get("messages.email_sent_success"),
-                ];
-                return $this->responseJson($result);
-            } else {
-                return $this->responseJson($result);
-            }
+            return $this->responseJson($result);
         } catch (Exception $e) {
             return $this->responseJsonError($e->getMessage());
         }
