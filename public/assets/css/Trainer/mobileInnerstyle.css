@@ -2965,7 +2965,7 @@ nav {
           content: url("/assets/img/svg/timer.svg");
           position: absolute;
           left: 12px;
-          top: 6px; } ----first icon */
+          top: 6px; } ----first icon */ 
          
   #timer label,
   #timer #n1,
@@ -8328,34 +8328,25 @@ margin-bottom: 10px; }
 
 .workoutPerformance--Details {
   display: none;
-  left: 50% !important;
-  top: 100px !important;
-  position: absolute;
-  right: 0 !important;
-  transform: translate(-50%, -50%);
-  height: auto;
-  bottom: auto;
-  margin: 0 auto;
+  position: fixed;
+  top: 70px;
+  left: 0;
   width: 100%;
   max-width: 600px;
   background: #D8D8D8;
   text-align: left;
   padding: 10px;
-  z-index: 99999999;
+  z-index: 15;
   border: 1px #979797 solid;
-  z-index: 99999999999;
-  opacity: 1;
-  visibility: visible;
-  border: 1px solid #979797;
   border-radius: 3px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24), 0px 0px 4px 0px rgba(0, 0, 0, 0.12); }
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24), 0px 0px 4px 0px rgba(0, 0, 0, 0.12);}
   
   .widgetList.data-content .paginate_button.current{
     height: 36px;
   }
-  .widgetList.data-content{
+  /* .widgetList.data-content{
     position: relative;
-   }
+   } */
   /* .dataTables_scrollBody{
     overflow: visible;
   } */

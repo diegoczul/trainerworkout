@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="reportWrapper">
-        <div id="r_workoutsPerformance" class="widgetList data-content">
+        <div id="r_workoutsPerformance" class="widgetList">
             <!-- report starts here -->
             <!-- tw/app/views/widgets/reports/workoutsPerformance.blade.php -->
         </div>
