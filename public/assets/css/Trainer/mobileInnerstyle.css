@@ -8265,20 +8265,38 @@ margin-bottom: 10px; }
 
 .workoutPerformance--Details {
   display: none;
-  position: fixed;
-  top: 70px;
-  left: 0;
+  left: 50% !important;
+  top: 100px !important;
+  position: absolute;
+  right: 0 !important;
+  transform: translate(-50%, -50%);
+  height: auto;
+  bottom: auto;
+  margin: 0 auto;
   width: 100%;
   max-width: 600px;
   background: #D8D8D8;
   text-align: left;
   padding: 10px;
+  z-index: 99999999;
+  border: 1px #979797 solid;
   z-index: 99999999999;
   opacity: 1;
   visibility: visible;
   border: 1px solid #979797;
   border-radius: 3px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24), 0px 0px 4px 0px rgba(0, 0, 0, 0.12); }
+  
+  .widgetList.data-content .paginate_button.current{
+    height: 36px;
+  }
+  .widgetList.data-content{
+    position: relative;
+   }
+  /* .dataTables_scrollBody{
+    overflow: visible;
+  } */
+   
   @media (min-width: 600px) {
     .workoutPerformance--Details {
       left: calc((100vw - 600px) / 2); } }
@@ -8287,12 +8305,14 @@ margin-bottom: 10px; }
   .workoutPerformance--Details span {
     font-weight: 500; }
 .workoutPerformance:hover .workoutPerformance--Details {
-  display: block; }
+  display: block; 
+z-index: 15000; }
 .workoutPerformance--Each {
   padding-bottom: 10px; }
   .workoutPerformance--Each .title {
     font-size: 1.4em;
     font-weight: 500; }
+   
 
 /* *********    NOte Overlay *********** */
 #w_clients .viewMore, #w_clients .archive {

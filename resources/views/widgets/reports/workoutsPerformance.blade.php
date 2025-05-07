@@ -30,18 +30,7 @@
 				<div class="workoutPerformanceContainer cursor-pointer">
 				<p class="workoutPerformancep">{{ ($performance->workout) ? $performance->workout->name : "" }}</p>
 			
-				<div class="workoutPerformance--Details">
-					<div class="workoutPerformance--Each">
-					<p class="title">{{ $performance->workout->name }}</p>
-					
-						<p><span>Client:</span> {{ ($performance->user) ? $performance->user->getCompleteName() : "User Not Found" }}</p>
-						<p><span>Rating:</span> {{ $performance->rating->name }}</p>
-						<p><span>Duration:</span> {{ number_format($performance->timeInSeconds/60,1) }} min</p>
-						@if($performance->comments != "")
-							<p><span>Comments:</span> {{ $performance->comments}}</p>
-						@endif
-					</div>
-				</div>
+				
 
 				</div>
 				
@@ -54,7 +43,19 @@
 @endforeach
 </tbody>
 </table>
-
+{{-- -Model-Content- --}}
+	<div class="workoutPerformance--Details">
+		<div class="workoutPerformance--Each">
+		<p class="title">{{ $performance->workout->name }}</p>
+		
+			<p><span>Client:</span> {{ ($performance->user) ? $performance->user->getCompleteName() : "User Not Found" }}</p>
+			<p><span>Rating:</span> {{ $performance->rating->name }}</p>
+			<p><span>Duration:</span> {{ number_format($performance->timeInSeconds/60,1) }} min</p>
+			@if($performance->comments != "")
+				<p><span>Comments:</span> {{ $performance->comments}}</p>
+			@endif
+		</div>
+	</div>
 
 
 <script type="text/javascript">
@@ -80,7 +81,7 @@ $(document).ready(function() {
 		.on('click touchstart', function (e) {
 		  e.preventDefault(); 
 		  $(this)
-			.closest('.workoutPerformanceContainer')
+			.closest('.widgetList')
 			.find('.workoutPerformance--Details')
 			.toggle();
 		});
@@ -91,18 +92,25 @@ $(document).ready(function() {
 			.off('mouseenter mouseleave')
 			.on('mouseenter', function () {
 				$(this)
-				.closest('.workoutPerformanceContainer')
+				.closest('.widgetList')
 				.find('.workoutPerformance--Details')
 				.show();
 			})
 			.on('mouseleave', function () {
 				$(this)
-				.closest('.workoutPerformanceContainer')
+				.closest('.widgetList')
 				.find('.workoutPerformance--Details')
 				.hide();
 			});
 		}
-	});
+
+		// For-Outer-click-hide-popUp
+		$(document).on('click touchstart', function (e) {
+			if (!$(e.target).closest('.workoutPerformance--Details, .workoutPerformancep').length) {
+				$('.workoutPerformance--Details').hide();
+				}
+			});
+		});
 </script>
   
 
