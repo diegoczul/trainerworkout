@@ -11,7 +11,7 @@
             <div class="accountAction_container">
                 {{ Form::open(array('route' => array('password.update', $token),"class"=>"formholder form-line-height", "id"=>"password_reset")) }}
                 <label for="email">{{ Lang::get("content.reset/youremail") }}</label>{{ Form::hidden('token', $token) }}
-                <input type="text" placeholder="{{ Lang::get("content.reset/youremail") }}" value="{{ $email or request()->old('email') }}" required name="email" id="email" />
+                <input type="text" placeholder="{{ Lang::get("content.reset/youremail") }}" value="{{ $email }}" required name="email" id="email" />
 
                 <label for="password">{{ Lang::get("content.reset/yourpassword") }}</label>
                 <input placeholder="{{ Lang::get("content.reset/password") }}" required name="password" type="password" id="password" value="{{request()->old("password")}}"/>
