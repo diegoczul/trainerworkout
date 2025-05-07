@@ -2218,7 +2218,7 @@
 
 
             var raiseMenu = '<div class="overlay">';
-            raiseMenu += '<div class="leftOverBound" onclick="closeOverlay(event)"><img class="exitOverlay" onclick="closeOverlay(event)" src="assets/img/exitPopup.svg"></div>';
+            raiseMenu += '<div class="leftOverBound" onclick="closeOverlay(event)"><img class="exitOverlay" onclick="closeOverlay(event)" src="/assets/img/exitPopup.svg"></div>';
             raiseMenu += '<div class="chooseBound"><ul>';
             raiseMenu += '<li class="exeName">' + exerciseGroups[group][exNumber].exercise.name + '</li>';
             raiseMenu += '<li onclick="setRepType(\''+id+'\',\'rep\','+setNumber+',this)">'+dict["Number of Repetition"]+'</li>';

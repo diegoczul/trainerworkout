@@ -18,7 +18,7 @@
                     <!-- add exercises form -->
                     <form id="frm-create-excercise" action="/async/exercises.php" method="post" enctype="multipart/form-data" class="formholder">
                         <input type="hidden" id="id" name="id" value="{{ $exercise->id }}">
-                        <div class="fltleft exercisesblockleft marginleftnone">
+                        <div class="fltleft exercisesblockleft marginleftnone main-content">
                             <p><b>* {{ Lang::get("content.required") }}</b></p>
                             <div class="input-section">
                                 <p>{{ Lang::get("content.ExerciseName") }}*</p>
@@ -35,8 +35,9 @@
                             </div>
                             <div class="input-section">
                                 <p>Description</p>
-                                <textarea  name="description" class="description border-radius">{{ $exercise->description }}</textarea>
+                                <textarea  name="description" class="description edit-desc border-radius">{{ $exercise->description }}</textarea>
                             </div>
+                            
                             <div class="input-section">
                             <p>{{ Lang::get("content.Listtheequipmentneeded") }}</p>
                             {{ Form::select("equipment[]",$equipments,$equipmentsSelected,array("id"=>"equipment","class"=>"chosen-select","multiple"=>"multiple")) }}
@@ -84,7 +85,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="input-abc">
+                <div class="edit-exercise-btns">
                     <fieldset>
                         <div class="fltleft checkbox" style="display:none">
                             <input type="checkbox" name="publicLicense"  id="publicLicense"><label>{{ Lang::get("Checkifyouwant") }}</label>

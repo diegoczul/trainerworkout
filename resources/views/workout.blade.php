@@ -1005,7 +1005,7 @@
                                                 <div class="exeData">
                                                     <!-- EXERCISE TEMPO -->
 
-                                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 5px 0px;">
                                                     @if($exercise->tempo1 != "" or $exercise->tempo2 != "" or $exercise->tempo3 != "" or $exercise->tempo4 != "")
                                                         <div class="exeTempo">
                                                             <p>{{ Lang::get("content.Tempo") }}</p>
@@ -1017,7 +1017,7 @@
                                                     @endif
                                                     @if(Auth::user()->userType == "Trainee")
                                                         <div>
-                                                            <a href="javascript:void(0);" onclick="viewSetHistory(this, {{ $exercise->id }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">View History</a>
+                                                            <a href="javascript:void(0);" onclick="viewSetHistory(this, {{ $exercise->id }});" class="bluebtn" style="padding: 6px; font-size: .7em; width:auto; height:auto; display:inline-block;">View History</a>
                                                         </div>
                                                     @endif
                                                     </div>
@@ -1378,9 +1378,10 @@
             <div id="step1">
                 <div id="timer" class="timer-button-content">
                     <div class="timerButton">
-                        <label id="label" style="margin: 0; display: flex; align-items: center; justify-content: center; text-align: center" for=btn>
+                        <label id="label" class="timer-content" style="margin: 0; display: flex; align-items: center; justify-content: center; text-align: center" for=btn>
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg>
-                            {{ Lang::get("content.Start timer") }}</label>
+                            {{ Lang::get("content.Start timer") }}
+                        </label>
                         <input type="button" name="btn" value="Start" onclick="toggleTimer(this.value)" id="btn"/>
                     </div>
                     <div id=n1></div>

@@ -435,7 +435,7 @@ nav .mobileMenuContent a.selected, nav .mobileMenuContent a.nav_item:active, nav
   .mobileMenu a {
     display: block;
     color: #369AD8;
-    padding-top: 30px; }
+    padding-top: 24px; }
   .mobileMenu .nav_item {
     font-weight: 400; }
 
@@ -1581,7 +1581,28 @@ div.newsletter button.newsletter {
     .imgPT {
       background-size: 55vh;
       background-position: 75% 45%; } }
-
+      
+#customPlansMessage{
+  top: -16px;
+  left: 10%;
+  width: 90%;
+  text-align: center;
+}
+#clientSubscriptionsMessage{
+  top: 30px;
+  right: 10px;
+  width: 50%;
+}
+#billingInvoicingMessage{
+  top: -40px;
+  right: -30px;
+  width: 44%;
+}
+#managePlansMessage{
+  top: -19px;
+  left: 10%;
+  width: 90%;
+}
 #brandingMessage {
   top: 18%;
   left: 40%; }
@@ -1609,12 +1630,12 @@ div.newsletter button.newsletter {
   text-align: center; }
 
 #builderMessage {
-  top: 60px;
+  top: 30px;
   right: 10px;
   width: 50%; }
 
 #shareMessage {
-  top: 70px;
+  top: 30px;
   right: -30px;
   width: 44%; }
 

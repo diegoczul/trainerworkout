@@ -253,7 +253,7 @@ nav {
 
 .socialIcons_container p {
 	text-align: center;
-	margin-top: 40px;
+	margin-top: 20px;
 	font-size: 16px;
 	color: #fff;
 	margin-bottom: 15px;
@@ -262,7 +262,8 @@ nav {
 .socialIcons {
 	@include display(flex);
 	@include justify-content(space-between);
-	width: 155px;
+	// width: 155px;
+	width: 120px;
 	margin: 4px auto 10px auto;
 
 	@media (min-height: 700px) {

@@ -2876,7 +2876,7 @@ nav {
         -o-transform: translateY(2px);
         transform: translateY(2px); }
       #timer .timerButton label::before {
-        content: url("/img/svg/timer.svg");
+        content: url("/assets/img/svg/timer.svg");
         position: absolute;
         left: 12px;
         top: 6px; }

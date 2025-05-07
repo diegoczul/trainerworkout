@@ -477,7 +477,15 @@ td.restBtwSet {
 .rotatingParent_top,
 .rotatingParent_bottom {
   position: relative; }
-
+@media (max-width:600px) {
+  .rotatingParent_top,
+.rotatingParent_bottom {
+  margin-top: 8px;
+}
+.logoProfileContainer{
+  margin-top: 8px;
+}
+}
 a[class*='rotate_'] {
   opacity: 1 !important; }
   .rotatingParent_bottom a[class*='rotate_'] {
@@ -812,7 +820,8 @@ nav {
 /*******   Styling  ********/
 .profile img {
   border-radius: 50%;
-  border: 2px solid #fff;
+  /* border: 2px solid #fff; */
+  border: none;
   height: 88px;
   width: 88px;
   margin: 0 auto; }
@@ -1650,6 +1659,9 @@ nav {
     border-radius: 4px;
     padding: 6px;
  }
+ .description.edit-desc{
+  border: 1px solid #EFEFEF;
+ }
 .searchWorkout {
   text-align: center;
   border-radius: 2px 2px 0 0;
@@ -1918,7 +1930,9 @@ nav {
   -ms-flex-direction: row;
   padding: 10px 0; }
   #w_workouts .deletingSign, #w_clients .deletingSign, #w_workoutsClient .deletingSign {
-    text-align: center; }
+    text-align: center;
+    margin-top: 4px;
+  }
   #w_workouts .loadingSignIcon img, #w_clients .loadingSignIcon img, #w_workoutsClient .loadingSignIcon img {
     display: block;
     width: 35px;
@@ -2379,8 +2393,11 @@ nav {
   text-align: center;
   z-index: 5; }
   .viewMore_holder .loading {
-    margin: auto auto;
-    text-align: center; }
+    /* margin: auto auto; */
+    margin: auto 0px;
+    text-align: center;
+    width: 100%; 
+  }
     .viewMore_holder .loading span,
     .viewMore_holder .loading p {
       color: white;
@@ -2458,6 +2475,12 @@ nav {
   -webkit-box-shadow: 0 3px 0 #1E6B9B, 0 15px 20px rgba(0, 0, 0, 0.35);
   -moz-box-shadow: 0 3px 0 #1E6B9B, 0 15px 20px rgba(0, 0, 0, 0.35);
   box-shadow: 0 3px 0 #1E6B9B, 0 15px 20px rgba(0, 0, 0, 0.35); }
+  @media (max-width:375px) {
+    .workoutContainer, #w_workoutsClient .workout_main_container, #w_workoutsClient .client_main_container {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
   .workoutContainer:hover .workoutsHover, #w_workoutsClient .workout_main_container:hover .workoutsHover, #w_workoutsClient .client_main_container:hover .workoutsHover, .workoutContainer:hover .client_main_container .clientsHover, .client_main_container .workoutContainer:hover .clientsHover, #w_workoutsClient .workout_main_container:hover .client_main_container .clientsHover, .client_main_container #w_workoutsClient .workout_main_container:hover .clientsHover, #w_workoutsClient .client_main_container:hover .clientsHover {
     top: 0; }
   .workoutContainer .workoutsHover, #w_workoutsClient .workout_main_container .workoutsHover, #w_workoutsClient .client_main_container .workoutsHover, .workoutContainer .client_main_container .clientsHover, .client_main_container .workoutContainer .clientsHover, .client_main_container #w_workoutsClient .workout_main_container .clientsHover, #w_workoutsClient .client_main_container .clientsHover {
@@ -2926,6 +2949,10 @@ nav {
       box-shadow: 0 3px 0 0 #2cab89;
       padding-left: 41px;
       position: relative; }
+        #timer .timerButton .timer-content{
+          padding: 9px 12px;
+        }  /* when uncommit first icon-css commit this css */
+        
       #timer .timerButton label:active {
         box-shadow: 0 1px 0 0 #2cab89; }
       #timer .timerButton label:active {
@@ -2934,11 +2961,12 @@ nav {
         -ms-transform: translateY(2px);
         -o-transform: translateY(2px);
         transform: translateY(2px); }
-      #timer .timerButton label::before {
-        content: url("/img/svg/timer.svg");
-        position: absolute;
-        left: 12px;
-        top: 6px; }
+        /* #timer .timerButton .timer-content::before {
+          content: url("/assets/img/svg/timer.svg");
+          position: absolute;
+          left: 12px;
+          top: 6px; } ----first icon */
+         
   #timer label,
   #timer #n1,
   #timer a {
@@ -3235,6 +3263,10 @@ nav {
         .tags .clientTags:last-child,
         .tags .tagsTags:last-child {
           margin-right: 0; } }
+      
+  .tags_h3{
+    margin-bottom: 4px;
+  }
   .tags label {
     font-size: 0.9em;
     color: #D8D8D8;
@@ -4603,8 +4635,13 @@ nav {
 .logoProfileContainer .logoProfile {
   border-radius: 0;
   width: 120px;
-  height: 100px; }
-
+  height: 110px; }
+@media (max-width:736px){
+.logoProfileContainer .logoProfile {
+  width: 100px;
+  height: 100px;
+}
+}
 .editImgContainer {
   display: -webkit-box;
   display: -moz-box;
@@ -4622,7 +4659,9 @@ nav {
   -o-align-items: center;
   align-items: center;
   -ms-flex-align: center;
-  margin-top: -7px; }
+  /* margin-top: -7px; */
+  margin-top: 8px;
+ }
   .editImgContainer a:first-of-type {
     margin: 0;
     margin-left: auto; }
@@ -4640,7 +4679,8 @@ nav {
 
 #editImgLogo {
   text-decoration: underline;
-  font-size: 0.9em; }
+  font-size: 0.9em;
+  margin-top: 8px; }
   @media all and (min-width: 600px) {
     #editImgLogo {
       font-size: 0.7em; } }
@@ -5280,7 +5320,12 @@ FRAMEWORK OVERRIDE CHOSEN
 
 .fltleft {
   float: left !important; 
-  padding-right: 12px;
+  padding-right: 0px;
+}
+@media (min-width:768px) {
+  .fltleft{
+    padding-right: 12px;
+  }
 }
 
 .clearfix:before, .clearfix:after {
@@ -5742,7 +5787,7 @@ FRAMEWORK OVERRIDE CHOSEN
 .ptLogoPlaceholder {
   width: 20%;
   min-width: 52px;
-  height: 50px;
+  height: 60px;
   background-image: url("../../img/svg/addLogoPlaceholder.svg");
   background-repeat: no-repeat;
   background-position: center;
@@ -5774,7 +5819,15 @@ FRAMEWORK OVERRIDE CHOSEN
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+ }
+ @media (max-width:525px) {
+  .cw-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+ }
   @media (min-width: 1060px) {
     .cw-header {
       position: relative; } }
@@ -6223,7 +6276,7 @@ FRAMEWORK OVERRIDE CHOSEN
   top: 8px;
   left: auto;
   bottom: auto;
-  right: 10px;
+  right: 8px;
 }
 .cancel-btn svg{
   width: 26px;
@@ -6765,6 +6818,13 @@ div[id^="tags"] {
     padding-right: 13px;
     padding-left: 5px;
     cursor: pointer; }
+    td.repStyleChoice.mode-option {
+    padding-right: 20px;
+    }
+    .exercise-table .bound input{
+      padding-right: 50%;
+    }
+    
 .cw-exercise input, .cw-exercise .popup_container .share_content textarea, .popup_container .share_content .cw-exercise textarea {
   border-radius: 0;
   border: none;
@@ -6957,7 +7017,8 @@ th.bound,
   .set .tbSet::after {
     cursor: pointer;
     content: url("/assets/img/svg/dropDownB.svg");
-    right: 2%;
+    right: 12%;
+    top: 12px;
     position: absolute; }
 
 .circuitExerciseOptions {
@@ -7410,7 +7471,9 @@ th.bound,
   position: fixed;
   bottom: 10vh;
   right: 1vh;
-  perspective: 1000px; }
+  perspective: 1000px; 
+  padding-bottom: 22px;
+}
 
 .saveStatus {
   transition: 0.3s;
@@ -7468,7 +7531,7 @@ th.bound,
 .svglogo {
   margin: auto auto;
   /* height: 80%; */
-  height: 60%;
+  height: 54%;
  }
 
 .failed {
@@ -8738,7 +8801,8 @@ html.no-touchevents .parentClient:hover .client_main_container .clientsHover {
     }
     @media (max-width:700px) {
       .infoColumn .info{
-        margin-top: 20px;
+        margin-top: 16px;
+        margin-bottom: 10px;
       }
     }
 input.input, .popup_container .share_content textarea.input {
@@ -9381,8 +9445,8 @@ a.option-selected {
 .workoutPT img {
   border: solid 2px #fff;
   border-radius: 50%;
-  height: 35px;
-  width: 35px; }
+  height: 40px;
+  width: 40px; }
 
   @media (min-width:475px) {
     .workoutPT img{
@@ -9725,7 +9789,7 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   padding: 0 0 0 8px;
   /* height: 25px; */
   height: 40px;
-  border: 1px solid #aaa;
+  border: 1px solid #EFEFEF;
   border-radius: 5px;
   background-color: #fff;
   background: -webkit-linear-gradient(#fff 20%, #f6f6f6 50%, #eee 52%, #f4f4f4 100%);
@@ -9756,6 +9820,13 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   height: 12px;
   background: image-url("assets/fw/chosen_v1/chosen-sprite.png") -42px 1px no-repeat;
   font-size: 1px; }
+  .chosen-select{
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .image-detail-section{
+    padding: 0px;
+  }
   .chosen-container-single .chosen-single abbr:hover {
     background-position: -42px -10px; }
 .chosen-container-single.chosen-disabled .chosen-single abbr:hover {
@@ -9863,6 +9934,14 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   border: 1px solid #aaa;
   border-radius: 4px;
 }
+.input-section .chosen-container-multi .chosen-choices {
+  height: 40px;
+  border: 1px solid #EFEFEF !important;
+}
+.input-section input{
+  box-shadow: inset 0 1px 3px #efefef;
+}
+  
 .chosen-container-multi .chosen-choices li {
   float: left;
   list-style: none; }
@@ -9942,13 +10021,15 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
   height: 30px;
   border-radius: 2px;
   border: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+}
 .chosen-container-active.chosen-with-drop .chosen-single {
   border: 1px solid #aaa;
   -moz-border-radius-bottomright: 0;
   border-bottom-right-radius: 0;
   -moz-border-radius-bottomleft: 0;
   border-bottom-left-radius: 0;
+  -webkit-border-radius:0px;
   background-image: -webkit-linear-gradient(#eee 20%, #fff 80%);
   background-image: linear-gradient(to   , #fff 80%);
   box-shadow: 0 1px 0 #fff inset; }
