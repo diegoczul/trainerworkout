@@ -839,6 +839,12 @@ return array(
     'PriceNote' => 'Entrez le prix en dollars, ex: 25 = 25$/mois',
     'required' => 'Champ requis',
     'renewal_note' => 'Conformément à nos conditions générales, tout changement d’abonnement — qu’il s’agisse d’une mise à niveau ou d’une rétrogradation — prendra effet au début de votre prochain cycle de facturation. Les avantages de votre forfait actuel resteront actifs jusqu’à cette date.',
+    "downgrade_note" => "Vous serez rétrogradé le ",
+    "next_renewal" => "Votre prochaine date de renouvellement est le ",
+    "pending_downgrade" => "Rétrogradation en attente",
+    "cancel_downgrade" => "Annuler la rétrogradation - Garder mon plan actuel",
+    "coming_soon" => "Bientôt disponible",
+
 
 
 );
