@@ -256,7 +256,7 @@
     <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif
 
-@if (!Config::get('app.debug'))
+@if (!Config::get('app.debug') && \Jenssegers\Agent\Facades\Agent::isDesktop())
     {{ HTML::script(asset('assets/js/thirdParty.js')) }}
 @endif
 

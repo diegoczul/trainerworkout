@@ -336,7 +336,7 @@
     @endif
 </script>
 
-@if (!Config::get('app.debug'))
+@if (!Config::get('app.debug') && \Jenssegers\Agent\Facades\Agent::isDesktop())
     <script>
         //     window.intercomSettings = {
         //   // TODO: The current logged in user's full name

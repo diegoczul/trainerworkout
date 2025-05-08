@@ -234,7 +234,7 @@ function echoSelectedClassIfRequestMatches($requestUri)
         echo 'selected';
 }
 ?>
-@if(!Config::get("app.debug"))
+@if(!Config::get("app.debug") && \Jenssegers\Agent\Facades\Agent::isDesktop())
     <script type="text/javascript">
         //Check if location is on pages we do not want to show the launcher
         var onPage = false;

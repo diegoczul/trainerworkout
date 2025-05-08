@@ -432,10 +432,8 @@
         debug = false;
     @endif
 </script>
-<?php
-
-?>
-@if(!Config::get("app.debug"))
+<?php ?>
+@if(!Config::get("app.debug") && \Jenssegers\Agent\Facades\Agent::isDesktop())
     <script type="text/javascript">
         //Check if location is on pages we do not want to show the launcher
         var onPage = false;
@@ -446,7 +444,7 @@
         }
     </script>
     <script>
-       
+
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
  (function(){
  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
