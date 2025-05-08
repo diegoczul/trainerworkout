@@ -663,6 +663,40 @@ class OrdersController extends BaseController
         }
     }
 
+    public function requestDowngradeToMonthly(Request $request)
+    {
+        $user = Auth::user();
+        $membership = $user->membership;
+
+        if (!$membership || !$membership->subscriptionStripeKey) {
+            return redirect()->back()->withErrors('No active yearly subscription to downgrade.');
+        }
+
+        \Stripe\Stripe::setApiKey(config('constants.STRIPETestsecret_key'));
+
+        try {
+            // 1. Set Stripe subscription to cancel at period end
+            \Stripe\Subscription::update(
+                $membership->subscriptionStripeKey,
+                ['cancel_at_period_end' => true]
+            );
+
+            // 2. Store downgrade intent in DB
+            DB::table('memberships_users')
+                ->where('userId', $user->id)
+                ->where('subscriptionStripeKey', $membership->subscriptionStripeKey)
+                ->update([
+                    'downgrade_to' => 'monthly',
+                    'updated_at' => now()
+                ]);
+
+            return redirect()->route('MembershipManagement')->with('message', '✅ Your plan will downgrade to monthly after your current billing cycle ends.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error setting downgrade: ' . $e->getMessage());
+        }
+    }
+
+
 
     public function processSubscriptionPayment(Request $request)
     {
@@ -1072,6 +1106,22 @@ class OrdersController extends BaseController
             Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
         } else {
             Auth::user()->membership->renew = 1;
+            Auth::user()->membership->save();
+            Auth::user()->resumeStripePlan(); // <- call here
+
+        }
+
+        return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
+    }
+
+    public function CancelDowngradeYearly()
+    {
+        Session::forget('cart');
+        if (!Auth::user()->membership) {
+            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
+        } else {
+            Auth::user()->membership->renew = 1;
+            Auth::user()->membership->downgrade_to = null;
             Auth::user()->membership->save();
             Auth::user()->resumeStripePlan(); // <- call here
 
