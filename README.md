@@ -8,7 +8,7 @@
 </p>
 
 ## Supervisor  
-#### Steps to setup  
+#### Steps to setup
 ##### Step 1: Copy Supervisor Configurations
 ```shell
   cd ~/dev.trainer-workout.com
