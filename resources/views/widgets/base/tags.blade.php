@@ -58,26 +58,27 @@
     function deleteTag(id,obj,event){
         event.stopPropagation();
         if(confirm('{{__('messages.tag_removal_confirmation')}}')){
-         $.ajax(
-            {
+            showTopLoader();
+            $.ajax({
                 url : "/widgets/tags/"+id,
                 type: "DELETE",
 
-                success:function(data, textStatus, jqXHR) 
+                success:function(data, textStatus, jqXHR)
                 {
                     successMessage(data);
                     widgetsToReload.push("w_tags");
+                    showTopLoader();
                     widgetsToReload.push("w_workouts");
 
                     refreshWidgets();
                     event.stopPropagation();
                 },
-                error: function(jqXHR, textStatus, errorThrown) 
+                error: function(jqXHR, textStatus, errorThrown)
                 {
                     errorMessage(jqXHR.responseText);
                 },
             });
-         event.stopPropagation();
+            event.stopPropagation();
      }
     }
 

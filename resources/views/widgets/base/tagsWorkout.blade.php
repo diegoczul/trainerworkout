@@ -29,20 +29,20 @@
         if(obj !== undefined && obj !== null) obj = $(obj);
         event.stopPropagation();
         if(confirm('{{{ Lang::get("messages.Confirmation") }}}')){
-         $.ajax(
-            {
+            showTopLoader();
+            $.ajax({
                 url : "/widgets/tags/"+id,
                 type: "DELETE",
-
-                success:function(data, textStatus, jqXHR) 
+                success:function(data, textStatus, jqXHR)
                 {
                     successMessage(data);
                     widgetsToReload.push("w_tags");
+                    showTopLoader();
                     widgetsToReload.push("w_workouts");
                     refreshWidgets();
                     event.stopPropagation();
                 },
-                error: function(jqXHR, textStatus, errorThrown) 
+                error: function(jqXHR, textStatus, errorThrown)
                 {
                     errorMessage(jqXHR.responseText);
                 },

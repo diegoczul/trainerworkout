@@ -257,14 +257,18 @@ class TagsController extends BaseController
             $workouts = Workouts::where(function ($query) use ($obj) {
                 $query->orWhere("tags", "like", "%" . $obj->name . ",%");
                 $query->orWhere("tags", "like", "%" . "," . $obj->name . "%");
-                $query->orWhere("tags", "like", "%" . "," . $obj->name . ",%");
+                $query->orWhere("tags", "like", "%," . $obj->name . ",%");
             })->get();
 
+
             foreach ($workouts as $workout) {
-                $workout->tags = str_replace("," . $obj->name . ",", "", $workout->tags);
-                $workout->tags = str_replace($obj->name . ",", "", $workout->tags);
-                $workout->tags = str_replace("," . $obj->name, "", $workout->tags);
-                $workout->save();
+                $workoutTags = explode(',', $workout->tags);
+                $tagIndex = array_search($obj->name, $workoutTags);
+                if($tagIndex !== false){
+                    unset($workoutTags[$tagIndex]);
+                    $workout->tags = implode(',',array_filter($workoutTags));
+                    $workout->save();
+                }
             }
 
             $obj->delete();
