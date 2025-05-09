@@ -260,18 +260,17 @@ class TagsController extends BaseController
                 $query->orWhere("tags", "like", "%," . $obj->name . ",%");
             })->get();
 
+            $obj->delete();
 
             foreach ($workouts as $workout) {
-                $workoutTags = explode(',', $workout->tags);
-                $tagIndex = array_search($obj->name, $workoutTags);
-                if($tagIndex !== false){
-                    unset($workoutTags[$tagIndex]);
-                    $workout->tags = implode(',',array_filter($workoutTags));
+                $tags = $workout->getTags()->toArray();
+                if (!empty($tags)){
+                    $updated_tags = array_column($tags, 'name');
+                    $workout->tags = implode(',',array_filter($updated_tags));
                     $workout->save();
                 }
             }
 
-            $obj->delete();
             return $this::responseJson(Lang::get("messages.TagsDeleted"));
         } else {
             return $this::responseJsonError(Lang::get("messages.Permissions"));
