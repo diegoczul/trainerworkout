@@ -8211,7 +8211,9 @@ margin-bottom: 10px; }
 .reportWrapper {
   max-width: 1200px;
   padding: 10px;
-  margin: auto auto; }
+  /* margin: auto auto; 
+  position: relative  !important; */
+}
 
 .reportHeader {
   background: rgba(255, 255, 255, 0.3);
@@ -8326,30 +8328,78 @@ margin-bottom: 10px; }
   #r_workoutsPerformance .reportTable tbody tr:nth-child(2n) {
     background: #e9e7ee; }
 
+    .workoutPerformance{
+      position: relative !important;
+    }
 .workoutPerformance--Details {
   display: none;
-  position: fixed;
-  top: 70px;
-  left: 0;
+  left: 50% !important;
+  top: 100px !important;
+  position: absolute;
+  right: 0 !important;
+  transform: translate(-50%, -50%);
+  height: auto;
+  bottom: auto;
+  margin: 0 auto;
   width: 100%;
   max-width: 600px;
   background: #D8D8D8;
   text-align: left;
   padding: 10px;
-  z-index: 15;
-  border: 1px #979797 solid;
-  border-radius: 3px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24), 0px 0px 4px 0px rgba(0, 0, 0, 0.12);}
+  z-index: 99999999;
+  opacity: 1;
+  visibility: visible;
+  border: 1px solid #979797;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24), 0px 0px 4px 0px rgba(0, 0, 0, 0.12); }
   
   .widgetList.data-content .paginate_button.current{
     height: 36px;
   }
-  /* .widgetList.data-content{
-    position: relative;
+  .widgetList.report-main-content{
+    position: relative !important;
+  }
+  /* .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead{
+   overflow:initial !important;
+  }    */
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead{
+   overflow:hidden !important;
+   width: 100% !important;
+  }
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll{
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  /* .widgetList.report-main-content .dataTables_wrapper{
+    position: relative !important;
+    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
+  }
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll{
+    clear: none;
+  }
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead{
+    position: inherit !important;
+    display: none !important;
+  }  
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollBody{
+    position: inherit !important;
+  }   */
+
+  /* .widgetList.report-main-content{
+    position: relative !important;
+  }
+  .dataTables_wrapper{
+    position: initial !important;
+  }
+  .widgetList.report-main-content .dataTables_scroll .dataTables_scrollHead{
+    position: relative !important;
+    z-index: -999999;
+   }  
+   .widgetList.report-main-content .dataTables_scrollBody{
+    position: inherit !important;
    } */
-  /* .dataTables_scrollBody{
-    overflow: visible;
-  } */
+   
    
   @media (min-width: 600px) {
     .workoutPerformance--Details {
@@ -8360,7 +8410,7 @@ margin-bottom: 10px; }
     font-weight: 500; }
 .workoutPerformance:hover .workoutPerformance--Details {
   display: block; 
-z-index: 15000; }
+z-index: 999999; }
 .workoutPerformance--Each {
   padding-bottom: 10px; }
   .workoutPerformance--Each .title {
