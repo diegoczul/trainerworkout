@@ -1917,6 +1917,20 @@ div.newsletter button.newsletter {
   margin-bottom: 2px; }
   .facebook:active {
     box-shadow: 0 1px 0 0 #263961; }
+
+    /* .loading-logo{
+        display: none;
+    }
+    .loading-logo.show{
+        display: block;
+    } */
+    .submit.login-btn{
+        height: 43px;
+        padding:0px 6px; 
+        display:flex;
+        align-items:center; 
+        justify-content:center;
+    }
   .facebook:active {
     -webkit-transform: translateY(2px);
     -moz-transform: translateY(2px);
