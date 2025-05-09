@@ -893,6 +893,7 @@ return array(
     'required' => 'Required field',
     'renewal_note' => 'As part of our terms and conditions, any subscription change—whether an upgrade or downgrade—will take effect at the start of your next billing cycle. Your current plan benefits will remain active until then.',
     'downgrade_note' => 'You will be downgraded on ',
+    'downgrade_note_in_days' => 'You will be downgraded in <strong>:number</strong> days.',
     'next_renewal' => 'Your next renewal date is ',
     'pending_downgrade' => 'Pending Downgrade',
     'cancel_downgrade' => 'Cancel downgrade - Keep my current plan',

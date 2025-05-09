@@ -47,9 +47,10 @@
                                 </div>
                             @else
                                 @if (Auth::user()->membership->renew == 0)
-                                    <p>
-                                        {{ Lang::get('content.downgrade_note') }}<strong>{{ \Carbon\Carbon::parse(Auth::user()->membership->expiry)->format('F j, Y') }}</strong>.
-                                    </p>
+                                    <p>{!! Lang::get('content.downgrade_note_in_days',['number' => \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse(Auth::user()->membership->expiry))]) !!}
+{{--                                    <p>--}}
+{{--                                        {{ Lang::get('content.downgrade_note') }}<strong>{{ \Carbon\Carbon::parse(Auth::user()->membership->expiry)->format('F j, Y') }}</strong>.--}}
+{{--                                    </p>--}}
                                 @else
                                     <form action="{{ Lang::get('routes./Store/addToCart') }}/59/Membership">
                                         <button>{{ Lang::get('content.Downgrade') }}</button>
@@ -95,9 +96,8 @@
                                 @endphp
                                 {{-- Downgrade from Yearly to Monthly --}}
                                 @if ($currentMembership && $currentMembership->membershipId == 64 and $currentMembership->downgrade_to != '')
-                                    <p>{{ Lang::get('content.downgrade_note') }}
-                                        <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>.
-                                    </p>
+                                    <p>{!! Lang::get('content.downgrade_note_in_days',['number' => \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($currentMembership->expiry))]) !!}</p>
+{{--                                        <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>.--}}
                                     <a class="text-black underline"
                                         href="Store/CancelDowngradeYearly">{{ Lang::get('content.cancel_downgrade') }}</a>
                                 @else
