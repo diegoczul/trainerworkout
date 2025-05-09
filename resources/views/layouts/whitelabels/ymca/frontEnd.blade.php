@@ -322,7 +322,7 @@
     </script>
 @endif
 
-@if (!Config::get('app.debug') && \Jenssegers\Agent\Facades\Agent::isDesktop())
+@if (!Config::get('app.debug'))
     {{ HTML::script('js/thirdParty.js') }}
 @endif
 

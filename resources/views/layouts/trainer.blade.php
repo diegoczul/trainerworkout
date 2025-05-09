@@ -433,7 +433,16 @@
     @endif
 </script>
 <?php ?>
-@if(!Config::get("app.debug") && \Jenssegers\Agent\Facades\Agent::isDesktop())
+@if(!Config::get("app.debug"))
+    @php $isDesktop = \Jenssegers\Agent\Facades\Agent::isDesktop(); @endphp
+    @if(!$isDesktop)
+        <script>
+            var Tawk_API = Tawk_API || {};
+            Tawk_API.onLoad = function() {
+                Tawk_API.hideWidget();
+            };
+        </script>
+    @endif
     <script type="text/javascript">
         //Check if location is on pages we do not want to show the launcher
         var onPage = false;
