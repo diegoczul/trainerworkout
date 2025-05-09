@@ -508,7 +508,11 @@
 
         <script>
             var elements = Stripe.elements();
-            var card = elements.create('card');
+            var card = elements.create('card',{
+                style: {
+                    hidePostalCode: true,
+                }
+            });
             card.mount('#payInfoContainer');
             jQuery(function($) {
                 $('#payment-form').submit(function(event) {
