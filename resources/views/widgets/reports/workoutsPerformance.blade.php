@@ -28,21 +28,13 @@
 
 				@if($performance->workout)
 				<div class="workoutPerformanceContainer cursor-pointer">
-				<p class="workoutPerformancep">{{ ($performance->workout) ? $performance->workout->name : "" }}</p>
-					<div class="workoutPerformance--Details">
-						<div class="workoutPerformance--Each">
-						<p class="title">{{ $performance->workout->name }}</p>
-						
-							<p><span>Client:</span> {{ ($performance->user) ? $performance->user->getCompleteName() : "User Not Found" }}</p>
-							<p><span>Rating:</span> {{ $performance->rating->name }}</p>
-							<p><span>Duration:</span> {{ number_format($performance->timeInSeconds/60,1) }} min</p>
-							@if($performance->comments != "")
-								<p><span>Comments:</span> {{ $performance->comments}}</p>
-							@endif
-						</div>
-					</div>
-			
-
+				<p class="workoutPerformancep"
+				   data-workoutName="{{ $performance->workout->name }}"
+				   data-userName="{{ ($performance->user) ? $performance->user->getCompleteName() : "User Not Found" }}"
+				   data-userRating="{{ $performance->rating->name }}"
+				   data-workoutTime="{{ number_format($performance->timeInSeconds/60,1) }}"
+				   data-userComment="{{ $performance->comments??null}}"
+				>{{ ($performance->workout) ? $performance->workout->name : "" }}</p>
 				</div>
 				
 				@endif
@@ -55,8 +47,16 @@
 </tbody>
 </table>
 {{-- -Model-Content- --}}
-	
 
+<div class="workoutPerformance--Details">
+	<div class="workoutPerformance--Each">
+	<p class="title" id="performance-workout-name"></p>
+		<p><span>Client:</span> <span id="performance-user"></span></p>
+		<p><span>Rating:</span> <span id="performance-rating-name"></span></p>
+		<p><span>Duration:</span> <span id="performance-timeInSeconds"></span> min</p>
+		<p id="performance-comments-section" style="display: none"><span>Comments:</span> <span id="performance-comments"></span></p>
+	</div>
+</div>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.reportTable').dataTable( {
@@ -75,35 +75,59 @@ $(document).ready(function() {
 <script>
 	$(document).ready(function () {
 	  // Handle click and touchstart for iOS and other mobile devices
-	  $('.workoutPerformancep')
-		.off('click touchstart') 
-		.on('click touchstart', function (e) {
-		  e.preventDefault(); 
-		  $(this)
-		  .closest('.workoutPerformanceContainer')
-			.find('.workoutPerformance--Details')
-			.toggle();
+	  $('.workoutPerformancep').off('click touchstart').on('click touchstart', function (e) {
+		  e.preventDefault();
+		  var workoutName = $(this).attr('data-workoutName');
+		  var userName = $(this).attr('data-userName');
+		  var userRating = $(this).attr('data-userRating');
+		  var workoutTime = $(this).attr('data-workoutTime');
+		  var userComment = $(this).attr('data-userComment');
+		  $("#performance-workout-name").html(workoutName);
+		  $("#performance-user").html(userName);
+		  $("#performance-rating-name").html(userRating);
+		  $("#performance-timeInSeconds").html(workoutTime);
+		  $("#performance-comments").html(userComment);
+		  if(userComment != null && userComment.trim() != "" ){
+			  $("#performance-comments-section").show();
+
+		  }else{
+			  $("#performance-comments-section").hide();
+		  }
+		  $('.workoutPerformance--Details').toggle();
 		});
   
 	  // Only bind hover handlers for non-touch (desktop) devices
 		if (!('ontouchstart' in window)) {
-			$('.workoutPerformancep')
-			.off('mouseenter mouseleave')
-			.on('mouseenter', function () {
-				$(this)
-				.closest('.workoutPerformanceContainer')
-				.find('.workoutPerformance--Details')
-				.show();
-			})
-			.on('mouseleave', function () {
-				$(this)
-				.closest('.workoutPerformanceContainer')
-				.find('.workoutPerformance--Details')
-				.hide();
+			$('.workoutPerformancep').off('mouseenter mouseleave').on('mouseenter', function () {
+				var workoutName = $(this).attr('data-workoutName');
+				var userName = $(this).attr('data-userName');
+				var userRating = $(this).attr('data-userRating');
+				var workoutTime = $(this).attr('data-workoutTime');
+				var userComment = $(this).attr('data-userComment');
+				$("#performance-workout-name").html(workoutName);
+				$("#performance-user").html(userName);
+				$("#performance-rating-name").html(userRating);
+				$("#performance-timeInSeconds").html(workoutTime);
+				$("#performance-comments").html(userComment);
+				if(userComment != null && userComment.trim() != "" ){
+					$("#performance-comments-section").show();
+
+				}else{
+					$("#performance-comments-section").hide();
+				}
+				$('.workoutPerformance--Details').show();
+
+				// $(this).closest('.workoutPerformanceContainer').find('.workoutPerformance--Details').show();
+			}).on('mouseleave', function () {
+				$('.workoutPerformance--Details').hide();
+				// $(this).closest('.workoutPerformanceContainer').find('.workoutPerformance--Details').hide();
 			});
 		}
 
-		});
+		function showPopUp(){
+			alert();
+		}
+	});
 </script>
   
 

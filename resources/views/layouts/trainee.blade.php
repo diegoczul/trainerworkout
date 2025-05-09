@@ -322,9 +322,18 @@
 @if(Session::has("error"))
     <script>errorMessage("{!! Session::get("error") !!}")</script>
 @endif
-@if(!Config::get("app.debug") && \Jenssegers\Agent\Facades\Agent::isDesktop())
+@if(!Config::get("app.debug"))
 
         {{ HTML::script(asset('assets/js/thirdParty.js')) }}
+        @php $isDesktop = \Jenssegers\Agent\Facades\Agent::isDesktop(); @endphp
+        @if(!$isDesktop)
+            <script>
+                var Tawk_API = Tawk_API || {};
+                Tawk_API.onLoad = function() {
+                    Tawk_API.hideWidget();
+                };
+            </script>
+        @endif
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

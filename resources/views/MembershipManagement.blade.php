@@ -93,9 +93,20 @@
                                 @php
                                     $currentMembership = Auth::user()->membership;
                                 @endphp
-                                <form action="{{ Lang::get('routes./Store/addToCart') }}/63/Membership">
-                                    <button>{{ ($currentMembership and $currentMembership->membershipId == 59 and Memberships::checkMembership(Auth::user()) == '') ? Lang::get('content.Upgrade') : Lang::get('content.Downgrade') }}</button>
-                                </form>
+                                {{-- Downgrade from Yearly to Monthly --}}
+                                @if ($currentMembership && $currentMembership->membershipId == 64 and $currentMembership->downgrade_to != '')
+                                    <p>{{ Lang::get('content.downgrade_note') }}
+                                        <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>.
+                                    </p>
+                                    <a class="text-black underline"
+                                        href="Store/CancelDowngradeYearly">{{ Lang::get('content.cancel_downgrade') }}</a>
+                                @else
+                                    <form method="POST" action="{{ route('membership.downgrade.monthly') }}">
+                                        @csrf
+                                        <button type="submit">{{ Lang::get('content.Downgrade') }}</button>
+                                    </form>
+                                @endif
+
                             @endif
                         </div>
                     </div>
@@ -123,9 +134,11 @@
                                         <a class="text-black underline"
                                             href="Store/CancelDowngrade">{{ Lang::get('content.cancel_downgrade') }}</a>
                                     @else
-                                        <p>{{ Lang::get('content.next_renewal') }}
-                                            <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
-                                        </p>
+                                        @if ($currentMembership->downgrade_to == '')
+                                            <p>{{ Lang::get('content.next_renewal') }}
+                                                <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
+                                            </p>
+                                        @endif
                                     @endif
                                 @endif
                             @else

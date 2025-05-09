@@ -639,6 +639,9 @@ Route::controller(OrdersController::class)->group(function () {
     Route::post(__('routes./Store/ProcessPayment'), 'processPayment')->name('checkout');
     Route::get(__('routes./Store/CreateAccount'), 'createAccount')->name('StoreCreateAccount');
     Route::get("Store/CancelDowngrade", 'cancelDowngrade')->name('StoreCancelDowngrade');
+    Route::get("Store/CancelDowngradeYearly", 'CancelDowngradeYearly')->name('StoreCancelDowngradeYearly');
+    Route::post('/membership/downgrade-monthly', [OrdersController::class, 'requestDowngradeToMonthly'])->name('membership.downgrade.monthly');
+
 
     // STRIPE WEBHOOK
     Route::post('webhook/stripe', 'webhook')->name('webhook.stripe');

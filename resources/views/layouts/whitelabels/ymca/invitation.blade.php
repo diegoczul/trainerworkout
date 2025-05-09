@@ -304,7 +304,7 @@
     </script>
 @endif
 
-@if (!Config::get('app.debug') && \Jenssegers\Agent\Facades\Agent::isDesktop())
+@if (!Config::get('app.debug'))
     <script>
         //     window.intercomSettings = {
 
