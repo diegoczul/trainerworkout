@@ -7,6 +7,7 @@
         /* Optional: Adds indentation for better aesthetics */
     }
 </style>
+
 @section('content')
     <section id="privacyPolicy" style="font-family: Arial, sans-serif; line-height: 1.8; margin: 20px; margin-top: 60px">
         <div class="privacyWrapper"
