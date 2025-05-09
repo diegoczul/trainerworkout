@@ -155,11 +155,16 @@
                                     <div class="container" style="position:relative; min-height:50px">
                                         @php $tags = $workout->getTags(); @endphp
                                         @foreach ($tags as $tag)
-                                            <div class="badge selabel-user"
-                                                onclick="addToSearch('{!! $tag->name !!}')">{!! $tag->name !!}
-                                            </div>
+                                            @if($tag->type == "user")
+                                                <div class="badge selabel-user"
+                                                    onclick="addToSearch('{!! $tag->name !!}')">{!! $tag->name !!}
+                                                </div>
+                                            @else
+                                                <div class="badge selabel-tag"
+                                                    onclick="addToSearch('{!! $tag->name !!}')">{!! $tag->name !!}
+                                                </div>
+                                            @endif
                                         @endforeach
-
                                     </div>
                                 @endif
                             </div>

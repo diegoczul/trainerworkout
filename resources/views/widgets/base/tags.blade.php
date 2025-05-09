@@ -67,6 +67,8 @@
                 {
                     successMessage(data);
                     widgetsToReload.push("w_tags");
+                    widgetsToReload.push("w_workouts");
+
                     refreshWidgets();
                     event.stopPropagation();
                 },

@@ -598,7 +598,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post(__('routes./Profile/Rotate/Right'), [UsersController::class, 'rotateRight']);
 });
 
-Route::get(Lang::get(__('routes./MembershipManagement')), [MembershipsController::class, 'indexMembershipManagement'])->middleware('auth');
+Route::get(Lang::get(__('routes./MembershipManagement')), [MembershipsController::class, 'indexMembershipManagement'])->name('MembershipManagement')->middleware('auth');
 Route::get(Lang::get(__('routes./MembershipManagementOld')), [MembershipsController::class, 'indexMembershipManagementOld'])->middleware('auth');
 Route::post(__('routes./widgets/plans'), [UsersController::class, 'plansIndex']);
 // Trainer
