@@ -8160,6 +8160,9 @@ margin-bottom: 10px; }
   text-align: center;
  
   margin: 0; }
+  .tagdetails .bluebtn{
+    padding: 9px !important;
+  }
  
   .bluebtn.workout-bluebtn.main-btn{
   width: 100%;
@@ -8358,47 +8361,21 @@ margin-bottom: 10px; }
   .widgetList.report-main-content{
     position: relative !important;
   }
-  /* .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead{
-   overflow:initial !important;
-  }    */
   .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead{
-   overflow:hidden !important;
-   width: 100% !important;
+   overflow:initial !important;
+  }   
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead .dataTables_scrollHeadInner{
+    padding-right: 0px !important;
+  }
+  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollBody{
+   overflow: initial !important;
   }
   .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll{
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
-    width: 100%;
+    width: 100% !important;
   }
-  /* .widgetList.report-main-content .dataTables_wrapper{
-    position: relative !important;
-    -webkit-overflow-scrolling: touch;
-    overflow: visible !important;
-  }
-  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll{
-    clear: none;
-  }
-  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollHead{
-    position: inherit !important;
-    display: none !important;
-  }  
-  .widgetList.report-main-content .dataTables_wrapper .dataTables_scroll .dataTables_scrollBody{
-    position: inherit !important;
-  }   */
-
-  /* .widgetList.report-main-content{
-    position: relative !important;
-  }
-  .dataTables_wrapper{
-    position: initial !important;
-  }
-  .widgetList.report-main-content .dataTables_scroll .dataTables_scrollHead{
-    position: relative !important;
-    z-index: -999999;
-   }  
-   .widgetList.report-main-content .dataTables_scrollBody{
-    position: inherit !important;
-   } */
+  
    
    
   @media (min-width: 600px) {

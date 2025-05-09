@@ -192,7 +192,7 @@
                     <div class="workoutHeaderWrapper">
                         <div class="workoutHedaer">
                             <h1>{{ $workout->name }}</h1>
-                            <h4>{{ $workout->description }}</h4>
+                            <h4 class="text-white">{{ $workout->description }}</h4>
                             <!-- Message from the personal trainer about the workout -->
                             @if($workout->notes != "")
                                 <div class="trainerWorkoutMessageContainer">
