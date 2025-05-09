@@ -56,10 +56,10 @@
         })
 
         $(document).on('submit','#login_form', function (){
-            $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex;margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">
-                                    <img src="{{asset('/assets/img/tw-gif.gif')}}" style="width: 40px;">
-                                </p>`);
-        })
+            $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex; margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">
+                                        <img src="{{asset('/assets/img/logos/LogoWhite.svg')}}" style="width: 40px;">
+                                    </p>`);
+            })
         function getTimezoneName() {
             tmSummer = new Date(Date.UTC(2005, 6, 30, 0, 0, 0, 0));
             so = -1 * tmSummer.getTimezoneOffset();
