@@ -73,7 +73,7 @@ return array(
     "Contact Us"                    => "Contact Us",
     "scaling online"                => "Scaling online",
     "Get Started"                   => "Get Started",
-    "Up to 35 connected clients"    => "Up to 35 connected clients",
+    "Up to 35 connected clients"    => "Unlimited connected clients",
     "Unlimited workouts"            => "Unlimited workouts",
     "base plan"                     => "Base plan",
     "freePlanPrice"                 => "Forever FREE",

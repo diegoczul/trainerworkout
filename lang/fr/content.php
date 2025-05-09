@@ -73,7 +73,7 @@ return array(
     "Contact Us"                       => "Contactez-nous",
     "scaling online"                       => "Ayez une présence en ligne",
     "Get Started"                       => "Inscrivez-vous",
-    "Up to 35 connected clients"                       => "Jusqu'à 35 clients",
+    "Up to 35 connected clients"                       => "Clients illimités",
     "Unlimited workouts"              => "Programmes illimités",
     "base plan"                       => "Plan de Base",
     "freePlanPrice"                   => "Gratuit pour toujours",
