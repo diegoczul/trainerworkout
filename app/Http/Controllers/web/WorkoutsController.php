@@ -69,6 +69,7 @@ class WorkoutsController extends BaseController
 		$permissions = null;
 		$search = "";
 		$filters = array();
+		$user = Auth::user();
 
 		$archive = false;
 
@@ -82,8 +83,21 @@ class WorkoutsController extends BaseController
 			$permissions = Helper::checkPremissions(Auth::user()->id, null);
 		}
 
-
-
+		if (!$user->membershipValidButAtLimit() and $user->userType == "Trainer") {
+			$workouts = $user->workoutsReleased;
+			$max_workouts = Config::get("constants.maxFreeWorkouts");
+			$counter = 0;
+			foreach ($workouts as $workout) {
+				if ($counter < $max_workouts) {
+					$counter++;
+				} else {
+					$workout->status = "Draft";
+					$workout->version = Config::get("constants.version");
+					$workout->save();
+					$message = __("messages.Only3Workouts");
+				}
+			}
+		}
 
 		if ($request->has("arrayData") && !empty($request->get("arrayData"))) {
 			$arrayData = json_decode($request->get("arrayData"), true);
@@ -119,6 +133,7 @@ class WorkoutsController extends BaseController
 			->with("workouts", $workouts)
 			->with("countArchiveWorkouts", $countArchiveWorkouts)
 			->with("permissions", $permissions)
+			->with("message", $message ?? null)
 			->with("options", $options)
 			->with("tags", array())
 			->with("search", $search)
@@ -638,7 +653,7 @@ class WorkoutsController extends BaseController
 
 
 
-//								Event::dispatch('shareAWorkout', array(Auth::user(), $user->id));
+								//								Event::dispatch('shareAWorkout', array(Auth::user(), $user->id));
 								$comments = $request->get("comments");
 
 
@@ -937,12 +952,30 @@ class WorkoutsController extends BaseController
 			->with("newTotal", Workouts::forsale()->count());
 	}
 
+	public function makeSureOnly3WorkoutsMax() {}
+
 	public function indexWorkoutTrainer(Request $request)
 	{
 
 		$userId = Auth::user()->id;
 		$user = Auth::user();
 		$permissions = null;
+
+		if (!$user->membershipValidButAtLimit() and $user->userType == "Trainer") {
+			$workouts = $user->workoutsReleased;
+			$max_workouts = Config::get("constants.maxFreeWorkouts");
+			$counter = 0;
+			foreach ($workouts as $workout) {
+				if ($counter < $max_workouts) {
+					$counter++;
+				} else {
+					$workout->status = "Draft";
+					$workout->version = Config::get("constants.version");
+					$workout->save();
+					$message = __("messages.Only3Workouts");
+				}
+			}
+		}
 
 		if ($request->has("userId")) {
 			$permissions = Helper::checkPremissions(Auth::user()->id, $request->get("userId"));
@@ -953,13 +986,14 @@ class WorkoutsController extends BaseController
 			$permissions = Helper::checkPremissions(Auth::user()->id, null);
 		}
 
+
 		return view("widgets.base.workoutsTrainer")
 			->with("freeWorkouts", Workouts::forsaleFree()->where("authorId", $user->id)->take($this->pageSize)->get())
 			->with("paidWorkouts", Workouts::forsalePaid()->where("authorId", $user->id)->take($this->pageSize)->get())
 			->with("newWorkouts", Workouts::forsale()->where("authorId", $user->id)->take($this->pageSize)->orderBy("updated_at", "DESC")->get())
 			->with("freeTotal", Workouts::forsaleFree()->count())
 			->with("paidTotal", Workouts::forsalePaid()->count())
-			->with("newTotal", Workouts::forsale()->count());
+			->with("newTotal", $message);
 	}
 
 	public function indexWorkoutsClient(Request $request)
@@ -2081,69 +2115,68 @@ class WorkoutsController extends BaseController
 	{
 		$weight = $request->get("weight");
 		$sets = Sets::where("id", $request->get('set_id'))->first();
-        if(isset($sets->units) && $sets->units == "Metric"){
-            $weight = $weight * 2.2;
-        }
+		if (isset($sets->units) && $sets->units == "Metric") {
+			$weight = $weight * 2.2;
+		}
 		$sets->weight = $weight;
 		$sets->save();
 
-        // SET HISTORY
-        $setHistory = new UserSetsHistory();
-        $setHistory->ref_user_id = Auth::user()->id;
-        $setHistory->ref_workout_id = $request->get('workout_id');
-        $setHistory->ref_exercise_id = $request->get('exercise_id');
-        $setHistory->ref_set_id = $request->get('set_id');
-        $setHistory->weight = $weight;
-        $setHistory->save();
+		// SET HISTORY
+		$setHistory = new UserSetsHistory();
+		$setHistory->ref_user_id = Auth::user()->id;
+		$setHistory->ref_workout_id = $request->get('workout_id');
+		$setHistory->ref_exercise_id = $request->get('exercise_id');
+		$setHistory->ref_set_id = $request->get('set_id');
+		$setHistory->weight = $weight;
+		$setHistory->save();
 	}
 
-    public function historyWeightExerciseGroup(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'exercise_id' => 'required|numeric',
-            ]);
-            if ($validator->fails()){
-                return $this::responseJsonError($validator->errors()->first());
-            }
+	public function historyWeightExerciseGroup(Request $request)
+	{
+		try {
+			$validator = Validator::make($request->all(), [
+				'exercise_id' => 'required|numeric',
+			]);
+			if ($validator->fails()) {
+				return $this::responseJsonError($validator->errors()->first());
+			}
 
-            $exerciseId = $request->get('exercise_id');
-            $originalSet = TemplateSets::select('id','number','workoutsExercisesId','weight','created_at as date')->where('workoutsExercisesId',$exerciseId)->get()->toArray();
-            $setsHistory = UserSetsHistory::select('id','ref_exercise_id','ref_set_id','weight','created_at as date')
-                ->with(['set' => function ($q) {
-                    $q->select('id','number','workoutsExercisesId','units');
-                }])
-                ->where('ref_exercise_id',$exerciseId)
-                ->get()
-                ->toArray();
-            $responseHTML = view('weight-history',['originalSet' => $originalSet, 'setsHistory' => $setsHistory, 'timezone' => $request->get('timezone')])->render();
-            return $this::sendResponse("Sets History",$responseHTML);
-        }catch (\Exception $exception){
-            return $this::responseJsonError($exception->getMessage());
-        }
-    }
+			$exerciseId = $request->get('exercise_id');
+			$originalSet = TemplateSets::select('id', 'number', 'workoutsExercisesId', 'weight', 'created_at as date')->where('workoutsExercisesId', $exerciseId)->get()->toArray();
+			$setsHistory = UserSetsHistory::select('id', 'ref_exercise_id', 'ref_set_id', 'weight', 'created_at as date')
+				->with(['set' => function ($q) {
+					$q->select('id', 'number', 'workoutsExercisesId', 'units');
+				}])
+				->where('ref_exercise_id', $exerciseId)
+				->get()
+				->toArray();
+			$responseHTML = view('weight-history', ['originalSet' => $originalSet, 'setsHistory' => $setsHistory, 'timezone' => $request->get('timezone')])->render();
+			return $this::sendResponse("Sets History", $responseHTML);
+		} catch (\Exception $exception) {
+			return $this::responseJsonError($exception->getMessage());
+		}
+	}
 
-    public function removeWeightHistory(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'weight_history_id' => 'required|numeric|exists:user_sets_history,id',
-            ]);
-            if ($validator->fails()){
-                return $this::responseJsonError($validator->errors()->first());
-            }
+	public function removeWeightHistory(Request $request)
+	{
+		try {
+			$validator = Validator::make($request->all(), [
+				'weight_history_id' => 'required|numeric|exists:user_sets_history,id',
+			]);
+			if ($validator->fails()) {
+				return $this::responseJsonError($validator->errors()->first());
+			}
 
-            $delete = UserSetsHistory::where('id',$request->get('weight_history_id'))->delete();
-            if ($delete){
-                return $this::sendSuccess(__("messages.weightRemoved"));
-            }else{
-                return $this::sendError(__('messages.somethingWentWrong'));
-            }
-
-        }catch (\Exception $exception){
-            return $this::responseJsonError($exception->getMessage());
-        }
-    }
+			$delete = UserSetsHistory::where('id', $request->get('weight_history_id'))->delete();
+			if ($delete) {
+				return $this::sendSuccess(__("messages.weightRemoved"));
+			} else {
+				return $this::sendError(__('messages.somethingWentWrong'));
+			}
+		} catch (\Exception $exception) {
+			return $this::responseJsonError($exception->getMessage());
+		}
+	}
 
 	public function saveAllSets(Request $request)
 	{
@@ -2393,7 +2426,7 @@ class WorkoutsController extends BaseController
 	public function createNewWorkoutAddEditTrainer(Request $request)
 	{
 		try {
-//			DB::beginTransaction();
+			//			DB::beginTransaction();
 			//DEFAULTS
 			$DEFAULT_REST = 0;
 			$DEFAULT_REPS = array("12", "12", "12");
@@ -2779,7 +2812,7 @@ class WorkoutsController extends BaseController
 				Sharings::shareWorkout(Auth::user()->id, $client, $workout, "Workout", null, true, true, true, true, true, true);
 				$user = Users::find($client);
 				$client = Clients::where("userId", $user->id)->where("trainerId", Auth::user()->id)->first();
-				Workouts::AddWorkoutToUser($workout->id,$client->id,null,true);
+				Workouts::AddWorkoutToUser($workout->id, $client->id, null, true);
 				$name = ($user) ? $user->getCompleteName() : "";
 				if ($client) {
 					return redirect()->to("/Client/" . $client->id . "/" . Helper::formatURLString($name))
@@ -2793,7 +2826,7 @@ class WorkoutsController extends BaseController
 			}
 
 
-//			DB::commit();
+			//			DB::commit();
 			if ($request->filled('is_webview_request')) {
 				Auth::logout();
 				return redirect()->route("webview.create-trainer-workout-success");
@@ -2808,8 +2841,8 @@ class WorkoutsController extends BaseController
 			//                ->with("permissions",$permissions)
 			//                ->with("total",Workouts::where("userId","=",$userId)->count());
 		} catch (\Exception $e) {
-//			DB::rollback();
-            return$e->getMessage();
+			//			DB::rollback();
+			return $e->getMessage();
 			return redirect()->back()->withErrors($e->getMessage())->withInput();
 			//            return $this::responseJsonError();
 		}
@@ -2968,21 +3001,21 @@ class WorkoutsController extends BaseController
 	}
 
 
-    public function suggestExercise(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'exercise_name' => 'required|string|max:255',
-        ]);
-        if($validator->fails()){
-            return redirect()->back()->with("error",$validator->messages()->first())->withInput();
-        }
+	public function suggestExercise(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'exercise_name' => 'required|string|max:255',
+		]);
+		if ($validator->fails()) {
+			return redirect()->back()->with("error", $validator->messages()->first())->withInput();
+		}
 
-        // Send slack webhook
-        $webhook = new SendSlackNotification();
-        $webhook->handle('Exercise Suggestion',Auth::user(),"You have new exercise suggestion :- ".$request->get('exercise_name'));
+		// Send slack webhook
+		$webhook = new SendSlackNotification();
+		$webhook->handle('Exercise Suggestion', Auth::user(), "You have new exercise suggestion :- " . $request->get('exercise_name'));
 
-        return redirect()->back()->with("message",__("messages.ExerciseSuggested"));
-    }
+		return redirect()->back()->with("message", __("messages.ExerciseSuggested"));
+	}
 
 	//=======================================================================================================================
 	// API

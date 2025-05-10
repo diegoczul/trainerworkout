@@ -353,6 +353,7 @@
 <!-- CHOSEN SELCT BOX -->
 {{ HTML::script(asset('assets/fw/chosen_v1/chosen.jquery.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/fw/chosen_v1/docsupport/prism.js'.ASSET_VERSION)) }}
+{{ HTML::script(asset('assets/js/twLightbox.js')) }}
 <script type="text/javascript">
     $(document).ready(function () {
         var config = {

@@ -19,7 +19,8 @@
                             </div>
                         </div>
 
-                        <div id="createPlanForm" style="display:none;" class="planOverlay overlayKillParent">
+                        <div id="createPlanForm" style="display:none;"
+                            class="shadow-xl rounded-2xl planOverlay overlayKillParent p-5 mb-10">
                             <div class="addexercise" style="width: 100%; text-align: -webkit-auto !important;">
                                 <h1>{{ Lang::get('content.CreateAPlan') }}</h1>
                                 <p class="required">*{{ Lang::get('content.required') }}</p>
@@ -44,7 +45,7 @@
                                     <small>{{ Lang::get('content.PriceNote') }}</small>
                                 </div>
 
-                                <div class="submit">
+                                <div class="text-center">
                                     <button type="submit"
                                         class="btn btn-primary reBindajaxSave">{{ Lang::get('content.CreatePlan') }}</button>
                                 </div>

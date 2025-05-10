@@ -333,4 +333,6 @@ return array(
 
     'delete_account' => 'Votre compte a été supprimé avec succès',
     'downgrade_cancelled' => 'La rétrogradation a été annulée',
+    "Only3Workouts" => "Votre forfait actuel limite votre compte à 3 entraînements. Vous pouvez archiver ou supprimer des entraînements pour libérer de l'espace.",
+
 );

@@ -173,7 +173,7 @@ class Users extends Authenticatable implements JWTSubject
 
     public function workoutsReleased()
     {
-        return $this->hasMany(Workouts::class, "userId", "id")->where("status", "Released");
+        return $this->hasMany(Workouts::class, "userId", "id")->where("status", "Released")->orderBy("created_at", "desc");
     }
 
     public function group()

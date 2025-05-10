@@ -366,7 +366,7 @@ class Exercises extends Model implements TranslatableContract
                 if ($restrictToUser == true) {
                     $q->where('exercises.authorId', $userId)
                         ->orWhere('exercises_users.favorite', 1);
-                }else{
+                } else {
                     $q->where('exercises.type', 'public')
                         ->orWhere(function ($subQ) use ($userId) {
                             $subQ->whereIn('exercises.type', ['private', null])
@@ -450,7 +450,7 @@ class Exercises extends Model implements TranslatableContract
                 if ($restrictToUser == true) {
                     $q->where('exercises.authorId', $userId)
                         ->orWhere('exercises_users.favorite', 1);
-                }else{
+                } else {
                     $q->where('exercises.type', 'public')
                         ->orWhere(function ($subQ) use ($userId) {
                             $subQ->whereIn('exercises.type', ['private', null])
