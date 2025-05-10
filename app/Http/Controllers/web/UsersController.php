@@ -1214,6 +1214,7 @@ class UsersController extends BaseController
             // Feeds::insertFeed("Logout", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
             Auth::logout();
             $lang = Session::get("lang");
+            $device_type = Session::get("device_type");
             Session::flush();
             if (isset($_COOKIE['TrainerWorkoutUserId'])) {
 
@@ -1224,6 +1225,9 @@ class UsersController extends BaseController
             if ($lang != "") {
                 Session::put("lang", $lang);
                 //                Session::save();
+            }
+            if ($lang != "") {
+                Session::put("device_type", $device_type);
             }
         }
 
