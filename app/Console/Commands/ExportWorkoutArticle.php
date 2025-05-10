@@ -8,8 +8,9 @@ use App\Models\Workouts;
 
 class ExportWorkoutArticle extends Command
 {
-    protected $signature = 'workout:export-article {workout_id}';
+    protected $signature = 'workout:export-article {workout_id?}';
     protected $description = 'Export workout to ChatGPT, generate article, and post to WordPress';
+
 
 
     // ✅ Hardcoded keys as you asked (real ones)

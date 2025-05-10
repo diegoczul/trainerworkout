@@ -13,7 +13,7 @@
                 class="parentWorkout {{ $workout->archived_at != '' ? 'archived' : '' }}" onclick="showHover(this);">
                 <div class="workout_main_container" id="workout_box<?php echo $ids; ?>">
 
-                    <div class="workoutsHover">
+                    <div class="workoutsHover  {{ $workout->status == 'Draft' ? 'draft' : '' }}">
                         <div class="workoutsHover_status">
                             <img src="{{ asset('assets/img/exitPopup.svg') }}" class="hoverExit" onclick="showHover(this)">
                             <!-- *****  Workout Name   ****** -->
@@ -155,13 +155,15 @@
                                     <div class="container" style="position:relative; min-height:50px">
                                         @php $tags = $workout->getTags(); @endphp
                                         @foreach ($tags as $tag)
-                                            @if($tag->type == "user")
+                                            @if ($tag->type == 'user')
                                                 <div class="badge selabel-user"
-                                                    onclick="addToSearch('{!! $tag->name !!}')">{!! $tag->name !!}
+                                                    onclick="addToSearch('{!! $tag->name !!}')">
+                                                    {!! $tag->name !!}
                                                 </div>
                                             @else
                                                 <div class="badge selabel-tag"
-                                                    onclick="addToSearch('{!! $tag->name !!}')">{!! $tag->name !!}
+                                                    onclick="addToSearch('{!! $tag->name !!}')">
+                                                    {!! $tag->name !!}
                                                 </div>
                                             @endif
                                         @endforeach
