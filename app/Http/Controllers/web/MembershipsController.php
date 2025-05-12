@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Libraries\Messages;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -22,8 +23,11 @@ class MembershipsController extends BaseController
         if (!Auth::user()->membership) {
             Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
         }
-
-        return View::make("MembershipManagement");
+        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+            return View::make("webview.membership-management");
+        }else{
+            return View::make("MembershipManagement");
+        }
     }
 
     public function indexMembershipManagementOld()

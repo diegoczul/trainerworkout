@@ -57,4 +57,5 @@ return array(
   'constantsMobileSizeVideo_h' => "150px",
   'APPSTORE_URL' => "https://apps.apple.com/in/app/TrainerWorkout/id6744892317",
   'PLAYSTORE_URL' => "https://play.google.com/apps/testing/com.app.trainerworkout",
+  'IN_APP_SUBSCRIPTION_LOG' => "IN_APP_SUBSCRIPTION_ID=",
 );
