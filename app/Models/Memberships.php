@@ -67,7 +67,7 @@ class Memberships extends Model
             if ($mem->type == "workouts") {
                 $workoutsAllowed = $mem->workoutsAllowed;
                 $workoutsUser = Workouts::where("userId", $user->id)
-                    ->where(function($query) {
+                    ->where(function ($query) {
                         $query->orWhere("status", "Released");
                     })
                     ->count();

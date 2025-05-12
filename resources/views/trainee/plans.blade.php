@@ -10,7 +10,7 @@
                         <h1 class="text-2xl font-bold mb-6">My Subscriptions</h1>
 
                         @if ($subscriptions->count())
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                                 @foreach ($subscriptions as $sub)
                                     <div
                                         class="bg-white border border-gray-200 shadow rounded-xl p-5 flex flex-col justify-between">

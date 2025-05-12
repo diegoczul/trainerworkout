@@ -1,5 +1,5 @@
 @if ($plans->count())
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         @foreach ($plans as $plan)
             <div class="bg-white shadow rounded-2xl p-4 flex flex-col justify-between">
                 <div>
