@@ -173,7 +173,7 @@ class Users extends Authenticatable implements JWTSubject
 
     public function workoutsReleased()
     {
-        return $this->hasMany(Workouts::class, "userId", "id")->where("status", "Released");
+        return $this->hasMany(Workouts::class, "userId", "id")->where("status", "Released")->orderBy("created_at", "desc");
     }
 
     public function group()
@@ -188,36 +188,35 @@ class Users extends Authenticatable implements JWTSubject
 
     public function doubleCheckOnboardingClient()
     {
-        $ALAIN = 24;
-        $Corinne = 15;
+        $DIEGO = 22;
 
-        if (Clients::where("userId", $ALAIN)->where("trainerId", Auth::user()->id)->count() == 0) {
+        if (Clients::where("userId", $DIEGO)->where("trainerId", Auth::user()->id)->count() == 0) {
             $client = new Clients();
-            $client->userId = $ALAIN; // ALAIN TRAINEE
+            $client->userId = $DIEGO; // ALAIN TRAINEE
             $client->trainerId = $this->id;
             $client->approvedTrainer = 1;
             $client->approvedClient = 1;
             $client->save();
         }
 
-        if (Friends::where("userId", $Corinne)->where("followingId", Auth::user()->id)->count() == 0) {
+        if (Friends::where("userId", $DIEGO)->where("followingId", Auth::user()->id)->count() == 0) {
             $friend = new Friends();
-            $friend->userId = $Corinne; // ALAIN TRAINEE
+            $friend->userId = $DIEGO; // ALAIN TRAINEE
             $friend->followingId = Auth::user()->id;
             $friend->save();
         }
 
-        if (Friends::where("userId", Auth::user()->id)->where("followingId", $Corinne)->count() == 0) {
+        if (Friends::where("userId", Auth::user()->id)->where("followingId", $DIEGO)->count() == 0) {
             $friend = new Friends();
             $friend->userId = Auth::user()->id; // ALAIN TRAINEE
-            $friend->followingId = $Corinne;
+            $friend->followingId = $DIEGO;
             $friend->save();
         }
     }
 
     public function freebesTrainer()
     {
-        $ALAIN = 24;
+        $ALAIN = 22;
         Workouts::AddWorkoutToUser(4652, $this->id, false, false);
     }
 

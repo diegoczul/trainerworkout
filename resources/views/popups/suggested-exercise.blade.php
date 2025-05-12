@@ -14,16 +14,20 @@
 
         <div class="share_content">
             <div class="input_container" id="shareContentContainer">
-                <form action="{{route('suggest-exercise')}}" method="post" id="suggestExerciseForm" class="form-horizontal">
+                <form action="{{ route('suggest-exercise') }}" method="post" id="suggestExerciseForm"
+                    class="form-horizontal">
                     <div style="margin-bottom: 10px;" class="form-group">
-                        <label for="">{{ Lang::get("content.Exercisename") }}*</label>
-                        <input style="margin: 0;" type="text" placeholder="bench press, bicep curl, etc..." id="exercise_name" name="exercise_name" class="mt-4" required>
+                        <label for="">{{ Lang::get('content.Exercisename') }}*</label>
+                        <input style="margin: 0;" type="text" placeholder="bench press, bicep curl, etc..."
+                            id="exercise_name" name="exercise_name" class="mt-4" required>
                     </div>
                 </form>
             </div>
             <div class="btn_container">
-                <button onclick="hideexerclosemodalWithoutE();" class="cancel">{{ Lang::get('content.Cancel') }}</button>
-                <button type="submit" form="suggestExerciseForm" class="send">{{ Lang::get('content.Send') }}</button>
+                <button onclick="hideexerclosemodalWithoutE();"
+                    class="cancel">{{ Lang::get('content.Cancel') }}</button>
+                <button type="submit" form="suggestExerciseForm"
+                    class="send">{{ Lang::get('content.Send') }}</button>
             </div>
         </div>
     </div>

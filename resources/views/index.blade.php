@@ -252,12 +252,12 @@
                             <a href='{{ Lang::get("routes./trainerGetStartedPaid") }}'>{{ Lang::get("content.Get Started") }}</a>
                         </div>
                         <div class="plan-b">
-                            <h4>{{ Lang::get("content.scaling online") }}</h4>
-                            <h2>{{ Lang::get("content.Contact Us") }}</h2>
-                            <p style="margin-bottom: 0;">{{ Lang::get("content.More than 35 clients") }}</p>
+                            <h4>{{ Lang::get("content.PremiumMembershipYearly") }}</h4>
+                            <h2>${{ config('constants.yearly_price') }} <span>USD / {{ Lang::get("content.yearly") }}</span></h2>
+                            <p style="margin-bottom: 0;">{{ Lang::get("content.Up to 35 connected clients") }}</p>
                             <p>{{ Lang::get("content.Unlimited workouts") }}</p>
-                            <a href="mailto:info@trainer-workout.com">{{ Lang::get("content.Scale Up Online") }}</a>
-                        </div>
+                            <a href='{{ Lang::get("routes./trainerGetStartedPaid") }}'>{{ Lang::get("content.Get Started") }}</a>
+                        </div>                        
                     </div>
                 </div>
             </div>

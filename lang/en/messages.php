@@ -335,4 +335,6 @@ return array(
 
         'delete_account' => 'Your account has been deleted successfully',
         'downgrade_cancelled' => 'Downgrade has been cancelled',
+        "Only3Workouts"   => "Your current plan limits your account to 3 workouts. You can archive or delete workouts to free up space.",
+
 );
