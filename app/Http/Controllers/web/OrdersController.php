@@ -567,9 +567,16 @@ class OrdersController extends BaseController
     {
         Session::forget('cart');
         $user = Auth::user();
-        return View::make("Store.upgradePlan")
-            ->with("user", $user)
-            ->with("cart", Session::get("cart"));
+        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+            return View::make("webview.upgrade-plan")
+                        ->with("user", $user)
+                        ->with("cart", Session::get("cart"));
+        }else{
+            return View::make("Store.upgradePlan")
+                ->with("user", $user)
+                ->with("cart", Session::get("cart"));
+        }
+
     }
 
     public function emptyCart()
