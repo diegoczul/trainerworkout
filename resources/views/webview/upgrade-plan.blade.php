@@ -78,6 +78,7 @@
     <script>
         function logMessage(message) {
             console.log('{{config('constants.IN_APP_SUBSCRIPTION_LOG')}}'+message);
+            console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');
         }
         $(document).ready(function() {
             $(".menu_membership").addClass("selected");

@@ -652,6 +652,8 @@ Route::controller(OrdersController::class)->group(function () {
 
     // STRIPE WEBHOOK
     Route::post('webhook/stripe', 'webhook')->name('webhook.stripe');
+    Route::post('webhook/apple-purchase', 'appleWebhook')->name('webhook.apple-purchase');
+    Route::post('webhook/process-apple-purchase', 'processApplePurchase')->name('webhook.process-apple-purchase');
     Route::post('process-subscription-payment', 'processSubscriptionPayment')->name('process-subscription-payment');
     Route::post('complete-subscription-payment', 'completeSubscriptionPayment')->name('complete-subscription-payment');
     Route::get('success/subscription', 'successSubscription')->name('subscription-success');

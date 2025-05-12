@@ -174,6 +174,7 @@
 
         function logMessage(message) {
             console.log('{{config('constants.IN_APP_SUBSCRIPTION_LOG')}}'+message);
+            console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');
         }
         function deleteAccount() {
             if (confirm("Are You Sure You Want To Delete Your Account ?")) {

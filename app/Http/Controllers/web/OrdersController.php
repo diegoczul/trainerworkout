@@ -1106,6 +1106,32 @@ class OrdersController extends BaseController
         }
     }
 
+    public function processApplePurchase(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'receipt_data' => 'required',
+            'ref_user_id' => 'required|numeric|exists:users,id',
+        ]);
+        if ($validator->fails()){
+            return response()->json(['error'=>$validator->errors()], 400);
+        }
+
+        $receipt_data = base64_decode($request->receipt_data);
+        $verifyApplePurchase = $this::verifyApplePurchase($receipt_data);
+        return $verifyApplePurchase;
+
+    }
+
+    public function verifyApplePurchase($receipt_data)
+    {
+return true;
+    }
+
+    public function appleWebhook(Request $request)
+    {
+
+    }
+
     public function cancelDowngrade()
     {
         Session::forget('cart');
