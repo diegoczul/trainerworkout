@@ -195,7 +195,7 @@
                 success: function (data, textStatus, jqXHR) {
                     successMessage(data);
                     deleteIndexedDatabase();
-                    window.location.reload();
+                    window.location.href = "{{ route('logout') }}";
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorMessage(jqXHR.responseText + " " + errorThrown);
@@ -441,6 +441,6 @@ function echoSelectedClassIfRequestMatches($requestUri)
     }
 
     // Example usage:
-    storeEmail("{{auth()->user()->email}}");
+    storeEmail("{{auth()->user()->webview_token}}");
 </script>
 </html>

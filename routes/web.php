@@ -139,7 +139,7 @@ Route::get(__('routes./login'), function (Request $request){
     }
     return view(Helper::translateOverride('login'));
 })->name('login')->middleware('guest');
-Route::get(__('routes./logout'), [UsersController::class, 'logout']);
+Route::get(__('routes./logout'), [UsersController::class, 'logout'])->name('logout');
 Route::delete(__('routes./delete-account') . '/{user}', [UsersController::class, 'destroy']);
 Route::post(__('routes./login'), [UsersController::class, 'login']);
 Route::get('login-with-email', [UsersController::class, 'loginWithEmail'])->name('login-with-email');
@@ -653,7 +653,7 @@ Route::controller(OrdersController::class)->group(function () {
     // STRIPE WEBHOOK
     Route::post('webhook/stripe', 'webhook')->name('webhook.stripe');
     Route::post('webhook/apple-purchase', 'appleWebhook')->name('webhook.apple-purchase');
-    Route::post('webhook/process-apple-purchase', 'processApplePurchase')->name('webhook.process-apple-purchase');
+
     Route::post('process-subscription-payment', 'processSubscriptionPayment')->name('process-subscription-payment');
     Route::post('complete-subscription-payment', 'completeSubscriptionPayment')->name('complete-subscription-payment');
     Route::get('success/subscription', 'successSubscription')->name('subscription-success');

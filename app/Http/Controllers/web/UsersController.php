@@ -49,6 +49,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use Jenssegers\Agent\Facades\Agent;
 use SendGrid;
 use UsersSettings;
 use Yajra\DataTables\Facades\DataTables;
@@ -963,6 +964,11 @@ class UsersController extends BaseController
             return redirect()->back()->withInput()->withErrors($validator->errors());
         }
 
+        if ($request->has('device_type') && $request->filled('device_type')){
+            session()->forget('device_type');
+            session()->put('device_type', $request->get('device_type'));
+        }
+
         $user = Users::where('email', $request->get('email'))->first();
         if ($user) {
             if ($user->password == null) {
@@ -975,8 +981,8 @@ class UsersController extends BaseController
 
                 if (Auth::attempt($credentials)) {
                     $user = Auth::user();
-
-                    $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
+                    $webviewString = Str::random(25);
+                    $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0,'webview_token' => $webviewString]);
 
                     event('login', [$user]);
 
@@ -1000,8 +1006,8 @@ class UsersController extends BaseController
 
     public function loginWithEmail(Request $request)
     {
-        $email = $request->get('email');
-        $user = Users::where('email', $email)->first();
+        $webview_token = $request->get('email');
+        $user = Users::where('webview_token', $webview_token)->first();
         if (!$user) {
             return redirect()->route('login')->with('clear_db', true);
         }
@@ -1213,22 +1219,23 @@ class UsersController extends BaseController
         if (Auth::check()) {
             // Feeds::insertFeed("Logout", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
             Auth::logout();
-            $lang = Session::get("lang");
-            $device_type = Session::get("device_type");
-            Session::flush();
-            if (isset($_COOKIE['TrainerWorkoutUserId'])) {
 
-                unset($_COOKIE['TrainerWorkoutUserId']);
-                setcookie('TrainerWorkoutUserId', '', time() - 3600, '/');
-            }
+        }
+        $lang = Session::get("lang");
+        $device_type = Session::get("device_type");
+        Session::flush();
 
-            if ($lang != "") {
-                Session::put("lang", $lang);
-                //                Session::save();
-            }
-            if ($lang != "") {
-                Session::put("device_type", $device_type);
-            }
+        if (isset($_COOKIE['TrainerWorkoutUserId'])) {
+            unset($_COOKIE['TrainerWorkoutUserId']);
+            setcookie('TrainerWorkoutUserId', '', time() - 3600, '/');
+        }
+
+        if ($lang != "") {
+            Session::put("lang", $lang);
+            //                Session::save();
+        }
+        if ($lang != "") {
+            Session::put("device_type", $device_type);
         }
 
         return redirect()->route("home");

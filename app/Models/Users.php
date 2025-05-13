@@ -54,6 +54,7 @@ class Users extends Authenticatable implements JWTSubject
         'updated_at',
         'lastLogin',
         'virtual',
+        'webview_token',
     ];
     protected $dates = ['deleted_at'];
     protected $hidden = array('password');

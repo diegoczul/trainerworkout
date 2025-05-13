@@ -3,6 +3,7 @@
 use App\Http\Controllers\web\ClientsController;
 use App\Http\Controllers\web\ExercisesController;
 use App\Http\Controllers\web\ObjectivesController;
+use App\Http\Controllers\web\OrdersController;
 use App\Http\Controllers\web\PicturesController;
 use App\Http\Controllers\web\UsersController;
 use App\Http\Controllers\web\WeightsController;
@@ -35,6 +36,11 @@ Route::controller(UsersController::class)->group(function (){
 
 Route::post('WorkoutsBasic', [WorkoutsController::class, 'API_Workouts_Basic']);
 Route::post('WorkoutGroups', [WorkoutsController::class, 'API_Workout_Groups']);
+
+// Order
+Route::controller(OrdersController::class)->group(function (){
+    Route::post('process-apple-purchase', 'processApplePurchase')->name('webhook.process-apple-purchase');
+});
 
 Route::middleware('auth:api')->group(function (){
     // USERS

@@ -178,7 +178,7 @@
                     success: function(data, textStatus, jqXHR) {
                         successMessage(data);
                         deleteIndexedDatabase();
-                        window.location.reload();
+                        window.location.href = "{{ route('logout') }}";
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         errorMessage(jqXHR.responseText + " " + errorThrown);

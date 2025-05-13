@@ -1027,7 +1027,7 @@ class OrdersController extends BaseController
                 ->with("order", $order);
         } else {
             if (Auth::check()) {
-                return Redirect::route(Auth::user()->userType, ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(Lang::get("messages.NotFound"));
+                return Redirect::route(Auth::user()->userType, ['username' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->withErrors(Lang::get("messages.NotFound"));
             } else {
                 return View::make("Store.thankYouNoLogin")
                     ->with("message", Lang::get("messages.CheckoutComplete"));
@@ -1119,7 +1119,9 @@ class OrdersController extends BaseController
             return response()->json(['error'=>$validator->errors()], 400);
         }
 
-        $receipt_data = base64_decode($request->receipt_data);
+//        $receipt_data = json_decode(base64_decode($request->receipt_data),true);
+        Log::info($request->receipt_data);
+        return $this->sendResponse("receipt_data", []);
         $verifyApplePurchase = $this::verifyApplePurchase($receipt_data);
         return $verifyApplePurchase;
 
@@ -1139,14 +1141,14 @@ class OrdersController extends BaseController
                 $isActive = false;
                 if (isset($postData['signedPayload']) && !empty($postData['signedPayload'])) {
                     $signedPayload = $postData['signedPayload'];
-                    $transaction = json_decode($signedPayload,true);
+                    $transaction = $this::decodeSignedPayload($signedPayload,true);
                     $transaction['signedPayload'] = $signedPayload;
 
                     $currentDate = time();
 
                     if (isset($transaction['data']['signedTransactionInfo'])) {
                         $signedTransaction = $transaction['data']['signedTransactionInfo'];
-                        $transactionDetails = json_decode($signedTransaction,true);
+                        $transactionDetails = $this::decodeSignedTransaction($signedTransaction,true);
                         $transaction['data']['signedTransaction'] = $transactionDetails;
                         $transaction['data']['signedTransaction']['signedDate_human'] = Carbon::createFromTimestamp($transactionDetails['signedDate'])->timezone('UTC');
                         $transaction['data']['signedTransaction']['purchaseDate_human'] = Carbon::createFromTimestamp($transactionDetails['purchaseDate'])->timezone('UTC');
@@ -1170,7 +1172,7 @@ class OrdersController extends BaseController
 
                     if (isset($transaction['data']['signedRenewalInfo'])) {
                         $signedTransaction = $transaction['data']['signedRenewalInfo'];
-                        $transactionDetails = json_decode($signedTransaction,true);
+                        $transactionDetails = $this::decodeSignedTransaction($signedTransaction);
                         $transaction['data']['signedRenewal'] = $transactionDetails;
                         $transaction['data']['signedRenewal']['signedDate_human'] =  Carbon::createFromTimestamp($transactionDetails['signedDate'])->timezone('UTC');
                         $transaction['data']['signedRenewal']['renewalDate_human'] = Carbon::createFromTimestamp($transactionDetails['renewalDate'])->timezone('UTC');
@@ -1198,7 +1200,6 @@ class OrdersController extends BaseController
 
                 $response["transaction"] = $transaction;
 
-
                 return $response;
             }else{
                 return $this->sendError("Invalid json response");
@@ -1206,6 +1207,19 @@ class OrdersController extends BaseController
         }catch (\Exception $exception) {
             return $this->sendError("Internal Server Error");
         }
+    }
+
+    // Function to decode signed payload (used in server notifications)
+    public static function decodeSignedPayload($signedPayload)
+    {
+        list($header, $payload, $signature) = explode('.', $signedPayload);
+        return json_decode(base64_decode(strtr($payload, '-_', '+/')), true);
+    }
+
+    public static function decodeSignedTransaction($signedTransaction)
+    {
+        list($header, $payload, $signature) = explode('.', $signedTransaction);
+        return json_decode(base64_decode(strtr($payload, '-_', '+/')), true);
     }
 
     public function cancelDowngrade()
@@ -1220,7 +1234,11 @@ class OrdersController extends BaseController
 
         }
 
-        return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
+        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+            return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
+        }else{
+            return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
+        }
     }
 
     public function CancelDowngradeYearly()
@@ -1236,6 +1254,10 @@ class OrdersController extends BaseController
 
         }
 
-        return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
+        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+            return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
+        }else{
+            return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
+        }
     }
 }

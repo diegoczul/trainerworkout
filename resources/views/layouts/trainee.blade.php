@@ -173,7 +173,7 @@
                 <a href="javascript:void(0)" onclick="moveFeedbackUp();" class="c-menu__link">{{ Lang::get("content.CMSendFeedback") }}</a>
             </li>
             <li class="c-menu__item logout">
-                <a onclick="deleteIndexedDatabase();" href="{{ Lang::get("routes./logout") }}" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
+                <a onclick="deleteIndexedDatabase();" href="javascript:void(0);" class="c-menu__link">{{ Lang::get("content.Logout") }}</a>
             </li>
         </div>
     </ul>
@@ -512,17 +512,20 @@
         let request = indexedDB.deleteDatabase("trainer_workout");
         request.onsuccess = function() {
             console.log("Database deleted successfully.");
+            window.location.href = "{{ route('logout') }}";
         };
         request.onerror = function(event) {
             console.error("Error deleting database: ", event.target.error);
+            window.location.href = "{{ route('logout') }}";
         };
         request.onblocked = function() {
             console.error("Database deletion blocked. Close all connections and try again.");
+            window.location.href = "{{ route('logout') }}";
         };
     }
 
     // Example usage:
-    storeEmail("{{auth()->user()->email}}");
+    storeEmail("{{auth()->user()->webview_token}}");
 
     
 </script>
