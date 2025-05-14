@@ -63,6 +63,7 @@ class EventServiceProvider extends ServiceProvider
             'pdfWorkout',
             'notifyActivity',
             'jsTriggeredEvent',
+            'logout'
         ];
 
         foreach ($events as $eventName) {

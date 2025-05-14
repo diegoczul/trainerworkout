@@ -1218,6 +1218,7 @@ class UsersController extends BaseController
     {
         if (Auth::check()) {
             // Feeds::insertFeed("Logout", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
+            Event::dispatch('logout', [Auth::user()]);
             Auth::logout();
 
         }
@@ -1229,6 +1230,7 @@ class UsersController extends BaseController
             unset($_COOKIE['TrainerWorkoutUserId']);
             setcookie('TrainerWorkoutUserId', '', time() - 3600, '/');
         }
+
 
         if ($lang != "") {
             Session::put("lang", $lang);
