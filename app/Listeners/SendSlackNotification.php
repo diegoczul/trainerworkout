@@ -22,10 +22,11 @@ class SendSlackNotification
         }
 
         $paramText = json_encode($params);
+        $requestIP = request()->getClientIp();
         if (env('APP_ENV') != 'production') { // Will send a yellow circle in Slack if not in production
-            $text = "[{$userEmail}] - {$eventName} {$paramText}";
+            $text = "[{$userEmail}]($requestIP) - {$eventName} {$paramText}";
         } else {
-            $text = "[{$userEmail}] - [:wrench:] {$eventName} {$paramText}";
+            $text = "[{$userEmail}]($requestIP) - [:wrench:] {$eventName} {$paramText}";
         }
 
         Http::post("***REMOVED***", [
