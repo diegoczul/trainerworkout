@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log; // <-- important to log to storage/logs/laravel.log
 
@@ -22,7 +23,7 @@ class SendSlackNotification
         }
 
         $paramText = json_encode($params);
-        $requestIP = request()->getClientIp();
+        $requestIP = $this->getClientIp(request()) ?? request()->getClientIp();
         if (env('APP_ENV') != 'production') { // Will send a yellow circle in Slack if not in production
             $text = "[{$userEmail}]($requestIP) - {$eventName} {$paramText}";
         } else {
@@ -32,5 +33,19 @@ class SendSlackNotification
         Http::post("***REMOVED***", [
             'text' => $text,
         ]);
+    }
+
+    function getClientIp(Request $request)
+    {
+        $ipAddress = $request->header('X-Forwarded-For');
+
+        if ($ipAddress) {
+            // In case of multiple IPs, take the first one
+            $ipAddress = explode(',', $ipAddress)[0];
+        } else {
+            $ipAddress = $request->ip(); // fallback to REMOTE_ADDR
+        }
+
+        return filter_var(trim($ipAddress), FILTER_VALIDATE_IP) ?: null;
     }
 }

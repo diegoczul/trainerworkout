@@ -26,6 +26,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $events = [
+            'login',
             'signUp',
             'sendInviteToClient',
             'addedAnExercise',
@@ -42,6 +43,8 @@ class EventServiceProvider extends ServiceProvider
             'editProfileInformation',
             'loginWithFacebook',
             'signUpWithFacebook',
+            'loginWithGoogle',
+            'signUpWithGoogle',
             'apiSignUp',
             'apiLogin',
             'printWorkout',
@@ -50,6 +53,10 @@ class EventServiceProvider extends ServiceProvider
             'editAWorkout',
             'createAWorkout',
             'duplicateWorkout',
+            'archiveWorkout',
+            'addClient',
+            'updateClient',
+            'deleteClient',
             'unArchiveWorkout',
             'deleteAWorkout',
             'shareAWorkout',

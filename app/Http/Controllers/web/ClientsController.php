@@ -299,7 +299,7 @@ class ClientsController extends BaseController
 
         $subscribe = $request->get("subscribe") === "Yes";
         $message = $request->get("personalizedTxt");
-
+        Event::dispatch('addClient', [Auth::user()]);
         if (Clients::where("userId", $user->id)->where("trainerId", Auth::user()->id)->count() == 0) {
             $client = Auth::user()->addClient($user, null, $subscribe, $message);
             return $this::responseJson(Lang::get("messages.ClientInvitation"));
@@ -452,7 +452,6 @@ class ClientsController extends BaseController
             $clients->save();
 
             Feeds::insertFeed("NewObjective", Auth::user()->id, Auth::user()->firstName, Auth::user()->lastName);
-
             return $this::responseJson(Lang::get("messages.ObjectiveAdded"));
         }
     }
@@ -464,6 +463,7 @@ class ClientsController extends BaseController
 
         if ($this->checkPermissions($obj->trainerId, Auth::user()->id)) {
             $obj->delete();
+            Event::dispatch('deleteClient', [Auth::user()]);
             return $this::responseJson(Lang::get("messages.ClientDeleted"));
         } else {
             return $this::responseJsonError(Lang::get("messages.Permissions"));

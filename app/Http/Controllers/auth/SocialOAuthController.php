@@ -75,7 +75,7 @@ class SocialOAuthController extends Controller
 
             $user->sendActivationEmail();
             Auth::loginUsingId($user->id);
-            Event::dispatch('signUp', [$user]);
+            Event::dispatch('signUpWithGoogle', [$user]);
 
             try {
                 if (!Config::get('app.debug')) {
@@ -115,7 +115,7 @@ class SocialOAuthController extends Controller
             Auth::loginUsingId($user->id);
             $user->update(['updated_at' => now(), 'lastLogin' => now(), 'virtual' => 0]);
 
-            event('login', [$user]);
+            event('loginWithGoogle', [$user]);
 
             setcookie("TrainerWorkoutUserId", Crypt::encrypt($user->id), time() + (86400 * 30 * 7), "/");
 
@@ -155,6 +155,7 @@ class SocialOAuthController extends Controller
             $user->activated = now();
             $user->save();
 
+            event('signUpWithGoogle', [$user]);
 //            $subject = __("messages.Emails_registerFB");
 //            Mail::to($user->email)
 ////                ->cc(config("constants.activityEmail"))
@@ -188,7 +189,7 @@ class SocialOAuthController extends Controller
                 'lastLogin' => now(),
                 'virtual' => 0,
             ]);
-
+            event('loginWithGoogle', [$user]);
             Invites::where("email", Auth::user()->email)->where("completed", 0)->update(["completed" => 1]);
 
             return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts') : redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"));
