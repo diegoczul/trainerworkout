@@ -63,6 +63,8 @@ class EventServiceProvider extends ServiceProvider
             'pdfWorkout',
             'notifyActivity',
             'jsTriggeredEvent',
+            'AppleSubscriptionPurchased',
+            'AppleSubscriptionRestored',
             'logout'
         ];
 

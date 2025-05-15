@@ -13,6 +13,7 @@ use App\Models\TrainerSessions;
 use App\Models\Workouts;
 use DateTime;
 use DateTimeZone;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -1177,6 +1178,13 @@ class OrdersController extends BaseController
                 // SENDING SUCCESS
                 $response['redirect_url'] = route('login',['device_type' => 'ios']);
                 DB::commit();
+
+                $user = Users::find($request->get('ref_user_id'));
+                $planResponse['apple_in_app_purchase_id'] = $plan->apple_in_app_purchase_id;
+                $planResponse['price'] = $plan->price;
+                $planResponse['durationType'] = $plan->durationType;
+                $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
+                Event::dispatch('AppleSubscriptionPurchased',[$user,$planResponse]);
                 return $this->sendResponse("receipt_data", $response);
             }else{
                 DB::rollBack();
@@ -1288,6 +1296,13 @@ class OrdersController extends BaseController
                 // SENDING SUCCESS
                 $response['redirect_url'] = route('login',['device_type' => 'ios']);
                 DB::commit();
+
+                $user = Users::find($request->get('ref_user_id'));
+                $planResponse['apple_in_app_purchase_id'] = $plan->apple_in_app_purchase_id;
+                $planResponse['price'] = $plan->price;
+                $planResponse['durationType'] = $plan->durationType;
+                $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
+                Event::dispatch('AppleSubscriptionRestored',[$user,$planResponse]);
                 return $this->sendResponse("receipt_data", $response);
             }else{
                 DB::rollBack();

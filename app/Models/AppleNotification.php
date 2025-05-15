@@ -25,5 +25,6 @@ class AppleNotification extends Model
         'renewal_date',
         'is_auto_renew',
         'transaction_json',
+        'is_verified',
     ];
 }
