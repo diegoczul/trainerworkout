@@ -51,7 +51,7 @@
                                         <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                     </div>
                                 @else
-                                    @if (Auth::user()->membership->renew == 0)
+                                    @if (isset(Auth::user()->membership->renew) && Auth::user()->membership->renew == 0)
                                         <p>{!! Lang::get('content.downgrade_note_in_days',['number' => \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse(Auth::user()->membership->expiry))]) !!}
                                     @else
                                         <form action="{{ Lang::get('routes./Store/addToCart') }}/59/Membership">

@@ -20,9 +20,9 @@ class MembershipsController extends BaseController
     public function indexMembershipManagement()
     {
         Session::forget('cart');
-        if (!Auth::user()->membership) {
-            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
-        }
+//        if (!Auth::user()->membership) {
+//            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
+//        }
         if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
             return View::make("webview.membership-management");
         }else{

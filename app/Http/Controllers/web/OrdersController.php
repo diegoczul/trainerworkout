@@ -1301,87 +1301,89 @@ class OrdersController extends BaseController
 
     public function appleWebhook(Request $request)
     {
-        try {
-            $postData = json_decode($request->getContent(),true);
-
-            if (!$postData && !empty($request->getContent())) {
-                $postData = ['signedPayload' => $request->getContent()];
-            }
-
-            if ($postData && isset($postData['signedPayload']) && !empty($postData['signedPayload'])) {
-                $response = array();
-                $isActive = false;
-                $signedPayload = $postData['signedPayload'];
-                $transaction = $this::decodeSignedPayload($signedPayload,true);
-                $transaction['signedPayload'] = $signedPayload;
-
-                $currentDate = time();
-
-                if (isset($transaction['data']['signedTransactionInfo'])) {
-                    $signedTransaction = $transaction['data']['signedTransactionInfo'];
-                    $transactionDetails = $this::decodeSignedTransaction($signedTransaction,true);
-                    $transaction['data']['signedTransaction'] = $transactionDetails;
-                    $transaction['data']['signedTransaction']['signedDate_human'] = Carbon::createFromTimestamp($transactionDetails['signedDate'])->timezone('UTC');
-                    $transaction['data']['signedTransaction']['purchaseDate_human'] = Carbon::createFromTimestamp($transactionDetails['purchaseDate'])->timezone('UTC');
-                    $transaction['data']['signedTransaction']['expiresDate_human'] = Carbon::createFromTimestamp($transactionDetails['expiresDate'])->timezone('UTC');
-                    $transaction['data']['signedTransaction']['currentDate_human'] = Carbon::now()->timezone('UTC');
-
-                    if (isset($transactionDetails['expiresDate'])) {
-                        // Convert the milliseconds to seconds
-                        $expiresDate = $transactionDetails['expiresDate'] / 1000;
-
-                        // Create DateTime objects for clarity
-                        $currentDateTime = Carbon::now()->timezone('UTC');
-                        $expiresDateTime = Carbon::createFromTimestamp($expiresDate)->timezone('UTC');
-
-                        // Now you can compare
-                        if ($expiresDateTime > $currentDateTime) {
-                            $isActive = true;
-                        }
-                    }
-                }
-
-                if (isset($transaction['data']['signedRenewalInfo'])) {
-                    $signedTransaction = $transaction['data']['signedRenewalInfo'];
-                    $transactionDetails = $this::decodeSignedTransaction($signedTransaction);
-                    $transaction['data']['signedRenewal'] = $transactionDetails;
-                    $transaction['data']['signedRenewal']['signedDate_human'] =  Carbon::createFromTimestamp($transactionDetails['signedDate'])->timezone('UTC');
-                    $transaction['data']['signedRenewal']['renewalDate_human'] = Carbon::createFromTimestamp($transactionDetails['renewalDate'])->timezone('UTC');
-                    $transaction['data']['signedRenewal']['currentDate_human'] = Carbon::now()->timezone('UTC');
-                }
-
-                $response["is_active"] = $isActive;
-                $response["original_transaction_id"] = isset($transaction['data']['signedTransaction']['originalTransactionId']) ? $transaction['data']['signedTransaction']['originalTransactionId'] : '';
-                $response["transaction_id"] = isset($transaction['data']['signedTransaction']['transactionId']) ? $transaction['data']['signedTransaction']['transactionId'] : '';
-                $response["transaction_status"] = isset($transaction['data']['signedTransaction']['transactionReason']) ? $transaction['data']['signedTransaction']['transactionReason'] : '';
-                $response["transaction_env"] = isset($transaction['data']['signedTransaction']['environment']) ? $transaction['data']['signedTransaction']['environment'] : '';
-                $response["transaction_type"] = isset($transaction['data']['signedTransaction']['type']) ? $transaction['data']['signedTransaction']['type'] : '';
-
-                $response["notification_type"] = isset($transaction['notificationType']) ? $transaction['notificationType'] : '';
-
-                $response["iap_id"] = isset($transaction['data']['signedTransaction']['productId']) ? $transaction['data']['signedTransaction']['productId'] : '';
-                $response["price"] = isset($transaction['data']['signedTransaction']['price']) ? $transaction['data']['signedTransaction']['price'] : '';
-                $response["price_currency"] = isset($transaction['data']['signedTransaction']['currency']) ? $transaction['data']['signedTransaction']['currency'] : '';
-                $response["purchase_date"] = isset($transaction['data']['signedTransaction']['signedDate_human']) ? $transaction['data']['signedTransaction']['signedDate_human'] : '';
-                $response["expiry_date"] = isset($transaction['data']['signedTransaction']['expiresDate_human']) ? $transaction['data']['signedTransaction']['expiresDate_human'] : '';
-
-                $response["renewal_date"] = isset($transaction['data']['signedRenewal']['renewalDate_human']) ? $transaction['data']['signedRenewal']['renewalDate_human'] : '';
-                $response["is_auto_renew"] = isset($transaction['data']['signedRenewal']['autoRenewStatus']) ? $transaction['data']['signedRenewal']['autoRenewStatus'] : '';
-
-                $response["transaction_json"] = $transaction;
-                $notification = new AppleNotification();
-                $notification->fill($response);
-                $notification->save();
-                return $this->sendSuccess("Verified Apple purchase");
-            }else{
-                return $this->sendError("Invalid json response");
-            }
-        }catch (\Exception $exception) {
-            \Log::error('Apple Webhook Error: ' . $exception->getMessage(), [
-                'trace' => $exception->getTraceAsString()
-            ]);
-            return $this->sendError("Internal Server Error");
-        }
+        Log::info("WEBHOOK CALL");
+        return $this->sendSuccess("WEBHOOK CALL");
+//        try {
+//            $postData = json_decode($request->getContent(),true);
+//
+//            if (!$postData && !empty($request->getContent())) {
+//                $postData = ['signedPayload' => $request->getContent()];
+//            }
+//
+//            if ($postData && isset($postData['signedPayload']) && !empty($postData['signedPayload'])) {
+//                $response = array();
+//                $isActive = false;
+//                $signedPayload = $postData['signedPayload'];
+//                $transaction = $this::decodeSignedPayload($signedPayload,true);
+//                $transaction['signedPayload'] = $signedPayload;
+//
+//                $currentDate = time();
+//
+//                if (isset($transaction['data']['signedTransactionInfo'])) {
+//                    $signedTransaction = $transaction['data']['signedTransactionInfo'];
+//                    $transactionDetails = $this::decodeSignedTransaction($signedTransaction,true);
+//                    $transaction['data']['signedTransaction'] = $transactionDetails;
+//                    $transaction['data']['signedTransaction']['signedDate_human'] = Carbon::createFromTimestamp($transactionDetails['signedDate'])->timezone('UTC');
+//                    $transaction['data']['signedTransaction']['purchaseDate_human'] = Carbon::createFromTimestamp($transactionDetails['purchaseDate'])->timezone('UTC');
+//                    $transaction['data']['signedTransaction']['expiresDate_human'] = Carbon::createFromTimestamp($transactionDetails['expiresDate'])->timezone('UTC');
+//                    $transaction['data']['signedTransaction']['currentDate_human'] = Carbon::now()->timezone('UTC');
+//
+//                    if (isset($transactionDetails['expiresDate'])) {
+//                        // Convert the milliseconds to seconds
+//                        $expiresDate = $transactionDetails['expiresDate'] / 1000;
+//
+//                        // Create DateTime objects for clarity
+//                        $currentDateTime = Carbon::now()->timezone('UTC');
+//                        $expiresDateTime = Carbon::createFromTimestamp($expiresDate)->timezone('UTC');
+//
+//                        // Now you can compare
+//                        if ($expiresDateTime > $currentDateTime) {
+//                            $isActive = true;
+//                        }
+//                    }
+//                }
+//
+//                if (isset($transaction['data']['signedRenewalInfo'])) {
+//                    $signedTransaction = $transaction['data']['signedRenewalInfo'];
+//                    $transactionDetails = $this::decodeSignedTransaction($signedTransaction);
+//                    $transaction['data']['signedRenewal'] = $transactionDetails;
+//                    $transaction['data']['signedRenewal']['signedDate_human'] =  Carbon::createFromTimestamp($transactionDetails['signedDate'])->timezone('UTC');
+//                    $transaction['data']['signedRenewal']['renewalDate_human'] = Carbon::createFromTimestamp($transactionDetails['renewalDate'])->timezone('UTC');
+//                    $transaction['data']['signedRenewal']['currentDate_human'] = Carbon::now()->timezone('UTC');
+//                }
+//
+//                $response["is_active"] = $isActive;
+//                $response["original_transaction_id"] = isset($transaction['data']['signedTransaction']['originalTransactionId']) ? $transaction['data']['signedTransaction']['originalTransactionId'] : '';
+//                $response["transaction_id"] = isset($transaction['data']['signedTransaction']['transactionId']) ? $transaction['data']['signedTransaction']['transactionId'] : '';
+//                $response["transaction_status"] = isset($transaction['data']['signedTransaction']['transactionReason']) ? $transaction['data']['signedTransaction']['transactionReason'] : '';
+//                $response["transaction_env"] = isset($transaction['data']['signedTransaction']['environment']) ? $transaction['data']['signedTransaction']['environment'] : '';
+//                $response["transaction_type"] = isset($transaction['data']['signedTransaction']['type']) ? $transaction['data']['signedTransaction']['type'] : '';
+//
+//                $response["notification_type"] = isset($transaction['notificationType']) ? $transaction['notificationType'] : '';
+//
+//                $response["iap_id"] = isset($transaction['data']['signedTransaction']['productId']) ? $transaction['data']['signedTransaction']['productId'] : '';
+//                $response["price"] = isset($transaction['data']['signedTransaction']['price']) ? $transaction['data']['signedTransaction']['price'] : '';
+//                $response["price_currency"] = isset($transaction['data']['signedTransaction']['currency']) ? $transaction['data']['signedTransaction']['currency'] : '';
+//                $response["purchase_date"] = isset($transaction['data']['signedTransaction']['signedDate_human']) ? $transaction['data']['signedTransaction']['signedDate_human'] : '';
+//                $response["expiry_date"] = isset($transaction['data']['signedTransaction']['expiresDate_human']) ? $transaction['data']['signedTransaction']['expiresDate_human'] : '';
+//
+//                $response["renewal_date"] = isset($transaction['data']['signedRenewal']['renewalDate_human']) ? $transaction['data']['signedRenewal']['renewalDate_human'] : '';
+//                $response["is_auto_renew"] = isset($transaction['data']['signedRenewal']['autoRenewStatus']) ? $transaction['data']['signedRenewal']['autoRenewStatus'] : '';
+//
+//                $response["transaction_json"] = $transaction;
+//                $notification = new AppleNotification();
+//                $notification->fill($response);
+//                $notification->save();
+//                return $this->sendSuccess("Verified Apple purchase");
+//            }else{
+//                return $this->sendError("Invalid json response");
+//            }
+//        }catch (\Exception $exception) {
+//            \Log::error('Apple Webhook Error: ' . $exception->getMessage(), [
+//                'trace' => $exception->getTraceAsString()
+//            ]);
+//            return $this->sendError("Internal Server Error");
+//        }
     }
 
     // Function to decode signed payload (used in server notifications)
