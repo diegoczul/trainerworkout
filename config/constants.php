@@ -59,6 +59,8 @@ return array(
   'APPSTORE_URL' => "https://apps.apple.com/in/app/TrainerWorkout/id6744892317",
   'PLAYSTORE_URL' => "https://play.google.com/apps/testing/com.app.trainerworkout",
   'IN_APP_SUBSCRIPTION_LOG' => "IN_APP_SUBSCRIPTION_ID=",
+  'SUBSCRIPTION_PLAN_ID_LOG' => "SUBSCRIPTION_PLAN_ID=",
+  'SUBSCRIPTION_PURCHASE_STATUS_LOG' => "SUBSCRIPTION_PURCHASE_STATUS=",
   'USER_ID_LOG' => "LOGIN_USER_ID=",
   'APPLE_PURCHASE_PASSWORD' => "***REMOVED***",
 );

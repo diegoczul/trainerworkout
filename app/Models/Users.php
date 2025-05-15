@@ -505,7 +505,7 @@ class Users extends Authenticatable implements JWTSubject
                 }
             } else {
                 $stripeMemberhsip = $this->getStripeSubscription();
-                $mem = MembershipUsers::where("userId", $this->id)->first();
+                $mem = MembershipsUsers::where("userId", $this->id)->first();
 
                 if ($this->stripeCheckoutToken == "" or $stripeMemberhsip == null) {
                     if (date($mem->expiry) < date("Y-m-d")) {

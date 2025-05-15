@@ -9,6 +9,16 @@ class OrderItems extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [];
+    protected $table = 'order_items';
+    protected $fillable = [
+        'orderId',
+        'itemId',
+        'itemType',
+        'quantity',
+        'price',
+        'paid',
+        'apple_transaction_id',
+        'apple_original_transaction_id',
+    ];
     protected $dates = ['deleted_at'];
 }

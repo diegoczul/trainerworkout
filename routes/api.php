@@ -39,7 +39,8 @@ Route::post('WorkoutGroups', [WorkoutsController::class, 'API_Workout_Groups']);
 
 // Order
 Route::controller(OrdersController::class)->group(function (){
-    Route::post('process-apple-purchase', 'processApplePurchase')->name('webhook.process-apple-purchase');
+    Route::post('process-apple-purchase', 'processApplePurchase');
+    Route::post('restore-apple-purchase', 'restoreSubscription');
 });
 
 Route::middleware('auth:api')->group(function (){

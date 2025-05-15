@@ -43,7 +43,7 @@
                             }
                         @endphp
                         <form action="javascript:void(0);">
-                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}')">{{ Lang::get('content.ChoosePlan') }}</button>
+                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.ChoosePlan') }}</button>
                         </form>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                             }
                         @endphp
                         <form action="javascript:void(0);">
-                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}')">{{ Lang::get('content.ChoosePlan') }}</button>
+                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.ChoosePlan') }}</button>
                             <img id="upgradeDiscount" src="{{ asset('assets/img/tagTenPercentOff.png') }}">
                         </form>
                     </div>
@@ -76,8 +76,10 @@
 @endsection
 @section('scripts')
     <script>
-        function logMessage(message) {
+        function logMessage(message,id,purchase_status) {
             console.log('{{config('constants.IN_APP_SUBSCRIPTION_LOG')}}'+message);
+            console.log('{{config('constants.SUBSCRIPTION_PLAN_ID_LOG')}}'+id);
+            console.log('{{config('constants.SUBSCRIPTION_PURCHASE_STATUS_LOG')}}'+purchase_status);
             console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');
         }
         $(document).ready(function() {

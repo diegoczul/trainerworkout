@@ -20,7 +20,7 @@
             document.body.style.display = "block";
         }
     </script>
-
+    @php $currentMembership = Auth::user()->membership; @endphp
     <div class="account accountWrapper membership">
         <div class="widget">
             <div class="account--header">
@@ -39,20 +39,10 @@
                         </ul>
                         <div class="plan--description--mgt">
                             <p>{{ Lang::get('content.free') }}</p>
-                            @if (Auth::user()->membership and
-                                    Auth::user()->membership->membershipId == 59 and
-                                    Memberships::checkMembership(Auth::user()) == '')
+                            @if (Auth::user()->membership && Auth::user()->membership->membershipId == 59 && Memberships::checkMembership(Auth::user()) == '')
                                 <div class="currentPlan">
                                     <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                 </div>
-                            @else
-                                @if (Auth::user()->membership->renew == 0)
-                                    <p>{!! Lang::get('content.downgrade_note_in_days',['number' => \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse(Auth::user()->membership->expiry))]) !!}
-                                @else
-                                    <form action="{{ Lang::get('routes./Store/addToCart') }}/59/Membership">
-                                        <button>{{ Lang::get('content.Downgrade') }}</button>
-                                    </form>
-                                @endif
                             @endif
                         </div>
                     </div>
@@ -69,41 +59,44 @@
                         </ul>
                         <div class="plan--description--mgt">
                             <p>${{ config('constants.price') }} {{ Lang::get('content.monthly') }}</p>
-                            @if (Auth::user()->membership and
-                                    (Auth::user()->membership->membershipId == 63 or Auth::user()->membership->membershipId == 61))
-                                @php
-                                    $currentMembership = Auth::user()->membership;
-                                @endphp
-                                <div class="currentPlan">
-                                    <p>{{ Lang::get('content.CurrentPlan') }}</p>
-                                    @if ($currentMembership && $currentMembership->expiry)
-                                        @if ($currentMembership && $currentMembership->renew == 0)
-                                            <a class="text-black underline" href="Store/CancelDowngrade">{{ Lang::get('content.cancel_downgrade') }}</a>
-                                        @else
+                            @if(isset($currentMembership) && !empty($currentMembership) && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture() && $currentMembership->expiry && $currentMembership->subscriptionStripeKey != null)
+                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
+                                    <div class="currentPlan">
+                                        <p>{{ Lang::get('content.CurrentPlan') }}</p>
+                                    </div>
+                                @endif
+                            @else
+                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
+                                    <div class="currentPlan">
+                                        @if ($currentMembership && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture())
+                                            <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                             <p>{{ Lang::get('content.next_renewal') }}
                                                 <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                             </p>
+                                        @else
+                                            @php
+                                                $membership = Memberships::where('id',63)->first();
+                                                if ($membership && empty($membership->apple_in_app_purchase_id)){
+                                                    $membership = Memberships::where('id',61)->first();
+                                                }
+                                            @endphp
+                                            <form action="javascript:void(0);" >
+                                                <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                            </form>
                                         @endif
-                                    @endif
-                                </div>
-                            @else
-                                @php
-                                    $currentMembership = Auth::user()->membership;
-                                @endphp
-                                {{-- Downgrade from Yearly to Monthly --}}
-                                @if ($currentMembership && $currentMembership->membershipId == 64 and $currentMembership->downgrade_to != '')
-                                    <p>{!! Lang::get('content.downgrade_note_in_days',['number' => \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($currentMembership->expiry))]) !!}</p>
-                                    <a class="text-black underline" href="Store/CancelDowngradeYearly">{{ Lang::get('content.cancel_downgrade') }}</a>
+                                    </div>
                                 @else
-                                    @php
-                                        $membership = Memberships::where('id',61)->first();
-                                        if ($membership && empty($membership->apple_in_app_purchase_id)){
+                                    @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59))
+                                        @php
                                             $membership = Memberships::where('id',63)->first();
-                                        }
-                                    @endphp
-                                    <form action="javascript:void(0);" >
-                                        <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}')">{{ Lang::get('content.Downgrade') }}</button>
-                                    </form>
+                                            if ($membership && empty($membership->apple_in_app_purchase_id)){
+                                                $membership = Memberships::where('id',61)->first();
+                                            }
+                                        @endphp
+                                        <form action="javascript:void(0);" >
+                                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                        </form>
+                                    @endif
                                 @endif
                             @endif
                         </div>
@@ -121,33 +114,46 @@
                         </ul>
                         <div class="plan--description--mgt">
                             <p>$107.99 {{ Lang::get('content.yearly') }}</p>
-                            @if (Auth::user()->membership and
-                                    (Auth::user()->membership->membershipId == 64 or Auth::user()->membership->membershipId == 62) and
-                                    Memberships::checkMembership(Auth::user()) == '')
-                                <div class="currentPlan">
-                                    <p>{{ Lang::get('content.CurrentPlan') }}</p>
-                                </div>
-                                @if ($currentMembership && $currentMembership->expiry)
-                                    @if ($currentMembership && $currentMembership->renew == 0)
-                                        <a class="text-black underline" href="Store/CancelDowngrade">{{ Lang::get('content.cancel_downgrade') }}</a>
-                                    @else
-                                        @if ($currentMembership->downgrade_to == '')
+                            @if(isset($currentMembership) && !empty($currentMembership) && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture() && $currentMembership->subscriptionStripeKey != null)
+                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) && Memberships::checkMembership(Auth::user()) == '')
+                                    <div class="currentPlan">
+                                        <p>{{ Lang::get('content.CurrentPlan') }}</p>
+                                        <p>{{ Lang::get('content.next_renewal') }}
+                                            <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
+                                        </p>
+                                    </div>
+                                @endif
+                            @else
+                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) && Memberships::checkMembership(Auth::user()) == '')
+                                    @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isFuture()))
+                                        <div class="currentPlan">
+                                            <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                             <p>{{ Lang::get('content.next_renewal') }}
                                                 <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                             </p>
-                                        @endif
+                                        </div>
+                                    @else
+                                        @php
+                                            $membership = Memberships::where('id',64)->first();
+                                            if ($membership && empty($membership->apple_in_app_purchase_id)){
+                                                $membership = Memberships::where('id',62)->first();
+                                            }
+                                        @endphp
+                                        <form action="javascript:void(0);" >
+                                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                        </form>
                                     @endif
+                                @else
+                                    @php
+                                        $membership = Memberships::where('id',64)->first();
+                                        if ($membership && empty($membership->apple_in_app_purchase_id)){
+                                            $membership = Memberships::where('id',62)->first();
+                                        }
+                                    @endphp
+                                    <form action="javascript:void(0);" >
+                                        <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                    </form>
                                 @endif
-                            @else
-                                @php
-                                    $membership = Memberships::where('id',64)->first();
-                                    if ($membership && empty($membership->apple_in_app_purchase_id)){
-                                        $membership = Memberships::where('id',62)->first();
-                                    }
-                                @endphp
-                                <form action="javascript:void(0);" >
-                                    <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}')">{{ Lang::get('content.Upgrade') }}</button>
-                                </form>
                             @endif
                         </div>
                     </div>
@@ -157,10 +163,16 @@
                         <p class="text-sm">{{ Lang::get('content.renewal_note') }}</p>
                     </div>
                 </div>
-
+                @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59))
+                <div class="plan">
+                    <form action="javascript:void(0);" >
+                        <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
+                    </form>
+                </div>
+                @endif
             </div>
-            <p class="text-gray-500 text-center mt-5"> <a onclick="deleteAccount();" href="javascript:void(0);"
-                                                          class="text-gray-500">{{ Lang::get('content.DeleteAccount') }}</a>
+            <p class="text-gray-500 text-center mt-5">
+                <a onclick="deleteAccount();" href="javascript:void(0);" class="text-gray-500">{{ Lang::get('content.DeleteAccount') }}</a>
             </p>
         </div>
     </div>
@@ -172,8 +184,10 @@
             $(".menu_membership").addClass("selected");
         });
 
-        function logMessage(message) {
+        function logMessage(message,id,purchase_status) {
             console.log('{{config('constants.IN_APP_SUBSCRIPTION_LOG')}}'+message);
+            console.log('{{config('constants.SUBSCRIPTION_PLAN_ID_LOG')}}'+id);
+            console.log('{{config('constants.SUBSCRIPTION_PURCHASE_STATUS_LOG')}}'+purchase_status);
             console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');
         }
         function deleteAccount() {
