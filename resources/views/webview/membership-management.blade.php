@@ -63,6 +63,9 @@
                                 @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
                                     <div class="currentPlan">
                                         <p>{{ Lang::get('content.CurrentPlan') }}</p>
+                                        <p>{{ Lang::get('content.next_renewal') }}
+                                            <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
+                                        </p>
                                     </div>
                                 @endif
                             @else
@@ -86,7 +89,7 @@
                                         @endif
                                     </div>
                                 @else
-                                    @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59))
+                                    @if ((isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59)) || (!Auth::user()->membership))
                                         @php
                                             $membership = Memberships::where('id',63)->first();
                                             if ($membership && empty($membership->apple_in_app_purchase_id)){
@@ -163,12 +166,12 @@
                         <p class="text-sm">{{ Lang::get('content.renewal_note') }}</p>
                     </div>
                 </div>
-                @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59))
-                <div class="plan">
-                    <form action="javascript:void(0);" >
-                        <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
-                    </form>
-                </div>
+                @if((Auth::user()->membership && Auth::user()->membership->membershipId == Config::get("constants.defaultMembership")) or (!Auth::user()->membership))
+                    <div class="plan">
+                        <form action="javascript:void(0);" >
+                            <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
+                        </form>
+                    </div>
                 @endif
             </div>
             <p class="text-gray-500 text-center mt-5">
