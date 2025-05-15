@@ -60,4 +60,5 @@ return array(
   'PLAYSTORE_URL' => "https://play.google.com/apps/testing/com.app.trainerworkout",
   'IN_APP_SUBSCRIPTION_LOG' => "IN_APP_SUBSCRIPTION_ID=",
   'USER_ID_LOG' => "LOGIN_USER_ID=",
+  'APPLE_PURCHASE_PASSWORD' => "***REMOVED***",
 );

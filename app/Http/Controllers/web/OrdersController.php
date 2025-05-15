@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -1119,17 +1120,54 @@ class OrdersController extends BaseController
             return response()->json(['error'=>$validator->errors()], 400);
         }
 
-//        $receipt_data = json_decode(base64_decode($request->receipt_data),true);
-        Log::info($request->receipt_data);
-        return $this->sendResponse("receipt_data", []);
-        $verifyApplePurchase = $this::verifyApplePurchase($receipt_data);
-        return $verifyApplePurchase;
+        $verifyApplePurchase = $this::verifyApplePurchase($request->receipt_data)->getData(true);
+        if (isset($verifyApplePurchase['status']) && !empty($verifyApplePurchase['status'])){
+            $latest_receipt_info = $verifyApplePurchase['data']['latest_receipt_info'][0]??[];
 
+            $transaction_id = $latest_receipt_info['transaction_id']??'';
+            $original_transaction_id = $latest_receipt_info['original_transaction_id']??'';
+            $expires_date_ms = $latest_receipt_info['expires_date_ms']??'';
+
+            $response['redirect_url'] = route('login',['device_type' => 'ios']);
+            $response['latest_receipt_info'] = $latest_receipt_info;
+            return $this->sendResponse("receipt_data", $response);
+        }else{
+            return $this->sendError($verifyApplePurchase['message']??"Failed to verify Apple purchase");
+        }
     }
 
     public function verifyApplePurchase($receipt_data)
     {
+        if (env('APP_ENV') == 'production') {
+            $url = "https://buy.itunes.apple.com/verifyReceipt";
+        }else{
+            $url = "https://sandbox.itunes.apple.com/verifyReceipt";
+        }
+        $apple_secret = config('constants.APPLE_PURCHASE_PASSWORD');
+        $params['password'] = $apple_secret;
+        $params['receipt-data'] = $receipt_data;
+        $params['exclude-old-transactions'] = true;
+        $response = Http::accept('application/json')
+            ->post($url, $params);
+        if ($response->successful()) {
+            $response = $response->json();
+            if ($response['status'] == 21000) {
+                return $this::sendError("The App Store could not read the JSON object you provided.");
+            }
+            if ($response['status'] == 21002) {
+                return $this::sendError("The data in the receipt-data property was malformed or missing.");
+            }
+            if ($response['status'] == 21004) {
+                return $this::sendError("The receipt could not be authenticated.");
+            }
+            if ($response['status'] == 21007) {
+                return $this::sendError("This transaction is not allowed to make a purchase.");
+            }
 
+            return $this->sendResponse("receipt_data", $response);
+        }else{
+            return $this::sendError("Something went wrong.");
+        }
     }
 
     public function appleWebhook(Request $request)
