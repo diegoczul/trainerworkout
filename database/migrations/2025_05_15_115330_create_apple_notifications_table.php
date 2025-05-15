@@ -27,7 +27,7 @@ return new class extends Migration
             $table->datetime('expiry_date')->nullable();
             $table->datetime('renewal_date')->nullable();
             $table->tinyInteger('is_auto_renew')->nullable();
-            $table->string('transaction_json')->nullable();
+            $table->text('transaction_json')->nullable();
             $table->timestamps();
         });
     }
