@@ -1301,11 +1301,14 @@ class OrdersController extends BaseController
 
     public function appleWebhook(Request $request)
     {
-        Log::info("WEBHOOK CALL");
-        return $this->sendSuccess("WEBHOOK CALL");
-//        try {
-//            $postData = json_decode($request->getContent(),true);
-//
+        Log::info("WEBHOOK CALL >>>>>>>>>>> ");
+        try {
+            Log::info("REQUEST CONTENT");
+            Log::info($request->getContent());
+
+            $postData = json_decode($request->getContent(),true);
+            Log::info("POST_DATA >>>>>>>>>>>",$postData);
+
 //            if (!$postData && !empty($request->getContent())) {
 //                $postData = ['signedPayload' => $request->getContent()];
 //            }
@@ -1378,12 +1381,12 @@ class OrdersController extends BaseController
 //            }else{
 //                return $this->sendError("Invalid json response");
 //            }
-//        }catch (\Exception $exception) {
-//            \Log::error('Apple Webhook Error: ' . $exception->getMessage(), [
-//                'trace' => $exception->getTraceAsString()
-//            ]);
-//            return $this->sendError("Internal Server Error");
-//        }
+        }catch (\Exception $exception) {
+            \Log::error('Apple Webhook Error: ' . $exception->getMessage(), [
+                'trace' => $exception->getTraceAsString()
+            ]);
+            return $this->sendError("Internal Server Error");
+        }
     }
 
     // Function to decode signed payload (used in server notifications)
