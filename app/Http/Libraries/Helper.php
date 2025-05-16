@@ -24,6 +24,12 @@ use SendGrid\Mail\Mail;
 class Helper
 {
 
+    public static function putDeviceSession($device_type)
+    {
+        Session::put('device_type', $device_type);
+        Session::save();
+    }
+
     public static function seo($file = "", $variables = array())
     {
 

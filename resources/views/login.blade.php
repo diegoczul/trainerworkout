@@ -87,6 +87,30 @@
             };
         }
 
+        function storeDeviceType() {
+            const deviceType = '{{request()->get('device_type')}}';
+
+            if (deviceType) {
+                const request = indexedDB.open("trainer_workout", 1);
+
+                request.onupgradeneeded = function(event) {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains("settings")) {
+                        db.createObjectStore("settings", { keyPath: "key" });
+                    }
+                };
+
+                request.onsuccess = function(event) {
+                    const db = event.target.result;
+                    const tx = db.transaction("settings", "readwrite");
+                    const store = tx.objectStore("settings");
+
+                    store.put({ key: "device_type", value: deviceType });
+
+                    tx.oncomplete = () => db.close();
+                };
+            }
+        }
         function deleteIndexedDatabase() {
             let request = indexedDB.deleteDatabase("trainer_workout");
             request.onsuccess = function() {
