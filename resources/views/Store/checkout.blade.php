@@ -509,9 +509,7 @@
         <script>
             var elements = Stripe.elements();
             var card = elements.create('card',{
-                style: {
-                    hidePostalCode: true,
-                }
+                hidePostalCode: true,
             });
             card.mount('#payInfoContainer');
             jQuery(function($) {
@@ -522,7 +520,7 @@
                         card: card,
                         billing_details: {
                             name: '{{ auth()->user()->firstName ?? 'N/A' }} {{ auth()->user()->lastName ?? 'N/A' }}',
-                        },
+                        }
                     }).then(function(response) {
                         var $form = $('#payment-form');
                         if (response.error) {
