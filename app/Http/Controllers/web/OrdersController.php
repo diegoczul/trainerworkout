@@ -565,11 +565,11 @@ class OrdersController extends BaseController
         return $max + 1;
     }
 
-    public function upgradePlan()
+    public function upgradePlan(Request $request)
     {
         Session::forget('cart');
         $user = Auth::user();
-        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
             return View::make("webview.upgrade-plan")
                         ->with("user", $user)
                         ->with("cart", Session::get("cart"));
@@ -1424,7 +1424,7 @@ class OrdersController extends BaseController
         return json_decode(base64_decode(strtr($payload, '-_', '+/')), true);
     }
 
-    public function cancelDowngrade()
+    public function cancelDowngrade(Request $request)
     {
         Session::forget('cart');
         if (!Auth::user()->membership) {
@@ -1436,14 +1436,14 @@ class OrdersController extends BaseController
 
         }
 
-        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
             return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
         }else{
             return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
         }
     }
 
-    public function CancelDowngradeYearly()
+    public function CancelDowngradeYearly(Request $request)
     {
         Session::forget('cart');
         if (!Auth::user()->membership) {
@@ -1456,7 +1456,7 @@ class OrdersController extends BaseController
 
         }
 
-        if (session()->has('device_type') && in_array(session()->get('device_type'),['ios','IOS'])) {
+        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
             return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
         }else{
             return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
