@@ -32,10 +32,11 @@ class ExportWorkoutArticle extends Command
                 ->where('status', "Released")
                 ->orderBy('id', 'asc')
                 ->first();
-            $this->info('taking the first workout');
-            $this->info(print_r($workout->id, true));
         }
 
+        $author = $workout->author;
+        $this->info(print_r($author, true));
+        exit();
 
         if (!$workout) {
             $this->info('No eligible workout found to post.');
