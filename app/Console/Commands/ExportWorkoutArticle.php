@@ -26,7 +26,7 @@ class ExportWorkoutArticle extends Command
         if ($workoutId) {
             $workout = Workouts::find($workoutId);
         } else {
-            $workout = Workouts::where('social', 1)
+            $workout = Workouts::where('type', "public")
                 ->whereNull('post_sent')
                 ->orderBy('id', 'asc')
                 ->first();
