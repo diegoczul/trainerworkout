@@ -1119,13 +1119,14 @@ class OrdersController extends BaseController
                 'receipt_data' => 'required',
                 'ref_user_id' => 'required|numeric|exists:users,id',
                 'plan_id' => 'required|numeric|exists:memberships,id',
+                'payment_environment' => 'required|in:sandbox,production',
             ]);
             if ($validator->fails()){
                 return response()->json(['error'=>$validator->errors()], 400);
             }
 
             DB::beginTransaction();
-            $verifyApplePurchase = $this::verifyApplePurchase($request->receipt_data)->getData(true);
+            $verifyApplePurchase = $this::verifyApplePurchase($request->get('receipt_data'),$request->get('payment_environment',env('APP_ENV','sandbox')))->getData(true);
             if (isset($verifyApplePurchase['status']) && !empty($verifyApplePurchase['status'])){
                 $latest_receipt_info = $verifyApplePurchase['data']['latest_receipt_info'][0]??[];
                 $transaction_id = $latest_receipt_info['transaction_id']??'';
@@ -1196,9 +1197,9 @@ class OrdersController extends BaseController
         }
     }
 
-    public function verifyApplePurchase($receipt_data)
+    public function verifyApplePurchase($receipt_data,$payment_environment)
     {
-        if (env('APP_ENV') == 'production') {
+        if ($payment_environment == 'production') {
             $url = "https://buy.itunes.apple.com/verifyReceipt";
         }else{
             $url = "https://sandbox.itunes.apple.com/verifyReceipt";
@@ -1236,13 +1237,14 @@ class OrdersController extends BaseController
             $validator = Validator::make($request->all(), [
                 'receipt_data' => 'required',
                 'ref_user_id' => 'required|numeric|exists:users,id',
+                'payment_environment' => 'required|in:sandbox,production',
             ]);
             if ($validator->fails()){
                 return response()->json(['error'=>$validator->errors()], 400);
             }
 
             DB::beginTransaction();
-            $verifyApplePurchase = $this::verifyApplePurchase($request->receipt_data)->getData(true);
+            $verifyApplePurchase = $this::verifyApplePurchase($request->receipt_data,$request->get('payment_environment',env('APP_ENV','sandbox')))->getData(true);
             if (isset($verifyApplePurchase['status']) && !empty($verifyApplePurchase['status'])){
                 $latest_receipt_info = $verifyApplePurchase['data']['latest_receipt_info'][0]??[];
                 $transaction_id = $latest_receipt_info['transaction_id']??'';
