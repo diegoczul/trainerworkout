@@ -32,6 +32,7 @@ class ExportWorkoutArticle extends Command
                 ->first();
         }
 
+
         if (!$workout) {
             $this->info('No eligible workout found to post.');
             return 0;
