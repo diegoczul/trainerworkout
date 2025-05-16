@@ -20,8 +20,11 @@
                     @if(request()->has('device_type') && in_array(request()->get('device_type'),['ios','IOS','android','ANDROID','Android']))
                         <input type="hidden" name="device_type" value="{{request()->get('device_type')}}">
                     @endif
-{{--                    <a href="{{ __('routes./login/facebook') }}" class="facebook">{{ __("content.frontEnd/facebooklogin") }}</a>--}}
-                    <a href="{{ route('auth.google',['role' => 'Trainer']) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
+
+                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                        <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                    </p>
+                    <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px;">Log In with Google</a>
                     <div class="accountOr">
                         <hr><span>or</span><hr>
                     </div>
@@ -39,6 +42,10 @@
 
 @section('scripts')
     <script type="text/javascript">
+        function redirectToGoogleLogin(element) {
+            $("#loaderGoogleButton").show().css('display', 'flex');
+            window.location.href = "{{ route('auth.google',['role' => 'Trainer']) }}";
+        }
         function getEmail() {
             let request = indexedDB.open("trainer_workout", 1);
 
