@@ -43,6 +43,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\web\SubscriptionController;
 use App\Http\Controllers\web\PlansController;
 use App\Http\Controllers\web\PlanSubscriptionController;
+use Illuminate\Support\Facades\Session;
 use Stripe\SetupIntent;
 
 
@@ -134,8 +135,8 @@ Route::get('/', function () {
 //Route::get(__('routes./login'), fn() => view(Helper::translateOverride('login')))->name('login')->middleware('guest');
 Route::get(__('routes./login'), function (Request $request){
     if ($request->filled('device_type')) {
-        session()->forget('device_type');
-        session()->put('device_type', $request->get('device_type'));
+        Session::put('device_type', $request->get('device_type'));
+        Session::save();
     }
     return view(Helper::translateOverride('login'));
 })->name('login')->middleware('guest');

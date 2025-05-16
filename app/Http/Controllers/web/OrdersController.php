@@ -10,6 +10,7 @@ use App\Models\Notifications;
 use App\Models\Orders;
 use App\Models\SessionsUsers;
 use App\Models\TrainerSessions;
+use App\Models\UserApplePurchaseTransaction;
 use App\Models\Workouts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -1171,6 +1172,16 @@ class OrdersController extends BaseController
             $membership->orderItemId = $orderItem->id;
             $membership->save();
 
+            // USER APPLE PURCHASE
+            $userApplePurchase = new UserApplePurchaseTransaction();
+            $userApplePurchase->fill([
+                'ref_user_id' =>  $request->get('ref_user_id'),
+                'original_transaction_id' => $orderItem->apple_original_transaction_id,
+                'transaction_id' => $orderItem->apple_transaction_id,
+                'transaction_type' => 'PURCHASE',
+                'expiry_date' => Carbon::parse($expires_date_ms),
+            ])->save();
+
             // COMPLETE DATABASE TRANSACTION
             DB::commit();
 
@@ -1287,6 +1298,16 @@ class OrdersController extends BaseController
             $membership->paid = now();
             $membership->orderItemId = $orderItem->id;
             $membership->save();
+
+            // USER APPLE PURCHASE
+            $userApplePurchase = new UserApplePurchaseTransaction();
+            $userApplePurchase->fill([
+                'ref_user_id' =>  $request->get('ref_user_id'),
+                'original_transaction_id' => $orderItem->apple_original_transaction_id,
+                'transaction_id' => $orderItem->apple_transaction_id,
+                'transaction_type' => 'RESTORE',
+                'expiry_date' => Carbon::parse($expires_date_ms),
+            ])->save();
 
             // COMPLETE DATABASE TRANSACTION
             DB::commit();

@@ -537,6 +537,11 @@
         openDatabase().then(db => {
             let transaction = db.transaction("users", "readwrite");
             let store = transaction.objectStore("users");
+            transaction.oncomplete = function () {
+                db.close();
+                console.log("Database connection closed.");
+            };
+
             let clearRequest = store.clear();
             clearRequest.onsuccess = function() {
                 let addRequest = store.add({ email: email });
@@ -553,19 +558,35 @@
         }).catch(error => console.error(error));
     }
 
-    function deleteIndexedDatabase() {
-        let request = indexedDB.deleteDatabase("trainer_workout");
-        request.onsuccess = function() {
+    function deleteIndexedDatabase(retryCount = 0) {
+        showTopLoader();
+
+        const request = indexedDB.deleteDatabase("trainer_workout");
+
+        request.onsuccess = function () {
+            hideTopLoader();
             console.log("Database deleted successfully.");
             window.location.href = "{{ route('logout') }}";
         };
-        request.onerror = function(event) {
-            console.error("Error deleting database: ", event.target.error);
-            window.location.href = "{{ route('logout') }}";
+
+        request.onerror = function (event) {
+            console.error("Error deleting database:", event.target.error);
+            if (retryCount < 5) {
+                setTimeout(() => deleteIndexedDatabase(retryCount + 1), 1000); // Retry after 1 sec
+            } else {
+                console.error("Failed after multiple attempts.");
+                window.location.href = "{{ route('logout') }}";
+            }
         };
-        request.onblocked = function() {
-            console.error("Database deletion blocked. Close all connections and try again.");
-            window.location.href = "{{ route('logout') }}";
+
+        request.onblocked = function () {
+            console.error("Deletion blocked. Ensure all tabs are closed.");
+            if (retryCount < 5) {
+                setTimeout(() => deleteIndexedDatabase(retryCount + 1), 1000); // Retry after 1 sec
+            } else {
+                console.error("Blocked after multiple attempts.");
+                window.location.href = "{{ route('logout') }}";
+            }
         };
     }
 

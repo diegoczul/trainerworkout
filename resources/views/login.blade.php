@@ -68,9 +68,12 @@
                 getAllRequest.onsuccess = function() {
                     if (getAllRequest.result.length > 0) {
                         let email = getAllRequest.result[getAllRequest.result.length - 1].email;
+                        db.close();
                         @if(\Jenssegers\Agent\Facades\Agent::isiOS() || \Jenssegers\Agent\Facades\Agent::isAndroidOS())
                             window.location.href = "{{ route('login-with-email') }}?email=" + email;
                         @endif
+                    } else {
+                        db.close();
                     }
                 };
 

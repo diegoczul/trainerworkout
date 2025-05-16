@@ -967,6 +967,7 @@ class UsersController extends BaseController
         if ($request->has('device_type') && $request->filled('device_type')){
             session()->forget('device_type');
             session()->put('device_type', $request->get('device_type'));
+            session()->save();
         }
 
         $user = Users::where('email', $request->get('email'))->first();
@@ -1234,10 +1235,12 @@ class UsersController extends BaseController
 
         if ($lang != "") {
             Session::put("lang", $lang);
-            //                Session::save();
+            Session::save();
         }
-        if ($lang != "") {
+
+        if ($device_type != "") {
             Session::put("device_type", $device_type);
+            Session::save();
         }
 
         return redirect()->route("home");

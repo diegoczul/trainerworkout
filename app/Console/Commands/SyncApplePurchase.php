@@ -4,8 +4,12 @@ namespace App\Console\Commands;
 
 use App\Models\AppleNotification;
 use App\Models\MembershipsUsers;
+use App\Models\UserApplePurchaseTransaction;
+use App\Models\Users;
+use http\Client\Curl\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
 class SyncApplePurchase extends Command
@@ -38,11 +42,36 @@ class SyncApplePurchase extends Command
                 'deleted_at' => null
             ])->count();
             if ($MembershipsUsers > 0){
-                // UPDATE MEMBERSHIP EXPIRY
-                MembershipsUsers::where([
-                    'apple_original_transaction_id' => $original_transaction_id,
-                    'deleted_at' => null
-                ])->update(['expiry' => Carbon::parse($expiry_date)]);
+                if ($notification->notification_type == 'EXPIRED'){
+                    $users = MembershipsUsers::where([
+                        'apple_original_transaction_id' => $original_transaction_id,
+                        'deleted_at' => null
+                    ])->pluck('userId');
+
+                    // REMOVE ALL OLD MEMBERSHIPS
+                    MembershipsUsers::where([
+                        'apple_original_transaction_id' => $original_transaction_id,
+                        'deleted_at' => null
+                    ])->delete();
+
+                    // ADD TRIAL MEMBERSHIP
+                    foreach ($users as $user){
+                        $u = Users::find($user);
+                        $u->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                    }
+                }else{
+                    // UPDATE MEMBERSHIP EXPIRY
+                    MembershipsUsers::where([
+                        'apple_original_transaction_id' => $original_transaction_id,
+                        'deleted_at' => null
+                    ])->update(['expiry' => Carbon::parse($expiry_date)]);
+                }
+
+                // UPDATE USER TRANSACTION STATUS
+                UserApplePurchaseTransaction::where([
+                    'original_transaction_id' => $original_transaction_id,
+                    'transaction_id' => $transaction_id,
+                ])->update(['is_verified' => 1]);
 
                 // UPDATE NOTIFICATION VERIFICATION STATUS
                 $notification->is_verified = 1;
