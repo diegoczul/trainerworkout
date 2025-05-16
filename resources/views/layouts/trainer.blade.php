@@ -591,6 +591,6 @@
     }
 
     // Example usage:
-    storeEmail("{{auth()->user()->webview_token}}");
+    storeEmail("{{auth()->user()->email}}");
 </script>
 </html>

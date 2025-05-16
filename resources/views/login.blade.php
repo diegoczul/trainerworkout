@@ -46,6 +46,7 @@
             $("#loaderGoogleButton").show().css('display', 'flex');
             window.location.href = "{{ route('auth.google',['role' => 'Trainer']) }}";
         }
+
         function getEmail() {
             let request = indexedDB.open("trainer_workout", 1);
 
@@ -77,7 +78,9 @@
                         let email = getAllRequest.result[getAllRequest.result.length - 1].email;
                         db.close();
                         @if(\Jenssegers\Agent\Facades\Agent::isiOS() || \Jenssegers\Agent\Facades\Agent::isAndroidOS())
-                            window.location.href = "{{ route('login-with-email') }}?email=" + email;
+                            if(email != null){
+                                window.location.href = "{{ route('login-with-email') }}?email=" + email;
+                            }
                         @endif
                     } else {
                         db.close();

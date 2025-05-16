@@ -1001,8 +1001,12 @@ class UsersController extends BaseController
 
     public function loginWithEmail(Request $request)
     {
-        $webview_token = $request->get('email');
-        $user = Users::where('webview_token', $webview_token)->first();
+        if (!$request->filled('email')){
+            return redirect()->route('login')->with('clear_db', true);
+        }
+
+        $email = $request->get('email');
+        $user = Users::where('email', $email)->first();
         if (!$user) {
             return redirect()->route('login')->with('clear_db', true);
         }
