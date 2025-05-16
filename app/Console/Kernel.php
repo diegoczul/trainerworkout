@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('plans:sync-cancellations')->everyTenMinutes();
         $schedule->command('sync:stripe-transactions')->dailyAt('02:00'); // 2AM server time
         $schedule->command('app:release-frozen-earnings')->daily();
+        $schedule->command('sync:apple-transactions')->daily();
     }
 
     /**

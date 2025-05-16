@@ -149,6 +149,14 @@ return [
             'level' => env('LOG_LEVEL', 'error'),
             'days' => 7,
             'replace_placeholders' => true,
+        ],
+
+        'apple_purchase_log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/apple_purchase_log/laravel.log'),
+            'level' => env('LOG_LEVEL', 'error'),
+            'days' => 7,
+            'replace_placeholders' => true,
         ]
     ],
 
