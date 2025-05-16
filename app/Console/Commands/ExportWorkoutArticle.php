@@ -27,13 +27,13 @@ class ExportWorkoutArticle extends Command
             $workout = Workouts::find($workoutId);
             $this->info('No ID but still tried');
         } else {
-            $workout = Workouts::where('type', "public")
+            $workout = Workouts::where('availablity', "public")
                 ->whereNull('post_sent')
                 ->where('status', "Released")
                 ->orderBy('id', 'asc')
                 ->first();
             $this->info('taking the first workout');
-            $this->info(print_r($workout, true));
+            $this->info(print_r($workout->id, true));
         }
 
 
