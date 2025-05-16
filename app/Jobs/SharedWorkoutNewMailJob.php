@@ -67,6 +67,20 @@ class SharedWorkoutNewMailJob implements ShouldQueue
             $email->setSubject($this->subject);
             $email->addTo($this->toUser->email);
 
+            Log::info('[SharedWorkoutNewMailJob] Starting email job', [
+                'to' => $this->toUser->email ?? 'null',
+                'from' => $this->fromUser->email ?? 'null',
+                'subject' => $this->subject,
+                'copyMe' => $this->copyMe,
+                'copyView' => $this->copyView,
+                'copyPrint' => $this->copyPrint,
+                'lang' => $this->lang,
+                'has_screenshot' => file_exists($this->workoutScreenshot),
+                'has_screenshot_pdf' => file_exists($this->workoutScreenshotPDF),
+                'has_pdf' => file_exists($this->workoutPDF),
+            ]);
+
+
             // CC the sender if "copyMe" is true
             if ($this->copyMe) {
                 $email->addCc($this->fromUser->email);
@@ -80,6 +94,9 @@ class SharedWorkoutNewMailJob implements ShouldQueue
                 'fromUser' => $this->fromUser,
                 'comments' => $this->comments,
             ])->render();
+
+            Log::info('[SharedWorkoutNewMailJob] Rendered email body', ['length' => strlen($body)]);
+
 
             $email->addContent("text/html", $body);
 
@@ -99,10 +116,15 @@ class SharedWorkoutNewMailJob implements ShouldQueue
 
             // Send the email via SendGrid API
             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
-            $sendgrid->send($email);
+            $response = $sendgrid->send($email);
+            Log::info('[SharedWorkoutNewMailJob] SendGrid response', [
+                'status_code' => $response->statusCode(),
+                'headers' => $response->headers(),
+                'body' => $response->body(),
+            ]);
         } catch (\Exception $exception) {
             $time = now('Asia/Kolkata')->format('d-m-Y H:i:s');
-            Log::driver('email_exceptions_log')->error("[$time] : Email Exception : ",['error' => $exception->getMessage(), 'line' => $exception->getLine(),]);
+            Log::driver('email_exceptions_log')->error("[$time] : Email Exception : ", ['error' => $exception->getMessage(), 'line' => $exception->getLine(),]);
         }
     }
 }
