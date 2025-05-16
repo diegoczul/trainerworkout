@@ -29,6 +29,7 @@ class ExportWorkoutArticle extends Command
         } else {
             $workout = Workouts::where('type', "public")
                 ->whereNull('post_sent')
+                ->where('status', "Released")
                 ->orderBy('id', 'asc')
                 ->first();
             $this->info('taking the first workout');
