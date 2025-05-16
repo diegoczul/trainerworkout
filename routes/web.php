@@ -133,20 +133,20 @@ Route::get('/', function () {
 
 // LOGIN VIEW
 //Route::get(__('routes./login'), fn() => view(Helper::translateOverride('login')))->name('login')->middleware('guest');
-Route::get(__('routes./login'), function (Request $request){
+Route::get(__('routes./login'), function (Request $request) {
     return view(Helper::translateOverride('login'));
 })->name('login')->middleware('guest');
 
-Route::get('login/ios', function (Request $request){
-//    Session::put('device_type', 'ios');
-//    Session::save();
+Route::get('login/ios', function (Request $request) {
+    //    Session::put('device_type', 'ios');
+    //    Session::save();
     Helper::putDeviceSession('ios');
     return view(Helper::translateOverride('login'));
 })->name('login-ios');
 
-Route::get('login/android', function (Request $request){
-//    Session::put('device_type', 'android');
-//    Session::save();
+Route::get('login/android', function (Request $request) {
+    //    Session::put('device_type', 'android');
+    //    Session::save();
     Helper::putDeviceSession('android');
     return view(Helper::translateOverride('login'));
 })->name('login-android');;
@@ -526,6 +526,7 @@ Route::post('/Workout/weight/remove-history', [WorkoutsController::class, 'remov
 Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
+Route::get(__('routes./Workout/') . "{id}", [WorkoutsController::class, 'viewWorkoutNoNamePublic']);
 Route::get("Trainee/" . __('routes.Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth');
 Route::get("Trainee/" . __('routes.Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutTrainee'])->middleware('auth');
 Route::get(__('routes./editWorkout/') . "{id}/{name}/{author}/{client}", [WorkoutsController::class, 'editWorkout'])->middleware('auth');

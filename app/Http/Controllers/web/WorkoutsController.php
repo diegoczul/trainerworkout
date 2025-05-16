@@ -1384,6 +1384,24 @@ class WorkoutsController extends BaseController
 	}
 
 
+	public function viewWorkoutNoNamePublic($id)
+	{
+		$workoutId = $id;
+		$workout = Workouts::find($id);
+		if ($workout->availability == "private") {
+			return redirect()->route("home")->withError(__("messages.WorkoutNotFound"));
+		}
+		$tags = $workout->tags;
+		$agent = new Agent();
+		return view('visitor.share-workout')
+			->with("workout", $workout)
+			->with("agent", $agent)
+			->with("workoutId", $workoutId)
+			->with("groups", $workout->getGroups()->get())
+			->with("exercises", $workout->getExercises()->get());
+	}
+
+
 
 	public function viewWorkout($id, $name, $author)
 	{
