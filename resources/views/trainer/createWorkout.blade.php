@@ -33,14 +33,14 @@
             <h5>By: {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
             
             <div class="pt-3 md:pt-4 mt-3 md:mt-4" style="border-top: 1px solid #eeeeee;">
-                <h5 style="color: #2C3E50; font-weight: 500; font-size: 16px; padding-bottom: 15px;"></h5>
+                <h5 style="color: #2C3E50; font-weight: 500; font-size: 16px; padding-bottom: 15px;">Workout Visibility</h5>
                 <div class="flex align-center gap-3">
                     <div class="flex items-center gap-1"> 
-                        <input type="radio" id="private" name="access" style="margin: 0; padding: 0; width:auto; max-width:auto;" checked>
+                        <input type="radio" id="private" value="private" name="access" style="margin: 0; padding: 0; width:auto; max-width:auto;" {{ ($workout->availability == "private" or $workout->availability == "") ? "checked" : "" }}>
                         <label for="private" style="color: #333333; padding: 0; font-size: 14px;">Private</label>
                     </div>
                     <div class="flex items-center gap-1"> 
-                        <input type="radio" id="public" name="access" style="margin: 0; padding: 0; width:auto; max-width:auto;">
+                        <input {{ ($workout->availability == "public" or $workout->availability == "") ? "checked" : "" }} type="radio" id="public" value="public" name="access" style="margin: 0; padding: 0; width:auto; max-width:auto;">
                         <label for="public" style="color: #333333; padding: 0; font-size: 14px;">Public</label>
                     </div>
                     <div class="flex items-center gap-1">
@@ -1086,6 +1086,7 @@
 <input type="hidden" name="exerciseGroup" id="exerciseGroup" value="">
 <input type="hidden" name="exerciseGroupsRest" id="exerciseGroupsRest" value="">
 <input type="hidden" name="workoutName" id="workoutName" value="">
+<input type="hidden" name="available" id="workoutVisibility" value="">
 <input type="hidden" name="WorkoutDescription" id="WorkoutDescription" value="">
 <input type="hidden" name="clientId" id="clientId" value="">
 <input type="hidden" name="notes" id="noteToWorkoutForm" value="">
@@ -2755,6 +2756,9 @@ function createWorkout(){
   $("#exerciseGroupsRest").val(JSON.stringify(exerciseGroupsRest));
   //$("#tags").val(JSON.stringify(tags));
   //alert($("#workout_name").val());
+  const selectedAccess = $('input[name="access"]:checked').val();
+    $('#workoutVisibility').val(selectedAccess);
+
   $("#workoutName").val($("#workout_name").val());
   $("#WorkoutDescription").val($("#workout_description").val());
   $("#clientId").val($("#client").val());

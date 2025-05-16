@@ -1349,6 +1349,9 @@ class WorkoutsController extends BaseController
 		$workoutId = $request->get("workoutId");
 		$workout = Workouts::find($workoutId);
 		$validation = Workouts::validate($request->all());
+
+		// print_r($request->all());
+		// exit();
 		if ($validation->fails()) {
 
 			return redirect()->to("/Workout/Edit/" . $workoutId . "/")->withErrors($validation->messages());
@@ -1359,11 +1362,11 @@ class WorkoutsController extends BaseController
 			$workout->description = $request->get("description");
 			$workout->name = $request->get("name");
 			//$workout->objectives = $request->get("objectives");
-			if ($request->get("available") == "Yes") {
+			if ($request->get("available") == "public") {
 				$workout->availability = "public";
 				$workout->sale = 1;
 			};
-			if ($request->get("available") == "No") {
+			if ($request->get("available") == "private") {
 				$workout->availability = "private";
 				$workout->sale = 0;
 			}
@@ -1671,7 +1674,7 @@ class WorkoutsController extends BaseController
 				//$workout->price = $workoutDetails["price"];
 
 				$workout->sale = 0;
-				$workout->availability = "private";
+				$workout->availability = $request->get("available");
 				$workout->shares = 0;
 				$workout->views = 0;
 				$workout->timesPerformed = 0;
@@ -2274,7 +2277,8 @@ class WorkoutsController extends BaseController
 		$workout->objectives = $request->get($workoutDetails["obj"]);
 		$workout->userId = $userId;
 		$workout->authorId = $userId;
-		$workout->availability = "private";
+
+		$workout->availability = $request->get("available");
 		$workout->version = Config::get("constants.version");
 		$workout->save();
 
@@ -2379,7 +2383,7 @@ class WorkoutsController extends BaseController
 		$workout->description = $request->get("WorkoutDescription");
 
 		$workout->sale = 0;
-		$workout->availability = "private";
+		$workout->availability = $request->get("available");
 		$workout->shares = 0;
 		$workout->views = 0;
 		$workout->version = Config::get("constants.version");
@@ -2461,7 +2465,8 @@ class WorkoutsController extends BaseController
 				$workout->version = Config::get("constants.version");
 				$flag = true;
 				$workout->sale = 0;
-				$workout->availability = "private";
+
+
 				$workout->shares = 0;
 				$workout->groupId = (Auth::user()->group) ? Auth::user()->group->id : null;
 				$workout->views = 0;
@@ -2469,6 +2474,7 @@ class WorkoutsController extends BaseController
 				$workout->userId = $userId;
 				$workout->authorId = $userId;
 			}
+			$workout->availability = $request->get("available");
 			$workout->name = $request->get("workoutName");
 			$workout->description = $request->get("WorkoutDescription");
 			//$workout->price = $workoutDetails["price"];
