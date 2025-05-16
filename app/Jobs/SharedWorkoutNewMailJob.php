@@ -110,6 +110,7 @@ class SharedWorkoutNewMailJob implements ShouldQueue
                 }
             }
 
+
             if ($this->copyPrint && $this->workoutPDF) {
                 $email->addAttachment(base64_encode(file_get_contents($this->workoutPDF)), "application/pdf", "workout.pdf", "attachment");
             }
