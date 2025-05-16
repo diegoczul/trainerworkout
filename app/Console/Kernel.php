@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -18,6 +19,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('sync:stripe-transactions')->dailyAt('02:00'); // 2AM server time
         $schedule->command('app:release-frozen-earnings')->daily();
         $schedule->command('sync:apple-transactions')->daily();
+        $schedule->call(function () {
+            Log::info('Cron is working');
+        })->everyMinute();
     }
 
     /**
