@@ -19,12 +19,6 @@
                     @csrf
                     @if(request()->has('device_type') && in_array(request()->get('device_type'),['ios','IOS','android','ANDROID','Android']))
                         <input type="hidden" name="device_type" value="{{request()->get('device_type')}}">
-                    @else
-                        @if(\Jenssegers\Agent\Facades\Agent::isAndroidOS())
-                            <input type="hidden" name="device_type" value="android">
-                        @elseif(\Jenssegers\Agent\Facades\Agent::isiOS())
-                            <input type="hidden" name="device_type" value="ios">
-                        @endif
                     @endif
 {{--                    <a href="{{ __('routes./login/facebook') }}" class="facebook">{{ __("content.frontEnd/facebooklogin") }}</a>--}}
                     <a href="{{ route('auth.google',['role' => 'Trainer']) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
