@@ -64,7 +64,7 @@
                         <div class="deviceBtn"></div>
                         <div id="customPlans" class="screen">
                             <div class="scrollableContainer">
-                                <img alt="{{ Lang::get('content.Create Custom Plans') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-custom-plans-.png') }}">
+                                <img alt="{{ Lang::get('content.Create Custom Plans') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/create-custom-plans.png') }}">
                             </div>
                         </div>
                         <div id="clientSubscriptions" class="screen hideMe">
@@ -79,7 +79,7 @@
                         </div>
                         <div id="managePlans" class="screen hideMe">
                             <div class="scrollableContainer">
-                                <img alt="{{ Lang::get('content.Manage Plans Anytime') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/plans-custom-plans-.png') }}">
+                                <img alt="{{ Lang::get('content.Manage Plans Anytime') }}" class="scrollable coreAsset" src="{{ asset('assets/img/website/manage-plans.png') }}">
                             </div>
                         </div>
                     </div>
