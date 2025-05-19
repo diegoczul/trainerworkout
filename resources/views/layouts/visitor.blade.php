@@ -96,9 +96,9 @@
                             </g>
                         </svg>
                     </div>
-                    <div class="navItem" id="headerLogo">
+                    <a href="/" class="navItem" id="headerLogo">
                         <img src="{{ asset('assets/') }}{{ Config::get('app.logo_header') }}" />
-                    </div>
+                    </a>
                     <div class="navItem navOptions">
                         <div class="navLang">
                             <a href="/lang/en">{!! App::getLocale() == 'en' ? '<strong>EN</strong>' : 'EN' !!}</a>
