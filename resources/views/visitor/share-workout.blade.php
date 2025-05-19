@@ -739,7 +739,7 @@
                                     <div class="exercise_Header">
                                         <div class="exercise_Header_imgContainer">
                                             @if($exercise->equipmentId != "" and $exercise->equipment)
-                                                <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
+                                                <img class="equip_img" onerror="this.src = '{{asset('assets/img/placeholder.jpg')}}'" src="/{{ $exercise->equipment->thumb }}">
                                             @endif
                                         </div>
                                         <h5>{{ $exercise->exercises->name }}
@@ -979,7 +979,7 @@
                                     <div class="exercise_Header">
                                         <div class="exercise_Header_imgContainer">
                                             @if($exercise->equipmentId != "" and $exercise->equipment)
-                                                <img class="equip_img" src="/{{ $exercise->equipment->thumb }}">
+                                                <img class="equip_img" onerror="this.src = '{{asset('assets/img/placeholder.jpg')}}'" src="/{{ $exercise->equipment->thumb }}">
                                             @endif
                                         </div>
                                         <h5>{{ $exercise->exercises->name }}
