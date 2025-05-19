@@ -32,6 +32,11 @@ class MembershipsController extends BaseController
         }
     }
 
+    public function indexMembershipCancellation(Request $request)
+    {
+        return View::make("webview.membership-cancellation");
+    }
+
     public function indexMembershipManagementOld()
     {
         return View::make("MembershipManagementOld");

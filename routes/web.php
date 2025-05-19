@@ -619,6 +619,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get(Lang::get(__('routes./MembershipManagement')), [MembershipsController::class, 'indexMembershipManagement'])->name('MembershipManagement')->middleware('auth');
+Route::get('membership-cancellation', [MembershipsController::class, 'indexMembershipCancellation'])->name('MembershipManagement')->middleware('auth');
 Route::get(Lang::get(__('routes./MembershipManagementOld')), [MembershipsController::class, 'indexMembershipManagementOld'])->middleware('auth');
 Route::post(__('routes./widgets/plans'), [UsersController::class, 'plansIndex']);
 // Trainer
