@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Libraries\Helper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +37,9 @@ class RedirectIfAuthenticated
         if ($request->has('device_type')) {
             $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
             if ($user->userType == "Trainer") {
-                return Redirect::route('trainerWorkouts',['userName' => $username, 'device_type' => $request->get('device_type')])->with(['message' => __("messages.Welcome")]);
+                return Redirect::route('trainerWorkouts',['userName' => $username, 'device_type' => Helper::getDeviceTypeCookie()])->with(['message' => __("messages.Welcome")]);
             } else {
-                return Redirect::route('traineeWorkouts',['device_type' => $request->get('device_type')])->with(['message' => __("messages.Welcome")]);
+                return Redirect::route('traineeWorkouts',['device_type' => Helper::getDeviceTypeCookie()])->with(['message' => __("messages.Welcome")]);
             }
         }else{
             $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);

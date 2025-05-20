@@ -45,6 +45,8 @@ class EventServiceProvider extends ServiceProvider
             'signUpWithFacebook',
             'loginWithGoogle',
             'signUpWithGoogle',
+            'loginWithApple',
+            'signUpWithApple',
             'apiSignUp',
             'apiLogin',
             'printWorkout',

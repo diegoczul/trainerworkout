@@ -569,7 +569,7 @@ class OrdersController extends BaseController
     {
         Session::forget('cart');
         $user = Auth::user();
-        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
+        if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.upgrade-plan")
                         ->with("user", $user)
                         ->with("cart", Session::get("cart"));
@@ -1436,7 +1436,7 @@ class OrdersController extends BaseController
 
         }
 
-        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
+        if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
         }else{
             return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
@@ -1456,7 +1456,7 @@ class OrdersController extends BaseController
 
         }
 
-        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
+        if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
         }else{
             return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));

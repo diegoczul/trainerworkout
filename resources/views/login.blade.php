@@ -17,17 +17,17 @@
             <div class="accountAction_container">
                 <form action="{{ __("routes./login") }}" method="post" id="login_form">
                     @csrf
-                    @if(request()->has('device_type') && in_array(request()->get('device_type'),['ios','IOS','android','ANDROID','Android']))
-                        <input type="hidden" name="device_type" value="{{request()->get('device_type')}}">
+                    @if(!empty(Helper::getDeviceTypeCookie()) && in_array(Helper::getDeviceTypeCookie(),['ios','android']))
+                        <input type="hidden" name="device_type" value="{{Helper::getDeviceTypeCookie()}}">
                     @endif
 
-{{--                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">--}}
-{{--                        <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">--}}
-{{--                    </p>--}}
-{{--                    <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>--}}
-{{--                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">--}}
-{{--                        <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">--}}
-{{--                    </p>--}}
+                    @if(!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios')
+                        <a href="javascript:void(0);" onclick="console.log('LOGIN_WITH_APPLE=true');console.log('USER_TYPE=trainer')" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>
+                    @endif
+
+                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                        <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                    </p>
                     <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px;">Log In with Google</a>
                     <div class="accountOr">
                         <hr><span>or</span><hr>

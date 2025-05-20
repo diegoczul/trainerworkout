@@ -28,6 +28,8 @@ use App\Models\Workouts;
 use App\Models\WorkoutsExercises;
 use App\Services\SendGridSubscriptionService;
 use Exception;
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -36,6 +38,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -970,7 +973,7 @@ class UsersController extends BaseController
                 $invite = Invites::where('email', $request->get('email'))->first();
                 if ($invite) {
                     if ($request->filled('device_type')){
-                        return redirect()->route('TraineeSignUp', ['key' => $invite->key, 'device_type' => $request->get('device_type')])->withErrors('Please complete your registration !');
+                        return redirect()->route('TraineeSignUp', ['key' => $invite->key, 'device_type' => Helper::getDeviceTypeCookie()])->withErrors('Please complete your registration !');
                     }else{
                         return redirect()->route('TraineeSignUp', ['key' => $invite->key])->withErrors('Please complete your registration !');
                     }
@@ -995,7 +998,7 @@ class UsersController extends BaseController
 
                     if ($request->filled('device_type')) {
                         $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
-                        return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName), 'device_type' => $request->get('device_type')])->with('message', __('messages.Welcome'));
+                        return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName), 'device_type' => Helper::getDeviceTypeCookie()])->with('message', __('messages.Welcome'));
                     }else{
                         $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
                         return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
@@ -1034,6 +1037,135 @@ class UsersController extends BaseController
 
         $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
         return redirect()->route($route)->with('message', __('messages.Welcome'));
+    }
+
+    public function loginWithApple($user_type, Request $request)
+    {
+        if (!in_array($user_type, ['trainer', 'trainee'])) {
+            return redirect()->route('login');
+        }
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+            'device_type' => 'required|in:ios,android',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('login')->withInput()->withErrors($validator->errors());
+        }
+
+        try {
+            // Get Apple's public keys
+            $response = Http::get('https://appleid.apple.com/auth/keys');
+            $keys = $response->json();
+
+            $decoded = JWT::decode($request->get('token'), JWK::parseKeySet($keys));
+            $social_id = $decoded->sub;
+            $email = $decoded->email ?? null;
+
+            $user = Users::where('email', $email)->orWhere('apple_social_id',$social_id)->first();
+            if (!empty($user)) {
+                Auth::loginUsingId($user->id);
+                if ($user->password == "") {
+                    $password = Hash::make(Str::random(8));
+                    $user->password = $password;
+                    $user->save();
+                }
+                Auth::user()->update([
+                    'updated_at' => now(),
+                    'lastLogin' => now(),
+                    'virtual' => 0,
+                    'apple_social_id' => $social_id,
+                ]);
+                event('loginWithApple', [$user]);
+                Invites::where("email", Auth::user()->email)->where("completed", 0)->update(["completed" => 1]);
+
+                if($request->filled('device_type')) {
+                    return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts', ['device_type' => Helper::getDeviceTypeCookie()]) : redirect()->route('traineeWorkouts', ['device_type' => Helper::getDeviceTypeCookie()])->with("message", __("messages.Welcome"));
+                }else{
+                    return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts') : redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"));
+                }
+            }else{
+                if ($user_type == 'trainer') {
+                    $user = new Users;
+                    $user->email = strtolower(trim($email));
+                    $user->password = Hash::make("Admin@123");
+                    $user->apple_social_id = $social_id;
+                    $user->userType = "Trainer";
+                    $user->lastLogin = date("Y-m-d");
+                    $user->save();
+
+                    $user->sendActivationEmail();
+                    Auth::loginUsingId($user->id);
+                    Event::dispatch('signUpWithApple', [$user]);
+
+                    try {
+                        if (!Config::get('app.debug')) {
+                            $sendGridService = new SendGridSubscriptionService();
+                            $sendGridService->subscribeToList(['email' => $email],config('constants.sendgridTrainer'));
+                        }
+                    } catch (Exception $e) {
+                        Log::error("MAILCHIMP Error");
+                        Log::error($e);
+                        return null;
+                    }
+
+                    if (Session::has('utm')) {
+                        $user->marketing = Session::get('utm');
+                        $user->save();
+                        Session::forget('utm');
+                    }
+
+                    $user->freebesTrainer();
+
+                    if ($request->get('paid') == 'yes') {
+                        return redirect("/Store/addToCart/63/Membership");
+                    }
+
+                    if (Session::has('redirect') && Session::get('redirect') != '') {
+                        if (!Auth::user()->membership) {
+                            Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                        }
+                        return redirect()->route(Session::get('redirect'));
+                    } else {
+                        if (!Auth::user()->membership) {
+                            Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
+                        }
+                        if($request->filled('device_type')){
+                            return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName), 'device_type' => Helper::getDeviceTypeCookie()])->with('message', __('messages.Welcome'));
+                        }else{
+                            return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->with('message', __('messages.Welcome'));
+                        }
+                    }
+                }elseif ($user_type == 'trainee'){
+                    $user = new Users;
+                    $password = Hash::make(Str::random(8));
+                    $user->fill([
+                        'email' => $email,
+                        'userType' => "Trainee",
+                        'password' => $password
+                    ]);
+                    $user->apple_social_id = $social_id;
+                    $user->activated = now();
+                    $user->save();
+
+                    event('signUpWithApple', [$user]);
+
+                    Auth::loginUsingId($user->id);
+                    $user->update(['lastLogin' => now()]);
+                    $user->freebesTrainer();
+
+                    Invites::where("email", $user->email)->where("completed", 0)->update(["completed" => 1]);
+                    if($request->filled('device_type')) {
+                        return redirect()->route('traineeWorkouts', ['device_type' => $request->get('device_type')])->with("message", __("messages.Welcome"))->with("newUser", true);
+                    }else{
+                        return redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"))->with("newUser", true);
+                    }
+                }else{
+                    return redirect()->route('login');
+                }
+            }
+        }catch (Exception $exception){
+            return redirect()->route('login')->withErrors($exception->getMessage());
+        }
     }
 
     public function store()
@@ -1231,7 +1363,6 @@ class UsersController extends BaseController
 
         }
         $lang = Session::get("lang");
-        $device_type = Session::get("device_type");
         Session::flush();
 
         if (isset($_COOKIE['TrainerWorkoutUserId'])) {
@@ -1242,10 +1373,6 @@ class UsersController extends BaseController
 
         if ($lang != "") {
             Session::put("lang", $lang);
-        }
-
-        if ($device_type != "") {
-            Session::put("device_type", $device_type);
         }
 
         return redirect()->route("home");

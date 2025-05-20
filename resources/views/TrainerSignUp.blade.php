@@ -15,8 +15,16 @@
             </div>
             <div class="accountAction_container">
                 {{ Form::open(array('url' => Lang::get("routes./Trainer/SignUp"), "id"=>"login_form")) }}
-{{--                <a href="{{ Lang::get('routes./login/facebook') }}" class="facebook">{{ Lang::get("content.frontEnd/facebooklogin") }}</a>--}}
-                <a href="{{ route('auth.google',['role' => 'Trainer']) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
+                @if(!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios')
+                    <a href="javascript:void(0);" onclick="console.log('LOGIN_WITH_APPLE=true');console.log('USER_TYPE=trainer')" class="login-with-apple-btn" style="margin-top: 15px;">Signup In with Apple</a>
+                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                        <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                    </p>
+                @endif
+                <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                    <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                </p>
+                <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px">Signup In with Google</a>
                 <div class="accountOr"><hr><span>or</span><hr></div>
                 <label for="firstName">{{ Lang::get("content.First Name") }}</label>
                 <input type="text" name="firstName" id="firstName" required placeholder="{{ Lang::get("content.First Name") }}" value="{{ request()->old("firstName") }}"/>
@@ -47,6 +55,11 @@
 @section("scripts")
 
     <script type="text/javascript">
+        function redirectToGoogleLogin(element) {
+            $("#loaderGoogleButton").show().css('display', 'flex');
+            window.location.href = "{{ route('auth.google',['role' => 'Trainer']) }}";
+        }
+
         $(".button_orange").hide();
 
         $(document).keypress(function (e) {

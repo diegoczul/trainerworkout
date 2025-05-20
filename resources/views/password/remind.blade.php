@@ -1,3 +1,6 @@
+@php
+    use App\Http\Libraries\Helper;
+@endphp
 @extends('layouts.frontEnd')
 @section('content')
     <main class="accountPages">
@@ -14,7 +17,14 @@
                 <a href="javascript:void(0)" onclick="submitForm()" class="submit">{{ __("content.remind/get") }}</a>
                 <a href="{{ __("routes./login") }}" class="forgot_password">{{ __("content.remind/back") }} </a>
 {{--                <a href="{{ __('routes./login/facebook') }}" class="facebook">{{ __("content.frontEnd/facebooklogin") }}</a>--}}
-                <a href="{{ route('auth.google',['role' => 'Trainer']) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
+                @if(!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios')
+                    <a href="javascript:void(0);" onclick="console.log('LOGIN_WITH_APPLE=true');console.log('USER_TYPE=trainer')" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>
+                @endif
+
+                <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                    <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                </p>
+                <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px;">Log In with Google</a>
                 {{ Form::close() }}
             </div>
         </div>
@@ -22,6 +32,11 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
+        function redirectToGoogleLogin(element) {
+            $("#loaderGoogleButton").show().css('display', 'flex');
+            window.location.href = "{{ route('auth.google',['role' => 'Trainer']) }}";
+        }
+
         function submitForm(){
             var valid = true;
             var email    = $("#email").val();

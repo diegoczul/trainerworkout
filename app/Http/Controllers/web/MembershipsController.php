@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web;
 
+use App\Http\Libraries\Helper;
 use App\Http\Libraries\Messages;
 use App\Models\Plan;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class MembershipsController extends BaseController
 //            Auth::user()->updateToMembership(Config::get("constants.freeTrialMembershipId"));
 //        }
 
-        if ($request->has('device_type') && in_array($request->get('device_type'),['ios','IOS'])) {
+        if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.membership-management");
         }else{
             return View::make("MembershipManagement");
