@@ -3,6 +3,26 @@
 use Illuminate\Support\Facades\Config;
 
 return array(
+        'cancellation_subscription' => 'Cancellation subscription',
+        'open_settings_app' => 'Open the Setting app on your iPhone or iPad',
+
+        'step_2_title' => '2. Tap on Apple ID (Profile):',
+        'step_2_description' => 'Scroll down slightly and tap on your Apple ID Profile at the top of the screen (usually contains your name and picture).',
+
+        'step_3_title' => '3. Go to Subscriptions:',
+        'step_3_description' => 'Inside the Apple ID screen, there will be an option called Subscriptions.',
+
+        'step_4_title' => '4. Select the Subscription:',
+        'step_4_description' => 'You will see list of your active subscriptions and select the Trainer Workout to cancel.',
+
+        'step_5_title' => '5. Tap on Cancel Subscription:',
+        'step_5_description' => 'After selecting the subscription, there should be an option to Cancel Subscription near the bottom with red color.',
+
+        'step_6_title' => '6. Confirm Cancellation:',
+        'step_6_description' => 'You will be prompted to confirm your decision to cancel.',
+
+        'back' => 'Back',
+        'cancel_membership' => 'Cancel Membership',
         "tag_removal_confirmation"      => "Are you sure you want to delete this tag? The tag will be removed from all workouts where it is present.",
         "no_tags_found"      => "No tags found.",
         "ExerciseSuggested"             => "New exercise suggested to admin",

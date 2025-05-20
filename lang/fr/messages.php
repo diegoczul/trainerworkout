@@ -1,6 +1,26 @@
 <?php
 
 return array(
+    'cancellation_subscription' => 'Annulation de l’abonnement',
+    'open_settings_app' => 'Ouvrez l’application Réglages sur votre iPhone ou iPad',
+
+    'step_2_title' => '2. Touchez Identifiant Apple (Profil) :',
+    'step_2_description' => 'Faites légèrement défiler et touchez votre profil Apple ID en haut de l’écran (il contient généralement votre nom et votre photo).',
+
+    'step_3_title' => '3. Accédez aux abonnements :',
+    'step_3_description' => 'Dans l’écran Apple ID, il y aura une option appelée Abonnements.',
+
+    'step_4_title' => '4. Sélectionnez l’abonnement :',
+    'step_4_description' => 'Vous verrez la liste de vos abonnements actifs et sélectionnez Trainer Workout à annuler.',
+
+    'step_5_title' => '5. Touchez Annuler l’abonnement :',
+    'step_5_description' => 'Après avoir sélectionné l’abonnement, une option Annuler l’abonnement devrait apparaître en bas en rouge.',
+
+    'step_6_title' => '6. Confirmez l’annulation :',
+    'step_6_description' => 'Une invite vous demandera de confirmer votre décision d’annuler.',
+
+    'back' => 'Retour',
+    'cancel_membership' => 'Annuler l’adhésion',
     "tag_removal_confirmation" => "Êtes-vous sûr de vouloir supprimer ce tag ? Il sera retiré de tous les entraînements où il est présent.",
     "no_tags_found" => "Aucun tag trouvé.",
     "ExerciseSuggested"             => "Nouvel exercice suggéré à l'administrateur",
