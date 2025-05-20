@@ -76,7 +76,6 @@
                                             <p>{{ Lang::get('content.next_renewal') }}
                                                 <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                             </p>
-                                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
                                         @else
                                             @php
                                                 $membership = Memberships::where('id',63)->first();
@@ -135,7 +134,6 @@
                                             <p>{{ Lang::get('content.next_renewal') }}
                                                 <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                             </p>
-                                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
                                         </div>
                                     @else
                                         @php
