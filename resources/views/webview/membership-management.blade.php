@@ -78,7 +78,7 @@
                                                     <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                                 </p>
                                             </div>
-                                            <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">{{__('message.cancel_membership')}}</button>
+                                            <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">{{__('messages.cancel_membership')}}</button>
                                         @else
                                             @php
                                                 $membership = Memberships::where('id',63)->first();
@@ -139,7 +139,7 @@
                                                     <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                                 </p>
                                             </div>
-                                            <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">{{__('message.cancel_membership')}}</button>
+                                            <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">{{__('messages.cancel_membership')}}</button>
                                         </div>
                                     @else
                                         @php
