@@ -16,7 +16,6 @@
                 <div class="subscription-header mb-6 md:mb-8">
                     <h1 class="text-center main-title">Cancellation subscription</h1>
                 </div>
-
                 <div class="subscription-content">
                     <div class="cancellation-step mb-6 md:mb-10">
                         <h4 class="mb-6">Open the Setting app on your iPhone or iPad </h4>
@@ -65,9 +64,11 @@
                         </div>      
                     </div>
                 </div>
-                
+                <div class="w-100 align-middle justify-center flex">
+                    <button class="bluebtn" onclick="window.location.href='{{route('MembershipManagement');}}'">Back</button>
+                </div>
             </div>
-        </div>  
+        </div>
     </div>
 </div>
 @endsection
