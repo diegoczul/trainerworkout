@@ -137,20 +137,6 @@ Route::get(__('routes./login'), function (Request $request) {
     return view(Helper::translateOverride('login'));
 })->name('login')->middleware('guest');
 
-Route::get('login/ios', function (Request $request) {
-    //    Session::put('device_type', 'ios');
-    //    Session::save();
-    Helper::putDeviceSession('ios');
-    return view(Helper::translateOverride('login'));
-})->name('login-ios');
-
-Route::get('login/android', function (Request $request) {
-    //    Session::put('device_type', 'android');
-    //    Session::save();
-    Helper::putDeviceSession('android');
-    return view(Helper::translateOverride('login'));
-})->name('login-android');;
-
 Route::get(__('routes./logout'), [UsersController::class, 'logout'])->name('logout');
 Route::delete(__('routes./delete-account') . '/{user}', [UsersController::class, 'destroy']);
 Route::post(__('routes./login'), [UsersController::class, 'login']);

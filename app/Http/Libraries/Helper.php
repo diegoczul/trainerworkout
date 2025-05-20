@@ -24,6 +24,16 @@ use SendGrid\Mail\Mail;
 class Helper
 {
 
+    public static function getDeviceTypeCookie()
+    {
+        if (request()->filled('device_type')){
+            return request()->get('device_type');
+        }elseif (request()->cookie('device_type') != "" && request()->cookie('device_type') != null){
+            return request()->cookie('device_type');
+        }else{
+            return "";
+        }
+    }
     public static function putDeviceSession($device_type)
     {
         Session::put('device_type', $device_type);

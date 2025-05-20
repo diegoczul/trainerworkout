@@ -24,6 +24,10 @@
                     <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
                         <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
                     </p>
+                    <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>
+                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                        <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                    </p>
                     <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px;">Log In with Google</a>
                     <div class="accountOr">
                         <hr><span>or</span><hr>

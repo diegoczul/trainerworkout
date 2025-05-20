@@ -39,6 +39,7 @@ class SocialOAuthController extends Controller
     }
 
     public function handleGoogleCallback($role,Request $request){
+
         if ($request->has('error')){
             return redirect()->route('login');
         }
@@ -109,7 +110,11 @@ class SocialOAuthController extends Controller
                 if (!Auth::user()->membership) {
                     Auth::user()->updateToMembership(Config::get('constants.freeTrialMembershipId'));
                 }
-                return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->with('message', __('messages.Welcome'));
+                if($request->filled('device_type')){
+                    return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName), 'device_type' => $request->get('device_type')])->with('message', __('messages.Welcome'));
+                }else{
+                    return redirect()->route('trainerWorkouts', ['userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)])->with('message', __('messages.Welcome'));
+                }
             }
         }else{
             Auth::loginUsingId($user->id);
@@ -126,7 +131,11 @@ class SocialOAuthController extends Controller
             }
 
             $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
-            return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+            if($request->filled('device_type')) {
+                return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName), 'device_type' => $request->get('device_type')])->with('message', __('messages.Welcome'));
+            }else{
+                return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+            }
         }
     }
 
@@ -176,7 +185,11 @@ class SocialOAuthController extends Controller
             $user->freebesTrainer();
 
             Invites::where("email", $user->email)->where("completed", 0)->update(["completed" => 1]);
-            return redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"))->with("newUser", true);
+            if($request->filled('device_type')) {
+                return redirect()->route('traineeWorkouts', ['device_type' => $request->get('device_type')])->with("message", __("messages.Welcome"))->with("newUser", true);
+            }else{
+                return redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"))->with("newUser", true);
+            }
         }else{
             Auth::loginUsingId($user->id);
             if ($user->password == "") {
@@ -192,7 +205,11 @@ class SocialOAuthController extends Controller
             event('loginWithGoogle', [$user]);
             Invites::where("email", Auth::user()->email)->where("completed", 0)->update(["completed" => 1]);
 
-            return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts') : redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"));
+            if($request->filled('device_type')) {
+                return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts', ['device_type' => $request->get('device_type')]) : redirect()->route('traineeWorkouts', ['device_type' => $request->get('device_type')])->with("message", __("messages.Welcome"));
+            }else{
+                return Auth::user()->userType === "Trainer" ? redirect()->route('trainerWorkouts') : redirect()->route('traineeWorkouts')->with("message", __("messages.Welcome"));
+            }
         }
     }
 }

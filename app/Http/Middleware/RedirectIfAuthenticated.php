@@ -16,32 +16,41 @@ class RedirectIfAuthenticated
     {
         if (Auth::check()) {
             $user = Auth::user();
-            return $this->redirectUserBasedOnType($user);
+            return $this->redirectUserBasedOnType($user, $request);
         }
 
         if (Auth::viaRemember()) {
             $user = Auth::user();
-            return $this->redirectUserBasedOnType($user);
+            return $this->redirectUserBasedOnType($user, $request);
         }
 
         if (Cookie::get('TrainerWorkoutUserId') !== null) {
-            $this->handleTrainerWorkoutCookie();
+            $this->handleTrainerWorkoutCookie($request);
         }
 
         return $next($request);
     }
 
-    private function redirectUserBasedOnType($user)
+    private function redirectUserBasedOnType($user,Request $request)
     {
-        $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
-        if ($user->userType == "Trainer") {
-            return Redirect::route('trainerWorkouts',['userName' => $username])->with(['message' => __("messages.Welcome")]);
-        } else {
-            return Redirect::route('traineeWorkouts')->with(['message' => __("messages.Welcome")]);
+        if ($request->has('device_type')) {
+            $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
+            if ($user->userType == "Trainer") {
+                return Redirect::route('trainerWorkouts',['userName' => $username, 'device_type' => $request->get('device_type')])->with(['message' => __("messages.Welcome")]);
+            } else {
+                return Redirect::route('traineeWorkouts',['device_type' => $request->get('device_type')])->with(['message' => __("messages.Welcome")]);
+            }
+        }else{
+            $username = strtolower(Auth::user()->firstName.Auth::user()->lastName);
+            if ($user->userType == "Trainer") {
+                return Redirect::route('trainerWorkouts',['userName' => $username])->with(['message' => __("messages.Welcome")]);
+            } else {
+                return Redirect::route('traineeWorkouts')->with(['message' => __("messages.Welcome")]);
+            }
         }
     }
 
-    private function handleTrainerWorkoutCookie()
+    private function handleTrainerWorkoutCookie($request)
     {
         $encryptedUserId = Cookie::get('TrainerWorkoutUserId');
         if (!empty($encryptedUserId)) {
@@ -51,7 +60,7 @@ class RedirectIfAuthenticated
                 Auth::loginUsingId($userId);
                 $user = Auth::user();
                 if ($user) {
-                    return $this->redirectUserBasedOnType($user);
+                    return $this->redirectUserBasedOnType($user,$request);
                 }
             }
         }

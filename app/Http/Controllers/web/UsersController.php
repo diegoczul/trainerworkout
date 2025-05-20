@@ -969,7 +969,11 @@ class UsersController extends BaseController
             if ($user->password == null) {
                 $invite = Invites::where('email', $request->get('email'))->first();
                 if ($invite) {
-                    return redirect()->route('TraineeSignUp', ['key' => $invite->key])->withErrors('Please complete your registration !');
+                    if ($request->filled('device_type')){
+                        return redirect()->route('TraineeSignUp', ['key' => $invite->key, 'device_type' => $request->get('device_type')])->withErrors('Please complete your registration !');
+                    }else{
+                        return redirect()->route('TraineeSignUp', ['key' => $invite->key])->withErrors('Please complete your registration !');
+                    }
                 }
             } else {
                 $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
@@ -989,8 +993,13 @@ class UsersController extends BaseController
                         App::setLocale(Session::get('lang', 'en'));
                     }
 
-                    $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
-                    return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+                    if ($request->filled('device_type')) {
+                        $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
+                        return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName), 'device_type' => $request->get('device_type')])->with('message', __('messages.Welcome'));
+                    }else{
+                        $route = $user->userType == 'Trainer' ? 'trainerWorkouts' : 'traineeWorkouts';
+                        return redirect()->route($route, ['userName' => Helper::formatURLString($user->firstName . $user->lastName)])->with('message', __('messages.Welcome'));
+                    }
                 }
             }
         }

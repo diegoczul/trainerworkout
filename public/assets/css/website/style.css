@@ -1979,6 +1979,48 @@ div.newsletter button.newsletter {
   }
 }
 
+.login-with-apple-btn {
+  transition: background-color .3s, box-shadow .3s;
+
+  padding: 12px 16px 12px 42px;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+
+  color: #757575;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjkxLjUzOCAyOTEuNTM4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48cGF0aCBkPSJNMTg4LjM3MyA0NC4zMDhjMTAuOTctMTEuNzQ0IDE4LjM5LTI4LjA0OSAxNi4zNTktNDQuMzA4LTE1LjgwNC41NjQtMzQuOTU4IDkuMjc3LTQ2LjMwMiAyMS4wMi0xMC4xNjkgMTAuMzk2LTE5LjA3MiAyNy4wMTEtMTYuNjk2IDQyLjk1MSAxNy42MzUgMS4xOTMgMzUuNjUxLTcuOTM4IDQ2LjYzOS0xOS42NjN6bTMzLjY1NyAxMTIuMjg1Yy0uMzM3LTM2LjQ1MSAyOC44NTktNTMuOTU4IDMwLjE1Mi01NC44MDQtMTYuNDE0LTI0Ljc1My00MS45NzctMjguMTQtNTEuMDgxLTI4LjUyMi0yMS43NjctMi4yODUtNDIuNDQyIDEzLjE4Mi01My40OTMgMTMuMTgyLTExLjAwNiAwLTI4LjAzLTEyLjg4Mi00Ni4wODMtMTIuNTM2LTIzLjczMy4zOTEtNDUuNjAxIDE0LjIxMS01Ny43OSAzNi4xMTQtMjQuNjU0IDQ0LjA2My02LjMxOSAxMDkuMzM2IDE3LjcwNSAxNDUuMDc3IDExLjc0NCAxNy40OTcgMjUuNzI3IDM3LjEyNSA0NC4wODkgMzYuNDE1IDE3LjcyNS0uNzEgMjQuNDA3LTExLjc4OSA0NS43OTItMTEuNzg5IDIxLjM5NCAwIDI3LjM4NCAxMS43ODkgNDYuMTAxIDExLjQzNCAxOS4wNDUtLjM1NSAzMS4wOTgtMTcuODM0IDQyLjc0Mi0zNS4zODYgMTMuNDczLTIwLjI5MiAxOS4wMjctMzkuOTM4IDE5LjM0NS00MC45My0uNDA5LS4yMzctMzcuMDg4LTE0LjY2Ni0zNy40NzktNTguMjU1eiIgc3R5bGU9IiIgZmlsbD0iIzAwMDAwMCIgZGF0YS1vcmlnaW5hbD0iI0NDRDBEMiIgY2xhc3M9IiIgb3BhY2l0eT0iMSI+PC9wYXRoPjwvZz48L3N2Zz4=);
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: 12px 11px;
+
+  &:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
+  }
+
+  &:active {
+    background-color: #eeeeee;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow:
+            0 -1px 0 rgba(0, 0, 0, .04),
+            0 2px 4px rgba(0, 0, 0, .25),
+            0 0 0 3px #c8dafc;
+  }
+
+  &:disabled {
+    filter: grayscale(100%);
+    background-color: #ebebeb;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+    cursor: not-allowed;
+  }
+}
+
 .accountOr {
   padding: 30px 0;
   display: -webkit-box;
