@@ -6292,6 +6292,48 @@ FRAMEWORK OVERRIDE CHOSEN
 /*    right: 138px;*/
 /*  }*/
 /*}*/
+
+/* ----Cancellation-flow---- */
+@media (max-width:640px) {
+  .cancel-subscription .workoutsContainer{
+    padding-top: 0px;
+  }
+}
+@media (max-width:400px) {
+  .cancel-subscription .subscription-header .main-title{
+    font-size: 1.25em;
+  }
+}
+.cancel-subscription .subscription-content .cancellation-step{
+  padding-bottom:12px;
+  padding-left: 14px;
+  border-bottom: 1px solid #eaeaea;
+  position: relative;
+}
+.cancellation-step::before{
+  content: " ";
+  position: absolute;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  background-color: #90c6eb;
+  left: -6px;
+  border-radius: 20px;
+} 
+.subscription-content{
+  position: relative;
+  padding-left: 10px;
+}
+.subscription-content::after{
+  content: " ";
+  position: absolute;
+  width: 2px;
+  top: 0;
+  height: 100%;
+  background-color: #90c6eb;
+}
+/* ---- */
+
 ul.tabs {
   width: 100%;
   overflow: hidden;

@@ -31,7 +31,7 @@
                                     <input type="text" name="name" class="form-control" required>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group mb-4">
                                     <label for="description">{{ Lang::get('content.PlanDescription') }}</label>
                                     <textarea name="description" class="form-control" id="editor"></textarea>
 
@@ -39,7 +39,7 @@
 
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group mb-4">
                                     <label for="price">*{{ Lang::get('content.MonthlyPriceUSD') }}</label>
                                     <input type="number" name="price" class="form-control" min="1" required>
                                     <small>{{ Lang::get('content.PriceNote') }}</small>
