@@ -33,8 +33,10 @@
                 </fieldset>
                 <button type="submit" class="submit">{{ Lang::get("content.Create My Account") }}</button>
                 <a href="{{ Lang::get("routes./login") }}" class="forgot_password">{{ Lang::get("content.Already have an account, log in") }}</a>
-{{--                <a href="{{ Lang::get("routes./login/trainee/facebook") }}{{ (isset($key) and $key != "") ? "/".$key : "" }}" class="facebook">{{ Lang::get("content.frontEnd/facebooklogin") }}</a>--}}
-                <a href="{{ route('auth.google',['role' => 'Trainee']) }}" class="login-with-google-btn" style="margin-top: 15px">Log In with Google</a>
+                @if(!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios')
+                    <a href="javascript:void(0);" onclick="console.log('LOGIN_WITH_APPLE=true');console.log('USER_TYPE=trainee')" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>
+                @endif
+                <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px;">Log In with Google</a>
              {{ Form::close() }}
         </div>
     </div>
@@ -43,6 +45,11 @@
 
 @section("scripts")
     <script type="text/javascript">
+        function redirectToGoogleLogin(element) {
+            $("#loaderGoogleButton").show().css('display', 'flex');
+            window.location.href = "{{ route('auth.google',['role' => 'Trainee']) }}";
+        }
+
         function showForm() {
             $(".exp-form").toggle();
             $("#exp-manualBTN").toggle();
