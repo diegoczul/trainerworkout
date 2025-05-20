@@ -76,7 +76,7 @@
                                             <p>{{ Lang::get('content.next_renewal') }}
                                                 <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                             </p>
-                                            <button type="button" class="bluebtn" onclick="window.location.href='{{route('membership-cancellation')}}'">Cancel Membership</button>
+                                            <button type="button" class="bluebtn" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">Cancel Membership</button>
                                         @else
                                             @php
                                                 $membership = Memberships::where('id',63)->first();
@@ -135,7 +135,7 @@
                                             <p>{{ Lang::get('content.next_renewal') }}
                                                 <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                             </p>
-                                            <button type="button" class="bluebtn" onclick="window.location.href='{{route('membership-cancellation')}}'">Cancel Membership</button>
+                                            <button type="button" class="bluebtn" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">Cancel Membership</button>
                                         </div>
                                     @else
                                         @php
@@ -185,6 +185,10 @@
 
 @section('scripts')
     <script>
+        function showButtonLoader(element) {
+            $(element).html('<img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">')
+        }
+
         $(document).ready(function() {
             $(".menu_membership").addClass("selected");
         });

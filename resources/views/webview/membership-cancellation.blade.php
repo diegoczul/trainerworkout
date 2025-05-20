@@ -65,10 +65,17 @@
                     </div>
                 </div>
                 <div class="w-100 align-middle justify-center flex">
-                    <button class="bluebtn" onclick="window.location.href='{{route('MembershipManagement');}}'">Back</button>
+                    <button class="bluebtn flex items-center justify-center"  onclick="showButtonLoader(this);window.location.href='{{route('MembershipManagement')}}'">Back</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+    <script>
+        function showButtonLoader(element) {
+            $(element).html('<img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">')
+        }
+    </script>
 @endsection
