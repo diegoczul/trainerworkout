@@ -5,7 +5,7 @@
     use App\Models\Memberships;
 @endphp
 
-@extends('layouts.trainee')
+@extends('layouts.trainer')
 
 @section('content')
 
