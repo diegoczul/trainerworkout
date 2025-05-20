@@ -70,12 +70,14 @@
                                 @endif
                             @else
                                 @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
-                                    <div class="currentPlan">
+                                    <div class="currentPlan flex flex-wrap items-center justify-center">
                                         @if ($currentMembership && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture())
-                                            <p>{{ Lang::get('content.CurrentPlan') }}</p>
-                                            <p>{{ Lang::get('content.next_renewal') }}
-                                                <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
-                                            </p>
+                                            <div>
+                                                <p>{{ Lang::get('content.CurrentPlan') }}</p>
+                                                <p>{{ Lang::get('content.next_renewal') }}
+                                                    <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
+                                                </p>
+                                            </div>
                                             <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">Cancel Membership</button>
                                         @else
                                             @php
@@ -130,11 +132,13 @@
                             @else
                                 @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) && Memberships::checkMembership(Auth::user()) == '')
                                     @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isFuture()))
-                                        <div class="currentPlan">
-                                            <p>{{ Lang::get('content.CurrentPlan') }}</p>
-                                            <p>{{ Lang::get('content.next_renewal') }}
-                                                <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
-                                            </p>
+                                        <div class="currentPlan flex flex-wrap items-center justify-center">
+                                            <div>
+                                                <p>{{ Lang::get('content.CurrentPlan') }}</p>
+                                                <p>{{ Lang::get('content.next_renewal') }}
+                                                    <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
+                                                </p>
+                                            </div>
                                             <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">Cancel Membership</button>
                                         </div>
                                     @else
