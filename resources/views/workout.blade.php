@@ -1374,22 +1374,35 @@
     <!-- ////////////////////////////////////////////////////// -->
 
     @if($workout->isOwner() && Auth::user()->userType == "Trainee" )
-        <div id="performanceHeader">
+        <div id="performanceHeader" class="pt-3 pb-4">
             <div id="step1">
-                <div id="timer" class="timer-button-content">
-                    <div class="timerButton">
-                        <label id="label" class="timer-content" style="margin: 0; display: flex; align-items: center; justify-content: center; text-align: center" for=btn>
-                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg>
-                            {{ Lang::get("content.Start timer") }}
-                        </label>
-                        <input type="button" name="btn" value="Start" onclick="toggleTimer(this.value)" id="btn"/>
+
+                <div id="timer" class="timer-button-content flex flex-col align-center justify-center">
+
+
+
+                    <div class="flex align-center justify-center gap-2">
+                        <div class="timerButton">
+                            <label id="label" class="timer-content" style="margin: 0; display: flex; align-items: center; justify-content: center; text-align: center" for=btn>
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg>
+                                {{ Lang::get("content.Start timer") }}
+                            </label>
+                            <input type="button" name="btn" value="Start" onclick="toggleTimer(this.value)" id="btn"/>
+                        </div>
+                        <div class="flex justify-center">
+                            <div id="n1"><label style="opacity: 0">00:00:00</label></div>
+                        </div>
+                        <div class="timerButton">
+                            <button class="timer-content" onclick="discartOld(this)" style="font-size: 1em;color:#fff;height: auto;max-width: auto;margin: 0; display: flex; align-items: center; justify-content: center; text-align: center" for="btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M446.709 166.059c-4.698-7.51-14.73-9.243-21.724-4.043l-48.677 36.519c-6.094 4.585-7.793 13.023-3.926 19.6C384.73 239.156 391 261.656 391 285.02 391 359.464 330.443 422 256 422s-135-62.536-135-136.98c0-69.375 52.588-126.68 120-134.165v44.165c0 12.434 14.266 19.357 23.994 11.997l120-90c8.006-5.989 7.994-18.014 0-23.994l-120-90C255.231-4.37 241 2.626 241 15.02v45.498C123.9 68.267 31 166.001 31 285.02 31 409.093 131.928 512 256 512s225-102.907 225-226.98c0-41.982-11.865-83.115-34.291-118.961z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path></g></svg>
+                                {{ Lang::get("content.Discard old and start new") }}
+                            </button>
+                        </div>
+                        {{--                    <button class="bluebtn" onclick="discartOld()">{{ Lang::get("content.Discard old and start new") }}</button>--}}
                     </div>
-                    <div id=n1></div>
-                    <a href="javascript:void(0)"
-                       onclick="discartOld()">{{ Lang::get("content.Discard old and start new") }}</a>
                 </div>
 
-                <button onclick="showPerformancePopUp()">{{ Lang::get("content.Complete Workout") }}</button>
+                <button onclick="showPerformancePopUp()" class="mt-1">{{ Lang::get("content.Complete Workout") }}</button>
             </div>
 
 
@@ -1534,43 +1547,51 @@
                         window.clearInterval(sm); // stop the timer
                     }
                     document.getElementById('btn').value = "Start";
-                    document.getElementById('label').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg> Start timer`;
+                    document.getElementById('label').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg> {{ Lang::get("content.Start timer") }}`;
+                    document.getElementById('label').style.background = '#52D2B0';
+                    document.getElementById('label').style.setProperty('box-shadow', '0 3px #2cab89', 'important');
                     break;
                 case  'Start':
                     startWorkoutPerformance();
                     tm = window.setInterval('disp()', 1000);
                     sm = window.setInterval('savePerformance()', 1000);
                     document.getElementById('btn').value = "Stop";
-                    document.getElementById('label').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg>Stop timer`;
+                    document.getElementById('label').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 96 96" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><g data-name="09-timer"><path d="m77.08 28.577 5.748-5.748-5.656-5.658-6.149 6.149A39.747 39.747 0 0 0 52 16.2V8h8V0H36v8h8v8.2a39.747 39.747 0 0 0-19.023 7.12l-6.149-6.149-5.656 5.658 5.748 5.748a40 40 0 1 0 58.16 0zM48 88a32 32 0 1 1 32-32 32.036 32.036 0 0 1-32 32z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path><path d="M48 32v24H24a24 24 0 1 0 24-24z" fill="#FFFFFF" opacity="1" data-original="#000000" class=""></path></g></g></svg>{{ Lang::get("content.Stop_timer") }}`;
+                    document.getElementById('label').style.background = 'red';
+                    document.getElementById('label').style.setProperty('box-shadow', '0 3px #8B0000', 'important');
                     break;
             }
         }
 
 
-        function discartOld() {
+        function discartOld(element) {
             toggleTimer("Stop");
-            $.ajax(
-                {
-                    url: "/Workout/Performance/discartOldPerformance",
-                    type: "POST",
-                    data: {
-                        workoutId: '{{ $workout->id }}',
-                        performanceId: '{{ ($workout->lastPerformance != "" ) ? $workout->lastPerformance : "''" }}'
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        h = 0;
-                        m = 0;
-                        s = 0;
-                        totalSeconds = 0;
-                        ts = totalSeconds;
-                        toggleTimer("Start");
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        errorMessage(jqXHR.responseText);
-                    }
-                });
-            document.getElementById('n1').innerHTML = "0:00:00";
+            $(element).attr('disabled',true);
+            $.ajax({
+                url: "/Workout/Performance/discartOldPerformance",
+                type: "POST",
+                data: {
+                    workoutId: '{{ $workout->id }}',
+                    performanceId: '{{ ($workout->lastPerformance != "" ) ? $workout->lastPerformance : "''" }}'
+                },
+                success: function (data, textStatus, jqXHR) {
+                    h = 0;
+                    m = 0;
+                    s = 0;
+                    totalSeconds = 0;
+                    ts = totalSeconds;
+                    // toggleTimer("Start");
+                    $(element).attr('disabled',false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage(jqXHR.responseText);
+                    $(element).attr('disabled',false);
+                },
+                done: function (){
+                    $(element).attr('disabled',false);
+                }
+            });
+            document.getElementById('n1').innerHTML = "00:00:00";
         }
 
         function savePerformance() {
@@ -1590,10 +1611,12 @@
                     }
                 });
         }
-
+        startWorkoutPerformance().done(function (){
+            disp()
+        });
 
         function startWorkoutPerformance() {
-            $.ajax(
+            return $.ajax(
                 {
                     url: "/Workout/Performance/Start",
                     type: "POST",

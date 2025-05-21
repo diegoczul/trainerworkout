@@ -2899,7 +2899,7 @@ nav {
       justify-content: center;
       gap: 6px;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 0px;
     }
     .timer-button-content a{
       margin-top:0px ;
@@ -2953,7 +2953,7 @@ nav {
       padding-left: 41px;
       position: relative; }
         #timer .timerButton .timer-content{
-          padding: 9px 12px;
+          padding: 8px 12px;
         }  /* when uncommit first icon-css commit this css */
         
       #timer .timerButton label:active {
@@ -2968,8 +2968,14 @@ nav {
           content: url("/assets/img/svg/timer.svg");
           position: absolute;
           left: 12px;
-          top: 6px; } ----first icon */ 
-         
+          top: 6px; } ----first icon */
+#timer #n1{
+  margin: 0px !important;
+  padding: 0px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
   #timer label,
   #timer #n1,
   #timer a {
