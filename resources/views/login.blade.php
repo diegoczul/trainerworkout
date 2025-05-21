@@ -36,7 +36,14 @@
                     <input type="text" placeholder="{{ __('content.email') }}" value="{{ request()->old('email') }}" required name="email" id="email"/>
                     <label for="password">{{ __("content.password") }}</label>
                     <input placeholder="{{ __('content.password') }}" required name="password" type="password" id="password"/>
-                    <a href="javascript:void(0)" onclick="submitForm()" class="submit login-btn" id="submitBtn">{{ __("content.Login") }}</a>
+                    <a href="javascript:void(0)" onclick="submitForm()" class="submit login-btn" id="submitBtn">
+                        <p id="loginButtonSpinner" style="display: none; margin:auto; padding: 0; padding-top: 5px; height: auto; width: 100%; align-items: center; justify-content: center;">
+                            <img src="{{asset('/assets/img/logos/LogoWhite.svg')}}" style="width: 40px;">
+                        </p>
+                        <label id="loginBtnContnet">
+                            {{ __("content.Login") }}
+                        </label>
+                    </a>
                     <a href="{{ __("/password/reset") }}" class="forgot_password">{{ __("content.forgot") }}</a>
                 </form>
             </div>
@@ -142,10 +149,12 @@
                 $("#password_icon").css("color", "#38AFDF");
             }
             if (valid) {
+                {{--$('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex; margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">--}}
+                {{--                        <img src="{{asset('/assets/img/logos/LogoWhite.svg')}}" style="width: 40px;">--}}
+                {{--                     </p>`);--}}
+                    $("#loginButtonSpinner").show().css('display','flex');
+                    $("#loginBtnContnet").remove();
                 document.getElementById('login_form').submit();
-                $('#submitBtn').html(`<p id="033f09d5-f4f4-3b14-cc0c-aa611221bbd2" style="display: flex; margin:auto;padding: 0;padding-top: 5px;height: auto;width: 100%;align-items: center;justify-content: center;">
-                                        <img src="{{asset('/assets/img/logos/LogoWhite.svg')}}" style="width: 40px;">
-                                    </p>`);
             }
         }
 
