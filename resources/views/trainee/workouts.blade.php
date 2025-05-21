@@ -67,6 +67,6 @@
 
 
 <script type="text/javascript">
-
+    console.log("COLLECT_DEVICE_INFO={{auth()->user()->id}}");
 </script>
 @endsection

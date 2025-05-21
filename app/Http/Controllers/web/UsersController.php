@@ -16,6 +16,7 @@ use App\Models\Objectives;
 use App\Models\Sharings;
 use App\Models\Tasks;
 use App\Models\TemplateSets;
+use App\Models\UserDeviceInfo;
 use App\Models\UserLogos;
 use App\Models\Users;
 use App\Models\Permissions;
@@ -2051,5 +2052,31 @@ class UsersController extends BaseController
         });
 
         return back()->with('message', 'Payout request submitted.');
+    }
+
+    public function collectDeviceInfo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ref_user_id' => 'required|exists:users,id',
+            'device_unique_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendValidationError($validator->errors());
+        }
+
+        $action = UserDeviceInfo::updateOrCreate([
+            'ref_user_id' => $request->get('ref_user_id'),
+            'device_unique_id' => $request->get('device_unique_id'),
+        ],[
+            'device_type' => $request->get('device_type'),
+            'device_brand' => $request->get('device_brand'),
+            'device_model' => $request->get('device_model'),
+        ]);
+
+        if ($action) {
+            return $this->sendSuccess("Information collected");
+        }else{
+            return $this->sendError("Failed to collect information");
+        }
     }
 }

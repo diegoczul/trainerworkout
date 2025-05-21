@@ -216,6 +216,7 @@
         callWidget("w_workouts").done(function() {
             callWidget("w_tags");
         });
+        console.log("COLLECT_DEVICE_INFO={{auth()->user()->id}}");
     </script>
 
     <script>
