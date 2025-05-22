@@ -35,8 +35,8 @@ class ExportWorkoutArticle extends Command
         }
 
         $author = $workout->author;
-        $this->info(print_r($author, true));
-        exit();
+        // $this->info(print_r($author, true));
+        // exit();
 
         if (!$workout) {
             $this->info('No eligible workout found to post.');
