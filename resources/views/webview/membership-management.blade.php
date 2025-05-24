@@ -172,17 +172,20 @@
                         <p class="text-sm">{{ Lang::get('content.renewal_note') }}</p>
                     </div>
                 </div>
-                @if((Auth::user()->membership && Auth::user()->membership->membershipId == Config::get("constants.defaultMembership")) or (!Auth::user()->membership))
+{{--                @if((Auth::user()->membership && Auth::user()->membership->membershipId == Config::get("constants.defaultMembership")) or (!Auth::user()->membership))--}}
                     <div class="plan">
                         <form action="javascript:void(0);" >
                             <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
                         </form>
                     </div>
-                @endif
+{{--                @endif--}}
             </div>
             <p class="text-gray-500 text-center mt-5">
                 <a onclick="deleteAccount();" href="javascript:void(0);" class="text-gray-500">{{ Lang::get('content.DeleteAccount') }}</a>
             </p>
+            <div class="account--table flex align-center w-10/12 justify-center" style="margin-top: 10px; color: #0a0a0a">
+                <div class="gap-4 flex align-center justify-center"><u><a target="_blank" style="color: blue; font-size: 12px" href="{{route('PrivacyPolicy')}}">privacy policy</a></u> <u><a target="_blank" style="color: blue; font-size: 12px" href="{{route('TermsAndConditions')}}">terms & conditions</a></u></div>
+            </div>
         </div>
     </div>
 @endsection
