@@ -388,6 +388,8 @@ return array(
     "price7"                        => "3 workouts stored or less",
     "Free"                          => "Free",
     "month"                         => "Month",
+    "auto_renew_notice"             => "Your subscription will auto-renew unless canceled at least 24 hours before the end of the current period",
+    "restore_subscription"         => "Restore Subscription",
     "MoreExercises"                 => "More Exercises",
     "Back"                          => "Back",
     "file"                          => "View Workout",

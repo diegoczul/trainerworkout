@@ -24,6 +24,7 @@
             <div class="account--header">
                 <h1>{{ Lang::get('content.Upgradingyouraccount') }}</h1>
             </div>
+                <h6>* {{__('content.auto_renew_notice')}}.</h6>
             <div class="account--table">
                 <div class="plan">
                     <div class="plan--header">
@@ -35,7 +36,7 @@
                             <li>{{ Lang::get('content.unlimitedstoredworkouts') }}</li>
                             <li>{{ Lang::get('content.unlimetedshares') }}</li>
                         </ul>
-                        <h3>${{ config('constants.price') }} / {{ Lang::get('content.month') }}</h3>
+                        <h3>${{ config('constants.price') }}</h3>
                         @php
                             $membership = Memberships::where('id',61)->first();
                             if ($membership && empty($membership->apple_in_app_purchase_id)){
@@ -57,7 +58,11 @@
                             <li>{{ Lang::get('content.unlimitedstoredworkouts') }}</li>
                             <li>{{ Lang::get('content.unlimetedshares') }}</li>
                         </ul>
-                        <h3>$20.15 / {{ Lang::get('content.month') }}</h3>
+                        <div class="flex align-middle justify-center">
+                            <h3>${{ config('constants.yearly_price') }}&nbsp;<del style="font-size: 12px;color: #0a0a0a">109.00</del>
+                                <br><label style="color: #0b97c4">($8.99/{{__('content.month')}})</label>
+                            </h3>
+                        </div>
                         @php
                             $membership = Memberships::where('id',64)->first();
                             if ($membership && empty($membership->apple_in_app_purchase_id)){
@@ -70,6 +75,16 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="account--table flex align-center w-10/12 justify-center" style="margin-top: 0px; color: #0a0a0a">
+                <div class="plan">
+                    <form action="javascript:void(0);">
+                        <button type="button" onclick="console.log('RESTORE');console.log('LOGIN_USER_ID=6245');">{{__('content.restore_subscription')}}</button>
+                    </form>
+                </div>
+            </div>
+            <div class="account--table flex align-center w-10/12 justify-center" style="margin-top: 10px; color: #0a0a0a">
+                <div class="gap-4 flex align-center justify-center"><u><a target="_blank" style="color: blue; font-size: 12px" href="{{route('PrivacyPolicy')}}">privacy policy</a></u> <u><a target="_blank" style="color: blue; font-size: 12px" href="{{route('TermsAndConditions')}}">terms & conditions</a></u></div>
             </div>
         </div>
     </div>

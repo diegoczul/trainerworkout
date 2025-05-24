@@ -423,6 +423,8 @@ return array(
     "price7"                       => "3 programmes sauvegardés ou moins",
     "Free"                       => "Gratuit",
     "month"                       => "mois",
+    "auto_renew_notice"            => "Votre abonnement sera renouvelé automatiquement, sauf s’il est annulé au moins 24 heures avant la fin de la période en cours.",
+    "restore_subscription"         => "Restaurer l’abonnement",
     //NEW ONES 5.01.2016
     "MoreExercises"                       => "Etendre",
     "Back"                       => "Back",
