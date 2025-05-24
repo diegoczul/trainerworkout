@@ -1,25 +1,34 @@
-@extends('layouts.frontEnd')
+@php
+    use App\Http\Libraries\Helper;
+@endphp
+@php
+    $layout = Helper::getDeviceTypeCookie() === 'ios' ? 'layouts.trainer' : 'layouts.frontEnd';
+@endphp
+@extends($layout)
 {{ HTML::style('css/homepage.css') }}
+<style>
+    .termsWrapper ul {
+        list-style-type: disc;
+        margin-left: 20px;
+        /* Optional: Adds indentation for better aesthetics */
+    }
+</style>
 @section('content')
-    <section id="termsConditions">
-        <div class="termsWrapper p-20">
-            <p>
-                <strong>TERMS OF SERVICE</strong>
-            </p>
-            <p>
-                <strong>Last Updated as of August 23, 2024</strong>
-            </p>
-            <p>
+    <section id="termsConditions" style="font-family: Arial, sans-serif; line-height: 1.8; margin: 20px; margin-top: 60px">
+        <div class="termsWrapper p-20" style="max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+            <p style="text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 10px;"><strong>TERMS OF SERVICE</strong></p>
+            <p style="text-align: center; font-size: 14px; color: #555;"><strong>Last Updated as of </strong> August 23, 2024</p>
+            <h4>
                 1. Definitions and Interpretation
-            </p>
+            </h4>
             <p>
                 Unless otherwise defined herein, or the context otherwise dictates, capitalized terms used in the Terms of
                 Service shall have the indicated meanings set
                 forth in Exhibit “A” attached hereto.
             </p>
-            <p>
+            <h4>
                 2. Acceptance
-            </p>
+            </h4>
             <p>
                 a. By directly or indirectly accessing or making use of the Services of Trainer Workout Inc (the
                 “<strong>Vendor</strong>”), and/or by clicking the
@@ -45,9 +54,9 @@
                 cannot use the Services, and any Terms of Service previously entered into must forthwith be terminated by
                 you pursuant to Section 10(a).
             </p>
-            <p>
+            <h4>
                 3. Special Consents and Acknowledgements
-            </p>
+            </h4>
             <p>
                 a. YOU ACKNOWLEDGE AND AGREE THAT:
             </p>
@@ -77,9 +86,9 @@
                 v. PARTICIPATING IN AN EXERCISE PROGRAM OR DIET CAN CAUSE INJURY, AND YOU ELECT TO DO SO ENTIRELY AT YOUR
                 OWN RISK.
             </p>
-            <p>
+            <h4>
                 4. License to Use Services
-            </p>
+            </h4>
             <p>
                 a. Subject to your compliance with the terms and conditions of the Terms of Service, the Vendor hereby
                 grants to you a revocable, personal, non-exclusive,
@@ -100,9 +109,9 @@
                 and/or the Vendor’s name, domain names, trademarks, logos, or other distinctive brand features, other than
                 as expressly set out in the Terms of Service.
             </p>
-            <p>
+            <h4>
                 5. Information and Access IDs
-            </p>
+            </h4>
             <p>
                 a. In order to use the Services, you must provide certain information through the Services, including
                 without limitation your full legal name, physical
@@ -128,9 +137,9 @@
                 Trainees and/or third-parties, unless agreed to
                 in writing by the Vendor.
             </p>
-            <p>
+            <h4>
                 6. Obligations Specific to TSR Customers
-            </p>
+            </h4>
             <p>
                 a. If you are a TSR Customer, then you acknowledge and agree that:
             </p>
@@ -211,9 +220,9 @@
                 into the most current version of the Terms of
                 Service.
             </p>
-            <p>
+            <h4>
                 7. General Use of the Services - Permissions and Restrictions
-            </p>
+            </h4>
             <p>
                 a. You shall not use the Services to violate, infringe or appropriate any person’s privacy rights, publicity
                 rights, defamation rights, copyrights,
@@ -244,9 +253,9 @@
                 provision, including without limitation, taking
                 legal action or any action set out in Section 10(b).
             </p>
-            <p>
+            <h4>
                 8. Content
-            </p>
+            </h4>
             <p>
                 a. Unless otherwise expressly set out in the Terms of Service, all right, title, interest, ownership rights
                 and intellectual property rights in and to Your
@@ -335,9 +344,9 @@
                 responsibility for any loss or damage, however caused,
                 arising from any loss of Your Content.
             </p>
-            <p>
+            <h4>
                 9. Feedback
-            </p>
+            </h4>
             <p>
                 a. You acknowledge and agree that any ideas, suggestions, concepts, processes, techniques, enhancement
                 requests, recommendations, test results, data,
@@ -357,9 +366,9 @@
                 and do hereby waive, and shall cause the waiver
                 of, all moral rights therein and thereto.
             </p>
-            <p>
+            <h4>
                 10. Termination, Modification and Suspension
-            </p>
+            </h4>
             <p>
                 a. SUBJECT TO SECTION 6(a)(v), YOU MAY TERMINATE THE TERMS OF SERVICE AT ANY TIME AND FOR ANY REASON BY
                 INITIATING AND COMPLETING THE ACCOUNT CANCELLATION
@@ -373,9 +382,9 @@
                 DISCONTINUE ANY USAGE PLAN, ACCESS ID, TERMS OF SERVICE
                 OR SERVICES; (IV) REMOVE ANY OF YOUR CONTENT; AND/OR (V) CHANGE YOUR USAGE PLAN TO A TRIAL USAGE PLAN.
             </p>
-            <p>
+            <h4>
                 11. Warranty Disclaimer
-            </p>
+            </h4>
             <p>
                 a. THE SERVICES IS PROVIDED ON AN “AS IS” AND “AS AVAILABLE” BASIS AND YOU ACKNOWLEDGE AND AGREE THAT YOUR
                 USE OF THE SERVICES AND ALL CONTENT FORMING PART
@@ -402,9 +411,9 @@
                 ANY OTHER USER OF THE SERVICES OR ANY
                 THIRD-PARTY PROVIDERS OF ANY PRODUCT OR SERVICE.
             </p>
-            <p>
+            <h4>
                 12. Limitation of Liability
-            </p>
+            </h4>
             <p>
                 a. IN NO EVENT SHALL THE VENDOR AND ITS OFFICERS, DIRECTORS, EMPLOYEES, OR AGENTS DIRECTLY OR INDIRECTLY, BE
                 LIABLE TO YOU FOR ANY INDIRECT, INCIDENTAL,
@@ -454,9 +463,9 @@
                 e. ALL FOREGOING LIMITATIONS AND EXCLUSIONS OF LIABILITY SHALL APPLY TO THE FULLEST EXTENT PERMITTED BY LAW
                 IN THE APPLICABLE JURISDICTION.
             </p>
-            <p>
+            <h4>
                 13. Indemnity by You
-            </p>
+            </h4>
             <p>
                 YOU AGREE TO DEFEND, INDEMNIFY AND HOLD HARMLESS THE VENDOR AND ITS OFFICERS, DIRECTORS, EMPLOYEES AND
                 AGENTS, FROM AND AGAINST ANY AND ALL CLAIMS,
@@ -470,17 +479,17 @@
                 SURVIVE THE TERMS OF SERVICE AND YOUR AND YOUR
                 AGENTS’ USE OF THE SERVICES.
             </p>
-            <p>
+            <h4>
                 14. Assignment
-            </p>
+            </h4>
             <p>
                 The Terms of Service, and any rights and licenses granted hereunder, may not be transferred, assigned or
                 sold by you, but may be transferred, assigned and
                 sold by the Vendor without restriction.
             </p>
-            <p>
+            <h4>
                 15. Data Usage and Charges
-            </p>
+            </h4>
             <p>
                 The Services may use information and data transmission networks operated by third-parties to send data,
                 information and Content from a computer or device
@@ -493,9 +502,9 @@
                 Services and/or as a result of data, information and Content submitted or received by your computer or
                 device through the Services.
             </p>
-            <p>
+            <h4>
                 16. Updates and Availability of Services
-            </p>
+            </h4>
             <p>
                 a. You acknowledge and agree that:
             </p>
@@ -519,9 +528,9 @@
                 maintenance or upgrades, for emergency
                 repairs, or due to failure of telecommunications links and/or equipment.
             </p>
-            <p>
+            <h4>
                 17. General
-            </p>
+            </h4>
             <p>
                 a. Nothing in the Terms of Service shall be construed to constitute the Vendor and yourself as principal and
                 agent, employer and employee, franchisor and
@@ -568,9 +577,9 @@
                 Terms of Service, shall survive termination or
                 expiration of the Terms of Service.
             </p>
-            <p>
+            <h4>
                 18. Contact the Vendor
-            </p>
+            </h4>
             <p>
                 You may direct any questions, complaints or claims with respect to the general functionality and operation
                 of the Services to the Vendor at

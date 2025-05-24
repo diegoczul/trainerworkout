@@ -184,7 +184,7 @@
                 <a onclick="deleteAccount();" href="javascript:void(0);" class="text-gray-500">{{ Lang::get('content.DeleteAccount') }}</a>
             </p>
             <div class="account--table flex align-center w-10/12 justify-center" style="margin-top: 10px; color: #0a0a0a">
-                <div class="gap-4 flex align-center justify-center"><u><a target="_blank" style="color: blue; font-size: 12px" href="{{route('PrivacyPolicy')}}">privacy policy</a></u> <u><a target="_blank" style="color: blue; font-size: 12px" href="{{route('TermsAndConditions')}}">terms & conditions</a></u></div>
+                <div class="gap-4 flex align-center justify-center"><u><a style="color: blue; font-size: 12px" href="{{route('PrivacyPolicy')}}">privacy policy</a></u> <u><a style="color: blue; font-size: 12px" href="{{route('TermsAndConditions')}}">terms & conditions</a></u></div>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Config;
 
 return array(
   'price'   => '9.99',
-  'yearly_price'   => '107.00',
+  'yearly_price'   => '107.99',
   'thumbSize'   => '400',
   'displaySize'  => '800',
   // 'userPath'  => 'public/users',

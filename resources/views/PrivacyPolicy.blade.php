@@ -1,4 +1,11 @@
-@extends('layouts.frontEnd')
+@php
+    use App\Http\Libraries\Helper;
+@endphp
+@php
+    $layout = Helper::getDeviceTypeCookie() === 'ios' ? 'layouts.trainer' : 'layouts.frontEnd';
+@endphp
+@extends($layout)
+
 {{ HTML::style('css/homepage.css') }}
 <style>
     .privacyWrapper ul {
