@@ -348,6 +348,7 @@
 {{ HTML::script(asset('assets/js/global.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/js/widgets.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/libs/select2/select2.min.js').ASSET_VERSION) }}
+{{ HTML::script(asset('assets/libs/sweetalert/sweetalert2@11').ASSET_VERSION) }}
 {{ HTML::script(asset('assets/fw/lightbox/js/lightbox.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/fw/addtohomescreen/src/addtohomescreen.js'.ASSET_VERSION)) }}
 {{ HTML::script(asset('assets/templates/exerciseList.js'.ASSET_VERSION)) }}
@@ -374,6 +375,15 @@
             dropdownParent: $('body')
         })
     });
+    $("#deleteProfile").click(function(){
+        Swal.fire({
+        title: "Delete Profile",
+        text: "Are You Sure You Want To Delete Your Account",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel",
+        showCancelButton: true,
+        });
+    })
 </script>
 <!-- DataTables JavaScript -->
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
