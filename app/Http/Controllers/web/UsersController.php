@@ -1060,7 +1060,7 @@ class UsersController extends BaseController
 
             $decoded = JWT::decode($request->get('token'), JWK::parseKeySet($keys));
             $social_id = $decoded->sub;
-            $email = $decoded->email ?? null;
+            $email = $decoded->email ?? $request->get('email');
 
             $user = Users::where('email', $email)->orWhere('apple_social_id',$social_id)->first();
             if (!empty($user)) {

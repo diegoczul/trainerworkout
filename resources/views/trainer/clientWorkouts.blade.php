@@ -287,7 +287,7 @@ typewatchGlobal(function() {
      Swal.fire({
          title: "Archive Workout",
          text: "{{ Lang::get("messages.Confirmation")  }}",
-         icon: "warning",
+
          showCancelButton: !0,
          confirmButtonText: "Yes",
          cancelButtonText: "No",
@@ -324,7 +324,7 @@ typewatchGlobal(function() {
          Swal.fire({
              title: "UnArchive Workout",
              text: "{{ Lang::get("messages.Confirmation")  }}",
-             icon: "warning",
+
              showCancelButton: !0,
              confirmButtonText: "Yes",
              cancelButtonText: "No",
@@ -443,7 +443,7 @@ function shareToEmail(el){
      Swal.fire({
          title: "Archive Workout",
          text: "{{ Lang::get("messages.Confirmation")  }}",
-         icon: "warning",
+
          showCancelButton: !0,
          confirmButtonText: "Yes",
          cancelButtonText: "No",

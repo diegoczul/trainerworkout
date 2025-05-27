@@ -172,17 +172,16 @@
                         <p class="text-sm">{{ Lang::get('content.renewal_note') }}</p>
                     </div>
                 </div>
-{{--                @if((Auth::user()->membership && Auth::user()->membership->membershipId == Config::get("constants.defaultMembership")) or (!Auth::user()->membership))--}}
-                    <div class="plan">
-                        <form action="javascript:void(0);" >
-                            <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
-                        </form>
-                    </div>
-{{--                @endif--}}
+                <div class="plan">
+                    <form action="javascript:void(0);" >
+                        <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
+                        <br><br>
+                        <button style="background-color: #f24242;" type="button" onclick="deleteAccount();">{{ Lang::get('content.DeleteAccount') }}</button>
+                    </form>
+                </div>
             </div>
-            <p class="text-gray-500 text-center mt-5">
-                <a onclick="deleteAccount();" href="javascript:void(0);" class="text-gray-500">{{ Lang::get('content.DeleteAccount') }}</a>
-            </p>
+
+
             <div class="account--table flex align-center w-10/12 justify-center" style="margin-top: 10px; color: #0a0a0a">
                 <div class="gap-4 flex align-center justify-center"><u><a style="color: blue; font-size: 12px" href="{{route('PrivacyPolicy')}}">privacy policy</a></u> <u><a style="color: blue; font-size: 12px" href="{{route('TermsAndConditions')}}">terms & conditions</a></u></div>
             </div>
@@ -210,16 +209,18 @@
             Swal.fire({
                 title: "Delete Profile",
                 text: "Are You Sure You Want To Delete Your Account",
-                icon: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Yes",
                 cancelButtonText: "No",
                 confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
                 cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
                 buttonsStyling: !1,
+                customClass: {
+                    popup: 'swal2-account-popup',
+                },
             }).then(function (t) {
                 if (t.value) {
-                    showTopLoader();
+                    showTopLoader()
                     $.ajax({
                         url: "{{ Lang::get('routes./delete-account') }}/{{ auth()->user()->id }}",
                         type: "DELETE",
@@ -233,7 +234,7 @@
                         },
                     });
                 } else {
-                    hideTopLoader();
+                    hideTopLoader()
                 }
             });
         }

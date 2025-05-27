@@ -54,7 +54,7 @@ use App\Http\Libraries\Helper;
                 <button>{{ Lang::get("content.TSave") }}</button>
             </div>
             <div class="delet-Profile-Button flex justify-center" id="deleteProfile">
-                <button type="button" onclick="deleteAccount();">Delete</button>
+                <button type="button" onclick="deleteAccount();">{{ Lang::get('content.DeleteAccount') }}</button>
             </div>
         </div>
         </form>
@@ -75,7 +75,7 @@ use App\Http\Libraries\Helper;
         Swal.fire({
             title: "Delete Profile",
             text: "Are You Sure You Want To Delete Your Account",
-            icon: "warning",
+
             showCancelButton: !0,
             confirmButtonText: "Yes",
             cancelButtonText: "No",

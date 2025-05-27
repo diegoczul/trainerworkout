@@ -200,16 +200,19 @@
             Swal.fire({
                 title: "Delete Profile",
                 text: "Are You Sure You Want To Delete Your Account",
-                icon: "warning",
+
                 showCancelButton: !0,
                 confirmButtonText: "Yes",
                 cancelButtonText: "No",
                 confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
                 cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
                 buttonsStyling: !1,
+                customClass: {
+                    popup: 'swal2-account-popup',
+                },
             }).then(function (t) {
                 if (t.value) {
-                    showTopLoader();
+                    showTopLoader()
                     $.ajax({
                         url: "{{ Lang::get('routes./delete-account') }}/{{ auth()->user()->id }}",
                         type: "DELETE",
@@ -223,7 +226,7 @@
                         },
                     });
                 } else {
-                    hideTopLoader();
+                    hideTopLoader()
                 }
             });
         }
