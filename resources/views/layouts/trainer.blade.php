@@ -375,15 +375,6 @@
             dropdownParent: $('body')
         })
     });
-    $("#deleteProfile").click(function(){
-        Swal.fire({
-        title: "Delete Profile",
-        text: "Are You Sure You Want To Delete Your Account",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Cancel",
-        showCancelButton: true,
-        });
-    })
 </script>
 <!-- DataTables JavaScript -->
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->

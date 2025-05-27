@@ -208,7 +208,8 @@
         }
         function deleteAccount() {
             Swal.fire({
-                title: "Are You Sure You Want To Delete Your Account ?",
+                title: "Delete Profile",
+                text: "Are You Sure You Want To Delete Your Account",
                 icon: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Yes",
