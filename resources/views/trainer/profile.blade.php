@@ -82,6 +82,9 @@ use App\Http\Libraries\Helper;
             confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
             cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
             buttonsStyling: !1,
+            customClass: {
+                popup: 'swal2-account-popup',
+                },
         }).then(function (t) {
             if (t.value) {
                 $.ajax({
