@@ -14,7 +14,7 @@
   cd ~/dev.trainer-workout.com
   cp -r supervisor ~/supervisor
 ```
-##### Step 2: Restart Supervisor     
+##### Step 2: Restart Supervisor      
 ```shell
   pkill -f supervisord
   rm -f ~/supervisor/supervisor.sock
