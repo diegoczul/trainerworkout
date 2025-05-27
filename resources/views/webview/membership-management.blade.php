@@ -207,20 +207,37 @@
             console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');
         }
         function deleteAccount() {
-            if (confirm("Are You Sure You Want To Delete Your Account ?")) {
-                $.ajax({
-                    url: "{{ Lang::get('routes./delete-account') }}/{{ auth()->user()->id }}",
-                    type: "DELETE",
-                    success: function(data, textStatus, jqXHR) {
-                        successMessage(data);
-                        deleteIndexedDatabase();
-                        window.location.href = "{{ route('logout') }}";
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        errorMessage(jqXHR.responseText + " " + errorThrown);
-                    },
-                });
-            }
+            Swal.fire({
+                title: "Are You Sure You Want To Delete Your Account ?",
+                icon: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
+                cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
+                buttonsStyling: !1,
+            }).then(function (t) {
+                if (t.value) {
+                    $.ajax({
+                        url: "{{ Lang::get('routes./delete-account') }}/{{ auth()->user()->id }}",
+                        type: "DELETE",
+                        success: function(data, textStatus, jqXHR) {
+                            successMessage(data);
+                            deleteIndexedDatabase();
+                            window.location.href = "{{ route('logout') }}";
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            errorMessage(jqXHR.responseText + " " + errorThrown);
+                        },
+                    });
+                } else {
+                    if($(element).is(':checked')){
+                        $(element).attr('checked',false);
+                    }else{
+                        $(element).attr('checked',true);
+                    }
+                }
+            });
         }
     </script>
 @endsection
