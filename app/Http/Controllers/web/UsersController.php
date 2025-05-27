@@ -1088,6 +1088,8 @@ class UsersController extends BaseController
                 if ($user_type == 'trainer') {
                     $user = new Users;
                     $user->email = strtolower(trim($email));
+                    $user->firstName = $request->get('firstName');
+                    $user->lastName = $request->get('lastName');
                     $user->password = Hash::make("Admin@123");
                     $user->apple_social_id = $social_id;
                     $user->userType = "Trainer";
