@@ -49,10 +49,14 @@ use App\Http\Libraries\Helper;
                 <input type="password" placeholder="******" name="password" id="password" class="showInput">
             </div>
         </div>
-        <div class="saveButton">
-            <button>{{ Lang::get("content.TSave") }}</button>
+        <div class="profile-btns flex flex-col justify-center items-center">
+            <div class="saveButton">
+                <button>{{ Lang::get("content.TSave") }}</button>
+            </div>
+            <div class="delet-Profile-Button flex justify-center" id="deleteProfile">
+                <button type="button">Delete</button>
+            </div>
         </div>
-
         </form>
     </div>
 

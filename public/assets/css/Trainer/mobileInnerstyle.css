@@ -10231,6 +10231,24 @@ form div.content div.contentContainer, form div.clientpage div.contentContainer 
 .p_Container.trainee-profile-form input{
   border: 1px solid #EFEFEF;
 }
+.profile-btns .saveButton{
+  width: 100%;
+}
+.profile-btns .saveButton button{
+  width: 100%;
+  max-width: 300px;
+}
+.profile-btns .delet-Profile-Button{
+  width: 100%;
+}
+.profile-btns .delet-Profile-Button button{
+  background-color: #ff2a2a;
+  width: 100%;
+  max-width: 300px;
+}
+div:where(.swal2-container).swal2-center>.swal2-popup{
+  background-color: rgba(44, 62, 80, 0.85);
+}
 
 .p_img {
   display: flex;
