@@ -22,10 +22,13 @@
                     @endif
 
                     @if(!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios')
-                        <a href="javascript:void(0);" onclick="console.log('LOGIN_WITH_APPLE=true');console.log('USER_TYPE=trainer')" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>
+                        <p id="loaderAppleButton"  style="margin:auto;padding: 6px;height: 0px;width: 100%;align-items: center;justify-content: center;display: flex;opacity: 0">
+                            <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
+                        </p>
+                        <a href="javascript:void(0);" onclick="console.log('LOGIN_WITH_APPLE=true');console.log('USER_TYPE=trainer');$('#loaderAppleButton').css('opacity',100).css('height','auto');" class="login-with-apple-btn" style="margin-top: 15px;">Log In with Apple</a>
                     @endif
 
-                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: auto;width: 100%;align-items: center;justify-content: center;display: none">
+                    <p id="loaderGoogleButton"  style="margin:auto;padding: 6px;height: 0px;width: 100%;align-items: center;justify-content: center;display: flex;opacity: 0">
                         <img src="{{ asset('assets/img/tw-gif.gif') }}" style="width: 40px;">
                     </p>
                     <a href="javascript:void(0);" onclick="redirectToGoogleLogin(this);" class="login-with-google-btn" style="margin-top: 15px;">Log In with Google</a>

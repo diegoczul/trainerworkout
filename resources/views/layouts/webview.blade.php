@@ -200,6 +200,7 @@
             buttonsStyling: !1,
         }).then(function (t) {
             if (t.value) {
+                showTopLoader()
                 $.ajax({
                     url: "{{ Lang::get('routes./delete-account') }}/{{ auth()->user()->id }}",
                     type: "DELETE",
@@ -213,11 +214,7 @@
                     },
                 });
             } else {
-                if($(element).is(':checked')){
-                    $(element).attr('checked',false);
-                }else{
-                    $(element).attr('checked',true);
-                }
+                hideTopLoader()
             }
         });
     }
