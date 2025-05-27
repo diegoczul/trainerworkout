@@ -284,47 +284,78 @@ typewatchGlobal(function() {
 
 
  function archiveWorkout(id,obj){
-        if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
-        $(obj).closest(".loadingParent").find(".loading").show();
-         $.ajax(
-            {
-                url : "/widgets/workouts/archive/"+id,
-                type: "post",
-
-                success:function(data, textStatus, jqXHR) 
-                {
-                    successMessage(data);
-                    callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
-                },
-                error: function(jqXHR, textStatus, errorThrown) 
-                {
-                    errorMessage(jqXHR.responseText);
-                    $(".loading").hide();
-                },
-            });
-        }
+     Swal.fire({
+         title: "Archive Workout",
+         text: "{{ Lang::get("messages.Confirmation")  }}",
+         icon: "warning",
+         showCancelButton: !0,
+         confirmButtonText: "Yes",
+         cancelButtonText: "No",
+         confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
+         cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
+         buttonsStyling: !1,
+     }).then(function (t) {
+         if (t.value) {
+             showTopLoader()
+             $(obj).closest(".loadingParent").find(".loading").show();
+             $.ajax({
+                 url : "/widgets/workouts/archive/"+id,
+                 type: "post",
+                 success:function(data, textStatus, jqXHR)
+                 {
+                     successMessage(data);
+                     callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
+                     hideTopLoader()
+                 },
+                 error: function(jqXHR, textStatus, errorThrown)
+                 {
+                     errorMessage(jqXHR.responseText);
+                     $(".loading").hide();
+                     hideTopLoader()
+                 },
+             });
+         } else {
+             hideTopLoader()
+         }
+     });
     }
 
      function unarchiveWorkout(id,obj){
-        if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
-        $(obj).closest(".loadingParent").find(".loading").show();
-         $.ajax(
-            {
-                url : "/widgets/workouts/unarchive/"+id,
-                type: "post",
+         Swal.fire({
+             title: "UnArchive Workout",
+             text: "{{ Lang::get("messages.Confirmation")  }}",
+             icon: "warning",
+             showCancelButton: !0,
+             confirmButtonText: "Yes",
+             cancelButtonText: "No",
+             confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
+             cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
+             buttonsStyling: !1,
+         }).then(function (t) {
+             if (t.value) {
+                 showTopLoader()
+                 $(obj).closest(".loadingParent").find(".loading").show();
 
-                success:function(data, textStatus, jqXHR) 
-                {
-                    successMessage(data);
-                    callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
-                },
-                error: function(jqXHR, textStatus, errorThrown) 
-                {
-                    errorMessage(jqXHR.responseText);
-                    $(".loading").hide();
-                },
-            });
-        }
+                 $.ajax({
+                     url : "/widgets/workouts/unarchive/"+id,
+                     type: "post",
+                     success:function(data, textStatus, jqXHR)
+                     {
+                         successMessage(data);
+                         hideTopLoader()
+                         callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
+                     },
+                     error: function(jqXHR, textStatus, errorThrown)
+                     {
+                         errorMessage(jqXHR.responseText);
+                         hideTopLoader()
+                         $(".loading").hide();
+                     },
+                 });
+             } else {
+                 hideTopLoader()
+             }
+         });
     }
 
 
@@ -408,36 +439,51 @@ function shareToEmail(el){
 }
 
  function archiveWorkouts(){
-        if(confirm('{{ Lang::get("messages.Confirmation")  }}')){
 
-        count = $(".objectSelected").length;
-        $(".objectSelected").each( function(i) {
-            $(this).closest(".loadingParent").find(".loading").show();
-            $.ajax(
-                {
-                    url : "/widgets/workouts/archive/"+$(this).attr("workoutid"),
-                    type: "post",
+     Swal.fire({
+         title: "Archive Workout",
+         text: "{{ Lang::get("messages.Confirmation")  }}",
+         icon: "warning",
+         showCancelButton: !0,
+         confirmButtonText: "Yes",
+         cancelButtonText: "No",
+         confirmButtonClass: "btn btn-danger mt-2 text-white rounded-pill px-4 fs-16",
+         cancelButtonClass: "btn  ms-2 mt-2 border border-theme rounded-pill text-theme px-4 fs-16",
+         buttonsStyling: !1,
+     }).then(function (t) {
+         if (t.value) {
+             count = $(".objectSelected").length;
+             $(".objectSelected").each( function(i) {
+                 $(this).closest(".loadingParent").find(".loading").show();
+                 $.ajax({
+                     url : "/widgets/workouts/archive/"+$(this).attr("workoutid"),
+                     type: "post",
 
-                    success:function(data, textStatus, jqXHR) 
-                    {
-                        successMessage(data);
-                        if (!--count){
-                            callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
-                            showMore();
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) 
-                    {
-                        errorMessage(jqXHR.responseText);
-                        $(".loading").hide();
-                        if (!--count){
-                            callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
-                            showMore();
-                        }
-                    },
-                });
-         });
-        }
+                     success:function(data, textStatus, jqXHR)
+                     {
+                         successMessage(data);
+                         hideTopLoader();
+                         if (!--count){
+                             callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
+                             showMore();
+                         }
+                     },
+                     error: function(jqXHR, textStatus, errorThrown)
+                     {
+                         errorMessage(jqXHR.responseText);
+                         hideTopLoader();
+                         $(".loading").hide();
+                         if (!--count){
+                             callWidget("w_workoutsClient",null,{{  Auth::user()->id }},null,{ client:<?php echo $client->id; ?> });
+                             showMore();
+                         }
+                     },
+                 });
+             });
+         } else {
+             hideTopLoader()
+         }
+     });
     }
 
 $(document).ready(function(){
