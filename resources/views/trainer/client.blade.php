@@ -79,7 +79,7 @@
         <div class="clientWidget">
 
             <h1>{{ Lang::get("content.Acitivity Feed") }}</h1> 
-            <div id="w_calendarActivity_full" class="calendar">
+            <div id="w_calendarActivity_full" class="calendar activity-feed-calendar">
 
             </div>
         </div>

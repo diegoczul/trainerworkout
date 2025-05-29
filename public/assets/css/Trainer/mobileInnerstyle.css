@@ -2110,8 +2110,13 @@ nav {
         .workout_main_container .workoutsHover_status a:hover, .client_main_container .workoutsHover_status a:hover {
           background-color: #fff;
           color: #52D2B0; }
+          .workoutsHover_BTNContainer.hvr-grow.disableDiv{
+            width: 20%;
+          }
     .workout_main_container .workoutsHover_BTNsContainer, .client_main_container .workoutsHover_BTNsContainer, .workout_main_container .clientsHover_BTNsContainer, .client_main_container .clientsHover_BTNsContainer {
       height: 90px;
+      width: 100%;
+      background-color: #7079b1;
       margin-top: auto;
       display: -webkit-box;
       display: -moz-box;
@@ -8908,7 +8913,10 @@ input.input, .popup_container .share_content textarea.input {
       .clientWidget h1 {
         text-align: left; } }
         
+.calendar.activity-feed-calendar .weekRow{
 
+  gap: 4px;
+}
 .calendar p, .calendar span, .calendar tr, .calendar td, .calendar label, .calendar input, .calendar .popup_container .share_content textarea, .popup_container .share_content .calendar textarea, .calendar a, .calendar div {
   color: white; }
 
