@@ -90,9 +90,9 @@
                     <div class="workout_overlay {{ $workout->status == 'Draft' ? 'draft' : '' }}">
 
                         <div class="exe_imgs">
-                            <img src="/{{ Helper::image($images[0]) }}" >
-                            <img src="/{{ Helper::image($images[1]) }}" >
-                            <img src="/{{ Helper::image($images[2]) }}" >
+                            <img src="{{asset($images[0])}}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
+                            <img src="{{asset($images[1])}}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
+                            <img src="{{asset($images[2])}}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
                         </div>
                         <span class="workout_title" title="{{ $workout->name }}">{{ Helper::text($workout->name,20) }}</span>
                         <div class="workout_info" >
@@ -124,9 +124,9 @@
                             </div>
                         </div>
                         <div class="duplicate_img">
-                            <img src="/{{ Helper::image($images[0]) }}">
-                            <img src="/{{ Helper::image($images[1]) }}">
-                            <img src="/{{ Helper::image($images[2]) }}">
+                            <img src="{{ asset($images[0]) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
+                            <img src="{{ asset($images[1]) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
+                            <img src="{{ asset($images[2]) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
                         </div>
                     </div>
                 </div>

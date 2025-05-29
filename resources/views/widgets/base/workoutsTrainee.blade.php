@@ -72,9 +72,9 @@
                 </div>
                 <div class="workout">
                     <div class="workoutImages">
-                        <img src="/{{ Helper::image($images[0]) }}">
-                        <img src="/{{ Helper::image($images[1]) }}">
-                        <img src="/{{ Helper::image($images[2]) }}">
+                        <img src="{{asset($images[0])}}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
+                        <img src="{{asset($images[1])}}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
+                        <img src="{{asset($images[2])}}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';">
                     </div>
                     <div class="workoutInfo">
                         <h1 class="workout_title">{{{ Helper::text($workout->name,20) }}}</h1>

@@ -403,11 +403,14 @@
                                                             @endif
                                                         </div>
                                                         <div class="exercise_image_container">
-                                                            <div
-                                                                class="tabs exerciseImageTab  {{ ($active == "images" ? "showTab" : "") }} imagesTab">
-                                                                <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}"><img src="/{{ Helper::image($exercise->exercises->image) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                            <div class="tabs exerciseImageTab  {{ ($active == "images" ? "showTab" : "") }} imagesTab">
+                                                                <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                    <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                                </a>
                                                                 @if($exercise->exercises->image2 != "")
-                                                                    <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}"><img src="/{{ Helper::image($exercise->exercises->image2) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                                    <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                        <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                                    </a>
                                                                 @endif
                                                             </div>
                                                             @if($exercise->exercises->video != "")
@@ -633,9 +636,13 @@
                                                         </div>
                                                         <div class="exercise_image_container">
                                                             <div class="tabs exerciseImageTab  {{ ($active == "images" ? "showTab" : "") }} imagesTab">
-                                                                <a href="/{{ Helper::image($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}"><img src="/{{ Helper::image($exercise->exercises->image) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                                <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                    <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                                </a>
                                                                 @if($exercise->exercises->image2 != "")
-                                                                    <a href="/{{ Helper::image($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}"><img src="/{{ Helper::image($exercise->exercises->image2) }}" alt="{{ $exercise->exercises->name }}"></a>
+                                                                    <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                        <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                                    </a>
                                                                 @endif
                                                             </div>
                                                             @if($exercise->exercises->video != "")
@@ -858,7 +865,7 @@
                                             <div class="exercise_Header">
                                                 <div class="exercise_Header_imgContainer">
                                                     @if($exercise->equipmentId != "" and $exercise->equipment)
-                                                        <img class="equip_img" onerror="this.src = '{{asset('assets/img/placeholder.jpg')}}'" src="/{{ $exercise->equipment->thumb }}">
+                                                        <img class="equip_img" onerror="this.src = '{{asset('assets/img/placeholder.jpg')}}'" src="{{ asset($exercise->equipment->thumb) }}">
                                                     @endif
                                                 </div>
                                                 <h5>{{ $exercise->exercises->name }}
@@ -941,17 +948,14 @@
                                                         @endif
                                                     </div>
                                                     <div class="exercise_image_container">
-                                                        <div
-                                                            class="tabs exerciseImageTab  {{ ($active == "images" ? "showTab" : "") }} imagesTab">
-                                                            <a href="/{{ Helper::image($exercise->exercises->image) }}"
-                                                               data-lightbox="ex_{{ $exercise->id }}"><img
-                                                                    src="/{{ Helper::image($exercise->exercises->image) }}"
-                                                                    alt="{{ $exercise->exercises->name }}"></a>
+                                                        <div class="tabs exerciseImageTab {{ ($active == "images" ? "showTab" : "") }} imagesTab">
+                                                            <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                            </a>
                                                             @if($exercise->exercises->image2 != "")
-                                                                <a href="/{{ Helper::image($exercise->exercises->image2) }}"
-                                                                   data-lightbox="ex_{{ $exercise->id }}"><img
-                                                                        src="/{{ Helper::image($exercise->exercises->image2) }}"
-                                                                        alt="{{ $exercise->exercises->name }}"></a>
+                                                                <a href="{{ asset($exercise->exercises->image2) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                    <img src="{{ asset($exercise->exercises->image2) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                                </a>
                                                             @endif
                                                         </div>
                                                         @if($exercise->exercises->video != "")
@@ -962,21 +966,15 @@
                                                                     <video id="my-video" class="video-js" controls
                                                                            preload="auto"
                                                                            style="width:100%; max-height:{{ ($agent::isDesktop()? Config::get("constants.constantsDesktopSizeVideo_h") : ($agent::isTablet() ?  Config::get("constants.constantsTabletSizeVideo_h") :  Config::get("constants.constantsMobileSizeVideo_h")))  }}"
-
                                                                            poster="/{{ Helper::image(null,"video") }}"
                                                                            data-setup="{'fluid': true}">
-                                                                        <source
-                                                                            src="/{{ $exercise->exercises->video}}"
-                                                                            type='video/mp4'>
-                                                                        <source src="MY_VIDEO.webm"
-                                                                                type='video/webm'>
+                                                                        <source src="/{{ $exercise->exercises->video}}" type='video/mp4'>
+                                                                        <source src="MY_VIDEO.webm" type='video/webm'>
                                                                         <p class="vjs-no-js">
                                                                             To view this video please enable
                                                                             JavaScript, and consider upgrading to a
                                                                             web browser that
-                                                                            <a href="http://videojs.com/html5-video-support/"
-                                                                               target="_blank">supports HTML5
-                                                                                video</a>
+                                                                            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
                                                                         </p>
                                                                     </video>
                                                                 </div>
@@ -1096,7 +1094,7 @@
                                         <div class="exercise_Header">
                                             <div class="exercise_Header_imgContainer">
                                                 @if($exercise->equipmentId != "" and $exercise->equipment)
-                                                    <img class="equip_img" onerror="this.src = '{{asset('assets/img/placeholder.jpg')}}'" src="/{{ $exercise->equipment->thumb }}">
+                                                    <img class="equip_img" onerror="this.src = '{{asset('assets/img/placeholder.jpg')}}'" src="{{ asset($exercise->equipment->thumb) }}">
                                                 @endif
                                             </div>
                                             <h5>{{ $exercise->exercises->name }}
@@ -1176,15 +1174,13 @@
                                                 <div class="exercise_image_container">
                                                     <div
                                                         class="tabs exerciseImageTab imagesTab  {{ ($active == "images" ? "showTab" : "") }}">
-                                                        <a href="/{{ Helper::image($exercise->exercises->image) }}"
-                                                           data-lightbox="ex_{{ $exercise->id }}"><img
-                                                                src="/{{ Helper::image($exercise->exercises->image) }}"
-                                                                alt="{{ $exercise->exercises->name }}"></a>
+                                                        <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                            <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                        </a>
                                                         @if($exercise->exercises->image2 != "")
-                                                            <a href="/{{ Helper::image($exercise->exercises->image2) }}"
-                                                               data-lightbox="ex_{{ $exercise->id }}"><img
-                                                                    src="/{{ Helper::image($exercise->exercises->image2) }}"
-                                                                    alt="{{ $exercise->exercises->name }}"></a>
+                                                            <a href="{{ asset($exercise->exercises->image) }}" data-lightbox="ex_{{ $exercise->id }}">
+                                                                <img src="{{ asset($exercise->exercises->image) }}" onerror="this.onerror=null;this.src='{{ asset('assets/img/client.png') }}';" alt="{{ $exercise->exercises->name }}">
+                                                            </a>
                                                         @endif
                                                     </div>
                                                     @if($exercise->exercises->video != "")
