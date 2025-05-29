@@ -8914,8 +8914,10 @@ input.input, .popup_container .share_content textarea.input {
         text-align: left; } }
         
 .calendar.activity-feed-calendar .weekRow{
-
   gap: 4px;
+}
+.calendar.activity-feed-calendar .weekRow .calendar_day{
+  width: calc((100% - 6 * 4px) / 7) !important;
 }
 .calendar p, .calendar span, .calendar tr, .calendar td, .calendar label, .calendar input, .calendar .popup_container .share_content textarea, .popup_container .share_content .calendar textarea, .calendar a, .calendar div {
   color: white; }
