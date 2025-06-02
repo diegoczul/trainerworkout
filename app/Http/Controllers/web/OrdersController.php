@@ -846,11 +846,12 @@ class OrdersController extends BaseController
             $plan = \App\Models\Plan::findOrFail($request->plan_id);
             $token = $request->get('stripeToken');
 
+            stripeAction('Starting plan subscription', ['plan_id' => $plan->id]);
+
             // Create or fetch the user by email
             $user = Auth::user();
             if (!$user) {
-                $email = $request->get('email');
-                $email = Helper::clean($email);
+                $email = Helper::clean($request->get('email'));
                 $user = Users::where('email', $email)->first();
 
                 if (!$user) {
@@ -867,11 +868,15 @@ class OrdersController extends BaseController
                     $user->userType = 'Trainee';
                     $user->save();
 
+                    stripeAction('New user created', ['user_id' => $user->id, 'email' => $user->email]);
+
                     $user->sendActivationEmail();
                 }
 
-                Auth::loginUsingId($user->id); // Login the user if newly created
+                Auth::loginUsingId($user->id);
             }
+
+            stripeAction('User authenticated', ['user_id' => $user->id]);
 
             // Attach to trainer as client
             \App\Models\Clients::firstOrCreate([
@@ -879,10 +884,9 @@ class OrdersController extends BaseController
                 'userId' => $user->id
             ]);
 
+            stripeAction('Client relationship ensured', ['trainer_id' => $plan->user_id, 'client_id' => $user->id]);
+
             // 1. Create or retrieve Stripe customer
-
-
-
             if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
                 $customer = Customer::create([
                     'email' => $user->email,
@@ -890,6 +894,8 @@ class OrdersController extends BaseController
                 ]);
                 $user->stripeCheckoutToken = $customer->id;
                 $user->save();
+
+                stripeAction('Stripe customer created', ['customer_id' => $customer->id]);
             }
 
             $customer = Customer::retrieve($user->stripeCheckoutToken);
@@ -902,10 +908,16 @@ class OrdersController extends BaseController
                 'invoice_settings' => ['default_payment_method' => $token],
             ]);
 
-            $paymentMethod = PaymentMethod::retrieve($token); // Refresh
+            $paymentMethod = PaymentMethod::retrieve($token);
             $user->fourLastDigits = $paymentMethod->card->last4 ?? '';
             $user->typeOfCreditCard = $paymentMethod->card->brand ?? '';
             $user->save();
+
+            stripeAction('Payment method attached', [
+                'customer_id' => $customer->id,
+                'card_last4' => $user->fourLastDigits,
+                'card_brand' => $user->typeOfCreditCard,
+            ]);
 
             // 3. Create subscription
             $subscription = Subscription::create([
@@ -916,6 +928,11 @@ class OrdersController extends BaseController
                 'default_payment_method' => $paymentMethod->id,
                 'payment_behavior' => 'default_incomplete',
                 'expand' => ['latest_invoice.payment_intent'],
+            ]);
+
+            stripeAction('Subscription created', [
+                'subscription_id' => $subscription->id,
+                'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
             ]);
 
             // 4. Insert into plans_users
@@ -932,6 +949,8 @@ class OrdersController extends BaseController
                 'updated_at' => now(),
             ]);
 
+            stripeAction('plans_users row inserted', ['user_id' => $user->id, 'plan_id' => $plan->id]);
+
             return response()->json([
                 'status' => true,
                 'data' => [
@@ -941,13 +960,13 @@ class OrdersController extends BaseController
                 ]
             ]);
         } catch (\Exception $e) {
+            stripeAction('Subscription error', ['error' => $e->getMessage()]);
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage()
             ]);
         }
     }
-
 
 
     public function completeSubscriptionPayment(Request $request)
