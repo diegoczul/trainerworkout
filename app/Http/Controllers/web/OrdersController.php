@@ -146,7 +146,7 @@ class OrdersController extends BaseController
             try {
                 $token = request()->get('stripeToken');
 
-                if ($user->stripeCheckoutToken == "") {
+                if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
                     $customer = \Stripe\Customer::create([
                         "source" => $token,
                         "description" => $user->email,
@@ -201,23 +201,21 @@ class OrdersController extends BaseController
         try {
             $token = request()->get('stripeToken');
 
-            if (empty(request()->get("oldCustomer"))) {
-                if ($user->stripeCheckoutToken == "") {
-                    $customer = \Stripe\Customer::create([
-                        "source" => $token,
-                        "description" => $user->email,
-                        "email" => $user->email
-                    ]);
+            if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
+                $customer = \Stripe\Customer::create([
+                    "source" => $token,
+                    "description" => $user->email,
+                    "email" => $user->email
+                ]);
 
-                    $user->stripeCheckoutToken = $customer->id;
-                    $user->save();
-                }
+                $user->stripeCheckoutToken = $customer->id;
+                $user->save();
             }
 
             $charge = \Stripe\Charge::create([
                 "amount" => $cart["total"] * 100,
                 "currency" => "usd",
-                "customer" => empty(request()->get("oldCustomer")) ? $token : $user->stripeCheckoutToken,
+                "customer" => $user->stripeCheckoutToken,
                 "description" => $user->email,
                 "email" => $user->email
             ]);
@@ -246,18 +244,15 @@ class OrdersController extends BaseController
         try {
             $token = $request->get('stripeToken');
 
-            if (!$request->filled("oldCustomer")) {
-                if ($user->stripeCheckoutToken == "") {
-                    $customer = Customer::create([
-                        "description" => $user->email,
-                        "email" => $user->email
-                    ]);
-                    event('stripeAction', [$user, 'action' => 'create_customer', 'data' => $customer]);
-                }
-            } else {
-                $customer = Customer::retrieve($user->stripeCheckoutToken);
-                event('stripeAction', [$user, 'action' => 'retrieve_customer', 'data' => $customer]);
+            if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
+                $customer = Customer::create([
+                    "description" => $user->email,
+                    "email" => $user->email
+                ]);
+                event('stripeAction', [$user, 'action' => 'create_customer', 'data' => $customer]);
             }
+            $customer = Customer::retrieve($user->stripeCheckoutToken);
+            event('stripeAction', [$user, 'action' => 'retrieve_customer', 'data' => $customer]);
 
             $paymentMethod = PaymentMethod::retrieve($token);
             event('stripeAction', [$user, 'action' => 'retrieve_payment_method', 'data' => $paymentMethod]);
@@ -837,7 +832,7 @@ class OrdersController extends BaseController
 
     public function processPlanSubscriptionPayment(Request $request)
     {
-        $debug = config('app.debug');
+        $debug = false;
         Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
         try {

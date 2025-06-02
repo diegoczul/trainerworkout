@@ -68,10 +68,6 @@
                                 <div class="payInfoContainer" id="payRightContainer">
                                     <form enctype="multipart/form-data" name="payform" id="payform"
                                         class="formholder clearfix">
-                                        @if (!empty(auth()->user()->stripeCheckoutToken))
-                                            <input type="hidden" name="oldCustomer"
-                                                value="{{ auth()->user()->stripeCheckoutToken }}">
-                                        @endif
                                         <!-- <div class="payFormFull"> -->
                                         <fieldset class="payForm payFormFull">
                                             <label for="biStreet">{{ Lang::get('content.street') }}</label>
@@ -493,7 +489,6 @@
             function switchToNewCreditCard() {
                 $("#newcard").show();
                 $("#oldcard").hide();
-                $("#oldCustomer").val("");
             }
 
             // This identifies your website in the createToken call below
@@ -508,7 +503,7 @@
 
         <script>
             var elements = Stripe.elements();
-            var card = elements.create('card',{
+            var card = elements.create('card', {
                 hidePostalCode: true,
             });
             card.mount('#payInfoContainer');
@@ -547,23 +542,27 @@
                                     $("#payform_submit").attr('disabled', true);
                                 },
                                 success: function(data) {
-                                    if(data.data.hasOwnProperty('clientSecret') && data.data.clientSecret != null){
-                                        Stripe.confirmCardPayment(data.data.clientSecret).then(
-                                        function(result) {
-                                            if (result.error) {
-                                                errorMessage(response.error.message);
-                                                $('#submit-button').prop('disabled',
-                                                    false);
-                                            } else {
-                                                if (result.paymentIntent.status ===
-                                                    'succeeded') {
-                                                    window.location.href =
-                                                        "{{ route('subscription-success') }}";
-                                                }
-                                            }
-                                        });
-                                    }else{
-                                        window.location.href = "{{ route('subscription-success') }}";
+                                    if (data.data.hasOwnProperty('clientSecret') && data
+                                        .data.clientSecret != null) {
+                                        Stripe.confirmCardPayment(data.data.clientSecret)
+                                            .then(
+                                                function(result) {
+                                                    if (result.error) {
+                                                        errorMessage(response.error
+                                                            .message);
+                                                        $('#submit-button').prop('disabled',
+                                                            false);
+                                                    } else {
+                                                        if (result.paymentIntent.status ===
+                                                            'succeeded') {
+                                                            window.location.href =
+                                                                "{{ route('subscription-success') }}";
+                                                        }
+                                                    }
+                                                });
+                                    } else {
+                                        window.location.href =
+                                            "{{ route('subscription-success') }}";
                                     }
                                 },
                                 error: function(data) {
