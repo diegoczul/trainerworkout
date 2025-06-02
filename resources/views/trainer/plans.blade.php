@@ -240,6 +240,14 @@
                 $('textarea[name="description"]').val(ckEditorInstance.getData());
             }
 
+            if (ckEditorInstance) {
+                const content = ckEditorInstance.getData();
+                alert("CKEditor content:\n\n" + content); // ✅ Debug alert
+                $('textarea[name="description"]').val(content);
+            } else {
+                alert("❌ ckEditorInstance is undefined or not ready");
+            }
+
             $.ajax({
                 url: $form.attr("action"),
                 type: "POST",
