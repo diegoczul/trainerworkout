@@ -150,6 +150,7 @@ class StripeController extends Controller
     }
 
 
+
     private function handleStripePlan(Plan $plan, Request $request): array
     {
         $debug = false;
