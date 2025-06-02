@@ -361,7 +361,9 @@
             "{{ config('app.debug') ? config('constants.STRIPETestpublishable_key') : config('constants.STRIPEpublishable_key') }}"
         );
         const elements = stripe.elements();
-        const card = elements.create('card');
+        var card = elements.create('card', {
+            hidePostalCode: true,
+        });
         card.mount('#payInfoContainer');
 
         document.getElementById('payment-form').addEventListener('submit', async function(e) {
