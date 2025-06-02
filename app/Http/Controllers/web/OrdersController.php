@@ -250,6 +250,7 @@ class OrdersController extends BaseController
                 ]);
                 $user->stripeCheckoutToken = $customer->id;
                 $user->save();
+
                 event('stripeAction', [$user, 'action' => 'create_customer', 'data' => $customer]);
             }
             $customer = Customer::retrieve($user->stripeCheckoutToken);
