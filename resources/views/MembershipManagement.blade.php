@@ -120,7 +120,7 @@
                                     @php
                                         $currentMembership = Auth::user()->membership;
                                     @endphp
-                                    {{-- Downgrade from Yearly to Monthly --}}
+                                    {{-- Downgrade 123 from Yearly to Monthly --}}
                                     @if ($currentMembership && $currentMembership->membershipId == 64 and $currentMembership->downgrade_to != '')
                                         <p>{!! Lang::get('content.downgrade_note_in_days', [
                                             'number' => \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($currentMembership->expiry)),
