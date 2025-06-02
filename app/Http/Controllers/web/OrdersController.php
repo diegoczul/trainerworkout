@@ -245,41 +245,45 @@ class OrdersController extends BaseController
 
         try {
             $token = $request->get('stripeToken');
+
             if (!$request->filled("oldCustomer")) {
                 if ($user->stripeCheckoutToken == "") {
-                    // Create a Stripe customer
                     $customer = Customer::create([
                         "description" => $user->email,
                         "email" => $user->email
                     ]);
+                    event('stripeAction', [$user, 'action' => 'create_customer', 'data' => $customer]);
                 }
             } else {
                 $customer = Customer::retrieve($user->stripeCheckoutToken);
+                event('stripeAction', [$user, 'action' => 'retrieve_customer', 'data' => $customer]);
             }
 
-            // Attach payment method to customer
             $paymentMethod = PaymentMethod::retrieve($token);
+            event('stripeAction', [$user, 'action' => 'retrieve_payment_method', 'data' => $paymentMethod]);
+
             $paymentMethodId = $paymentMethod->id;
             $paymentMethod->attach(['customer' => $customer->id]);
+            event('stripeAction', [$user, 'action' => 'attach_payment_method', 'data' => $paymentMethod]);
 
-            //  Set as the default payment method
             Customer::update($customer->id, [
                 'invoice_settings' => ['default_payment_method' => $token]
             ]);
+            event('stripeAction', [$user, 'action' => 'set_default_payment_method', 'data' => $token]);
 
-            // Retrieve updated customer to get default payment method details
             $customer = Customer::retrieve($customer->id);
             $paymentMethods = $customer->invoice_settings->default_payment_method ? PaymentMethod::retrieve($customer->invoice_settings->default_payment_method) : null;
+            event('stripeAction', [$user, 'action' => 'retrieve_default_payment_method', 'data' => $paymentMethods]);
 
-            // Save details to user
             $user->stripeCheckoutToken = $customer->id;
             $user->fourLastDigits = $paymentMethods->card->last4 ?? "";
             $user->typeOfCreditCard = $paymentMethods->card->brand ?? "";
             $user->save();
 
-            $subId = "";
             $customer = Customer::retrieve($user->stripeCheckoutToken);
             $subscriptions = Subscription::all(["customer" => $customer->id, "status" => "active"]);
+            event('stripeAction', [$user, 'action' => 'get_active_subscriptions', 'data' => $subscriptions]);
+
             if ($subscriptions->data === []) {
                 $subscription = Subscription::create([
                     "customer" => $customer->id,
@@ -290,6 +294,7 @@ class OrdersController extends BaseController
                     'payment_behavior' => 'default_incomplete',
                     'expand' => ['latest_invoice.payment_intent'],
                 ]);
+                event('stripeAction', [$user, 'action' => 'create_subscription', 'data' => $subscription]);
             } else {
                 $activeSubscription = $subscriptions->data[0];
                 $currentItemId = $activeSubscription->items->data[0]->id;
@@ -306,6 +311,7 @@ class OrdersController extends BaseController
                     'default_payment_method' => $paymentMethodId,
                     'expand' => ['latest_invoice.payment_intent'],
                 ]);
+                event('stripeAction', [$user, 'action' => 'update_subscription', 'data' => $subscription]);
             }
 
             return [
@@ -316,22 +322,15 @@ class OrdersController extends BaseController
                     'payment_intent_id' => $subscription->latest_invoice->payment_intent->id ?? null,
                 ]
             ];
-
-            //            // Get the subscription ID
-            //            $subId = $subscription->id;
-            //
-            //            MembershipsUsers::where("userId", $user->id)->delete();
-            //
-            //            OrderItems::where("orderId", $cart["orderId"])
-            //                ->where("itemType", "Membership")
-            //                ->update(["paid" => now(), "subscriptionStripeKey" => $subId]);
         } catch (\Exception $e) {
+            event('stripeAction', [$user, 'action' => 'stripe_error', 'data' => $e->getMessage()]);
             return [
                 'status' => false,
                 'message' => $e->getMessage()
             ];
         }
     }
+
 
     public function stripeCancelUserMembership($membership, $order = "", $debug = false)
     {
@@ -436,7 +435,7 @@ class OrdersController extends BaseController
             $approvedSingle = false;
             $approvedMembership = false;
 
-            $debug = Config::get('app.debug');
+            $debug = false;
 
             if ($totalSinglePurchase > 0) {
                 $result = $this->stripeAPISingleCheckout($totalSinglePurchase, $debug);
@@ -571,14 +570,13 @@ class OrdersController extends BaseController
         $user = Auth::user();
         if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.upgrade-plan")
-                        ->with("user", $user)
-                        ->with("cart", Session::get("cart"));
-        }else{
+                ->with("user", $user)
+                ->with("cart", Session::get("cart"));
+        } else {
             return View::make("Store.upgradePlan")
                 ->with("user", $user)
                 ->with("cart", Session::get("cart"));
         }
-
     }
 
     public function emptyCart()
@@ -709,6 +707,8 @@ class OrdersController extends BaseController
 
     public function processSubscriptionPayment(Request $request)
     {
+        Event::dispatch('processSubscriptionPayment', print_r(Session::get("cart"), true));
+
         $user = Auth::user();
         if (Session::has("cart")) {
             $cart = Session::get("cart");
@@ -737,6 +737,8 @@ class OrdersController extends BaseController
             $order->status = "Unpaid";
             $order->currency = "USD";
             $order->save();
+
+            Event::dispatch('attemptedOrder', print_r($order, true));
 
             $cart["orderId"] = $order->id;
             Session::put("cart", $cart);
@@ -767,6 +769,9 @@ class OrdersController extends BaseController
             }
             Session::put("cart", $cart);
 
+            Event::dispatch('attemptedCart', print_r($cart, true));
+
+
             // ✅ NEW: If total is 0, skip Stripe
             if ($order->total <= 0) {
                 MembershipsUsers::where("userId", $user->id)->update(["renew" => 0]);
@@ -791,7 +796,7 @@ class OrdersController extends BaseController
                 return $this::sendResponse('subscription', ['message' => 'Free plan scheduled successfully']);
             }
 
-            $debug = Config::get('app.debug');
+            $debug = false;
             $mem = Memberships::find($membership);
             $result = $this->stripeAPIMembershipCheckout($mem->idAPI, $request, $order, $debug);
 
@@ -1119,8 +1124,8 @@ class OrdersController extends BaseController
                 'expires_date' => 'required',
                 'product_id' => 'required',
             ]);
-            if ($validator->fails()){
-                return response()->json(['error'=>$validator->errors()], 400);
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 400);
             }
 
             DB::beginTransaction();
@@ -1137,8 +1142,8 @@ class OrdersController extends BaseController
             $order->fill([
                 'userId' => $request->get('ref_user_id'),
                 'orderDate' => now(),
-                'subtotal' => $plan->price??0,
-                'total' => $plan->price??0,
+                'subtotal' => $plan->price ?? 0,
+                'total' => $plan->price ?? 0,
                 'paidBy' => 'Apple',
                 'status' => 'Paid',
                 'currency' => 'USD',
@@ -1151,7 +1156,7 @@ class OrdersController extends BaseController
                 'itemId' => $plan->id,
                 'itemType' => 'Membership',
                 'quantity' => 1,
-                'price' => $plan->price??0,
+                'price' => $plan->price ?? 0,
                 'paid' => now(),
                 'apple_transaction_id' => $transaction_id,
                 'apple_original_transaction_id' => $original_transaction_id,
@@ -1191,14 +1196,14 @@ class OrdersController extends BaseController
             $planResponse['price'] = $plan->price;
             $planResponse['durationType'] = $plan->durationType;
             $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
-            Event::dispatch('AppleSubscriptionPurchased',[$user,$planResponse]);
+            Event::dispatch('AppleSubscriptionPurchased', [$user, $planResponse]);
 
             // SENDING SUCCESS
-            $response['redirect_url'] = route('login',['device_type' => 'ios']);
+            $response['redirect_url'] = route('login', ['device_type' => 'ios']);
             return $this->sendResponse("receipt_data", $response);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
-            return $this->sendErrorResponse("Failed to verify Apple purchase",$exception->getMessage());
+            return $this->sendErrorResponse("Failed to verify Apple purchase", $exception->getMessage());
         }
     }
 
@@ -1212,8 +1217,8 @@ class OrdersController extends BaseController
                 'expires_date' => 'required',
                 'product_id' => 'required',
             ]);
-            if ($validator->fails()){
-                return response()->json(['error'=>$validator->errors()], 400);
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 400);
             }
 
             DB::beginTransaction();
@@ -1223,15 +1228,15 @@ class OrdersController extends BaseController
             $product_id = $request->get('product_id');
 
             // FINDING PLAN FROM PLAN ID
-            $plan = Memberships::where('apple_in_app_purchase_id', $product_id)->orderBy('id','desc')->first();
+            $plan = Memberships::where('apple_in_app_purchase_id', $product_id)->orderBy('id', 'desc')->first();
 
             // GENERATING ORDER
             $order = new Orders();
             $order->fill([
                 'userId' => $request->get('ref_user_id'),
                 'orderDate' => now(),
-                'subtotal' => $plan->price??0,
-                'total' => $plan->price??0,
+                'subtotal' => $plan->price ?? 0,
+                'total' => $plan->price ?? 0,
                 'paidBy' => 'Apple',
                 'status' => 'Paid',
                 'currency' => 'USD',
@@ -1244,7 +1249,7 @@ class OrdersController extends BaseController
                 'itemId' => $plan->id,
                 'itemType' => 'Membership',
                 'quantity' => 1,
-                'price' => $plan->price??0,
+                'price' => $plan->price ?? 0,
                 'paid' => now(),
                 'apple_transaction_id' => $transaction_id,
                 'apple_original_transaction_id' => $original_transaction_id,
@@ -1284,223 +1289,223 @@ class OrdersController extends BaseController
             $planResponse['price'] = $plan->price;
             $planResponse['durationType'] = $plan->durationType;
             $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
-            Event::dispatch('AppleSubscriptionRestored',[$user,$planResponse]);
+            Event::dispatch('AppleSubscriptionRestored', [$user, $planResponse]);
 
             // SENDING SUCCESS
-            $response['redirect_url'] = route('login',['device_type' => 'ios']);
+            $response['redirect_url'] = route('login', ['device_type' => 'ios']);
             return $this->sendResponse("receipt_data", $response);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
-            return $this->sendErrorResponse("Failed to verify Apple purchase",$exception->getMessage());
+            return $this->sendErrorResponse("Failed to verify Apple purchase", $exception->getMessage());
         }
     }
 
 
-//    public function processApplePurchaseV2(Request $request)
-//    {
-//        try {
-//            $validator = Validator::make($request->all(), [
-//                'ref_user_id' => 'required|numeric|exists:users,id',
-//                'plan_id' => 'required|numeric|exists:memberships,id',
-//                'transaction_id' => 'required',
-//                'original_transaction_id' => 'required',
-//                'expires_date' => 'required',
-//                'product_id' => 'required',
-//            ]);
-//            if ($validator->fails()){
-//                return response()->json(['error'=>$validator->errors()], 400);
-//            }
-//
-//            DB::beginTransaction();
-//            $transaction_id = $request->get('transaction_id');;
-//            $original_transaction_id = $request->get('original_transaction_id');
-//            $expires_date_ms = Carbon::createFromTimestampMs($request->get('expires_date'));
-//            $product_id = $request->get('product_id');
-//
-//            // FINDING PLAN FROM PLAN ID
-//            $plan = Memberships::where('id', $request->get('plan_id'))->first();
-//
-//            // GENERATING ORDER
-//            $order = new Orders();
-//            $order->fill([
-//                'userId' => $request->get('ref_user_id'),
-//                'orderDate' => now(),
-//                'subtotal' => $plan->price??0,
-//                'total' => $plan->price??0,
-//                'paidBy' => 'Apple',
-//                'status' => 'Paid',
-//                'currency' => 'USD',
-//            ])->save();
-//
-//            // GENERATING ORDER ITEM
-//            $orderItem = new OrderItems();
-//            $orderItem->fill([
-//                'orderId' => $order->id,
-//                'itemId' => $plan->id,
-//                'itemType' => 'Membership',
-//                'quantity' => 1,
-//                'price' => $plan->price??0,
-//                'paid' => now(),
-//                'apple_transaction_id' => $transaction_id,
-//                'apple_original_transaction_id' => $original_transaction_id,
-//            ])->save();
-//
-//            // REMOVING OLD MEMBERSHIP
-//            MembershipsUsers::where("userId", $request->get('ref_user_id'))->delete();
-//
-//            // PAYMENT STATUS
-//            $membership = new MembershipsUsers();
-//            $membership->userId = $request->get('ref_user_id');
-//            $membership->membershipId = $plan->id;
-//            $membership->registrationDate = now();
-//            $membership->expiry = Carbon::parse($expires_date_ms);
-//            $membership->apple_transaction_id = $orderItem->apple_transaction_id;
-//            $membership->apple_original_transaction_id = $orderItem->apple_original_transaction_id;
-//            $membership->paid = now();
-//            $membership->orderItemId = $orderItem->id;
-//            $membership->save();
-//
-//            // USER APPLE PURCHASE
-//            $userApplePurchase = new UserApplePurchaseTransaction();
-//            $userApplePurchase->fill([
-//                'ref_user_id' =>  $request->get('ref_user_id'),
-//                'original_transaction_id' => $orderItem->apple_original_transaction_id,
-//                'transaction_id' => $orderItem->apple_transaction_id,
-//                'transaction_type' => 'PURCHASE',
-//                'expiry_date' => Carbon::parse($expires_date_ms),
-//            ])->save();
-//
-//            // COMPLETE DATABASE TRANSACTION
-//            DB::commit();
-//
-//            // SENDING WEBHOOK
-//            $user = Users::find($request->get('ref_user_id'));
-//            $planResponse['apple_in_app_purchase_id'] = $plan->apple_in_app_purchase_id;
-//            $planResponse['price'] = $plan->price;
-//            $planResponse['durationType'] = $plan->durationType;
-//            $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
-//            Event::dispatch('AppleSubscriptionPurchased',[$user,$planResponse]);
-//
-//            // SENDING SUCCESS
-//            $response['redirect_url'] = route('login',['device_type' => 'ios']);
-//            return $this->sendResponse("receipt_data", $response);
-//        }catch (\Exception $exception){
-//            DB::rollBack();
-//            return $this->sendErrorResponse("Failed to verify Apple purchase",$exception->getMessage());
-//        }
-//    }
-//
-//    public function restoreSubscriptionV2(Request $request)
-//    {
-//        try {
-//            $validator = Validator::make($request->all(), [
-//                'ref_user_id' => 'required|numeric|exists:users,id',
-//                'receipt_data' => 'required',
-//                'payment_environment' => 'required'
-//            ]);
-//            if ($validator->fails()){
-//                return response()->json(['error'=>$validator->errors()], 400);
-//            }
-//
-//            DB::beginTransaction();
-//            $verifyReceipt = $this->verifyApplePurchase($request->get('receipt_data'),$request->get('payment_environment'));
-//            if (isset($verifyApplePurchase['status']) && !empty($verifyApplePurchase['status'])){
-//                $latest_receipt_info = $verifyApplePurchase['data']['latest_receipt_info'][0]??[];
-//
-//                $transaction_id = $latest_receipt_info['transaction_id']??'';
-//                $original_transaction_id = $latest_receipt_info['original_transaction_id']??'';
-//                $expires_date_ms = $latest_receipt_info['expires_date_ms']??'';
-//
-//                $response['redirect_url'] = route('login',['device_type' => 'ios']);
-//                $response['latest_receipt_info'] = $latest_receipt_info;
-//                return $this->sendResponse("receipt_data", $response);
-//            }else{
-//                return $this->sendError($verifyApplePurchase['message']??"Failed to verify Apple purchase");
-//            }
-//
-//            $transaction_id = $request->get('transaction_id');;
-//            $original_transaction_id = $request->get('original_transaction_id');
-//            $expires_date_ms = Carbon::createFromTimestampMs($request->get('expires_date'));
-//            $product_id = $request->get('product_id');
-//
-//            // FINDING PLAN FROM PLAN ID
-//            $plan = Memberships::where('apple_in_app_purchase_id', $product_id)->orderBy('id','desc')->first();
-//
-//            // GENERATING ORDER
-//            $order = new Orders();
-//            $order->fill([
-//                'userId' => $request->get('ref_user_id'),
-//                'orderDate' => now(),
-//                'subtotal' => $plan->price??0,
-//                'total' => $plan->price??0,
-//                'paidBy' => 'Apple',
-//                'status' => 'Paid',
-//                'currency' => 'USD',
-//            ])->save();
-//
-//            // GENERATING ORDER ITEM
-//            $orderItem = new OrderItems();
-//            $orderItem->fill([
-//                'orderId' => $order->id,
-//                'itemId' => $plan->id,
-//                'itemType' => 'Membership',
-//                'quantity' => 1,
-//                'price' => $plan->price??0,
-//                'paid' => now(),
-//                'apple_transaction_id' => $transaction_id,
-//                'apple_original_transaction_id' => $original_transaction_id,
-//            ])->save();
-//
-//            // REMOVING OLD MEMBERSHIP
-//            MembershipsUsers::where("userId", $request->get('ref_user_id'))->delete();
-//
-//            // PAYMENT STATUS
-//            $membership = new MembershipsUsers();
-//            $membership->userId = $request->get('ref_user_id');
-//            $membership->membershipId = $plan->id;
-//            $membership->registrationDate = now();
-//            $membership->expiry = Carbon::parse($expires_date_ms);
-//            $membership->apple_transaction_id = $orderItem->apple_transaction_id;
-//            $membership->apple_original_transaction_id = $orderItem->apple_original_transaction_id;
-//            $membership->paid = now();
-//            $membership->orderItemId = $orderItem->id;
-//            $membership->save();
-//
-//            // USER APPLE PURCHASE
-//            $userApplePurchase = new UserApplePurchaseTransaction();
-//            $userApplePurchase->fill([
-//                'ref_user_id' =>  $request->get('ref_user_id'),
-//                'original_transaction_id' => $orderItem->apple_original_transaction_id,
-//                'transaction_id' => $orderItem->apple_transaction_id,
-//                'transaction_type' => 'RESTORE',
-//                'expiry_date' => Carbon::parse($expires_date_ms),
-//            ])->save();
-//
-//            // COMPLETE DATABASE TRANSACTION
-//            DB::commit();
-//
-//            // SENDING WEBHOOK
-//            $user = Users::find($request->get('ref_user_id'));
-//            $planResponse['apple_in_app_purchase_id'] = $plan->apple_in_app_purchase_id;
-//            $planResponse['price'] = $plan->price;
-//            $planResponse['durationType'] = $plan->durationType;
-//            $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
-//            Event::dispatch('AppleSubscriptionRestored',[$user,$planResponse]);
-//
-//            // SENDING SUCCESS
-//            $response['redirect_url'] = route('login',['device_type' => 'ios']);
-//            return $this->sendResponse("receipt_data", $response);
-//        }catch (\Exception $exception){
-//            DB::rollBack();
-//            return $this->sendErrorResponse("Failed to verify Apple purchase",$exception->getMessage());
-//        }
-//    }
+    //    public function processApplePurchaseV2(Request $request)
+    //    {
+    //        try {
+    //            $validator = Validator::make($request->all(), [
+    //                'ref_user_id' => 'required|numeric|exists:users,id',
+    //                'plan_id' => 'required|numeric|exists:memberships,id',
+    //                'transaction_id' => 'required',
+    //                'original_transaction_id' => 'required',
+    //                'expires_date' => 'required',
+    //                'product_id' => 'required',
+    //            ]);
+    //            if ($validator->fails()){
+    //                return response()->json(['error'=>$validator->errors()], 400);
+    //            }
+    //
+    //            DB::beginTransaction();
+    //            $transaction_id = $request->get('transaction_id');;
+    //            $original_transaction_id = $request->get('original_transaction_id');
+    //            $expires_date_ms = Carbon::createFromTimestampMs($request->get('expires_date'));
+    //            $product_id = $request->get('product_id');
+    //
+    //            // FINDING PLAN FROM PLAN ID
+    //            $plan = Memberships::where('id', $request->get('plan_id'))->first();
+    //
+    //            // GENERATING ORDER
+    //            $order = new Orders();
+    //            $order->fill([
+    //                'userId' => $request->get('ref_user_id'),
+    //                'orderDate' => now(),
+    //                'subtotal' => $plan->price??0,
+    //                'total' => $plan->price??0,
+    //                'paidBy' => 'Apple',
+    //                'status' => 'Paid',
+    //                'currency' => 'USD',
+    //            ])->save();
+    //
+    //            // GENERATING ORDER ITEM
+    //            $orderItem = new OrderItems();
+    //            $orderItem->fill([
+    //                'orderId' => $order->id,
+    //                'itemId' => $plan->id,
+    //                'itemType' => 'Membership',
+    //                'quantity' => 1,
+    //                'price' => $plan->price??0,
+    //                'paid' => now(),
+    //                'apple_transaction_id' => $transaction_id,
+    //                'apple_original_transaction_id' => $original_transaction_id,
+    //            ])->save();
+    //
+    //            // REMOVING OLD MEMBERSHIP
+    //            MembershipsUsers::where("userId", $request->get('ref_user_id'))->delete();
+    //
+    //            // PAYMENT STATUS
+    //            $membership = new MembershipsUsers();
+    //            $membership->userId = $request->get('ref_user_id');
+    //            $membership->membershipId = $plan->id;
+    //            $membership->registrationDate = now();
+    //            $membership->expiry = Carbon::parse($expires_date_ms);
+    //            $membership->apple_transaction_id = $orderItem->apple_transaction_id;
+    //            $membership->apple_original_transaction_id = $orderItem->apple_original_transaction_id;
+    //            $membership->paid = now();
+    //            $membership->orderItemId = $orderItem->id;
+    //            $membership->save();
+    //
+    //            // USER APPLE PURCHASE
+    //            $userApplePurchase = new UserApplePurchaseTransaction();
+    //            $userApplePurchase->fill([
+    //                'ref_user_id' =>  $request->get('ref_user_id'),
+    //                'original_transaction_id' => $orderItem->apple_original_transaction_id,
+    //                'transaction_id' => $orderItem->apple_transaction_id,
+    //                'transaction_type' => 'PURCHASE',
+    //                'expiry_date' => Carbon::parse($expires_date_ms),
+    //            ])->save();
+    //
+    //            // COMPLETE DATABASE TRANSACTION
+    //            DB::commit();
+    //
+    //            // SENDING WEBHOOK
+    //            $user = Users::find($request->get('ref_user_id'));
+    //            $planResponse['apple_in_app_purchase_id'] = $plan->apple_in_app_purchase_id;
+    //            $planResponse['price'] = $plan->price;
+    //            $planResponse['durationType'] = $plan->durationType;
+    //            $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
+    //            Event::dispatch('AppleSubscriptionPurchased',[$user,$planResponse]);
+    //
+    //            // SENDING SUCCESS
+    //            $response['redirect_url'] = route('login',['device_type' => 'ios']);
+    //            return $this->sendResponse("receipt_data", $response);
+    //        }catch (\Exception $exception){
+    //            DB::rollBack();
+    //            return $this->sendErrorResponse("Failed to verify Apple purchase",$exception->getMessage());
+    //        }
+    //    }
+    //
+    //    public function restoreSubscriptionV2(Request $request)
+    //    {
+    //        try {
+    //            $validator = Validator::make($request->all(), [
+    //                'ref_user_id' => 'required|numeric|exists:users,id',
+    //                'receipt_data' => 'required',
+    //                'payment_environment' => 'required'
+    //            ]);
+    //            if ($validator->fails()){
+    //                return response()->json(['error'=>$validator->errors()], 400);
+    //            }
+    //
+    //            DB::beginTransaction();
+    //            $verifyReceipt = $this->verifyApplePurchase($request->get('receipt_data'),$request->get('payment_environment'));
+    //            if (isset($verifyApplePurchase['status']) && !empty($verifyApplePurchase['status'])){
+    //                $latest_receipt_info = $verifyApplePurchase['data']['latest_receipt_info'][0]??[];
+    //
+    //                $transaction_id = $latest_receipt_info['transaction_id']??'';
+    //                $original_transaction_id = $latest_receipt_info['original_transaction_id']??'';
+    //                $expires_date_ms = $latest_receipt_info['expires_date_ms']??'';
+    //
+    //                $response['redirect_url'] = route('login',['device_type' => 'ios']);
+    //                $response['latest_receipt_info'] = $latest_receipt_info;
+    //                return $this->sendResponse("receipt_data", $response);
+    //            }else{
+    //                return $this->sendError($verifyApplePurchase['message']??"Failed to verify Apple purchase");
+    //            }
+    //
+    //            $transaction_id = $request->get('transaction_id');;
+    //            $original_transaction_id = $request->get('original_transaction_id');
+    //            $expires_date_ms = Carbon::createFromTimestampMs($request->get('expires_date'));
+    //            $product_id = $request->get('product_id');
+    //
+    //            // FINDING PLAN FROM PLAN ID
+    //            $plan = Memberships::where('apple_in_app_purchase_id', $product_id)->orderBy('id','desc')->first();
+    //
+    //            // GENERATING ORDER
+    //            $order = new Orders();
+    //            $order->fill([
+    //                'userId' => $request->get('ref_user_id'),
+    //                'orderDate' => now(),
+    //                'subtotal' => $plan->price??0,
+    //                'total' => $plan->price??0,
+    //                'paidBy' => 'Apple',
+    //                'status' => 'Paid',
+    //                'currency' => 'USD',
+    //            ])->save();
+    //
+    //            // GENERATING ORDER ITEM
+    //            $orderItem = new OrderItems();
+    //            $orderItem->fill([
+    //                'orderId' => $order->id,
+    //                'itemId' => $plan->id,
+    //                'itemType' => 'Membership',
+    //                'quantity' => 1,
+    //                'price' => $plan->price??0,
+    //                'paid' => now(),
+    //                'apple_transaction_id' => $transaction_id,
+    //                'apple_original_transaction_id' => $original_transaction_id,
+    //            ])->save();
+    //
+    //            // REMOVING OLD MEMBERSHIP
+    //            MembershipsUsers::where("userId", $request->get('ref_user_id'))->delete();
+    //
+    //            // PAYMENT STATUS
+    //            $membership = new MembershipsUsers();
+    //            $membership->userId = $request->get('ref_user_id');
+    //            $membership->membershipId = $plan->id;
+    //            $membership->registrationDate = now();
+    //            $membership->expiry = Carbon::parse($expires_date_ms);
+    //            $membership->apple_transaction_id = $orderItem->apple_transaction_id;
+    //            $membership->apple_original_transaction_id = $orderItem->apple_original_transaction_id;
+    //            $membership->paid = now();
+    //            $membership->orderItemId = $orderItem->id;
+    //            $membership->save();
+    //
+    //            // USER APPLE PURCHASE
+    //            $userApplePurchase = new UserApplePurchaseTransaction();
+    //            $userApplePurchase->fill([
+    //                'ref_user_id' =>  $request->get('ref_user_id'),
+    //                'original_transaction_id' => $orderItem->apple_original_transaction_id,
+    //                'transaction_id' => $orderItem->apple_transaction_id,
+    //                'transaction_type' => 'RESTORE',
+    //                'expiry_date' => Carbon::parse($expires_date_ms),
+    //            ])->save();
+    //
+    //            // COMPLETE DATABASE TRANSACTION
+    //            DB::commit();
+    //
+    //            // SENDING WEBHOOK
+    //            $user = Users::find($request->get('ref_user_id'));
+    //            $planResponse['apple_in_app_purchase_id'] = $plan->apple_in_app_purchase_id;
+    //            $planResponse['price'] = $plan->price;
+    //            $planResponse['durationType'] = $plan->durationType;
+    //            $planResponse['expiry'] = Carbon::parse($expires_date_ms)->format('Y-m-d H:i:s');
+    //            Event::dispatch('AppleSubscriptionRestored',[$user,$planResponse]);
+    //
+    //            // SENDING SUCCESS
+    //            $response['redirect_url'] = route('login',['device_type' => 'ios']);
+    //            return $this->sendResponse("receipt_data", $response);
+    //        }catch (\Exception $exception){
+    //            DB::rollBack();
+    //            return $this->sendErrorResponse("Failed to verify Apple purchase",$exception->getMessage());
+    //        }
+    //    }
 
-    public function verifyApplePurchase($receipt_data,$payment_environment)
+    public function verifyApplePurchase($receipt_data, $payment_environment)
     {
         if ($payment_environment == 'production') {
             $url = "https://buy.itunes.apple.com/verifyReceipt";
-        }else{
+        } else {
             $url = "https://sandbox.itunes.apple.com/verifyReceipt";
         }
         $apple_secret = config('constants.APPLE_PURCHASE_PASSWORD');
@@ -1525,7 +1530,7 @@ class OrdersController extends BaseController
             }
 
             return $this->sendResponse("receipt_data", $response);
-        }else{
+        } else {
             return $this::sendError("Something went wrong.");
         }
     }
@@ -1533,19 +1538,19 @@ class OrdersController extends BaseController
     public function appleWebhook(Request $request)
     {
         try {
-            $postData = json_decode($request->getContent(),true);
+            $postData = json_decode($request->getContent(), true);
             if ($postData && isset($postData['signedPayload']) && !empty($postData['signedPayload'])) {
                 $response = array();
                 $isActive = false;
                 $signedPayload = $postData['signedPayload'];
-                $transaction = $this::decodeSignedPayload($signedPayload,true);
+                $transaction = $this::decodeSignedPayload($signedPayload, true);
                 $transaction['signedPayload'] = $signedPayload;
 
                 $currentDate = time();
 
                 if (isset($transaction['data']['signedTransactionInfo'])) {
                     $signedTransaction = $transaction['data']['signedTransactionInfo'];
-                    $transactionDetails = $this::decodeSignedTransaction($signedTransaction,true);
+                    $transactionDetails = $this::decodeSignedTransaction($signedTransaction, true);
                     $transaction['data']['signedTransaction'] = $transactionDetails;
                     $transaction['data']['signedTransaction']['signedDate_human'] = Carbon::createFromTimestampMs($transactionDetails['signedDate'])->timezone('UTC');
                     $transaction['data']['signedTransaction']['purchaseDate_human'] = Carbon::createFromTimestampMs($transactionDetails['purchaseDate'])->timezone('UTC');
@@ -1601,10 +1606,10 @@ class OrdersController extends BaseController
                 $notification->fill($response);
                 $notification->save();
                 return $this->sendSuccess("Verified Apple purchase");
-            }else{
+            } else {
                 return $this->sendError("Invalid json response");
             }
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             \Log::error('Apple Webhook Error: ' . $exception->getMessage(), [
                 'trace' => $exception->getTraceAsString()
             ]);
@@ -1639,7 +1644,7 @@ class OrdersController extends BaseController
 
         if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
-        }else{
+        } else {
             return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
         }
     }
@@ -1659,7 +1664,7 @@ class OrdersController extends BaseController
 
         if (!empty(Helper::getDeviceTypeCookie()) && Helper::getDeviceTypeCookie() == 'ios') {
             return View::make("webview.membership-management")->with("message", Lang::get("messages.downgrade_cancelled"));
-        }else{
+        } else {
             return View::make("MembershipManagement")->with("message", Lang::get("messages.downgrade_cancelled"));
         }
     }
