@@ -35,6 +35,8 @@ use Stripe\Stripe;
 use Stripe\Subscription;
 use Illuminate\Support\Facades\DB;
 use App\Models\Plans;
+use Illuminate\Support\Str;
+
 
 class OrdersController extends BaseController
 {
@@ -876,6 +878,7 @@ class OrdersController extends BaseController
             ]);
 
             // 1. Create or retrieve Stripe customer
+
 
             if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
                 $customer = Customer::create([
