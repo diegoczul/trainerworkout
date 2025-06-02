@@ -705,6 +705,130 @@ class OrdersController extends BaseController
         }
     }
 
+    public function processPlanSubscriptionPayment(Request $request)
+    {
+        $debug = false;
+        Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
+
+        try {
+            $plan = \App\Models\Plan::findOrFail($request->plan_id);
+            $token = $request->get('stripeToken');
+
+            event('stripeAction', [null, 'action' => 'start_subscription', 'data' => ['plan_id' => $plan->id]]);
+
+            // Create or fetch the user by email
+            $user = Auth::user();
+            if (!$user) {
+                $email = Helper::clean($request->get('email'));
+                $user = Users::where('email', $email)->first();
+
+                if (!$user) {
+                    $user = new Users;
+                    $user->firstName = $request->get('first_name');
+                    $user->lastName = $request->get('last_name');
+                    $user->email = $email;
+                    $user->street = $request->get('street');
+                    $user->city = $request->get('city');
+                    $user->province = $request->get('province');
+                    $user->country = $request->get('country');
+                    $user->postalCode = $request->get('postal');
+                    $user->password = Hash::make(Str::random(12));
+                    $user->userType = 'Trainee';
+                    $user->save();
+
+                    event('stripeAction', [$user, 'action' => 'user_created', 'data' => $user]);
+
+                    $user->sendActivationEmail();
+                }
+
+                Auth::loginUsingId($user->id);
+            }
+
+            event('stripeAction', [$user, 'action' => 'user_authenticated', 'data' => $user]);
+
+            // Attach to trainer as client
+            \App\Models\Clients::firstOrCreate([
+                'trainerId' => $plan->user_id,
+                'userId' => $user->id
+            ]);
+
+            event('stripeAction', [$user, 'action' => 'client_linked', 'data' => ['trainer_id' => $plan->user_id]]);
+
+            // 1. Create or retrieve Stripe customer
+            if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
+                $customer = Customer::create([
+                    'email' => $user->email,
+                    'description' => $user->email,
+                ]);
+                $user->stripeCheckoutToken = $customer->id;
+                $user->save();
+
+                event('stripeAction', [$user, 'action' => 'customer_created', 'data' => $customer]);
+            }
+
+            $customer = Customer::retrieve($user->stripeCheckoutToken);
+            event('stripeAction', [$user, 'action' => 'customer_retrieved', 'data' => $customer]);
+
+            // 2. Attach payment method
+            $paymentMethod = PaymentMethod::retrieve($token);
+            $paymentMethod->attach(['customer' => $customer->id]);
+
+            Customer::update($customer->id, [
+                'invoice_settings' => ['default_payment_method' => $token],
+            ]);
+
+            $paymentMethod = PaymentMethod::retrieve($token);
+            $user->fourLastDigits = $paymentMethod->card->last4 ?? '';
+            $user->typeOfCreditCard = $paymentMethod->card->brand ?? '';
+            $user->save();
+
+            event('stripeAction', [$user, 'action' => 'payment_method_attached', 'data' => $paymentMethod]);
+
+            // 3. Create subscription
+            $subscription = Subscription::create([
+                'customer' => $customer->id,
+                'items' => [[
+                    'price' => $plan->stripe_price_id
+                ]],
+                'default_payment_method' => $paymentMethod->id,
+                'payment_behavior' => 'default_incomplete',
+                'expand' => ['latest_invoice.payment_intent'],
+            ]);
+
+            event('stripeAction', [$user, 'action' => 'subscription_created', 'data' => $subscription]);
+
+            // 4. Insert into plans_users
+            DB::table('plans_users')->insert([
+                'trainer_id' => $plan->user_id,
+                'plan_id' => $plan->id,
+                'user_id' => $user->id,
+                'stripe_price_id' => $plan->stripe_price_id,
+                'subscriptionStripeKey' => $subscription->id,
+                'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
+                'price' => $plan->price,
+                'status' => 'pending',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            event('stripeAction', [$user, 'action' => 'plans_users_inserted', 'data' => ['plan_id' => $plan->id, 'subscription_id' => $subscription->id]]);
+
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret,
+                    'subscription_id' => $subscription->id,
+                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            event('stripeAction', [null, 'action' => 'subscription_error', 'data' => ['error' => $e->getMessage()]]);
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 
 
     public function processSubscriptionPayment(Request $request)
@@ -837,136 +961,6 @@ class OrdersController extends BaseController
         }
     }
 
-    public function processPlanSubscriptionPayment(Request $request)
-    {
-        $debug = false;
-        Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
-
-        try {
-            $plan = \App\Models\Plan::findOrFail($request->plan_id);
-            $token = $request->get('stripeToken');
-
-            stripeAction('Starting plan subscription', ['plan_id' => $plan->id]);
-
-            // Create or fetch the user by email
-            $user = Auth::user();
-            if (!$user) {
-                $email = Helper::clean($request->get('email'));
-                $user = Users::where('email', $email)->first();
-
-                if (!$user) {
-                    $user = new Users;
-                    $user->firstName = $request->get('first_name');
-                    $user->lastName = $request->get('last_name');
-                    $user->email = $email;
-                    $user->street = $request->get('street');
-                    $user->city = $request->get('city');
-                    $user->province = $request->get('province');
-                    $user->country = $request->get('country');
-                    $user->postalCode = $request->get('postal');
-                    $user->password = Hash::make(Str::random(12));
-                    $user->userType = 'Trainee';
-                    $user->save();
-
-                    stripeAction('New user created', ['user_id' => $user->id, 'email' => $user->email]);
-
-                    $user->sendActivationEmail();
-                }
-
-                Auth::loginUsingId($user->id);
-            }
-
-            stripeAction('User authenticated', ['user_id' => $user->id]);
-
-            // Attach to trainer as client
-            \App\Models\Clients::firstOrCreate([
-                'trainerId' => $plan->user_id,
-                'userId' => $user->id
-            ]);
-
-            stripeAction('Client relationship ensured', ['trainer_id' => $plan->user_id, 'client_id' => $user->id]);
-
-            // 1. Create or retrieve Stripe customer
-            if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
-                $customer = Customer::create([
-                    'email' => $user->email,
-                    'description' => $user->email,
-                ]);
-                $user->stripeCheckoutToken = $customer->id;
-                $user->save();
-
-                stripeAction('Stripe customer created', ['customer_id' => $customer->id]);
-            }
-
-            $customer = Customer::retrieve($user->stripeCheckoutToken);
-
-            // 2. Attach payment method
-            $paymentMethod = PaymentMethod::retrieve($token);
-            $paymentMethod->attach(['customer' => $customer->id]);
-
-            Customer::update($customer->id, [
-                'invoice_settings' => ['default_payment_method' => $token],
-            ]);
-
-            $paymentMethod = PaymentMethod::retrieve($token);
-            $user->fourLastDigits = $paymentMethod->card->last4 ?? '';
-            $user->typeOfCreditCard = $paymentMethod->card->brand ?? '';
-            $user->save();
-
-            stripeAction('Payment method attached', [
-                'customer_id' => $customer->id,
-                'card_last4' => $user->fourLastDigits,
-                'card_brand' => $user->typeOfCreditCard,
-            ]);
-
-            // 3. Create subscription
-            $subscription = Subscription::create([
-                'customer' => $customer->id,
-                'items' => [[
-                    'price' => $plan->stripe_price_id
-                ]],
-                'default_payment_method' => $paymentMethod->id,
-                'payment_behavior' => 'default_incomplete',
-                'expand' => ['latest_invoice.payment_intent'],
-            ]);
-
-            stripeAction('Subscription created', [
-                'subscription_id' => $subscription->id,
-                'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
-            ]);
-
-            // 4. Insert into plans_users
-            DB::table('plans_users')->insert([
-                'trainer_id' => $plan->user_id,
-                'plan_id' => $plan->id,
-                'user_id' => $user->id,
-                'stripe_price_id' => $plan->stripe_price_id,
-                'subscriptionStripeKey' => $subscription->id,
-                'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
-                'price' => $plan->price,
-                'status' => 'pending',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            stripeAction('plans_users row inserted', ['user_id' => $user->id, 'plan_id' => $plan->id]);
-
-            return response()->json([
-                'status' => true,
-                'data' => [
-                    'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret,
-                    'subscription_id' => $subscription->id,
-                    'payment_intent_id' => $subscription->latest_invoice->payment_intent->id,
-                ]
-            ]);
-        } catch (\Exception $e) {
-            stripeAction('Subscription error', ['error' => $e->getMessage()]);
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
 
 
     public function completeSubscriptionPayment(Request $request)
