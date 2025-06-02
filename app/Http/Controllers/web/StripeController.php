@@ -28,7 +28,6 @@ class StripeController extends Controller
         $debug = false;
         \Stripe\Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
-        Log::info('STRIPE KEY USED', ['key' => config('services.stripe.secret')]);
 
 
         // 1. Create a Stripe Product
