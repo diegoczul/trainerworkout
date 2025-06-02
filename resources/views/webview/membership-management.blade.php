@@ -39,7 +39,9 @@
                         </ul>
                         <div class="plan--description--mgt">
                             <p>{{ Lang::get('content.free') }}</p>
-                            @if (Auth::user()->membership && Auth::user()->membership->membershipId == 59 && Memberships::checkMembership(Auth::user()) == '')
+                            @if (Auth::user()->membership &&
+                                    Auth::user()->membership->membershipId == 59 &&
+                                    Memberships::checkMembership(Auth::user()) == '')
                                 <div class="currentPlan">
                                     <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                 </div>
@@ -59,8 +61,13 @@
                         </ul>
                         <div class="plan--description--mgt">
                             <p>${{ config('constants.price') }} {{ Lang::get('content.monthly') }}</p>
-                            @if(isset($currentMembership) && !empty($currentMembership) && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture() && $currentMembership->expiry && $currentMembership->subscriptionStripeKey != null)
-                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
+                            @if (isset($currentMembership) &&
+                                    !empty($currentMembership) &&
+                                    \Carbon\Carbon::parse($currentMembership->expiry)->isFuture() &&
+                                    $currentMembership->expiry &&
+                                    $currentMembership->subscriptionStripeKey != null)
+                                @if (Auth::user()->membership &&
+                                        (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
                                     <div class="currentPlan">
                                         <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                         <p>{{ Lang::get('content.next_renewal') }}
@@ -69,7 +76,8 @@
                                     </div>
                                 @endif
                             @else
-                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
+                                @if (Auth::user()->membership &&
+                                        (Auth::user()->membership->membershipId == 63 || Auth::user()->membership->membershipId == 61))
                                     <div class="currentPlan flex flex-wrap items-center justify-center">
                                         @if ($currentMembership && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture())
                                             <div>
@@ -78,29 +86,36 @@
                                                     <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                                 </p>
                                             </div>
-                                            <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">{{__('messages.cancel_membership')}}</button>
+                                            <button type="button" class="bluebtn flex items-center justify-center"
+                                                onclick="showButtonLoader(this);window.location.href='{{ route('membership-cancellation') }}'">{{ __('messages.cancel_membership') }}</button>
                                         @else
                                             @php
-                                                $membership = Memberships::where('id',63)->first();
-                                                if ($membership && empty($membership->apple_in_app_purchase_id)){
-                                                    $membership = Memberships::where('id',61)->first();
+                                                $membership = Memberships::where('id', 63)->first();
+                                                if ($membership && empty($membership->apple_in_app_purchase_id)) {
+                                                    $membership = Memberships::where('id', 61)->first();
                                                 }
                                             @endphp
-                                            <form action="javascript:void(0);" >
-                                                <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                            <form action="javascript:void(0);">
+                                                <button type="button"
+                                                    onclick="logMessage('{{ $membership->apple_in_app_purchase_id }}','{{ $membership->id }}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
                                             </form>
                                         @endif
                                     </div>
                                 @else
-                                    @if ((isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59)) || (!Auth::user()->membership))
+                                    @if (
+                                        (isset($currentMembership) &&
+                                            !empty($currentMembership) &&
+                                            (\Carbon\Carbon::parse($currentMembership->expiry)->isPast() || $currentMembership->membershipId == 59)) ||
+                                            !Auth::user()->membership)
                                         @php
-                                            $membership = Memberships::where('id',63)->first();
-                                            if ($membership && empty($membership->apple_in_app_purchase_id)){
-                                                $membership = Memberships::where('id',61)->first();
+                                            $membership = Memberships::where('id', 63)->first();
+                                            if ($membership && empty($membership->apple_in_app_purchase_id)) {
+                                                $membership = Memberships::where('id', 61)->first();
                                             }
                                         @endphp
-                                        <form action="javascript:void(0);" >
-                                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                        <form action="javascript:void(0);">
+                                            <button type="button"
+                                                onclick="logMessage('{{ $membership->apple_in_app_purchase_id }}','{{ $membership->id }}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
                                         </form>
                                     @endif
                                 @endif
@@ -120,8 +135,13 @@
                         </ul>
                         <div class="plan--description--mgt">
                             <p>$107.99 {{ Lang::get('content.yearly') }}</p>
-                            @if(isset($currentMembership) && !empty($currentMembership) && \Carbon\Carbon::parse($currentMembership->expiry)->isFuture() && $currentMembership->subscriptionStripeKey != null)
-                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) && Memberships::checkMembership(Auth::user()) == '')
+                            @if (isset($currentMembership) &&
+                                    !empty($currentMembership) &&
+                                    \Carbon\Carbon::parse($currentMembership->expiry)->isFuture() &&
+                                    $currentMembership->subscriptionStripeKey != null)
+                                @if (Auth::user()->membership &&
+                                        (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) &&
+                                        Memberships::checkMembership(Auth::user()) == '')
                                     <div class="currentPlan">
                                         <p>{{ Lang::get('content.CurrentPlan') }}</p>
                                         <p>{{ Lang::get('content.next_renewal') }}
@@ -130,8 +150,12 @@
                                     </div>
                                 @endif
                             @else
-                                @if (Auth::user()->membership && (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) && Memberships::checkMembership(Auth::user()) == '')
-                                    @if (isset($currentMembership) && !empty($currentMembership) &&  (\Carbon\Carbon::parse($currentMembership->expiry)->isFuture()))
+                                @if (Auth::user()->membership &&
+                                        (Auth::user()->membership->membershipId == 64 || Auth::user()->membership->membershipId == 62) &&
+                                        Memberships::checkMembership(Auth::user()) == '')
+                                    @if (isset($currentMembership) &&
+                                            !empty($currentMembership) &&
+                                            \Carbon\Carbon::parse($currentMembership->expiry)->isFuture())
                                         <div class="currentPlan flex flex-wrap items-center justify-center">
                                             <div>
                                                 <p>{{ Lang::get('content.CurrentPlan') }}</p>
@@ -139,28 +163,31 @@
                                                     <strong>{{ \Carbon\Carbon::parse($currentMembership->expiry)->format('F j, Y') }}</strong>
                                                 </p>
                                             </div>
-                                            <button type="button" class="bluebtn flex items-center justify-center" onclick="showButtonLoader(this);window.location.href='{{route('membership-cancellation')}}'">{{__('messages.cancel_membership')}}</button>
+                                            <button type="button" class="bluebtn flex items-center justify-center"
+                                                onclick="showButtonLoader(this);window.location.href='{{ route('membership-cancellation') }}'">{{ __('messages.cancel_membership') }}</button>
                                         </div>
                                     @else
                                         @php
-                                            $membership = Memberships::where('id',64)->first();
-                                            if ($membership && empty($membership->apple_in_app_purchase_id)){
-                                                $membership = Memberships::where('id',62)->first();
+                                            $membership = Memberships::where('id', 64)->first();
+                                            if ($membership && empty($membership->apple_in_app_purchase_id)) {
+                                                $membership = Memberships::where('id', 62)->first();
                                             }
                                         @endphp
-                                        <form action="javascript:void(0);" >
-                                            <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                        <form action="javascript:void(0);">
+                                            <button type="button"
+                                                onclick="logMessage('{{ $membership->apple_in_app_purchase_id }}','{{ $membership->id }}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
                                         </form>
                                     @endif
                                 @else
                                     @php
-                                        $membership = Memberships::where('id',64)->first();
-                                        if ($membership && empty($membership->apple_in_app_purchase_id)){
-                                            $membership = Memberships::where('id',62)->first();
+                                        $membership = Memberships::where('id', 64)->first();
+                                        if ($membership && empty($membership->apple_in_app_purchase_id)) {
+                                            $membership = Memberships::where('id', 62)->first();
                                         }
                                     @endphp
-                                    <form action="javascript:void(0);" >
-                                        <button type="button" onclick="logMessage('{{$membership->apple_in_app_purchase_id}}','{{$membership->id}}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
+                                    <form action="javascript:void(0);">
+                                        <button type="button"
+                                            onclick="logMessage('{{ $membership->apple_in_app_purchase_id }}','{{ $membership->id }}','PURCHASE')">{{ Lang::get('content.Upgrade') }}</button>
                                     </form>
                                 @endif
                             @endif
@@ -173,17 +200,23 @@
                     </div>
                 </div>
                 <div class="plan">
-                    <form action="javascript:void(0);" >
-                        <button type="button" onclick="console.log('RESTORE');console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');">Restore Subscription</button>
+                    <form action="javascript:void(0);">
+                        <button type="button"
+                            onclick="console.log('RESTORE');console.log('{{ config('constants.USER_ID_LOG') }}{{ auth()->user()->id }}');">Restore
+                            Subscription</button>
                         <br><br>
-                        <button style="background-color: #f24242;" type="button" onclick="deleteAccount();">{{ Lang::get('content.DeleteAccount') }}</button>
+                        <button style="background-color: #f24242;" type="button"
+                            onclick="deleteAccount();">{{ Lang::get('content.DeleteAccount') }}</button>
                     </form>
                 </div>
             </div>
 
 
             <div class="account--table flex align-center w-10/12 justify-center" style="margin-top: 10px; color: #0a0a0a">
-                <div class="gap-4 flex align-center justify-center"><u><a style="color: blue; font-size: 12px" href="{{route('PrivacyPolicy')}}">privacy policy</a></u> <u><a style="color: blue; font-size: 12px" href="{{route('TermsAndConditions')}}">terms & conditions</a></u></div>
+                <div class="gap-4 flex align-center justify-center"><u><a style="color: blue; font-size: 12px"
+                            href="{{ route('PrivacyPolicy') }}">privacy policy</a></u> <u><a
+                            style="color: blue; font-size: 12px" href="{{ route('TermsAndConditions') }}">terms &
+                            conditions</a></u></div>
             </div>
         </div>
     </div>
@@ -199,12 +232,13 @@
             $(".menu_membership").addClass("selected");
         });
 
-        function logMessage(message,id,purchase_status) {
-            console.log('{{config('constants.IN_APP_SUBSCRIPTION_LOG')}}'+message);
-            console.log('{{config('constants.SUBSCRIPTION_PLAN_ID_LOG')}}'+id);
-            console.log('{{config('constants.SUBSCRIPTION_PURCHASE_STATUS_LOG')}}'+purchase_status);
-            console.log('{{config('constants.USER_ID_LOG')}}{{auth()->user()->id}}');
+        function logMessage(message, id, purchase_status) {
+            console.log('{{ config('constants.IN_APP_SUBSCRIPTION_LOG') }}' + message);
+            console.log('{{ config('constants.SUBSCRIPTION_PLAN_ID_LOG') }}' + id);
+            console.log('{{ config('constants.SUBSCRIPTION_PURCHASE_STATUS_LOG') }}' + purchase_status);
+            console.log('{{ config('constants.USER_ID_LOG') }}{{ auth()->user()->id }}');
         }
+
         function deleteAccount() {
             Swal.fire({
                 title: "Delete Profile",
@@ -218,7 +252,7 @@
                 customClass: {
                     popup: 'swal2-account-popup',
                 },
-            }).then(function (t) {
+            }).then(function(t) {
                 if (t.value) {
                     showTopLoader()
                     $.ajax({
