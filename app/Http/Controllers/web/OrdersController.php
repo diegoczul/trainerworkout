@@ -148,7 +148,7 @@ class OrdersController extends BaseController
             try {
                 $token = request()->get('stripeToken');
 
-                if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
+                if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
                     $customer = \Stripe\Customer::create([
                         "source" => $token,
                         "description" => $user->email,
@@ -203,7 +203,7 @@ class OrdersController extends BaseController
         try {
             $token = request()->get('stripeToken');
 
-            if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
+            if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
                 $customer = \Stripe\Customer::create([
                     "source" => $token,
                     "description" => $user->email,
@@ -245,7 +245,7 @@ class OrdersController extends BaseController
 
         try {
             $token = $request->get('stripeToken');
-            if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
+            if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
                 $customer = Customer::create([
                     "description" => $user->email,
                     "email" => $user->email
@@ -881,7 +881,7 @@ class OrdersController extends BaseController
 
 
 
-            if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
+            if (stripos($user->stripeCheckoutToken, 'cus_') !== 0) {
                 $customer = Customer::create([
                     'email' => $user->email,
                     'description' => $user->email,
