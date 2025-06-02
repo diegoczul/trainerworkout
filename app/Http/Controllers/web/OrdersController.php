@@ -880,6 +880,7 @@ class OrdersController extends BaseController
             // 1. Create or retrieve Stripe customer
 
 
+
             if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
                 $customer = Customer::create([
                     'email' => $user->email,
