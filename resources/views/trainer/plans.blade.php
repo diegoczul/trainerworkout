@@ -242,10 +242,10 @@
 
             if (ckEditorInstance) {
                 const content = ckEditorInstance.getData();
-                alert("CKEditor content:\n\n" + content); // ✅ Debug alert
+                // alert("CKEditor content:\n\n" + content); // ✅ Debug alert
                 $('textarea[name="description"]').val(content);
             } else {
-                alert("❌ ckEditorInstance is undefined or not ready");
+                // alert("❌ ckEditorInstance is undefined or not ready");
             }
 
             $.ajax({
