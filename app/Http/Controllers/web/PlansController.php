@@ -160,7 +160,8 @@ class PlansController extends Controller
 
     public function cancelClient($plan_id, $user_id)
     {
-        \Stripe\Stripe::setApiKey(config('app.debug') ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
+        $debug = false;
+        \Stripe\Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
         $subscription = DB::table('plans_users')
             ->where('plan_id', $plan_id)
@@ -200,7 +201,8 @@ class PlansController extends Controller
             return redirect()->back()->withErrors('Subscription not found.');
         }
 
-        \Stripe\Stripe::setApiKey(config('app.debug') ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
+        $debug = false;
+        \Stripe\Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
         try {
             \Stripe\Subscription::update($subscription->subscriptionStripeKey, [

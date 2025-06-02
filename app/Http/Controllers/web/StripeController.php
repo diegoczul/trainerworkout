@@ -25,7 +25,8 @@ class StripeController extends Controller
         $user = Auth::user();
 
         // Set Stripe API key
-        \Stripe\Stripe::setApiKey(config('constants.STRIPETestsecret_key'));
+        $debug = false;
+        \Stripe\Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
         Log::info('STRIPE KEY USED', ['key' => config('services.stripe.secret')]);
 
@@ -152,7 +153,9 @@ class StripeController extends Controller
 
     private function handleStripePlan(Plan $plan, Request $request): array
     {
-        \Stripe\Stripe::setApiKey(config('constants.STRIPETestsecret_key'));
+        $debug = false;
+        Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
+
 
         $data = [
             'name' => $request->name,
@@ -207,7 +210,8 @@ class StripeController extends Controller
         }
 
         try {
-            \Stripe\Stripe::setApiKey(config('constants.STRIPETestsecret_key'));
+            $debug = false;
+            \Stripe\Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
 
             // Archive the Stripe product instead of deleting
             if ($plan->stripe_product_id) {

@@ -56,7 +56,8 @@ class SystemController extends BaseController
 
     public function syncWithStripeAndCheckMemberships()
     {
-        $stripeKey = Config::get("app.debug") ? Config::get("constants.STRIPETestsecret_key") : Config::get("constants.STRIPEsecret_key");
+        $debug = false;
+        $stripeKey = $debug ? Config::get("constants.STRIPETestsecret_key") : Config::get("constants.STRIPEsecret_key");
         \Stripe\Stripe::setApiKey($stripeKey);
 
         $users = Users::all();

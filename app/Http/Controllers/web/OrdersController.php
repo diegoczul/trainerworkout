@@ -679,7 +679,9 @@ class OrdersController extends BaseController
             return redirect()->back()->withErrors('No active yearly subscription to downgrade.');
         }
 
-        \Stripe\Stripe::setApiKey(config('constants.STRIPETestsecret_key'));
+        $debug = false;
+        Stripe::setApiKey($debug ? config("constants.STRIPETestsecret_key") : config("constants.STRIPEsecret_key"));
+
 
         try {
             // 1. Set Stripe subscription to cancel at period end
