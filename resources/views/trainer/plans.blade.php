@@ -201,12 +201,16 @@
         callWidget("w_plans").done(function() {});
     </script>
     <script>
+        let ckEditorInstance; // Declare at the top
+
         document.addEventListener('DOMContentLoaded', function() {
             const el = document.querySelector('#editor');
             if (el) {
                 ClassicEditor.create(el, {
                     toolbar: ['bold', 'numberedList', 'bulletedList', '|', 'undo', 'redo']
                 }).then(editor => {
+                    ckEditorInstance = editor; // ✅ Save to global variable
+
                     editor.editing.view.change(writer => {
                         const root = editor.editing.view.document.getRoot();
                         writer.setStyle('color', '#000000', root);
@@ -232,6 +236,9 @@
         $("#plan_form").on("submit", function(e) {
             e.preventDefault();
             let $form = $(this);
+            if (ckEditorInstance) {
+                $('textarea[name="description"]').val(ckEditorInstance.getData());
+            }
 
             $.ajax({
                 url: $form.attr("action"),
