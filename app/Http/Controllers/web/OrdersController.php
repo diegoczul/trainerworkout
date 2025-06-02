@@ -243,7 +243,6 @@ class OrdersController extends BaseController
 
         try {
             $token = $request->get('stripeToken');
-
             if (empty($user->stripeCheckoutToken) || !Str::startsWith($user->stripeCheckoutToken, 'cus_')) {
                 $customer = Customer::create([
                     "description" => $user->email,
