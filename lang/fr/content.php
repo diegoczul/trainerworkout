@@ -849,6 +849,16 @@ return array(
     "cancel_downgrade" => "Annuler la rétrogradation - Garder mon plan actuel",
     "coming_soon" => "Bientôt disponible",
 
+    // AI Workout Creation
+    'CreateNewWorkoutAI' => 'Créer un entraînement avec IA',
+    'AIWorkoutDescription' => 'Répondez à quelques questions pour générer un entraînement personnalisé avec l\'IA',
+    'TargetMuscleGroups' => 'Groupes musculaires ciblés',
+    'IntensityLevel' => 'Niveau d\'intensité',
+    'FitnessLevel' => 'Niveau de condition physique',
+    'WorkoutDuration' => 'Durée de l\'entraînement',
+    'WorkoutObjective' => 'Objectif de l\'entraînement',
+    'GenerateWorkout' => 'Générer l\'entraînement',
+
 
 
 );

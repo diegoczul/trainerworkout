@@ -18,7 +18,8 @@
             @if (!Auth::user()->membershipValidButAtLimit())
                 <div id="membershipMessage">
                     <div class="upgradeMessage">
-                        <p class="text-white">{{ Lang::get('content.upgrade1') }} <span>{{ Lang::get('content.upgrade2') }} </span>
+                        <p class="text-white">{{ Lang::get('content.upgrade1') }} <span>{{ Lang::get('content.upgrade2') }}
+                            </span>
                             <a href="{{ Lang::get('routes./MembershipManagement') }}">{{ Lang::get('content.upgrade3') }}</a>
                         </p>
                     </div>
@@ -195,6 +196,14 @@
 
                             <a href="{{ Lang::get('routes./Trainer/CreateWorkout') }}" class="addElementButton"
                                 id="createWorkout">{{ Lang::get('content.CreateNewWorkout') }}</a>
+
+                            <a href="{{ Lang::get('routes./Trainer/CreateWorkoutAI') }}"
+                                class="addElementButton ai-gradient-button"
+                                id="createWorkoutAI">{{ Lang::get('content.CreateNewWorkoutAI') }}</a>
+
+                            <a href="{{ route('aiWorkout.questionnaire') }}"
+                                class="addElementButton ai-questionnaire-button" id="createWorkoutAIQuestionnaire">🤖
+                                {{ Lang::get('content.CreateAIWorkoutQuestionnaire') }}</a>
                         </div>
                     </div>
                     <div id="w_workouts">
@@ -216,7 +225,7 @@
         callWidget("w_workouts").done(function() {
             callWidget("w_tags");
         });
-        console.log("COLLECT_DEVICE_INFO={{auth()->user()->id}}");
+        console.log("COLLECT_DEVICE_INFO={{ auth()->user()->id }}");
     </script>
 
     <script>
@@ -417,4 +426,17 @@
             $(".menu_workouts").addClass("selected");
         });
     </script>
+
+    <style>
+        .ai-questionnaire-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
+            border: none !important;
+            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.3) !important;
+        }
+
+        .ai-questionnaire-button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.4) !important;
+        }
+    </style>
 @endsection

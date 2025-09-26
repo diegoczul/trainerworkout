@@ -11,10 +11,7 @@ class ExportWorkoutArticle extends Command
     protected $signature = 'workout:export-article {workout_id?}';
     protected $description = 'Export workout to ChatGPT, generate article, and post to WordPress';
 
-
-
-    // ✅ Hardcoded keys as you asked (real ones)
-    private $chatGptKey = '***REMOVED***';
+    // WordPress configuration
     private $wordpressUrl = 'https://trainer-workout.com/blog';
     private $wordpressUsername = 'root';
     private $wordpressAppPassword = '***REMOVED***'; // your APP password directly
@@ -78,7 +75,7 @@ Workout description: {$workout->description}
 EOT;
 
 
-        $chatResponse = Http::withToken($this->chatGptKey)
+        $chatResponse = Http::withToken(config('services.chatgpt.api_key'))
             ->timeout(600)
             ->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-4',

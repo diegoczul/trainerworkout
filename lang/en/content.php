@@ -283,6 +283,13 @@ return array(
     "workouts/message2"             => "show all available tags and clients",
     "workouts/message3"             => "hide all available tags and clients",
     "CreateNewWorkout"              => "Create New Workout",
+    "CreateNewWorkoutAI"            => "Create New Workout with AI",
+    "TargetMuscleGroups"            => "Target Muscle Groups",
+    "IntensityLevel"                => "Intensity Level",
+    "FitnessLevel"                  => "Fitness Level",
+    "WorkoutDuration"               => "Workout Duration",
+    "WorkoutObjective"              => "Workout Objective",
+    "GenerateWorkout"               => "Generate AI Workout",
     "MyWorkouts"                    => "My Workouts",
     "Hereresidesalloftheworkoutsyouhavecreated" => "Here resides all workouts you created",
     "Hereresidesalloftheworkoutsyouhavecreatedforclients" => "Here resides all workouts you shared with",
@@ -901,6 +908,17 @@ return array(
     'pending_downgrade' => 'Pending Downgrade',
     'cancel_downgrade' => 'Cancel downgrade - Keep my current plan',
     'coming_soon' => 'Coming Soon',
+
+    // AI Workout Creation
+    'CreateNewWorkoutAI' => 'Create Workout with AI',
+    'AIWorkoutDescription' => 'Answer a few questions to generate a personalized workout with AI',
+    'TargetMuscleGroups' => 'Target Muscle Groups',
+    'IntensityLevel' => 'Intensity Level',
+    'FitnessLevel' => 'Fitness Level',
+    'WorkoutDuration' => 'Workout Duration',
+    'WorkoutObjective' => 'Workout Objective',
+    'GenerateWorkout' => 'Generate Workout',
+    'CreateAIWorkoutQuestionnaire' => 'AI Workout Questionnaire',
 
 
 );

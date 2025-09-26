@@ -188,6 +188,7 @@ return array(
 	"/Trainer/Workouts" => "/Trainer/Workouts",
 	"/Trainee/CreateWorkout" => "/Trainee/CreateWorkout",
 	"/Trainer/CreateWorkout" => "/Trainer/CreateWorkout",
+	"/Trainer/CreateWorkoutAI" => "/Trainer/CreateWorkoutAI",
 	"/Trainer/CreateWorkout/Client/" => "/Trainer/CreateWorkout/Client/",
 	"/widgets/workouts/" => "/widgets/workouts/",
 	"/widgets/workouts/addEdit/" => "/widgets/workouts/addEdit/",

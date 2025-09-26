@@ -52,4 +52,8 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+
+    'chatgpt' => [
+        'api_key' => env('CHATGPT_API_KEY'),
+    ],
 ];

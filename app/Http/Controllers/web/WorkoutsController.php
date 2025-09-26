@@ -28,6 +28,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Barryvdh\Snappy\Facades\SnappyImage;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Process\Exceptions\ProcessTimedOutException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
@@ -40,7 +41,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Jenssegers\Agent\Facades\Agent;
 use Knp\Snappy\Image;
@@ -3737,5 +3737,847 @@ class WorkoutsController extends BaseController
 			$result["message"] = $validation->messages()->first();
 			return $this::responseJsonError($result);
 		}
+	}
+
+	public function createWorkoutWithAI(Request $request)
+	{
+		$userId = Auth::user()->id;
+		$permissions = Helper::checkPremissions(Auth::user()->id, null);
+
+		Event::dispatch('userNewWorkout', array(Auth::user()));
+
+		// Log the AI workout generation request
+		Log::info('AI Workout Generation: User accessed questionnaire', [
+			'user_id' => $userId,
+			'user_email' => Auth::user()->email,
+			'timestamp' => now()
+		]);
+
+		return view("trainer.createWorkoutAI")
+			->with("permissions", $permissions)
+			->with("bodyGroups", BodyGroups::select("id", "name")->where("main", 1)->orderBy("name")->get())
+			->with("equipments", Equipments::select("id", "name")->where("status", 1)->orderBy("name")->get())
+			->with("objectives", $this->getWorkoutObjectives())
+			->with("intensityLevels", $this->getIntensityLevels())
+			->with("fitnessLevels", $this->getFitnessLevels());
+	}
+
+	public function generateWorkoutWithAI(Request $request)
+	{
+		// Enhanced validation for new form fields
+		$validation = Validator::make($request->all(), [
+			'workout_name' => 'required|string|min:3|max:100',
+			'body_groups' => 'required|array|min:1',
+			'body_groups.*' => 'exists:bodygroups,id',
+			'equipments' => 'nullable|array',
+			'equipments.*' => 'exists:equipments,id',
+			'equipment_preference' => 'required|string|in:minimal,moderate,heavy',
+			'intensity' => 'required|string|in:light,moderate,high',
+			'duration' => 'required|integer|min:15|max:90',
+			'workout_focus' => 'required|string|in:strength,muscle_building,endurance,general_fitness'
+		]);
+
+		// Log validation attempt
+		Log::info('AI Workout Generation: Validation started', [
+			'user_id' => Auth::user()->id,
+			'form_data' => $request->only([
+				'workout_name',
+				'body_groups',
+				'equipments',
+				'equipment_preference',
+				'intensity',
+				'duration',
+				'workout_focus'
+			]),
+			'timestamp' => now()
+		]);
+
+		if ($validation->fails()) {
+			Log::warning('AI Workout Generation: Validation failed', [
+				'user_id' => Auth::user()->id,
+				'errors' => $validation->errors()->toArray(),
+				'timestamp' => now()
+			]);
+			return redirect()->back()->withErrors($validation)->withInput();
+		}
+
+		try {
+			// Get user preferences
+			$workoutName = $request->input('workout_name');
+			$equipmentPreference = $request->input('equipment_preference');
+			$intensity = $request->input('intensity');
+			$duration = $request->input('duration');
+			$workoutFocus = $request->input('workout_focus');
+
+			// Get selected body groups and equipments
+			$selectedBodyGroups = BodyGroups::whereIn('id', $request->body_groups)->get();
+			$selectedEquipments = $request->equipments ?
+				Equipments::whereIn('id', $request->equipments)->get() : collect([]);
+
+			Log::info('AI Workout Generation: Data retrieved', [
+				'user_id' => Auth::user()->id,
+				'workout_name' => $workoutName,
+				'body_groups' => $selectedBodyGroups->pluck('name')->toArray(),
+				'equipments' => $selectedEquipments->pluck('name')->toArray(),
+				'preferences' => [
+					'equipment_preference' => $equipmentPreference,
+					'intensity' => $intensity,
+					'duration' => $duration,
+					'workout_focus' => $workoutFocus
+				],
+				'timestamp' => now()
+			]);
+
+			// Get exercises for selected body groups
+			$exercises = $this->getExercisesForBodyGroups($request->body_groups, $request->equipments);
+
+			if ($exercises->isEmpty()) {
+				Log::warning('AI Workout Generation: No exercises found', [
+					'user_id' => Auth::user()->id,
+					'body_groups' => $request->body_groups,
+					'equipments' => $request->equipments,
+					'timestamp' => now()
+				]);
+				return redirect()->back()
+					->withError('No exercises found for the selected body groups and equipment.')
+					->withInput();
+			}
+
+			Log::info('AI Workout Generation: Exercises retrieved', [
+				'user_id' => Auth::user()->id,
+				'exercise_count' => $exercises->count(),
+				'exercise_ids' => $exercises->pluck('id')->toArray(),
+				'timestamp' => now()
+			]);
+
+			// Create the ChatGPT prompt
+			$prompt = $this->buildChatGPTPrompt(
+				$workoutName,
+				$selectedBodyGroups,
+				$selectedEquipments,
+				$exercises,
+				$equipmentPreference,
+				$intensity,
+				$duration,
+				$workoutFocus
+			);
+
+			Log::info('AI Workout Generation: ChatGPT prompt created', [
+				'user_id' => Auth::user()->id,
+				'prompt_length' => strlen($prompt),
+				'timestamp' => now()
+			]);
+
+			// Send request to ChatGPT
+			$chatGPTResponse = $this->sendToChatGPT($prompt);
+
+			if (!$chatGPTResponse) {
+				Log::error('AI Workout Generation: ChatGPT request failed', [
+					'user_id' => Auth::user()->id,
+					'timestamp' => now()
+				]);
+				return $this->createFallbackWorkout($workoutName, $selectedBodyGroups, $exercises, $request);
+			}
+
+			Log::info('AI Workout Generation: ChatGPT response received', [
+				'user_id' => Auth::user()->id,
+				'response_length' => strlen($chatGPTResponse),
+				'response_preview' => substr($chatGPTResponse, 0, 200) . '...',
+				'timestamp' => now()
+			]);
+
+			// Process the AI response and create workout
+			$workout = $this->processAIResponse($chatGPTResponse, $workoutName, $exercises, $request);
+
+			if (!$workout) {
+				Log::error('AI Workout Generation: Failed to process AI response', [
+					'user_id' => Auth::user()->id,
+					'chatgpt_response' => $chatGPTResponse,
+					'timestamp' => now()
+				]);
+				return $this->createFallbackWorkout($workoutName, $selectedBodyGroups, $exercises, $request);
+			}
+
+			Log::info('AI Workout Generation: Workout created successfully', [
+				'user_id' => Auth::user()->id,
+				'workout_id' => $workout->id,
+				'workout_name' => $workout->name,
+				'timestamp' => now()
+			]);
+
+			Session::put("workoutIdInProgress", $workout->id);
+			Session::save();
+
+			return redirect()->to(__('routes./Trainer/CreateWorkout/') . $workout->id)
+				->with('message', 'AI workout generated successfully! You can now customize it further.');
+		} catch (\Exception $e) {
+			Log::error('AI Workout Generation: Exception occurred', [
+				'user_id' => Auth::user()->id,
+				'error_message' => $e->getMessage(),
+				'error_trace' => $e->getTraceAsString(),
+				'timestamp' => now()
+			]);
+
+			return redirect()->back()
+				->withError('An error occurred while generating your workout. Please try again.')
+				->withInput();
+		}
+	}
+
+	private function getWorkoutObjectives()
+	{
+		return [
+			'hypertrophy' => 'Hypertrophy (Muscle Building)',
+			'strength' => 'Strength Building',
+			'endurance' => 'Endurance',
+			'fat_loss' => 'Fat Loss',
+			'toning' => 'Toning',
+			'general_fitness' => 'General Fitness'
+		];
+	}
+
+	private function getIntensityLevels()
+	{
+		return [
+			'low' => 'Low Intensity',
+			'moderate' => 'Moderate Intensity',
+			'high' => 'High Intensity',
+			'extreme' => 'Extreme Intensity'
+		];
+	}
+
+	private function getFitnessLevels()
+	{
+		return [
+			'beginner' => 'Beginner',
+			'intermediate' => 'Intermediate',
+			'advanced' => 'Advanced'
+		];
+	}
+
+	private function generateWorkoutName($request)
+	{
+		$objective = str_replace('_', ' ', ucwords($request->objective, '_'));
+		$intensity = ucfirst($request->intensity);
+		$duration = $request->duration;
+
+		return "{$intensity} {$objective} Workout ({$duration} min)";
+	}
+
+	private function generateWorkoutDescription($request)
+	{
+		$muscleGroups = implode(', ', array_map('ucfirst', $request->muscle_groups));
+		$objective = str_replace('_', ' ', ucwords($request->objective, '_'));
+		$level = ucfirst($request->fitness_level);
+
+		return "AI-generated {$level} level workout targeting {$muscleGroups} for {$objective}. Duration: {$request->duration} minutes.";
+	}
+
+	private function generateWorkoutExercises($workout, $request)
+	{
+		$muscleGroups = $request->muscle_groups;
+		$intensity = $request->intensity;
+		$fitnessLevel = $request->fitness_level;
+		$duration = $request->duration;
+		$objective = $request->objective;
+
+		// Get exercises based on muscle groups
+		$exercises = $this->getExercisesForMuscleGroups($muscleGroups, $fitnessLevel);
+
+		// Calculate number of exercises based on duration
+		$numExercises = $this->calculateNumberOfExercises($duration);
+
+		// Select exercises for the workout
+		$selectedExercises = $exercises->random(min($numExercises, $exercises->count()));
+
+		$order = 1;
+		foreach ($selectedExercises as $exercise) {
+			$workoutExercise = new WorkoutsExercises();
+			$workoutExercise->workoutId = $workout->id;
+			$workoutExercise->exerciseId = $exercise->id;
+			$workoutExercise->order = $order;
+			$workoutExercise->rest = $this->getRestTime($intensity);
+			$workoutExercise->note = '';
+			$workoutExercise->save();
+
+			// Create template sets based on objective and fitness level
+			$this->createTemplateSets($workoutExercise, $objective, $fitnessLevel, $intensity);
+
+			$order++;
+		}
+	}
+
+	private function getExercisesForMuscleGroups($muscleGroups, $fitnessLevel)
+	{
+		$bodyGroupIds = BodyGroups::whereIn('name', $muscleGroups)->pluck('id');
+
+		$query = Exercises::whereHas('bodyGroups', function ($q) use ($bodyGroupIds) {
+			$q->whereIn('body_groups.id', $bodyGroupIds);
+		});
+
+		// Filter exercises based on fitness level
+		if ($fitnessLevel === 'beginner') {
+			$query->where('difficulty', '<=', 3);
+		} elseif ($fitnessLevel === 'intermediate') {
+			$query->whereBetween('difficulty', [2, 4]);
+		} else {
+			$query->where('difficulty', '>=', 3);
+		}
+
+		return $query->get();
+	}
+
+	private function calculateNumberOfExercises($duration)
+	{
+		// Rough estimation: 3-5 minutes per exercise depending on sets and rest
+		if ($duration <= 30) {
+			return 6;
+		} elseif ($duration <= 45) {
+			return 8;
+		} elseif ($duration <= 60) {
+			return 10;
+		} else {
+			return 12;
+		}
+	}
+
+	private function getRestTime($intensity)
+	{
+		switch ($intensity) {
+			case 'low':
+				return 60; // 1 minute
+			case 'moderate':
+				return 90; // 1.5 minutes
+			case 'high':
+				return 120; // 2 minutes
+			case 'extreme':
+				return 180; // 3 minutes
+			default:
+				return 90;
+		}
+	}
+
+	private function createTemplateSets($workoutExercise, $objective, $fitnessLevel, $intensity)
+	{
+		$sets = $this->getSetsConfiguration($objective, $fitnessLevel);
+
+		for ($i = 1; $i <= $sets['count']; $i++) {
+			$templateSet = new TemplateSets();
+			$templateSet->workoutId = $workoutExercise->workoutId;
+			$templateSet->workoutsExercisesId = $workoutExercise->id;
+			$templateSet->order = $i;
+			$templateSet->reps = $sets['reps'];
+			$templateSet->weight = 0; // User will fill this
+			$templateSet->distance = 0;
+			$templateSet->time = 0;
+			$templateSet->save();
+		}
+	}
+
+	private function getSetsConfiguration($objective, $fitnessLevel)
+	{
+		$baseConfig = [
+			'hypertrophy' => ['count' => 4, 'reps' => 12],
+			'strength' => ['count' => 5, 'reps' => 5],
+			'endurance' => ['count' => 3, 'reps' => 20],
+			'fat_loss' => ['count' => 3, 'reps' => 15],
+			'toning' => ['count' => 3, 'reps' => 15],
+			'general_fitness' => ['count' => 3, 'reps' => 12]
+		];
+
+		$config = $baseConfig[$objective] ?? $baseConfig['general_fitness'];
+
+		// Adjust for fitness level
+		if ($fitnessLevel === 'beginner') {
+			$config['count'] = max(2, $config['count'] - 1);
+			$config['reps'] = max(8, $config['reps'] - 3);
+		} elseif ($fitnessLevel === 'advanced') {
+			$config['count'] = min(6, $config['count'] + 1);
+		}
+
+		return $config;
+	}
+
+	/**
+	 * Get exercises for selected body groups and equipment
+	 */
+	private function getExercisesForBodyGroups($bodyGroupIds, $equipmentIds = null)
+	{
+		$query = Exercises::whereHas('bodyGroups', function ($q) use ($bodyGroupIds) {
+			$q->whereIn('bodygroups.id', $bodyGroupIds);
+		})->where('status', 1)->whereNull('deleted_at');
+
+		// Filter by equipment if provided
+		if ($equipmentIds && count($equipmentIds) > 0) {
+			$query->where(function ($q) use ($equipmentIds) {
+				$q->whereExists(function ($subQuery) use ($equipmentIds) {
+					$subQuery->select('id')
+						->from('exercises_equipments')
+						->whereRaw('exercises_equipments.exerciseId = exercises.id')
+						->whereIn('exercises_equipments.equipmentId', $equipmentIds)
+						->whereNull('exercises_equipments.deleted_at');
+				})->orWhere('exercises.equipmentRequired', 0);
+			});
+		} else {
+			// If no equipment selected, only show exercises that don't require equipment
+			$query->where('equipmentRequired', 0);
+		}
+
+		return $query->limit(100)->get(); // Limit to prevent too many exercises
+	}
+
+	/**
+	 * Build comprehensive ChatGPT prompt with user preferences
+	 */
+	private function buildChatGPTPrompt($workoutName, $bodyGroups, $equipments, $exercises, $equipmentPreference, $intensity, $duration, $workoutFocus)
+	{
+		$bodyGroupNames = $bodyGroups->pluck('name')->join(', ');
+		$equipmentNames = $equipments->isNotEmpty() ?
+			$equipments->pluck('name')->join(', ') : 'No equipment (bodyweight only)';
+
+		// Create exercise list in the format id:exercise_name
+		$exerciseList = [];
+		foreach ($exercises as $exercise) {
+			$exerciseList[] = $exercise->id . ':' . $exercise->name;
+		}
+		$exerciseListString = implode("\n", $exerciseList);
+
+		// Map preference values to descriptive text
+		$equipmentPreferenceText = [
+			'minimal' => 'minimal equipment use (prefer bodyweight)',
+			'moderate' => 'moderate equipment use (mix of bodyweight and equipment)',
+			'heavy' => 'heavy equipment use (prefer equipment-based exercises)'
+		];
+
+		$intensityText = [
+			'light' => 'light intensity (beginner-friendly, lower reps/sets)',
+			'moderate' => 'moderate intensity (intermediate level)',
+			'high' => 'high intensity (advanced level, higher reps/sets)'
+		];
+
+		$workoutFocusText = [
+			'strength' => 'strength training (focus on heavy compound movements)',
+			'muscle_building' => 'muscle building/hypertrophy (focus on muscle growth)',
+			'endurance' => 'endurance training (focus on cardiovascular fitness)',
+			'general_fitness' => 'general fitness (balanced approach)'
+		];
+
+		$prompt = <<<EOT
+You are a certified personal trainer creating a workout program.
+
+WORKOUT DETAILS:
+- Workout Name: {$workoutName}
+- Target Body Groups: {$bodyGroupNames}
+- Available Equipment: {$equipmentNames}
+- Equipment Preference: {$equipmentPreferenceText[$equipmentPreference]}
+- Workout Intensity: {$intensityText[$intensity]}
+- Workout Duration: {$duration} minutes
+- Workout Focus: {$workoutFocusText[$workoutFocus]}
+
+AVAILABLE EXERCISES:
+{$exerciseListString}
+
+INSTRUCTIONS:
+Create a balanced workout using ONLY the exercises from the list above that fits the specified preferences.
+Consider the duration ({$duration} minutes) when determining the number of exercises and sets.
+Adjust the workout structure based on the intensity level and focus area.
+You must respond with ONLY exercise IDs from the provided list, formatted as a JSON structure.
+
+RESPONSE FORMAT REQUIREMENTS:
+You must respond with a JSON array containing exercise groups. Each group should have:
+1. "exerciseGroup" - Array of exercise objects with the structure shown in the example
+2. "exerciseGroupRest" - Rest time between groups in seconds
+
+EXAMPLE RESPONSE FORMAT:
+[
+    {
+        "exerciseGroup": [
+            {
+                "exerciseId": 123,
+                "sets": [
+                    {"reps": 12, "weight": 0, "rest": 60},
+                    {"reps": 10, "weight": 0, "rest": 60},
+                    {"reps": 8, "weight": 0, "rest": 90}
+                ]
+            },
+            {
+                "exerciseId": 456,
+                "sets": [
+                    {"reps": 15, "weight": 0, "rest": 45},
+                    {"reps": 12, "weight": 0, "rest": 45}
+                ]
+            }
+        ],
+        "exerciseGroupRest": 120
+    }
+]
+
+GUIDELINES:
+- For {$intensity} intensity: adjust reps/sets accordingly
+- For {$duration} minutes: include appropriate number of exercises
+- Focus on {$workoutFocus}: structure exercises to match this goal
+- Equipment preference {$equipmentPreference}: select exercises accordingly
+- Only use exercise IDs from the provided list
+- Ensure proper rest periods between sets and groups
+- Create 1-3 exercise groups depending on workout structure
+EOT;
+
+		Log::info('AI Workout Generation: ChatGPT prompt built', [
+			'user_id' => Auth::user()->id,
+			'prompt_length' => strlen($prompt),
+			'exercise_count' => count($exerciseList),
+			'preferences' => [
+				'equipment_preference' => $equipmentPreference,
+				'intensity' => $intensity,
+				'duration' => $duration,
+				'workout_focus' => $workoutFocus
+			],
+			'timestamp' => now()
+		]);
+
+		return $prompt;
+	}
+
+	/**
+	 * Send request to ChatGPT API
+	 */
+	private function sendToChatGPT($prompt)
+	{
+		try {
+			// Get OpenAI API key from environment
+			$apiKey = env('OPENAI_API_KEY');
+
+			if (!$apiKey) {
+				Log::error('AI Workout Generation: OpenAI API key not configured', [
+					'user_id' => Auth::user()->id,
+					'timestamp' => now()
+				]);
+				return null;
+			}
+
+			$url = 'https://api.openai.com/v1/chat/completions';
+
+			$data = [
+				'model' => 'gpt-4',
+				'messages' => [
+					[
+						'role' => 'system',
+						'content' => 'You are a professional fitness trainer assistant. Always respond with valid JSON only, no additional text or explanations.'
+					],
+					[
+						'role' => 'user',
+						'content' => $prompt
+					]
+				],
+				'max_tokens' => 2000,
+				'temperature' => 0.7
+			];
+
+			$headers = [
+				'Authorization: Bearer ' . $apiKey,
+				'Content-Type: application/json'
+			];
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+			Log::info('AI Workout Generation: Sending request to ChatGPT', [
+				'user_id' => Auth::user()->id,
+				'model' => 'gpt-4',
+				'prompt_length' => strlen($prompt),
+				'timestamp' => now()
+			]);
+
+			$response = curl_exec($ch);
+			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			$curlError = curl_error($ch);
+			curl_close($ch);
+
+			if ($curlError) {
+				Log::error('AI Workout Generation: cURL error', [
+					'user_id' => Auth::user()->id,
+					'error' => $curlError,
+					'timestamp' => now()
+				]);
+				return null;
+			}
+
+			if ($httpCode !== 200) {
+				Log::error('AI Workout Generation: HTTP error from ChatGPT', [
+					'user_id' => Auth::user()->id,
+					'http_code' => $httpCode,
+					'response' => $response,
+					'timestamp' => now()
+				]);
+				return null;
+			}
+
+			$responseData = json_decode($response, true);
+
+			if (!$responseData || !isset($responseData['choices'][0]['message']['content'])) {
+				Log::error('AI Workout Generation: Invalid response format from ChatGPT', [
+					'user_id' => Auth::user()->id,
+					'response' => $response,
+					'timestamp' => now()
+				]);
+				return null;
+			}
+
+			$content = $responseData['choices'][0]['message']['content'];
+
+			Log::info('AI Workout Generation: ChatGPT response received successfully', [
+				'user_id' => Auth::user()->id,
+				'response_length' => strlen($content),
+				'tokens_used' => $responseData['usage'] ?? null,
+				'timestamp' => now()
+			]);
+
+			return $content;
+		} catch (\Exception $e) {
+			Log::error('AI Workout Generation: Exception in ChatGPT request', [
+				'user_id' => Auth::user()->id,
+				'error' => $e->getMessage(),
+				'trace' => $e->getTraceAsString(),
+				'timestamp' => now()
+			]);
+			return null;
+		}
+	}
+
+	/**
+	 * Process AI response and create workout
+	 */
+	private function processAIResponse($chatGPTResponse, $workoutName, $exercises, $request)
+	{
+		try {
+			// Parse JSON response
+			$aiData = json_decode($chatGPTResponse, true);
+
+			if (!$aiData || !is_array($aiData)) {
+				Log::error('AI Workout Generation: Invalid JSON in AI response', [
+					'user_id' => Auth::user()->id,
+					'response' => $chatGPTResponse,
+					'timestamp' => now()
+				]);
+				return null;
+			}
+
+			Log::info('AI Workout Generation: Processing AI response', [
+				'user_id' => Auth::user()->id,
+				'exercise_groups_count' => count($aiData),
+				'ai_structure' => array_keys($aiData[0] ?? []),
+				'timestamp' => now()
+			]);
+
+			// Create workout
+			$workout = new Workouts();
+			$workout->name = $workoutName;
+			$workout->description = $this->generateWorkoutDescriptionFromAI($aiData, $request);
+			$workout->sale = 0;
+			$workout->availability = 'private';
+			$workout->shares = 0;
+			$workout->views = 0;
+			$workout->timesPerformed = 0;
+			$workout->userId = Auth::user()->id;
+			$workout->authorId = Auth::user()->id;
+			$workout->status = "Draft";
+			$workout->version = Config::get("constants.version");
+			$workout->save();
+
+			$workout->master = $workout->id;
+			$workout->save();
+
+			// Create exercise groups and exercises
+			$groupOrder = 1;
+			$exerciseMap = $exercises->keyBy('id');
+
+			foreach ($aiData as $groupData) {
+				if (!isset($groupData['exerciseGroup']) || !is_array($groupData['exerciseGroup'])) {
+					continue;
+				}
+
+				// Create workout group
+				$workoutGroup = new WorkoutsGroups();
+				$workoutGroup->workoutId = $workout->id;
+				$workoutGroup->name = "Group " . $groupOrder;
+				$workoutGroup->description = '';
+				$workoutGroup->rest = $groupData['exerciseGroupRest'] ?? 120;
+				$workoutGroup->order = $groupOrder;
+				$workoutGroup->save();
+
+				$exerciseOrder = 1;
+				foreach ($groupData['exerciseGroup'] as $exerciseData) {
+					$exerciseId = $exerciseData['exerciseId'] ?? null;
+
+					if (!$exerciseId || !isset($exerciseMap[$exerciseId])) {
+						Log::warning('AI Workout Generation: Invalid exercise ID in response', [
+							'user_id' => Auth::user()->id,
+							'exercise_id' => $exerciseId,
+							'available_exercises' => $exercises->pluck('id')->toArray(),
+							'timestamp' => now()
+						]);
+						continue;
+					}
+
+					// Create workout exercise
+					$workoutExercise = new WorkoutsExercises();
+					$workoutExercise->workoutId = $workout->id;
+					$workoutExercise->exerciseId = $exerciseId;
+					$workoutExercise->order = $exerciseOrder;
+					$workoutExercise->groupId = $workoutGroup->id;
+					$workoutExercise->save();
+
+					// Create sets
+					$sets = $exerciseData['sets'] ?? [];
+					foreach ($sets as $setIndex => $setData) {
+						$set = new Sets();
+						$set->workoutExerciseId = $workoutExercise->id;
+						$set->reps = $setData['reps'] ?? 12;
+						$set->weight = $setData['weight'] ?? 0;
+						$set->rest = $setData['rest'] ?? 60;
+						$set->order = $setIndex + 1;
+						$set->save();
+					}
+
+					$exerciseOrder++;
+				}
+
+				$groupOrder++;
+			}
+
+			Log::info('AI Workout Generation: Workout structure created', [
+				'user_id' => Auth::user()->id,
+				'workout_id' => $workout->id,
+				'groups_created' => $groupOrder - 1,
+				'timestamp' => now()
+			]);
+
+			return $workout;
+		} catch (\Exception $e) {
+			Log::error('AI Workout Generation: Exception processing AI response', [
+				'user_id' => Auth::user()->id,
+				'error' => $e->getMessage(),
+				'response' => $chatGPTResponse,
+				'trace' => $e->getTraceAsString(),
+				'timestamp' => now()
+			]);
+			return null;
+		}
+	}
+
+	/**
+	 * Create fallback workout if AI fails
+	 */
+	private function createFallbackWorkout($workoutName, $selectedBodyGroups, $exercises, $request)
+	{
+		Log::info('AI Workout Generation: Creating fallback workout', [
+			'user_id' => Auth::user()->id,
+			'workout_name' => $workoutName,
+			'timestamp' => now()
+		]);
+
+		try {
+			// Create workout
+			$workout = new Workouts();
+			$workout->name = $workoutName . " (Fallback)";
+			$workout->description = "Auto-generated workout for " . $selectedBodyGroups->pluck('name')->join(', ');
+			$workout->sale = 0;
+			$workout->availability = 'private';
+			$workout->shares = 0;
+			$workout->views = 0;
+			$workout->timesPerformed = 0;
+			$workout->userId = Auth::user()->id;
+			$workout->authorId = Auth::user()->id;
+			$workout->status = "Draft";
+			$workout->version = Config::get("constants.version");
+			$workout->save();
+
+			$workout->master = $workout->id;
+			$workout->save();
+
+			// Create simple workout structure
+			$workoutGroup = new WorkoutsGroups();
+			$workoutGroup->workoutId = $workout->id;
+			$workoutGroup->name = "Main Group";
+			$workoutGroup->description = '';
+			$workoutGroup->rest = 120;
+			$workoutGroup->order = 1;
+			$workoutGroup->save();
+
+			// Add 6-8 exercises
+			$selectedExercises = $exercises->take(8);
+			$exerciseOrder = 1;
+
+			foreach ($selectedExercises as $exercise) {
+				$workoutExercise = new WorkoutsExercises();
+				$workoutExercise->workoutId = $workout->id;
+				$workoutExercise->exerciseId = $exercise->id;
+				$workoutExercise->order = $exerciseOrder;
+				$workoutExercise->groupId = $workoutGroup->id;
+				$workoutExercise->save();
+
+				// Create 3 sets for each exercise
+				for ($setNum = 1; $setNum <= 3; $setNum++) {
+					$set = new Sets();
+					$set->workoutExerciseId = $workoutExercise->id;
+					$set->reps = 12;
+					$set->weight = 0;
+					$set->rest = 60;
+					$set->order = $setNum;
+					$set->save();
+				}
+
+				$exerciseOrder++;
+			}
+
+			Session::put("workoutIdInProgress", $workout->id);
+			Session::save();
+
+			Log::info('AI Workout Generation: Fallback workout created successfully', [
+				'user_id' => Auth::user()->id,
+				'workout_id' => $workout->id,
+				'exercises_added' => $selectedExercises->count(),
+				'timestamp' => now()
+			]);
+
+			return redirect()->to(__('routes./Trainer/CreateWorkout/') . $workout->id)
+				->with('warning', 'AI generation failed, but we created a basic workout for you to customize.');
+		} catch (\Exception $e) {
+			Log::error('AI Workout Generation: Failed to create fallback workout', [
+				'user_id' => Auth::user()->id,
+				'error' => $e->getMessage(),
+				'trace' => $e->getTraceAsString(),
+				'timestamp' => now()
+			]);
+
+			return redirect()->back()
+				->withError('Unable to generate workout. Please try again.')
+				->withInput();
+		}
+	}
+
+	/**
+	 * Generate workout description from AI data
+	 */
+	private function generateWorkoutDescriptionFromAI($aiData, $request)
+	{
+		$totalGroups = count($aiData);
+		$totalExercises = 0;
+
+		foreach ($aiData as $group) {
+			$totalExercises += count($group['exerciseGroup'] ?? []);
+		}
+
+		$description = "AI-generated workout with {$totalGroups} exercise groups and {$totalExercises} exercises. ";
+		$description .= "Duration: {$request->duration} minutes. ";
+		$description .= "Intensity: " . ucfirst($request->intensity) . ". ";
+		$description .= "Focus: " . str_replace('_', ' ', ucwords($request->workout_focus, '_')) . ".";
+
+		return $description;
 	}
 }
