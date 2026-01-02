@@ -3756,7 +3756,7 @@ class WorkoutsController extends BaseController
 		return view("trainer.createWorkoutAI")
 			->with("permissions", $permissions)
 			->with("bodyGroups", BodyGroups::select("id", "name")->where("main", 1)->orderBy("name")->get())
-			->with("equipments", Equipments::select("id", "name")->where("status", 1)->orderBy("name")->get())
+			->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())
 			->with("objectives", $this->getWorkoutObjectives())
 			->with("intensityLevels", $this->getIntensityLevels())
 			->with("fitnessLevels", $this->getFitnessLevels());
@@ -3847,6 +3847,9 @@ class WorkoutsController extends BaseController
 				'user_id' => Auth::user()->id,
 				'exercise_count' => $exercises->count(),
 				'exercise_ids' => $exercises->pluck('id')->toArray(),
+				'exercise_details' => $exercises->map(function($ex) {
+					return ['id' => $ex->id, 'name' => $ex->name];
+				})->toArray(),
 				'timestamp' => now()
 			]);
 
@@ -3865,6 +3868,7 @@ class WorkoutsController extends BaseController
 			Log::info('AI Workout Generation: ChatGPT prompt created', [
 				'user_id' => Auth::user()->id,
 				'prompt_length' => strlen($prompt),
+				'full_prompt' => $prompt,
 				'timestamp' => now()
 			]);
 
@@ -4105,7 +4109,7 @@ class WorkoutsController extends BaseController
 	{
 		$query = Exercises::whereHas('bodyGroups', function ($q) use ($bodyGroupIds) {
 			$q->whereIn('bodygroups.id', $bodyGroupIds);
-		})->where('status', 1)->whereNull('deleted_at');
+		})->whereNull('deleted_at');
 
 		// Filter by equipment if provided
 		if ($equipmentIds && count($equipmentIds) > 0) {
@@ -4123,7 +4127,7 @@ class WorkoutsController extends BaseController
 			$query->where('equipmentRequired', 0);
 		}
 
-		return $query->limit(100)->get(); // Limit to prevent too many exercises
+		return $query->limit(500)->get(); // Get more exercises for better variety
 	}
 
 	/**
@@ -4371,6 +4375,7 @@ EOT;
 				'user_id' => Auth::user()->id,
 				'exercise_groups_count' => count($aiData),
 				'ai_structure' => array_keys($aiData[0] ?? []),
+				'full_ai_response' => $aiData,
 				'timestamp' => now()
 			]);
 

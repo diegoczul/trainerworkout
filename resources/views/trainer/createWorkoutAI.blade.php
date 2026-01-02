@@ -11,23 +11,28 @@
     <div class="wrapper">
         <div class="widget">
             <div class="ai-workout-header">
-                <div class="ai-workout-title">
+                <div
+                    class="a        .ai-form-section {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 0.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }t-title">
                     <h1>{{ Lang::get('content.CreateNewWorkoutAI') }}</h1>
                     <p>{{ Lang::get('content.AIWorkoutDescription') }}</p>
                 </div>
             </div>
 
-            <form action="{{ Lang::get('routes./Trainer/CreateWorkoutAI') }}" method="POST" class="ai-workout-form">
-                @csrf
-
-                <!-- Workout Name Section -->
+            <form action="{{ route('trainerGenerateWorkoutAI') }}" method="POST" class="ai-workout-form">
+                @csrf <!-- Workout Name Section -->
                 <div class="ai-form-section">
                     <h3>Workout Name</h3>
                     <p class="ai-form-description">Give your workout a name</p>
                     <div class="input-container">
                         <input type="text" id="workout_name" name="workout_name" value="{{ old('workout_name') }}"
-                            placeholder="Enter workout name (e.g., 'Morning Chest & Back Blast')" class="workout-name-input"
-                            required>
+                            placeholder="Enter workout name (e.g., 'Morning Chest & Back Blast')" class="workout-name-input">
                     </div>
                     @error('workout_name')
                         <div class="error-message">{{ $message }}</div>
@@ -207,8 +212,7 @@
 
                 <!-- Submit Button -->
                 <div class="form-submit-section">
-                    <button type="submit" class="btn-generate-workout">
-                        <span class="btn-icon">🤖</span>
+                    <button type="submit" class="btn-generate-workout" onClick="lightBoxLoadingTwSpinner();">
                         Generate AI Workout
                     </button>
                 </div>
@@ -218,78 +222,25 @@
 @endsection
 
 @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const durationSlider = document.getElementById('duration');
-            const durationValue = document.getElementById('duration-value');
-
-            if (durationSlider && durationValue) {
-                durationSlider.addEventListener('input', function() {
-                    durationValue.textContent = this.value;
-                });
-            }
-
-            // Add visual feedback for radio button selections
-            const radioButtons = document.querySelectorAll('input[type="radio"]');
-            radioButtons.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    // Remove active state from siblings
-                    const siblings = document.querySelectorAll(`input[name="${this.name}"]`);
-                    siblings.forEach(sibling => {
-                        sibling.closest('.radio-item').classList.remove('active');
-                    });
-
-                    // Add active state to selected
-                    this.closest('.radio-item').classList.add('active');
-                });
-            });
-
-            // Set initial active states
-            const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
-            checkedRadios.forEach(radio => {
-                radio.closest('.radio-item').classList.add('active');
-            });
-
-            // Handle checkbox selections
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        this.closest('.checkbox-item').classList.add('active');
-                    } else {
-                        this.closest('.checkbox-item').classList.remove('active');
-                    }
-                });
-            });
-
-            // Set initial checkbox states
-            const checkedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            checkedCheckboxes.forEach(checkbox => {
-                checkbox.closest('.checkbox-item').classList.add('active');
-            });
-        });
-    </script>
-
     <style>
         .ai-workout-header {
-            text-align: center;
             margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            color: white;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+            text-align: center;
         }
 
         .ai-workout-title h1 {
+            color: #2C3E50;
             margin: 0 0 0.5rem 0;
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 600;
         }
 
         .ai-workout-title p {
+            color: #666;
             margin: 0;
-            opacity: 0.9;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .ai-workout-form {
@@ -321,7 +272,7 @@
 
         .workout-name-input {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.25rem;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
             font-size: 1rem;
@@ -347,7 +298,7 @@
             background: #f8fafc;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
-            padding: 1rem;
+            padding: 0.25rem;
             cursor: pointer;
             transition: all 0.2s;
             min-height: 60px;
@@ -363,11 +314,12 @@
 
         .checkbox-item input,
         .radio-item input {
-            margin: 0 0.75rem 0 0;
+            margin: 0 0.75rem 0 0.75rem;
             width: 18px;
             height: 18px;
             accent-color: #667eea;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .checkbox-item label,
@@ -377,6 +329,7 @@
             color: #2d3748;
             flex-grow: 1;
             margin: 0;
+            line-height: 1.4;
         }
 
         .radio-item label small {
@@ -398,7 +351,7 @@
         }
 
         .duration-container {
-            padding: 1rem 0;
+            padding: 0.25rem 0;
         }
 
         .duration-slider {
@@ -437,7 +390,7 @@
 
         .form-submit-section {
             text-align: center;
-            padding: 2rem 0;
+            padding: 0.25rem 0;
         }
 
         .btn-generate-workout {

@@ -647,6 +647,11 @@ class Exercises extends Model implements TranslatableContract
         return $this->hasMany(ExercisesBodyGroups::class, "exerciseId", "id")->with("bodygroup");
     }
 
+    public function bodyGroups()
+    {
+        return $this->belongsToMany(BodyGroups::class, 'exercises_bodygroups', 'exerciseId', 'bodygroupId');
+    }
+
     public static function getExercisesTypesList()
     {
         return DB::table("exercisestypes")->orderBy("name")->Lists("name", "id");

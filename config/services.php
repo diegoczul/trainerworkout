@@ -54,6 +54,6 @@ return [
     ],
 
     'chatgpt' => [
-        'api_key' => env('CHATGPT_API_KEY'),
+        'api_key' => "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"
     ],
 ];

@@ -198,12 +198,13 @@
                                 id="createWorkout">{{ Lang::get('content.CreateNewWorkout') }}</a>
 
                             <a href="{{ Lang::get('routes./Trainer/CreateWorkoutAI') }}"
+                            style="margin-top:13px;margin-left:10px;"
                                 class="addElementButton ai-gradient-button"
                                 id="createWorkoutAI">{{ Lang::get('content.CreateNewWorkoutAI') }}</a>
 
-                            <a href="{{ route('aiWorkout.questionnaire') }}"
-                                class="addElementButton ai-questionnaire-button" id="createWorkoutAIQuestionnaire">🤖
-                                {{ Lang::get('content.CreateAIWorkoutQuestionnaire') }}</a>
+                            {{-- <a href="{{ route('aiWorkout.questionnaire') }}"
+                                class="addElementButton ai-questionnaire-button" id="createWorkoutAIQuestionnaire">
+                                {{ Lang::get('content.CreateAIWorkoutQuestionnaire') }}</a> --}}
                         </div>
                     </div>
                     <div id="w_workouts">
