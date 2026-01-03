@@ -897,9 +897,9 @@ Route::post('/plans/update/{id}', [StripeController::class, 'updatePlan'])->name
 Route::post('/plans/share', [PlansController::class, 'shareByEmail']);
 Route::get('/plans/shared/{link}', [PlansController::class, 'viewShared']);
 
-Route::post('/subscribe/{plan}', [PlanSubscriptionController::class, 'subscribeClientToPlan'])->name('subscribe.plan');
+Route::post('/subscribe/{plan}', [PlanSubscriptionController::class, 'subscribeClientToPlan'])->name('subscribe.client');
 Route::get('/plans/shared/{link}', [PlanSubscriptionController::class, 'viewShared'])->name('plans.shared');
-Route::get('/plans/subscribe/{plan}', [PlansController::class, 'subscribe'])->name('subscribe.plan');
+Route::get('/plans/subscribe/{plan}', [PlansController::class, 'subscribe'])->name('plans.subscribe');
 Route::post('/plans/subscribe/{plan}', [PlansController::class, 'processSubscription']);
 Route::get('/subscribe/plan/{id}', [OrdersController::class, 'checkoutPlan'])->name('checkout.plan');
 Route::post('/subscribe/confirm', [PlanSubscriptionController::class, 'confirm'])
