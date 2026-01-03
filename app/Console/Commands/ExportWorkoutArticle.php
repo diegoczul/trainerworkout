@@ -14,7 +14,13 @@ class ExportWorkoutArticle extends Command
     // WordPress configuration
     private $wordpressUrl = 'https://trainer-workout.com/blog';
     private $wordpressUsername = 'root';
-    private $wordpressAppPassword = '***REMOVED***'; // your APP password directly
+    private $wordpressAppPassword;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->wordpressAppPassword = env('WORDPRESS_APP_PASSWORD');
+    }
 
     public function handle()
     {

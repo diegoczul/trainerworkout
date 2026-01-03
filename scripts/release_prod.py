@@ -12,9 +12,9 @@ sys.stdout.flush()
 
 
 # Tokens and configuration
-GITHUB_TOKEN = "***REMOVED***"
-SLACK_USER_ID = "<@U089NKWDGUC>"
-SLACK_WEBHOOK_URL = "***REMOVED***"
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
+SLACK_USER_ID = os.environ.get('SLACK_USER_ID', '<@U089NKWDGUC>')
+SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL', '')
 REPO_PATH = "/home/trainerworkout/public_html"
 REPO_OWNER = "luisczul"
 REPO_NAME = "trainerworkout_v3"
