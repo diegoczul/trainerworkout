@@ -8,6 +8,7 @@ use App\Models\BodyGroups;
 use App\Models\Clients;
 use App\Models\Equipments;
 use App\Models\Exercises;
+use App\Models\ExercisesBodyGroups;
 use App\Models\ExercisesTypes;
 use App\Models\Feeds;
 use App\Models\Memberships;
@@ -3739,206 +3740,7 @@ class WorkoutsController extends BaseController
 		}
 	}
 
-	public function createWorkoutWithAI(Request $request)
-	{
-		$userId = Auth::user()->id;
-		$permissions = Helper::checkPremissions(Auth::user()->id, null);
 
-		Event::dispatch('userNewWorkout', array(Auth::user()));
-
-		// Log the AI workout generation request
-		Log::info('AI Workout Generation: User accessed questionnaire', [
-			'user_id' => $userId,
-			'user_email' => Auth::user()->email,
-			'timestamp' => now()
-		]);
-
-		return view("trainer.createWorkoutAI")
-			->with("permissions", $permissions)
-			->with("bodyGroups", BodyGroups::select("id", "name")->where("main", 1)->orderBy("name")->get())
-			->with("equipments", Equipments::select("id", "name")->orderBy("name")->get())
-			->with("objectives", $this->getWorkoutObjectives())
-			->with("intensityLevels", $this->getIntensityLevels())
-			->with("fitnessLevels", $this->getFitnessLevels());
-	}
-
-	public function generateWorkoutWithAI(Request $request)
-	{
-		// Enhanced validation for new form fields
-		$validation = Validator::make($request->all(), [
-			'workout_name' => 'required|string|min:3|max:100',
-			'body_groups' => 'required|array|min:1',
-			'body_groups.*' => 'exists:bodygroups,id',
-			'equipments' => 'nullable|array',
-			'equipments.*' => 'exists:equipments,id',
-			'equipment_preference' => 'required|string|in:minimal,moderate,heavy',
-			'intensity' => 'required|string|in:light,moderate,high',
-			'duration' => 'required|integer|min:15|max:90',
-			'workout_focus' => 'required|string|in:strength,muscle_building,endurance,general_fitness'
-		]);
-
-		// Log validation attempt
-		Log::info('AI Workout Generation: Validation started', [
-			'user_id' => Auth::user()->id,
-			'form_data' => $request->only([
-				'workout_name',
-				'body_groups',
-				'equipments',
-				'equipment_preference',
-				'intensity',
-				'duration',
-				'workout_focus'
-			]),
-			'timestamp' => now()
-		]);
-
-		if ($validation->fails()) {
-			Log::warning('AI Workout Generation: Validation failed', [
-				'user_id' => Auth::user()->id,
-				'errors' => $validation->errors()->toArray(),
-				'timestamp' => now()
-			]);
-			return redirect()->back()->withErrors($validation)->withInput();
-		}
-
-		try {
-			// Get user preferences
-			$workoutName = $request->input('workout_name');
-			$equipmentPreference = $request->input('equipment_preference');
-			$intensity = $request->input('intensity');
-			$duration = $request->input('duration');
-			$workoutFocus = $request->input('workout_focus');
-
-			// Get selected body groups and equipments
-			$selectedBodyGroups = BodyGroups::whereIn('id', $request->body_groups)->get();
-			$selectedEquipments = $request->equipments ?
-				Equipments::whereIn('id', $request->equipments)->get() : collect([]);
-
-			Log::info('AI Workout Generation: Data retrieved', [
-				'user_id' => Auth::user()->id,
-				'workout_name' => $workoutName,
-				'body_groups' => $selectedBodyGroups->pluck('name')->toArray(),
-				'equipments' => $selectedEquipments->pluck('name')->toArray(),
-				'preferences' => [
-					'equipment_preference' => $equipmentPreference,
-					'intensity' => $intensity,
-					'duration' => $duration,
-					'workout_focus' => $workoutFocus
-				],
-				'timestamp' => now()
-			]);
-
-			// Get exercises for selected body groups
-			$exercises = $this->getExercisesForBodyGroups($request->body_groups, $request->equipments);
-
-			if ($exercises->isEmpty()) {
-				Log::warning('AI Workout Generation: No exercises found', [
-					'user_id' => Auth::user()->id,
-					'body_groups' => $request->body_groups,
-					'equipments' => $request->equipments,
-					'timestamp' => now()
-				]);
-				return redirect()->back()
-					->withError('No exercises found for the selected body groups and equipment.')
-					->withInput();
-			}
-
-			Log::info('AI Workout Generation: Exercises retrieved', [
-				'user_id' => Auth::user()->id,
-				'exercise_count' => $exercises->count(),
-				'exercise_ids' => $exercises->pluck('id')->toArray(),
-				'exercise_details' => $exercises->map(function($ex) {
-					return ['id' => $ex->id, 'name' => $ex->name];
-				})->toArray(),
-				'timestamp' => now()
-			]);
-
-			// Create the ChatGPT prompt
-			$prompt = $this->buildChatGPTPrompt(
-				$workoutName,
-				$selectedBodyGroups,
-				$selectedEquipments,
-				$exercises,
-				$equipmentPreference,
-				$intensity,
-				$duration,
-				$workoutFocus
-			);
-
-			Log::info('AI Workout Generation: ChatGPT prompt created', [
-				'user_id' => Auth::user()->id,
-				'prompt_length' => strlen($prompt),
-				'full_prompt' => $prompt,
-				'timestamp' => now()
-			]);
-
-			// Send request to ChatGPT
-			$chatGPTResponse = $this->sendToChatGPT($prompt);
-
-			if (!$chatGPTResponse) {
-				Log::error('AI Workout Generation: ChatGPT request failed', [
-					'user_id' => Auth::user()->id,
-					'timestamp' => now()
-				]);
-				return $this->createFallbackWorkout($workoutName, $selectedBodyGroups, $exercises, $request);
-			}
-
-			Log::info('AI Workout Generation: ChatGPT response received', [
-				'user_id' => Auth::user()->id,
-				'response_length' => strlen($chatGPTResponse),
-				'response_preview' => substr($chatGPTResponse, 0, 200) . '...',
-				'timestamp' => now()
-			]);
-
-			// Process the AI response and create workout
-			$workout = $this->processAIResponse($chatGPTResponse, $workoutName, $exercises, $request);
-
-			if (!$workout) {
-				Log::error('AI Workout Generation: Failed to process AI response', [
-					'user_id' => Auth::user()->id,
-					'chatgpt_response' => $chatGPTResponse,
-					'timestamp' => now()
-				]);
-				return $this->createFallbackWorkout($workoutName, $selectedBodyGroups, $exercises, $request);
-			}
-
-			Log::info('AI Workout Generation: Workout created successfully', [
-				'user_id' => Auth::user()->id,
-				'workout_id' => $workout->id,
-				'workout_name' => $workout->name,
-				'timestamp' => now()
-			]);
-
-			Session::put("workoutIdInProgress", $workout->id);
-			Session::save();
-
-			return redirect()->to(__('routes./Trainer/CreateWorkout/') . $workout->id)
-				->with('message', 'AI workout generated successfully! You can now customize it further.');
-		} catch (\Exception $e) {
-			Log::error('AI Workout Generation: Exception occurred', [
-				'user_id' => Auth::user()->id,
-				'error_message' => $e->getMessage(),
-				'error_trace' => $e->getTraceAsString(),
-				'timestamp' => now()
-			]);
-
-			return redirect()->back()
-				->withError('An error occurred while generating your workout. Please try again.')
-				->withInput();
-		}
-	}
-
-	private function getWorkoutObjectives()
-	{
-		return [
-			'hypertrophy' => 'Hypertrophy (Muscle Building)',
-			'strength' => 'Strength Building',
-			'endurance' => 'Endurance',
-			'fat_loss' => 'Fat Loss',
-			'toning' => 'Toning',
-			'general_fitness' => 'General Fitness'
-		];
-	}
 
 	private function getIntensityLevels()
 	{
@@ -4107,27 +3909,41 @@ class WorkoutsController extends BaseController
 	 */
 	private function getExercisesForBodyGroups($bodyGroupIds, $equipmentIds = null)
 	{
-		$query = Exercises::whereHas('bodyGroups', function ($q) use ($bodyGroupIds) {
-			$q->whereIn('bodygroups.id', $bodyGroupIds);
-		})->whereNull('deleted_at');
+		
+		// $query = ExercisesBodyGroups::whereIn("exercises_bodygroups.bodyGroupId",$bodyGroupIds)->leftJoin('exercises', 'exercises.id', '=', 'exercises_bodygroups.exerciseId');
 
-		// Filter by equipment if provided
-		if ($equipmentIds && count($equipmentIds) > 0) {
-			$query->where(function ($q) use ($equipmentIds) {
-				$q->whereExists(function ($subQuery) use ($equipmentIds) {
-					$subQuery->select('id')
-						->from('exercises_equipments')
-						->whereRaw('exercises_equipments.exerciseId = exercises.id')
-						->whereIn('exercises_equipments.equipmentId', $equipmentIds)
-						->whereNull('exercises_equipments.deleted_at');
-				})->orWhere('exercises.equipmentRequired', 0);
-			});
-		} else {
-			// If no equipment selected, only show exercises that don't require equipment
-			$query->where('equipmentRequired', 0);
-		}
 
-		return $query->limit(500)->get(); // Get more exercises for better variety
+		$query = Exercises::whereIn("exercises.bodyGroupId",$bodyGroupIds);
+
+		$result =  $query->limit(500)->get();
+		// print_r("<pre>");
+		// print_r($bodyGroupIds);
+		// print_r($result->toArray());
+		// exit();
+
+		// // Filter by equipment if provided
+		// if ($equipmentIds && count($equipmentIds) > 0) {
+		// 	$query->where(function ($q) use ($equipmentIds) {
+		// 		$q->whereExists(function ($subQuery) use ($equipmentIds) {
+		// 			$subQuery->select('id')
+		// 				->from('exercises_equipments')
+		// 				->whereRaw('exercises_equipments.exerciseId = exercises.id')
+		// 				->whereIn('exercises_equipments.equipmentId', $equipmentIds)
+		// 				->whereNull('exercises_equipments.deleted_at');
+		// 		})->orWhere('exercises.equipmentRequired', 0);
+		// 	});
+		// } else {
+		// 	// If no equipment selected, only show exercises that don't require equipment
+		// 	$query->where('equipmentRequired', 0);
+			
+		// }
+
+		// $result =  $query->limit(500)->get();
+		// print_r("<pre>");
+		// print_r($result->toArray());
+		// exit();
+
+		return $result;// Get more exercises for better variety
 	}
 
 	/**
@@ -4249,7 +4065,7 @@ EOT;
 	{
 		try {
 			// Get OpenAI API key from environment
-			$apiKey = env('OPENAI_API_KEY');
+			$apiKey = "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";
 
 			if (!$apiKey) {
 				Log::error('AI Workout Generation: OpenAI API key not configured', [
@@ -4392,27 +4208,33 @@ EOT;
 			$workout->authorId = Auth::user()->id;
 			$workout->status = "Draft";
 			$workout->version = Config::get("constants.version");
+			
+			// Store the AI-generated structure in JSON columns
+			$workout->exerciseGroup = json_encode($aiData);
+			$exerciseGroupRestArray = array_map(function($group) {
+				return ['type' => 'regular', 'restTime' => (string)($group['exerciseGroupRest'] ?? 120)];
+			}, $aiData);
+			$workout->exerciseGroupRest = json_encode($exerciseGroupRestArray);
+			$workout->exercises = json_encode([]);
+			
 			$workout->save();
 
-			$workout->master = $workout->id;
-			$workout->save();
+			// Create exercise map for quick lookup
+			$exerciseMap = [];
+			foreach ($exercises as $exercise) {
+				$exerciseMap[$exercise->id] = $exercise;
+			}
 
-			// Create exercise groups and exercises
+			// Process exercise groups
 			$groupOrder = 1;
-			$exerciseMap = $exercises->keyBy('id');
-
 			foreach ($aiData as $groupData) {
-				if (!isset($groupData['exerciseGroup']) || !is_array($groupData['exerciseGroup'])) {
-					continue;
-				}
-
 				// Create workout group
 				$workoutGroup = new WorkoutsGroups();
 				$workoutGroup->workoutId = $workout->id;
-				$workoutGroup->name = "Group " . $groupOrder;
-				$workoutGroup->description = '';
+				$workoutGroup->groupNumber = $groupOrder;
+				$workoutGroup->type = "regular";
 				$workoutGroup->rest = $groupData['exerciseGroupRest'] ?? 120;
-				$workoutGroup->order = $groupOrder;
+				$workoutGroup->restAfter = 0;
 				$workoutGroup->save();
 
 				$exerciseOrder = 1;
@@ -4441,11 +4263,15 @@ EOT;
 					$sets = $exerciseData['sets'] ?? [];
 					foreach ($sets as $setIndex => $setData) {
 						$set = new Sets();
-						$set->workoutExerciseId = $workoutExercise->id;
+						$set->workoutsExercisesId = $workoutExercise->id;
+						$set->workoutId = $workout->id;
+						$set->exerciseId = $exerciseId;
+						$set->number = $setIndex + 1;
 						$set->reps = $setData['reps'] ?? 12;
 						$set->weight = $setData['weight'] ?? 0;
+						$set->weightKG = isset($setData['weight']) ? Helper::formatWeight($setData['weight'] / 2.2) : 0;
 						$set->rest = $setData['rest'] ?? 60;
-						$set->order = $setIndex + 1;
+						$set->metric = 'reps';
 						$set->save();
 					}
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\SocialOAuthController;
+use App\Http\Controllers\web\AIWorkoutController;
 use App\Http\Controllers\web\AppointmentsController;
 use App\Http\Controllers\web\AvailabilitiesController;
 use App\Http\Controllers\web\BodyGroupsController;
@@ -448,9 +449,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'userTypeChecker'])->group(function () {
     Route::get(__('routes./Trainer/CreateWorkout') . '/{param}', [WorkoutsController::class, 'createNewWorkoutTrainer']);
     Route::get(__('routes./Trainer/CreateWorkout'), [WorkoutsController::class, 'createNewWorkoutTrainer'])->name('trainerCreateWorkout');
-    Route::get(__('routes./Trainer/CreateWorkoutAI'), [WorkoutsController::class, 'createWorkoutWithAI'])->name('trainerCreateWorkoutAI');
-    Route::get('/trainer/ai-workout-questionnaire', [WorkoutsController::class, 'createWorkoutWithAI'])->name('aiWorkout.questionnaire');
-    Route::post(__('routes./Trainer/CreateWorkoutAI'), [WorkoutsController::class, 'generateWorkoutWithAI'])->name('trainerGenerateWorkoutAI');
+    Route::get(__('routes./Trainer/CreateWorkoutAI'), [AIWorkoutController::class, 'createWorkoutWithAI'])->name('trainerCreateWorkoutAI');
+    Route::get('/trainer/ai-workout-questionnaire', [AIWorkoutController::class, 'createWorkoutWithAI'])->name('aiWorkout.questionnaire');
+    Route::post(__('routes./Trainer/CreateWorkoutAI'), [AIWorkoutController::class, 'generateWorkout'])->name('trainerGenerateWorkoutAI');
     Route::post(__('routes./Trainer/autoSaveWorkout'), [WorkoutsController::class, 'autoSaveWorkout']);
     Route::get(__('routes./Trainer/CreateWorkout2'), [WorkoutsController::class, 'createNewWorkoutTrainer']);
     Route::get(__('routes./Trainer/Workouts') . '/{userName?}', [WorkoutsController::class, 'indexWorkoutsTrainer'])->name('trainerWorkouts');

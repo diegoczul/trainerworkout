@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\web\ClientsController;
+use App\Http\Controllers\web\AIWorkoutController;
 use App\Http\Controllers\web\ExercisesController;
 use App\Http\Controllers\web\ObjectivesController;
 use App\Http\Controllers\web\OrdersController;
@@ -94,6 +95,11 @@ Route::middleware('auth:api')->group(function (){
         Route::post('IOS/EditWorkout/{workout_id}','API_IOS_EditWorkout')->middleware('auth');
         Route::post('Workouts/share-workout','API_ShareWorkout')->middleware('auth');
         Route::post('Workouts/download-workout','API_DownloadWorkout')->middleware('auth');
+    });
+
+    // AI WORKOUT
+    Route::controller(AIWorkoutController::class)->group(function (){
+        Route::post('AI/generate-workout', 'generateWorkout')->middleware('auth');
     });
 
     // NIC CHANGES
