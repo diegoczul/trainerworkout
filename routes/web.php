@@ -452,6 +452,7 @@ Route::middleware(['auth', 'userTypeChecker'])->group(function () {
     Route::get(__('routes./Trainer/CreateWorkoutAI'), [AIWorkoutController::class, 'createWorkoutWithAI'])->name('trainerCreateWorkoutAI');
     Route::get('/trainer/ai-workout-questionnaire', [AIWorkoutController::class, 'createWorkoutWithAI'])->name('aiWorkout.questionnaire');
     Route::post(__('routes./Trainer/CreateWorkoutAI'), [AIWorkoutController::class, 'generateWorkout'])->name('trainerGenerateWorkoutAI');
+    Route::post('/trainer/ai-workout/regenerate/{workoutId}', [AIWorkoutController::class, 'regenerateWorkout'])->name('aiWorkout.regenerate');
     Route::post(__('routes./Trainer/autoSaveWorkout'), [WorkoutsController::class, 'autoSaveWorkout']);
     Route::get(__('routes./Trainer/CreateWorkout2'), [WorkoutsController::class, 'createNewWorkoutTrainer']);
     Route::get(__('routes./Trainer/Workouts') . '/{userName?}', [WorkoutsController::class, 'indexWorkoutsTrainer'])->name('trainerWorkouts');

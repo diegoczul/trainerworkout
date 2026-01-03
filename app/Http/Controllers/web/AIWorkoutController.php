@@ -148,6 +148,16 @@ class AIWorkoutController extends Controller
             $workout->status = "Draft";
             $workout->version = Config::get("constants.version");
             
+            // Store AI generation parameters for regeneration
+            $workout->aiGenerationParams = json_encode([
+                'body_groups' => $validated['body_groups'],
+                'equipments' => $validated['equipments'] ?? [],
+                'duration' => $validated['duration'] ?? 60,
+                'difficulty' => $validated['difficulty'] ?? 'intermediate',
+                'goals' => $validated['goals'] ?? ''
+            ]);
+            $workout->aiConversationId = uniqid('conv_', true); // Generate unique conversation ID
+            
             // Save the AI-generated exercise groups structure
             $workout->exerciseGroup = json_encode($exerciseGroups);
             $workout->exerciseGroupRest = json_encode([]);
@@ -185,22 +195,142 @@ class AIWorkoutController extends Controller
     }
 
     /**
+     * Regenerate workout using existing parameters
+     */
+    public function regenerateWorkout($workoutId)
+    {
+        try {
+            $workout = Workouts::findOrFail($workoutId);
+
+            // Verify ownership
+            if ($workout->userId != Auth::user()->id && $workout->authorId != Auth::user()->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized'
+                ], 403);
+            }
+
+            // Get stored parameters
+            $params = json_decode($workout->aiGenerationParams, true);
+            
+            if (!$params) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No AI generation parameters found for this workout'
+                ], 400);
+            }
+
+            Log::info('AI Workout Regeneration: Started', [
+                'user_id' => Auth::user()->id,
+                'workout_id' => $workoutId,
+                'params' => $params,
+                'timestamp' => now()
+            ]);
+
+            // Get selected body groups
+            $selectedBodyGroups = BodyGroups::whereIn('id', $params['body_groups'])->get();
+
+            // Get available exercises
+            $exercises = $this->getExercisesForBodyGroups($params['body_groups'], $params['equipments'] ?? []);
+
+            if ($exercises->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No exercises found for regeneration'
+                ], 400);
+            }
+
+            // Build ChatGPT prompt with regeneration context
+            $prompt = $this->buildChatGPTPrompt($selectedBodyGroups, $exercises, $params);
+            $prompt .= "\n\nIMPORTANT: The user didn't like the previous workout. Generate a DIFFERENT workout with different exercises or different exercise combinations, sets, and reps.";
+
+            // Send to ChatGPT
+            $chatGPTResponse = $this->sendToChatGPT($prompt);
+
+            if (!$chatGPTResponse) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to generate workout'
+                ], 500);
+            }
+
+            // Parse and validate response
+            $exerciseGroups = $this->parseAIResponse($chatGPTResponse, $exercises);
+
+            if (!$exerciseGroups) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid AI response format'
+                ], 500);
+            }
+
+            // Update workout with new exercise groups
+            $workout->exerciseGroup = json_encode($exerciseGroups);
+            $workout->save();
+
+            Log::info('AI Workout Regeneration: Success', [
+                'user_id' => Auth::user()->id,
+                'workout_id' => $workoutId,
+                'timestamp' => now()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'name' => $workout->name,
+                    'exerciseGroups' => $exerciseGroups
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('AI Workout Regeneration: Exception', [
+                'user_id' => Auth::user()->id,
+                'workout_id' => $workoutId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'timestamp' => now()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while regenerating the workout'
+            ], 500);
+        }
+    }
+
+    /**
      * Get exercises for selected body groups
      */
     private function getExercisesForBodyGroups($bodyGroupIds, $equipmentIds = [])
     {
-        $query = Exercises::query()
-            ->with(['bodygroup'])
-            ->whereHas('bodyGroups', function ($query) use ($bodyGroupIds) {
-                $query->whereIn('bodygroups.id', $bodyGroupIds);
-            })
-            ->limit(500);
+        $query = Exercises::where("type","public")->whereIn('bodygroupId', $bodyGroupIds);
 
         if (!empty($equipmentIds)) {
             $query->whereIn('equipmentId', $equipmentIds);
         }
 
-        return $query->get();
+        // Get all matching exercises and shuffle for variety
+        $allExercises = $query->get()->shuffle();
+        
+        // Calculate max exercises based on token limits
+        // GPT-4o has 128k context window, we use 2k for completion
+        // Available for prompt: 126k tokens
+        // With 20% buffer: 126k * 0.8 = 100.8k tokens for prompt
+        // Base prompt (instructions + format): ~1500 tokens
+        // Each exercise line: ~40 tokens average
+        // Max exercises: (100800 - 1500) / 40 = ~2482
+        // But let's be conservative and use a lower estimate
+        
+        $maxTokens = 100800; // 80% of available context (20% buffer)
+        $basePromptTokens = 1500; // Estimated tokens for instructions
+        $tokensPerExercise = 40; // Conservative estimate per exercise line
+        
+        $maxExercises = (int)(($maxTokens - $basePromptTokens) / $tokensPerExercise);
+        
+        // Cap at a reasonable number to avoid extremely long prompts
+        $maxExercises = min($maxExercises, 2000);
+        
+        return $allExercises->take($maxExercises);
     }
 
     /**
@@ -319,8 +449,8 @@ PROMPT;
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout(60)->post('https://api.openai.com/v1/chat/completions', [
-                'model' => 'gpt-4',
+            ])->timeout(90)->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o',  // gpt-4o has 128k token context window
                 'messages' => [
                     [
                         'role' => 'system',
@@ -332,7 +462,7 @@ PROMPT;
                     ]
                 ],
                 'temperature' => 0.7,
-                'max_tokens' => 4000,
+                'max_tokens' => 2000,  // Reduced since workout structure doesn't need 4000 tokens
             ]);
 
             if ($response->successful()) {

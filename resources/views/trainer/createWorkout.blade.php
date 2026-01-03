@@ -47,7 +47,17 @@
                         <input disabled="disabled" type="radio" id="marketplace" name="access" style="margin: 0; padding: 0; width:auto; max-width:auto;">
                         <label for="marketplace" style="color: #333333; padding: 0; font-size: 14px;">Marketplace (<span style="text-sm">{{ Lang::get("content.coming_soon") }})</span></label>
                     </div>
-                </div>            
+                </div>
+                @if(!empty($workout->aiConversationId))
+                <div class="mt-3" style="margin-top: 15px;">
+                    <button type="button" id="regenerateWorkoutBtn" onclick="regenerateAIWorkout()" 
+                        style="background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-size: 14px; cursor: pointer; transition: background-color 0.3s; font-weight: 500;"
+                        onmouseover="this.style.backgroundColor='#2980b9'" 
+                        onmouseout="this.style.backgroundColor='#3498db'">
+                        <i class="fas fa-sync-alt"></i> Generate Another Workout
+                    </button>
+                </div>
+                @endif
             </div>
         </div>
         <!-- The add note links to a pop-up that allow the user to add a note to the workout -->
@@ -3525,6 +3535,56 @@ function showExercisePopUp(){
         $(".popup_container").removeClass("popup_container-activated");
         $(".lightbox_mask").removeClass("lightbox_mask-activated");
         $("body").removeClass('no_scroll_overlay');
+    }
+
+    function regenerateAIWorkout() {
+        const btn = document.getElementById('regenerateWorkoutBtn');
+        const originalText = btn.innerHTML;
+        
+        // Disable button and show loading state
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        btn.style.opacity = '0.6';
+        
+        // Make AJAX request to regenerate workout
+        fetch('{{ route("aiWorkout.regenerate", $workout->id) }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Replace the exercise groups data
+                if (data.data && data.data.exerciseGroups) {
+                    // Store the new exercise groups
+                    window.newExerciseGroups = data.data.exerciseGroups;
+                    
+                    // Show success message and reload
+                    alert('New workout generated! The page will reload to show the new exercises.');
+                    location.reload();
+                } else {
+                    alert('Error: Invalid response format');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.style.opacity = '1';
+                }
+            } else {
+                alert('Error: ' + (data.message || 'Failed to generate workout'));
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while generating the workout. Please try again.');
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            btn.style.opacity = '1';
+        });
     }
 
     
