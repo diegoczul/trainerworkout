@@ -225,7 +225,7 @@ class Helper
     {
         $dateTime = new DateTime($date, new DateTimeZone(Config::get('app.timezone')));
         if (Auth::check()) {
-            if (Auth::user()->timezone == "") {
+            if (Auth::user()->timezone == "" || Auth::user()->timezone == "US/Eastern") {
                 Auth::user()->timezone = "America/New_York";
                 Auth::user()->save();
             }
