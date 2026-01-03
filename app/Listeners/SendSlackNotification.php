@@ -30,7 +30,7 @@ class SendSlackNotification
             $text = "[{$userEmail}]($requestIP) - [:wrench:] {$eventName} {$paramText}";
         }
 
-        Http::post(config('services.slack.webhook');, [
+        Http::post(config('services.slack.webhook'), [
             'text' => $text,
         ]);
     }
