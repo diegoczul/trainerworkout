@@ -144,7 +144,7 @@ function getTimezoneName() {
     if (-360 == so && -300 == wo) return 'Pacific/Easter';
     if (-300 == so && -360 == wo) return 'US/Central';
     if (-300 == so && -300 == wo) return 'America/Bogota';
-    if (-240 == so && -300 == wo) return 'US/Eastern';
+    if (-240 == so && -300 == wo) return 'America/New_York';
     if (-240 == so && -240 == wo) return 'America/Caracas';
     if (-240 == so && -180 == wo) return 'America/Santiago';
     if (-180 == so && -240 == wo) return 'Canada/Atlantic';
