@@ -15,7 +15,7 @@ class UploadTestFile extends Command
         $pdfPath = public_path('temp/sideabs_grid.pdf');
         $wordpressUrl = 'https://trainer-workout.com/blog/wp-json/wp/v2/media';
         $wordpressUser = 'root';
-        $wordpressPassword = '***REMOVED***';
+        $wordpressPassword = 'Cool**88';
 
         if (!file_exists($pdfPath)) {
             $this->error('File not found: ' . $pdfPath);
