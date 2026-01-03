@@ -886,13 +886,13 @@ Route::post('/subscribe/{plan}', [SubscriptionController::class, 'subscribe'])->
 Route::delete('/plans/{id}', [StripeController::class, 'destroy'])->name('plans.destroy');
 Route::get('/plans/{id}/edit', [StripeController::class, 'edit'])->name('plans.edit');
 Route::put('/plans/{id}', [StripeController::class, 'update'])->name('plans.update');
-Route::get('/plans/edit/{id}', [StripeController::class, 'getPlanDetails'])->name('plans.edit');
+Route::get('/plans/edit/{id}', [StripeController::class, 'getPlanDetails'])->name('plans.details');
 
 // Route for saving the plan (creating or updating)
 Route::post('/plans/save', [StripeController::class, 'savePlan'])->name('plans.save');
 
 // Route for updating the plan
-Route::post('/plans/update/{id}', [StripeController::class, 'updatePlan'])->name('plans.update');
+Route::post('/plans/update/{id}', [StripeController::class, 'updatePlan'])->name('plans.updatePlan');
 
 Route::post('/plans/share', [PlansController::class, 'shareByEmail']);
 Route::get('/plans/shared/{link}', [PlansController::class, 'viewShared']);
