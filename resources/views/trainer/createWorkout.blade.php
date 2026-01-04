@@ -3557,20 +3557,8 @@ function showExercisePopUp(){
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Replace the exercise groups data
-                if (data.data && data.data.exerciseGroups) {
-                    // Store the new exercise groups
-                    window.newExerciseGroups = data.data.exerciseGroups;
-                    
-                    // Show success message and reload
-                    alert('New workout generated! The page will reload to show the new exercises.');
-                    location.reload();
-                } else {
-                    alert('Error: Invalid response format');
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                    btn.style.opacity = '1';
-                }
+                // Reload the page to show the new workout
+                location.reload();
             } else {
                 alert('Error: ' + (data.message || 'Failed to generate workout'));
                 btn.disabled = false;

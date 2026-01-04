@@ -243,9 +243,30 @@ class AIWorkoutController extends Controller
                 ], 400);
             }
 
+            // Extract current exercise IDs from the existing workout
+            $currentExerciseIds = [];
+            $currentExerciseGroups = json_decode($workout->exerciseGroup, true);
+            if ($currentExerciseGroups && is_array($currentExerciseGroups)) {
+                foreach ($currentExerciseGroups as $group) {
+                    if (isset($group['exerciseGroup']) && is_array($group['exerciseGroup'])) {
+                        foreach ($group['exerciseGroup'] as $exercise) {
+                            if (isset($exercise['exerciseId'])) {
+                                $currentExerciseIds[] = $exercise['exerciseId'];
+                            }
+                        }
+                    }
+                }
+            }
+
             // Build ChatGPT prompt with regeneration context
             $prompt = $this->buildChatGPTPrompt($selectedBodyGroups, $exercises, $params);
-            $prompt .= "\n\nIMPORTANT: The user didn't like the previous workout. Generate a DIFFERENT workout with different exercises or different exercise combinations, sets, and reps.";
+            
+            if (!empty($currentExerciseIds)) {
+                $currentIdsString = implode(', ', array_unique($currentExerciseIds));
+                $prompt .= "\n\nIMPORTANT: The user wants a DIFFERENT workout. The previous workout used these exercise IDs: [{$currentIdsString}]. Please use DIFFERENT exercises (different IDs) as much as possible to create variety. Avoid repeating the same exercise IDs unless absolutely necessary.";
+            } else {
+                $prompt .= "\n\nIMPORTANT: The user didn't like the previous workout. Generate a DIFFERENT workout with different exercises or different exercise combinations, sets, and reps.";
+            }
 
             // Send to ChatGPT
             $chatGPTResponse = $this->sendToChatGPT($prompt);
