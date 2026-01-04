@@ -250,8 +250,14 @@
                         showLess();
                         $(this).removeClass("workout_main_containerAlways");
                     });
+                    // Show create workout buttons when no items are selected
+                    $("#createWorkout").show();
+                    $("#createWorkoutAI").show();
                 } else {
                     showMore();
+                    // Hide create workout buttons when items are selected
+                    $("#createWorkout").hide();
+                    $("#createWorkoutAI").hide();
                 }
             }
 
