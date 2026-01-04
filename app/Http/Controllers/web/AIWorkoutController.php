@@ -126,13 +126,16 @@ class AIWorkoutController extends Controller
             ]);
 
             // Parse and validate response
-            $exerciseGroups = $this->parseAIResponse($chatGPTResponse, $exercises);
+            $parsedData = $this->parseAIResponse($chatGPTResponse, $exercises);
 
-            if (!$exerciseGroups) {
+            if (!$parsedData) {
                 return redirect()->back()
                     ->withError('Invalid AI response format. Please try again.')
                     ->withInput();
             }
+
+            $exerciseGroups = $parsedData['exerciseGroups'];
+            $exerciseGroupRest = $parsedData['exerciseGroupRest'];
 
             // Create workout record
             $workout = new Workouts();
@@ -160,7 +163,7 @@ class AIWorkoutController extends Controller
             
             // Save the AI-generated exercise groups structure
             $workout->exerciseGroup = json_encode($exerciseGroups);
-            $workout->exerciseGroupRest = json_encode([]);
+            $workout->exerciseGroupRest = json_encode($exerciseGroupRest);
             $workout->exercises = json_encode([]);
             
             $workout->save();
@@ -255,17 +258,21 @@ class AIWorkoutController extends Controller
             }
 
             // Parse and validate response
-            $exerciseGroups = $this->parseAIResponse($chatGPTResponse, $exercises);
+            $parsedData = $this->parseAIResponse($chatGPTResponse, $exercises);
 
-            if (!$exerciseGroups) {
+            if (!$parsedData) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Invalid AI response format'
                 ], 500);
             }
 
+            $exerciseGroups = $parsedData['exerciseGroups'];
+            $exerciseGroupRest = $parsedData['exerciseGroupRest'];
+
             // Update workout with new exercise groups
             $workout->exerciseGroup = json_encode($exerciseGroups);
+            $workout->exerciseGroupRest = json_encode($exerciseGroupRest);
             $workout->save();
 
             Log::info('AI Workout Regeneration: Success', [
@@ -520,6 +527,7 @@ PROMPT;
 
             // Transform AI response to match the frontend structure
             $enrichedGroups = [];
+            $exerciseGroupRestArray = [];
             
             foreach ($aiData as $groupIndex => $groupData) {
                 $exerciseGroupData = $groupData['exerciseGroup'] ?? [];
@@ -528,6 +536,12 @@ PROMPT;
                 if (empty($exerciseGroupData)) {
                     continue;
                 }
+
+                // Build exerciseGroupRest entry for this group
+                $restEntry = [
+                    'type' => 'regular',
+                    'restTime' => (string)$exerciseGroupRest
+                ];
 
                 $enrichedGroup = [];
                 
@@ -620,6 +634,7 @@ PROMPT;
 
                 if (!empty($enrichedGroup)) {
                     $enrichedGroups[] = $enrichedGroup;
+                    $exerciseGroupRestArray[] = $restEntry;
                 }
             }
 
@@ -637,7 +652,10 @@ PROMPT;
                 'timestamp' => now()
             ]);
 
-            return $enrichedGroups;
+            return [
+                'exerciseGroups' => $enrichedGroups,
+                'exerciseGroupRest' => $exerciseGroupRestArray
+            ];
 
         } catch (\Exception $e) {
             Log::error('AI Workout Generation: Exception parsing AI response', [
