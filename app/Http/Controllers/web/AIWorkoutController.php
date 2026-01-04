@@ -56,6 +56,13 @@ class AIWorkoutController extends Controller
                 'equipments' => 'nullable|array',
                 'equipments.*' => 'exists:equipments,id',
                 'goals' => 'nullable|string|max:500',
+                'special_requests' => 'nullable|string|max:1000',
+                'include_supersets' => 'nullable|boolean',
+                'include_circuits' => 'nullable|boolean',
+                'cardio_at_end' => 'nullable|boolean',
+                'cardio_at_beginning' => 'nullable|boolean',
+                'cardio_duration_end' => 'nullable|integer|min:5|max:60',
+                'cardio_duration_beginning' => 'nullable|integer|min:5|max:60',
             ]);
 
             Log::info('AI Workout Generation: Started', [
@@ -137,6 +144,29 @@ class AIWorkoutController extends Controller
 
             $exerciseGroups = $parsedData['exerciseGroups'];
             $exerciseGroupRest = $parsedData['exerciseGroupRest'];
+
+            // Handle cardio if requested
+            if (!empty($validated['cardio_at_beginning'])) {
+                $cardioDuration = $validated['cardio_duration_beginning'] ?? 10;
+                $cardioData = $this->generateCardioExercise($validated, $cardioDuration);
+                
+                if ($cardioData) {
+                    // Add cardio at the beginning
+                    array_unshift($exerciseGroups, $cardioData['exerciseGroup']);
+                    array_unshift($exerciseGroupRest, $cardioData['exerciseGroupRest']);
+                }
+            }
+            
+            if (!empty($validated['cardio_at_end'])) {
+                $cardioDuration = $validated['cardio_duration_end'] ?? 10;
+                $cardioData = $this->generateCardioExercise($validated, $cardioDuration);
+                
+                if ($cardioData) {
+                    // Add cardio at the end
+                    $exerciseGroups[] = $cardioData['exerciseGroup'];
+                    $exerciseGroupRest[] = $cardioData['exerciseGroupRest'];
+                }
+            }
 
             // Create workout record
             $workout = new Workouts();
@@ -370,6 +400,7 @@ class AIWorkoutController extends Controller
         $duration = $validated['duration'] ?? 60;
         $difficulty = $validated['difficulty'] ?? 'intermediate';
         $goals = $validated['goals'] ?? 'Build strength and muscle';
+        $specialRequests = $validated['special_requests'] ?? '';
 
         $bodyGroupNames = $bodyGroups->pluck('name')->join(', ');
 
@@ -384,6 +415,29 @@ class AIWorkoutController extends Controller
             );
         })->join("\n");
 
+        // Add special requests section if provided
+        $specialRequestsSection = '';
+        if (!empty($specialRequests)) {
+            $specialRequestsSection = "\n- Special Requests: {$specialRequests}";
+        }
+
+        // Add workout structure preferences
+        $structurePreferences = [];
+        if (!empty($validated['include_supersets'])) {
+            $structurePreferences[] = "Include supersets where appropriate";
+        }
+        if (!empty($validated['include_circuits'])) {
+            $structurePreferences[] = "Include circuits where appropriate";
+        }
+        
+        $structureSection = '';
+        if (!empty($structurePreferences)) {
+            $structureSection = "\n- Structure Preferences: " . implode(', ', $structurePreferences);
+        }
+
+        // Determine if circuits/supersets are allowed
+        $allowMultipleExercises = !empty($validated['include_supersets']) || !empty($validated['include_circuits']);
+
         $prompt = <<<PROMPT
 You are a professional fitness trainer creating a workout plan.
 
@@ -391,16 +445,37 @@ You are a professional fitness trainer creating a workout plan.
 - Target Body Groups: {$bodyGroupNames}
 - Duration: {$duration} minutes
 - Difficulty Level: {$difficulty}
-- Goals: {$goals}
+- Goals: {$goals}{$specialRequestsSection}{$structureSection}
 
 **Available Exercises:**
 {$exerciseList}
 
 **Instructions:**
-Create a workout plan with exercise groups (circuits/supersets). Each group should have 1-3 exercises.
+Create a workout plan with exercise groups. Each group can be:
+1. Single exercise (regular set)
+2. Circuit/Superset (2-3 exercises performed together)
+
+PROMPT;
+
+        // Add constraint for single exercise per group if circuits/supersets not requested
+        if (!$allowMultipleExercises) {
+            $prompt .= "\n**IMPORTANT: The user has NOT requested circuits or supersets. You MUST use ONLY ONE exercise per exerciseGroup. Do NOT add more than 1 exercise to any exerciseGroup.**\n\n";
+        }
+
+        $prompt .= <<<PROMPT
+For circuits/supersets with 2+ exercises, specify the circuit type:
+- "rounds": Fixed number of rounds with rest between (e.g., 3 rounds, 60s rest)
+- "amrap": As Many Rounds As Possible in a time limit (e.g., 10 minutes, optional rest)
+- "emom": Every Minute On the Minute for X minutes (e.g., 8 minutes)
+
 For each exercise, specify:
 - Use ONLY exercise IDs from the available exercises list above
-- Specify 3-4 sets with reps (or time in seconds for cardio/isometric) and weight in lbs (0 for bodyweight)
+- Specify 3-4 sets with varying rep types and weight in lbs (0 for bodyweight)
+- Rep Types available:
+  * "rep": Normal reps (value is a number, e.g., "12")
+  * "maxRep": Maximum reps (value is the string "maximum")
+  * "time": Time-based in seconds (value is a number, e.g., "30" for 30 seconds)
+  * "range": Rep range (value is a string like "8-10")
 - Rest between sets in seconds (30-90 typical)
 - Add helpful notes with form cues or tips
 - Optionally specify tempo as 4 strings (eccentric, bottom pause, concentric, top pause)
@@ -414,9 +489,9 @@ For each exercise, specify:
       {
         "exerciseId": 123,
         "sets": [
-          {"reps": 12, "weight": 25, "rest": 60},
-          {"reps": 10, "weight": 30, "rest": 60},
-          {"reps": 8, "weight": 35, "rest": 0}
+          {"repType": "rep", "reps": "12", "weight": 25, "rest": 60},
+          {"repType": "rep", "reps": "10", "weight": 30, "rest": 60},
+          {"repType": "rep", "reps": "8", "weight": 35, "rest": 0}
         ],
         "notes": "Keep your back straight and core engaged",
         "tempo1": "2",
@@ -432,23 +507,88 @@ For each exercise, specify:
       {
         "exerciseId": 456,
         "sets": [
-          {"time": 30, "weight": 0, "rest": 20},
-          {"time": 30, "weight": 0, "rest": 20},
-          {"time": 30, "weight": 0, "rest": 0}
+          {"repType": "rep", "reps": "8", "weight": 100, "rest": 60},
+          {"repType": "maxRep", "reps": "maximum", "weight": 80, "rest": 60},
+          {"repType": "time", "reps": "30", "weight": 0, "rest": 60},
+          {"repType": "range", "reps": "8-10", "weight": 90, "rest": 0}
         ],
-        "notes": "Maintain steady pace throughout",
-        "tempo1": "",
-        "tempo2": "",
-        "tempo3": "",
-        "tempo4": ""
+        "notes": "Example showing all rep types - vary the types to add intensity"
+      }
+    ]
+  },
+  {
+    "exerciseGroupRest": 90,
+    "circuitType": "rounds",
+    "circuitRounds": 3,
+    "circuitRest": 60,
+    "exerciseGroup": [
+      {
+        "exerciseId": 456,
+        "sets": [
+          {"repType": "rep", "reps": "15", "weight": 0, "rest": 0}
+        ],
+        "notes": "First exercise in circuit"
+      },
+      {
+        "exerciseId": 789,
+        "sets": [
+          {"repType": "rep", "reps": "12", "weight": 20, "rest": 0}
+        ],
+        "notes": "Second exercise in circuit"
+      }
+    ]
+  },
+  {
+    "exerciseGroupRest": 120,
+    "circuitType": "amrap",
+    "amrapTime": 10,
+    "circuitRest": 30,
+    "exerciseGroup": [
+      {
+        "exerciseId": 321,
+        "sets": [
+          {"repType": "rep", "reps": "10", "weight": 0, "rest": 0}
+        ],
+        "notes": "Complete as many rounds as possible in 10 minutes"
+      },
+      {
+        "exerciseId": 654,
+        "sets": [
+          {"repType": "rep", "reps": "15", "weight": 0, "rest": 0}
+        ],
+        "notes": "Keep consistent pace"
+      }
+    ]
+  },
+  {
+    "exerciseGroupRest": 90,
+    "circuitType": "emom",
+    "emomMinutes": 8,
+    "exerciseGroup": [
+      {
+        "exerciseId": 111,
+        "sets": [
+          {"repType": "rep", "reps": "12", "weight": 0, "rest": 0}
+        ],
+        "notes": "Complete reps at the start of each minute"
       }
     ]
   }
 ]
 
 **Important Notes:**
-- Use "reps" for strength exercises, "time" for cardio/isometric exercises (in seconds)
+- Rep Types:
+  * Use "rep" with a number value (e.g., "12") for standard rep counts
+  * Use "maxRep" with "maximum" value for max effort sets
+  * Use "time" with a number value (e.g., "30") for time-based exercises in seconds
+  * Use "range" with a string value (e.g., "8-10") for rep ranges
+- All reps values must be strings, not numbers
 - Use ONLY exercise IDs from the provided list
+- Single exercises: normal sets with rest between
+- Circuits (2+ exercises): Add circuitType ("rounds", "amrap", or "emom") with appropriate parameters:
+  * rounds: circuitRounds (number), circuitRest (seconds between rounds)
+  * amrap: amrapTime (minutes), circuitRest (optional seconds between rounds)
+  * emom: emomMinutes (number of minutes)
 - Match the difficulty level: beginner (higher reps, lower weight), intermediate (balanced), advanced (lower reps, higher weight)
 - exerciseGroupRest is rest after completing the entire group (60-180 seconds)
 - Last set in each exercise should have rest: 0
@@ -560,10 +700,35 @@ PROMPT;
                 }
 
                 // Build exerciseGroupRest entry for this group
-                $restEntry = [
-                    'type' => 'regular',
-                    'restTime' => (string)$exerciseGroupRest
-                ];
+                $exerciseCount = count($exerciseGroupData);
+                $circuitType = $groupData['circuitType'] ?? null;
+                
+                if ($exerciseCount > 1 && $circuitType) {
+                    // This is a circuit/superset
+                    $restEntry = [
+                        'type' => 'circuit',
+                        'circuitStyle' => $circuitType,
+                        'restBetweenCircuitExercises' => []
+                    ];
+                    
+                    if ($circuitType === 'rounds') {
+                        $restEntry['circuitRound'] = (string)($groupData['circuitRounds'] ?? 3);
+                        $restEntry['circuitRest'] = (string)($groupData['circuitRest'] ?? 60);
+                    } elseif ($circuitType === 'amrap') {
+                        $restEntry['amrapTime'] = (string)($groupData['amrapTime'] ?? 10);
+                        if (isset($groupData['circuitRest'])) {
+                            $restEntry['circuitRest'] = (string)$groupData['circuitRest'];
+                        }
+                    } elseif ($circuitType === 'emom') {
+                        $restEntry['emomMinutes'] = (string)($groupData['emomMinutes'] ?? 8);
+                    }
+                } else {
+                    // Regular single exercise
+                    $restEntry = [
+                        'type' => 'regular',
+                        'restTime' => (string)$exerciseGroupRest
+                    ];
+                }
 
                 $enrichedGroup = [];
                 
@@ -584,11 +749,6 @@ PROMPT;
                     // Get full exercise data from database
                     $dbExercise = $exerciseMap[$exerciseId];
                     
-                    // Determine rep type based on sets
-                    $firstSet = $sets[0] ?? [];
-                    $hasTime = isset($firstSet['time']) && $firstSet['time'] > 0;
-                    $repType = $hasTime ? 'time' : 'rep';
-                    
                     // Build arrays for each set
                     $repsTypeArray = [];
                     $weightsArray = [];
@@ -597,15 +757,18 @@ PROMPT;
                     $restBetweenSets = [];
                     
                     foreach ($sets as $index => $set) {
-                        $repsTypeArray[] = $repType;
-                        $weightsArray[] = (string)($set['weight'] ?? 0);
+                        // Get repType from the set, default to 'rep' if not specified
+                        $setRepType = $set['repType'] ?? 'rep';
+                        $repsValue = $set['reps'] ?? '12';
                         
-                        if ($repType === 'time') {
-                            $timeValue = $set['time'] ?? 30;
-                            $repArray[] = (string)$timeValue;
-                            $timesArray[] = (string)$timeValue;
+                        $repsTypeArray[] = $setRepType;
+                        $weightsArray[] = (string)($set['weight'] ?? 0);
+                        $repArray[] = (string)$repsValue;
+                        
+                        // Set time based on repType
+                        if ($setRepType === 'time') {
+                            $timesArray[] = (string)$repsValue;
                         } else {
-                            $repArray[] = (string)($set['reps'] ?? 12);
                             $timesArray[] = null;
                         }
                         
@@ -614,6 +777,9 @@ PROMPT;
                             $restBetweenSets[] = (string)($set['rest'] ?? 60);
                         }
                     }
+                    
+                    // Determine primary repType for the exercise (use first set's type)
+                    $primaryRepType = $repsTypeArray[0] ?? 'rep';
                     
                     // Build the enriched exercise data structure
                     $enrichedExercise = [
@@ -634,7 +800,7 @@ PROMPT;
                             'scoreName' => $dbExercise->scoreName ?? 0,
                             'scoreNameEngine' => $dbExercise->scoreNameEngine ?? 0,
                         ],
-                        'repType' => $repType,
+                        'repType' => $primaryRepType,
                         'repsType' => $repsTypeArray,
                         'weights' => $weightsArray,
                         'repArray' => $repArray,
@@ -857,6 +1023,271 @@ PROMPT;
                 'success' => false,
                 'message' => 'Failed to send message. Please try again.'
             ], 500);
+        }
+    }
+
+    /**
+     * Estimate workout duration based on exercise groups
+     */
+    private function estimateWorkoutDuration($exerciseGroups)
+    {
+        $totalMinutes = 0;
+
+        foreach ($exerciseGroups as $group) {
+            foreach ($group as $exercise) {
+                // Get number of sets
+                $numSets = count($exercise['repsType'] ?? []);
+                
+                // Estimate time per set (average 45 seconds per set + rest)
+                $setTime = 0.75; // 45 seconds in minutes
+                
+                // Add rest between sets
+                $restBetweenSets = $exercise['restBetweenSets'] ?? [];
+                $totalRest = 0;
+                foreach ($restBetweenSets as $rest) {
+                    $totalRest += intval($rest);
+                }
+                $restMinutes = $totalRest / 60;
+                
+                $totalMinutes += ($numSets * $setTime) + $restMinutes;
+            }
+            
+            // Add 2 minutes rest between exercise groups
+            $totalMinutes += 2;
+        }
+
+        return round($totalMinutes);
+    }
+
+    /**
+     * Generate a cardio exercise using AI
+     */
+    private function generateCardioExercise($validated, $cardioDurationMinutes = 10)
+    {
+        try {
+            // Get cardio exercises (bodygroup 18)
+            $cardioExercises = Exercises::where("type", "public")
+                ->where('bodygroupId', 18)
+                ->get();
+
+            if ($cardioExercises->isEmpty()) {
+                Log::warning('AI Cardio Generation: No cardio exercises found', [
+                    'user_id' => Auth::user()->id
+                ]);
+                return null;
+            }
+
+            // Use the specified cardio duration (default 10 minutes)
+            $remainingDuration = max(5, min(60, $cardioDurationMinutes)); // Min 5 min, max 60 min
+            $cardioDurationSeconds = $remainingDuration * 60;
+
+            // Format exercises for the prompt
+            $exerciseList = $cardioExercises->map(function ($exercise) {
+                return sprintf(
+                    "- Exercise ID %d: %s (Equipment ID: %s)",
+                    $exercise->id,
+                    $exercise->name,
+                    $exercise->equipmentId ?? 'None'
+                );
+            })->join("\n");
+
+            $difficulty = $validated['difficulty'] ?? 'intermediate';
+            $specialRequests = $validated['special_requests'] ?? '';
+            
+            $specialRequestsSection = '';
+            if (!empty($specialRequests)) {
+                $specialRequestsSection = "\n- Special Requests: {$specialRequests}";
+            }
+
+            $prompt = <<<PROMPT
+You are a professional fitness trainer adding a cardio exercise to a workout plan.
+
+**Cardio Requirements:**
+- Duration: {$remainingDuration} minutes ({$cardioDurationSeconds} seconds total)
+- Difficulty Level: {$difficulty}{$specialRequestsSection}
+
+**Available Cardio Exercises:**
+{$exerciseList}
+
+**Instructions:**
+Select ONE cardio exercise and create intervals with heart rate zones. You can create multiple intervals (sets) with different intensities.
+
+**Cardio Metric Types:**
+- "hr": Target heart rate in BPM (e.g., "150")
+- "effort": Percentage of effort (e.g., "70" for 70%)
+- "Vo2Max": Percentage of VO2 Max (e.g., "80")
+- "reserve": Heart rate reserve in BPM (e.g., "40")
+- "range": Heart rate range (e.g., "120-150")
+- "max": Maximum heart rate (use "Max" as value)
+
+Return ONLY valid JSON in this EXACT format:
+
+{
+  "exerciseId": 123,
+  "sets": [
+    {"repType": "hr", "hrValue": "150", "timeSeconds": "600"},
+    {"repType": "effort", "hrValue": "80", "timeSeconds": "300"}
+  ],
+  "notes": "Maintain steady pace, increase intensity in final interval"
+}
+
+**Important Rules:**
+- Total time across all sets must equal approximately {$cardioDurationSeconds} seconds
+- Each interval (set) should be between 180-1200 seconds (3-20 minutes)
+- hrValue is a string (e.g., "150", "80", "120-150", "Max")
+- timeSeconds is the duration of that interval in seconds
+- Choose repType based on difficulty: beginner (effort/Vo2Max), intermediate (hr/reserve), advanced (hr/range/max)
+- Use ONLY exercise IDs from the provided list
+- Return ONLY the JSON object, no markdown, no extra text
+PROMPT;
+
+            // Send to ChatGPT
+            $apiKey = config('services.chatgpt.api_key');
+            
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiKey,
+                'Content-Type' => 'application/json',
+            ])->timeout(60)->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'You are a professional fitness trainer. You must respond ONLY with valid JSON, no markdown formatting, no code blocks, no extra text.'
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $prompt
+                    ]
+                ],
+                'temperature' => 0.7,
+                'max_tokens' => 500,
+            ]);
+
+            if ($response->failed()) {
+                Log::error('AI Cardio Generation: API request failed', [
+                    'user_id' => Auth::user()->id,
+                    'response' => $response->body()
+                ]);
+                return null;
+            }
+
+            $chatGPTResponse = $response->json()['choices'][0]['message']['content'] ?? '';
+
+            if (empty($chatGPTResponse)) {
+                return null;
+            }
+
+            // Clean up response
+            $cleanResponse = trim($chatGPTResponse);
+            $cleanResponse = preg_replace('/^```json\s*/s', '', $cleanResponse);
+            $cleanResponse = preg_replace('/\s*```$/s', '', $cleanResponse);
+            $cleanResponse = trim($cleanResponse);
+
+            $cardioData = json_decode($cleanResponse, true);
+
+            if (!$cardioData || !isset($cardioData['exerciseId'])) {
+                Log::error('AI Cardio Generation: Invalid JSON response', [
+                    'user_id' => Auth::user()->id,
+                    'response' => $chatGPTResponse
+                ]);
+                return null;
+            }
+
+            // Get exercise details
+            $exerciseId = $cardioData['exerciseId'];
+            $dbExercise = $cardioExercises->firstWhere('id', $exerciseId);
+
+            if (!$dbExercise) {
+                Log::error('AI Cardio Generation: Invalid exercise ID', [
+                    'user_id' => Auth::user()->id,
+                    'exercise_id' => $exerciseId
+                ]);
+                return null;
+            }
+
+            $sets = $cardioData['sets'] ?? [];
+            $repsTypeArray = [];
+            $weightsArray = [];
+            $repArray = [];
+            $timesArray = [];
+            $hrsArray = [];
+            $speedsArray = [];
+            $distancesArray = [];
+            $restBetweenSets = [];
+
+            foreach ($sets as $index => $set) {
+                $repType = $set['repType'] ?? 'hr';
+                $hrValue = $set['hrValue'] ?? '150';
+                $timeSeconds = $set['timeSeconds'] ?? '600';
+                
+                // Convert seconds to minutes for display (UI expects minutes)
+                $timeMinutes = round(intval($timeSeconds) / 60, 2);
+
+                $repsTypeArray[] = $repType;
+                $weightsArray[] = null;
+                $repArray[] = (string)$hrValue;
+                $timesArray[] = (string)$timeMinutes;  // Store as minutes for UI
+                $hrsArray[] = (string)$hrValue;
+                $speedsArray[] = null;
+                $distancesArray[] = null;
+                
+                // Add rest between intervals (not after last)
+                if ($index < count($sets) - 1) {
+                    $restBetweenSets[] = '0';
+                }
+            }
+
+            // Build enriched exercise data
+            $enrichedExercise = [
+                'exercise' => [
+                    'name' => $dbExercise->name,
+                    'id' => $dbExercise->id,
+                    'bodygroupId' => $dbExercise->bodygroupId ?? null,
+                    'thumb' => $dbExercise->thumb ?? '',
+                    'image' => $dbExercise->image ?? '',
+                    'thumb2' => $dbExercise->thumb2 ?? '',
+                    'image2' => $dbExercise->image2 ?? '',
+                    'used' => $dbExercise->used ?? 0,
+                    'length' => $dbExercise->length ?? 0,
+                    'equipmentId' => $dbExercise->equipmentId ?? null,
+                    'nameEngine' => $dbExercise->nameEngine ?? '',
+                    'type' => $dbExercise->type ?? 'public',
+                    'authorId' => $dbExercise->authorId,
+                    'scoreName' => $dbExercise->scoreName ?? 0,
+                    'scoreNameEngine' => $dbExercise->scoreNameEngine ?? 0,
+                ],
+                'repType' => $repsTypeArray[0] ?? 'hr',
+                'repsType' => $repsTypeArray,
+                'weights' => $weightsArray,
+                'repArray' => $repArray,
+                'times' => $timesArray,
+                'hrs' => $hrsArray,
+                'speeds' => $speedsArray,
+                'distances' => $distancesArray,
+                'metric' => 'imperial',
+                'notes' => $cardioData['notes'] ?? '',
+                'tempo1' => '',
+                'tempo2' => '',
+                'tempo3' => '',
+                'tempo4' => '',
+                'restBetweenSets' => $restBetweenSets
+            ];
+
+            return [
+                'exerciseGroup' => [$enrichedExercise],
+                'exerciseGroupRest' => [
+                    'type' => 'regular',
+                    'restTime' => '120'
+                ]
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('AI Cardio Generation: Exception', [
+                'user_id' => Auth::user()->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return null;
         }
     }
 }

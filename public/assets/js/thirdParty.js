@@ -1,12 +1,4 @@
 
-// Bugherd
-(function (d, t) {
-  var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
-  bh.type = 'text/javascript';
-  bh.src = '//www.bugherd.com/sidebarv2.js?apikey=7emlvf26yvso7jp5xd1nhw';
-  s.parentNode.insertBefore(bh, s);
-  })(document, 'script');
-
 
 //Google Analytics
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

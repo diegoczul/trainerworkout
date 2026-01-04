@@ -39,14 +39,31 @@
                     @enderror
                 </div>
 
+                <!-- Special Requests Section -->
+                <div class="ai-form-section">
+                    <h3>Special Requests <span style="color: #999; font-weight: normal; font-size: 14px;">(Optional)</span></h3>
+                    <p class="ai-form-description">Tell the AI anything specific you want in your workout - exercises you prefer, things to avoid, specific goals, etc.</p>
+                    <div class="input-container">
+                        <textarea id="special_requests" name="special_requests" rows="4" 
+                            placeholder="Example: Include pull-ups, avoid exercises with jumping, focus on building bigger arms, want more isolation exercises..."
+                            class="special-requests-textarea">{{ old('special_requests') }}</textarea>
+                    </div>
+                    @error('special_requests')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <!-- Body Groups Section -->
                 <div class="ai-form-section">
                     <h3>Target Muscle Groups</h3>
                     <p class="ai-form-description">Select the muscle groups you want to target (choose at least one)</p>
+                    <div id="muscle-group-error" class="error-message" style="display: none; margin-bottom: 1rem;">
+                        Please select at least one muscle group to generate a workout
+                    </div>
                     <div class="checkbox-grid">
                         @foreach ($bodyGroups as $bodyGroup)
                             <div class="checkbox-item">
-                                <input type="checkbox" id="body_group_{{ $bodyGroup->id }}" name="body_groups[]"
+                                <input type="checkbox" id="body_group_{{ $bodyGroup->id }}" name="body_groups[]" class="body-group-checkbox"
                                     value="{{ $bodyGroup->id }}"
                                     {{ in_array($bodyGroup->id, old('body_groups', [])) ? 'checked' : '' }}>
                                 <label for="body_group_{{ $bodyGroup->id }}">{{ $bodyGroup->name }}</label>
@@ -58,8 +75,8 @@
                     @enderror
                 </div>
 
-                <!-- Equipment Section -->
-                <div class="ai-form-section">
+                <!-- Equipment Section - Hidden for now -->
+                <div class="ai-form-section" style="display: none;">
                     <h3>Available Equipment</h3>
                     <p class="ai-form-description">Select the equipment you have access to (optional)</p>
                     <div class="checkbox-grid">
@@ -152,14 +169,14 @@
                     <h3>Workout Duration</h3>
                     <p class="ai-form-description">How long would you like your workout to be?</p>
                     <div class="duration-container">
-                        <input type="range" id="duration" name="duration" min="15" max="90"
+                        <input type="range" id="duration" name="duration" min="15" max="120"
                             value="{{ old('duration', 45) }}" class="duration-slider">
                         <div class="duration-display">
                             <span id="duration-value">{{ old('duration', 45) }}</span> minutes
                         </div>
                         <div class="duration-labels">
                             <span>15 min</span>
-                            <span>90 min</span>
+                            <span>120 min</span>
                         </div>
                     </div>
                     @error('duration')
@@ -208,11 +225,50 @@
                     @error('workout_focus')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
+
+                    <!-- Workout Structure Options -->
+                    <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
+                        <h4 style="color: #2d3748; font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem;">Workout Structure Preferences</h4>
+                        <div class="checkbox-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include_supersets" name="include_supersets" value="1"
+                                    {{ old('include_supersets') ? 'checked' : '' }}>
+                                <label for="include_supersets">Consider Supersets</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include_circuits" name="include_circuits" value="1"
+                                    {{ old('include_circuits') ? 'checked' : '' }}>
+                                <label for="include_circuits">Consider Circuits</label>
+                            </div>
+                            <div class="checkbox-item" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="cardio_at_end" name="cardio_at_end" value="1"
+                                    {{ old('cardio_at_end') ? 'checked' : '' }}>
+                                <label for="cardio_at_end" style="flex: 1;">Add Cardio at End</label>
+                                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                    <input type="number" id="cardio_duration_end" name="cardio_duration_end" 
+                                        value="{{ old('cardio_duration_end', 10) }}" min="5" max="60" step="5"
+                                        style="width: 60px; padding: 0.25rem 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px; text-align: center;">
+                                    <span style="font-size: 0.875rem; color: #718096;">min</span>
+                                </div>
+                            </div>
+                            <div class="checkbox-item" style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="cardio_at_beginning" name="cardio_at_beginning" value="1"
+                                    {{ old('cardio_at_beginning') ? 'checked' : '' }}>
+                                <label for="cardio_at_beginning" style="flex: 1;">Add Cardio at Beginning</label>
+                                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                    <input type="number" id="cardio_duration_beginning" name="cardio_duration_beginning" 
+                                        value="{{ old('cardio_duration_beginning', 10) }}" min="5" max="60" step="5"
+                                        style="width: 60px; padding: 0.25rem 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px; text-align: center;">
+                                    <span style="font-size: 0.875rem; color: #718096;">min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="form-submit-section">
-                    <button type="submit" class="btn-generate-workout" onClick="lightBoxLoadingTwSpinner();">
+                    <button type="submit" id="submit-btn" class="btn-generate-workout" onClick="lightBoxLoadingTwSpinner();">
                         Generate AI Workout
                     </button>
                 </div>
@@ -284,7 +340,27 @@
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
+        .special-requests-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            line-height: 1.5;
+        }
 
+        .special-requests-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .special-requests-textarea::placeholder {
+            color: #a0aec0;
+        }
         .checkbox-grid,
         .radio-grid {
             display: grid;
@@ -410,9 +486,15 @@
             justify-content: center;
         }
 
-        .btn-generate-workout:hover {
+        .btn-generate-workout:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-generate-workout:disabled {
+            background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .btn-icon {
@@ -468,4 +550,42 @@
             }
         }
     </style>
+
+    <script>
+        // Validation for muscle group selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitBtn = document.getElementById('submit-btn');
+            const bodyGroupCheckboxes = document.querySelectorAll('.body-group-checkbox');
+            const errorMessage = document.getElementById('muscle-group-error');
+
+            function validateMuscleGroups() {
+                const isAnyChecked = Array.from(bodyGroupCheckboxes).some(cb => cb.checked);
+                
+                if (isAnyChecked) {
+                    submitBtn.disabled = false;
+                    errorMessage.style.display = 'none';
+                } else {
+                    submitBtn.disabled = true;
+                    errorMessage.style.display = 'block';
+                }
+            }
+
+            // Check on page load
+            validateMuscleGroups();
+
+            // Add event listeners to all checkboxes
+            bodyGroupCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', validateMuscleGroups);
+            });
+
+            // Duration slider update
+            const durationSlider = document.getElementById('duration');
+            const durationValue = document.getElementById('duration-value');
+            if (durationSlider && durationValue) {
+                durationSlider.addEventListener('input', function() {
+                    durationValue.textContent = this.value;
+                });
+            }
+        });
+    </script>
 @endsection

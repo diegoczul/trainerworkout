@@ -140,7 +140,7 @@
                                 @if($exercise->exercises->bodygroupId != 18)
 
                                     <!-- -- MUSCLE Circuit -- -->
-                                    <div class="cExercise">
+                                    <div class="cExercise" data-exercise-id="{{ $exercise->exercises->id }}">
 
                                         <!-- LEFT AREA WITH THE EXERCISE DESCRIPTION -->
                                         <div class="cExercise_header">
@@ -171,6 +171,11 @@
                                                             {{ Lang::get("content.with") }} {{{ $exercise->equipment->name  }}}
                                                         @endif
                                                     </h5>
+                                                </div>
+                                                <div class="exerciseAITrainer" style="display: inline-block; vertical-align: top;">
+                                                    <div class="spanContainer" onclick="openAITrainerChat(this);">
+                                                        <span>AI<br>Trainer</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="cExercise_header_bottom">
@@ -1255,4 +1260,138 @@
             $(el).closest(".tabSwitcherParent").find("." + tab + "Tab").addClass("showTab");
         }
     </script>
+
+<!-- AI Trainer Chat Modal -->
+<div id="aiTrainerModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div style="position: relative; background-color: #fefefe; margin: 2% auto; padding: 0; border-radius: 12px; width: 90%; max-width: 600px; height: 85vh; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+        <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px 12px 0 0;">
+            <div>
+                <h3 id="aiTrainerExerciseName" style="margin: 0; font-size: 20px; font-weight: 600; color:#FFFFFF">AI Trainer</h3>
+                <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;; color:#ffffff">Ask me anything about this exercise</p>
+            </div>
+            <button onclick="closeAITrainerChat()" style="background: transparent; border: none; color: white; font-size: 28px; font-weight: 300; cursor: pointer; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
+        </div>
+        <div id="aiChatMessages" style="flex: 1; overflow-y: auto; padding: 20px; background-color: #f8f9fa;"></div>
+        <div style="padding: 15px; border-top: 1px solid #e0e0e0; background-color: white; border-radius: 0 0 12px 12px;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="aiChatInput" placeholder="Ask about form, technique, variations..." style="flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 25px; font-size: 14px; outline: none; height: 38px; box-sizing: border-box;" onkeypress="if(event.key==='Enter') sendAITrainerMessage();">
+                <button onclick="sendAITrainerMessage()" id="aiSendBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 24px; border-radius: 25px; cursor: pointer; font-weight: 500; font-size: 14px; transition: opacity 0.3s; height: 38px; box-sizing: border-box;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .exerciseAITrainer { position: absolute; width: 50px; height: 50px; display: inline-block; margin-right: 10px; top:10px; right:60px }
+    .exerciseAITrainer .spanContainer { width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); }
+    .exerciseAITrainer .spanContainer:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5); }
+    .exerciseAITrainer span { color: white; font-size: 10px; font-weight: 600; text-align: center; line-height: 1.2; text-transform: uppercase; }
+    #aiChatMessages::-webkit-scrollbar { width: 6px; }
+    #aiChatMessages::-webkit-scrollbar-track { background: #f1f1f1; }
+    #aiChatMessages::-webkit-scrollbar-thumb { background: #888; border-radius: 3px; }
+    #aiChatMessages::-webkit-scrollbar-thumb:hover { background: #555; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
+<script>
+    let currentExerciseId = '';
+    let currentExerciseName = '';
+
+    function openAITrainerChat(element) {
+        const exerciseContainer = element.closest('.cExercise');
+        currentExerciseId = exerciseContainer.getAttribute('data-exercise-id');
+        if (!currentExerciseId) { alert('Exercise ID not found'); return; }
+        const exerciseNameElement = exerciseContainer.querySelector('.cExercise_header_info h5');
+        currentExerciseName = exerciseNameElement ? exerciseNameElement.textContent.trim() : 'Exercise';
+        document.getElementById('aiTrainerExerciseName').textContent = currentExerciseName;
+        loadChatHistory();
+        document.getElementById('aiTrainerModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => { document.getElementById('aiChatInput').focus(); }, 100);
+    }
+
+    function closeAITrainerChat() {
+        document.getElementById('aiTrainerModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function loadChatHistory() {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;"><i class="fas fa-spinner fa-spin"></i> Loading chat...</div>';
+        fetch(`/trainer/exercise-chat/${currentExerciseId}`, { method: 'GET', headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' } })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.messages.length === 0) {
+                    messagesContainer.innerHTML = `<div style="text-align: center; padding: 40px 20px; color: #999;"><div style="font-size: 48px; margin-bottom: 15px;">💪</div><p style="font-size: 16px; margin: 0;">Ask me anything about <strong>${currentExerciseName}</strong></p><p style="font-size: 13px; margin-top: 8px;">Form tips, variations, common mistakes, and more!</p></div>`;
+                } else {
+                    messagesContainer.innerHTML = '';
+                    data.messages.forEach(msg => { appendMessage(msg.sender, msg.message, false); });
+                    scrollToBottom();
+                }
+            } else { messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #e74c3c;">Failed to load chat history</div>'; }
+        })
+        .catch(error => { console.error('Error:', error); messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #e74c3c;">Error loading chat</div>'; });
+    }
+
+    function sendAITrainerMessage() {
+        const input = document.getElementById('aiChatInput');
+        const message = input.value.trim();
+        if (!message) return;
+        const sendBtn = document.getElementById('aiSendBtn');
+        const originalBtnText = sendBtn.innerHTML;
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<svg style="width: 16px; height: 16px; animation: spin 1s linear infinite;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+        input.disabled = true;
+        appendMessage('user', message, true);
+        input.value = '';
+        showTypingIndicator();
+        fetch(`/trainer/exercise-chat/${currentExerciseId}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ message: message }) })
+        .then(response => response.json())
+        .then(data => {
+            hideTypingIndicator();
+            if (data.success) { appendMessage('ai', data.aiMessage.message, true); }
+            else { appendMessage('ai', 'Sorry, I encountered an error. Please try again.', true); }
+        })
+        .catch(error => { console.error('Error:', error); hideTypingIndicator(); appendMessage('ai', 'Sorry, I encountered an error. Please try again.', true); })
+        .finally(() => { sendBtn.disabled = false; sendBtn.innerHTML = originalBtnText; input.disabled = false; input.focus(); });
+    }
+
+    function appendMessage(sender, text, shouldScroll) {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        const messageDiv = document.createElement('div');
+        if (sender === 'user') {
+            messageDiv.style.cssText = 'display: flex; justify-content: flex-end; margin-bottom: 15px;';
+            messageDiv.innerHTML = `<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 16px; border-radius: 18px 18px 4px 18px; max-width: 70%; word-wrap: break-word; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">${text}</div>`;
+        } else {
+            messageDiv.style.cssText = 'display: flex; justify-content: flex-start; margin-bottom: 15px;';
+            messageDiv.innerHTML = `<div style="background: white; color: #333; padding: 12px 16px; border-radius: 18px 18px 18px 4px; max-width: 70%; word-wrap: break-word; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">${text.replace(/\n/g, '<br>')}</div>`;
+        }
+        messagesContainer.appendChild(messageDiv);
+        if (shouldScroll) { scrollToBottom(); }
+    }
+
+    function showTypingIndicator() {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typingIndicator';
+        typingDiv.style.cssText = 'display: flex; justify-content: flex-start; margin-bottom: 15px;';
+        typingDiv.innerHTML = `<div style="background: white; padding: 12px 16px; border-radius: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;"><div style="display: flex; gap: 4px;"><div style="width: 8px; height: 8px; background: #999; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; animation-delay: -0.32s;"></div><div style="width: 8px; height: 8px; background: #999; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; animation-delay: -0.16s;"></div><div style="width: 8px; height: 8px; background: #999; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both;"></div></div></div>`;
+        const style = document.createElement('style');
+        style.textContent = `@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }`;
+        if (!document.querySelector('style[data-typing-animation]')) { style.setAttribute('data-typing-animation', 'true'); document.head.appendChild(style); }
+        messagesContainer.appendChild(typingDiv);
+        scrollToBottom();
+    }
+
+    function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) { typingIndicator.remove(); }
+    }
+
+    function scrollToBottom() {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+</script>
 @endsection

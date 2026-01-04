@@ -3592,7 +3592,7 @@ function showExercisePopUp(){
         <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px 12px 0 0;">
             <div>
                 <h3 id="aiTrainerExerciseName" style="margin: 0; font-size: 20px; font-weight: 600; color:#FFFFFF">AI Trainer</h3>
-                <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;">Ask me anything about this exercise</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;; color:#ffffff">Ask me anything about this exercise</p>
             </div>
             <button onclick="closeAITrainerChat()" style="background: transparent; border: none; color: white; font-size: 28px; font-weight: 300; cursor: pointer; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
         </div>
