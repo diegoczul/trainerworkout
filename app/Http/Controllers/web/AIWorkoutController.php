@@ -7,6 +7,7 @@ use App\Models\BodyGroups;
 use App\Models\Exercises;
 use App\Models\Equipments;
 use App\Models\Workouts;
+use App\Models\ExerciseChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -687,6 +688,175 @@ PROMPT;
                 'timestamp' => now()
             ]);
             return null;
+        }
+    }
+
+    /**
+     * Get chat history for an exercise
+     */
+    public function getExerciseChat(Request $request, $exerciseId)
+    {
+        try {
+            $exercise = Exercises::findOrFail($exerciseId);
+            
+            $chats = ExerciseChat::where('user_id', Auth::id())
+                ->where('exercise_id', $exerciseId)
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'exercise' => [
+                    'id' => $exercise->id,
+                    'name' => $exercise->name,
+                    'description' => $exercise->description
+                ],
+                'messages' => $chats->map(function($chat) {
+                    return [
+                        'id' => $chat->id,
+                        'message' => $chat->message,
+                        'sender' => $chat->sender,
+                        'timestamp' => $chat->created_at->format('Y-m-d H:i:s')
+                    ];
+                })
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Exercise Chat: Failed to get chat history', [
+                'user_id' => Auth::id(),
+                'exercise_id' => $exerciseId,
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load chat history'
+            ], 500);
+        }
+    }
+
+    /**
+     * Send message and get AI response
+     */
+    public function sendExerciseChat(Request $request, $exerciseId)
+    {
+        try {
+            $validated = $request->validate([
+                'message' => 'required|string|max:2000'
+            ]);
+
+            $exercise = Exercises::findOrFail($exerciseId);
+            
+            // Save user message
+            $userMessage = ExerciseChat::create([
+                'user_id' => Auth::id(),
+                'exercise_id' => $exerciseId,
+                'message' => $validated['message'],
+                'sender' => 'user'
+            ]);
+
+            // Get previous chat history for context
+            $previousChats = ExerciseChat::where('user_id', Auth::id())
+                ->where('exercise_id', $exerciseId)
+                ->where('id', '<', $userMessage->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get()
+                ->reverse();
+
+            // Build chat context
+            $chatHistory = "";
+            foreach ($previousChats as $chat) {
+                $role = $chat->sender === 'user' ? 'User' : 'AI Trainer';
+                $chatHistory .= "{$role}: {$chat->message}\n";
+            }
+
+            // Build AI prompt
+            $prompt = "You are an expert AI Personal Trainer assistant. You're helping a user with questions about an exercise.\n\n";
+            $prompt .= "Exercise: {$exercise->name}\n";
+            if ($exercise->description) {
+                $prompt .= "Description: {$exercise->description}\n";
+            }
+            $prompt .= "\nPrevious conversation:\n{$chatHistory}\n";
+            $prompt .= "User: {$validated['message']}\n\n";
+            $prompt .= "Provide a helpful, concise response about form, technique, benefits, common mistakes, or variations. ";
+            $prompt .= "Be encouraging and professional. Keep responses under 200 words unless more detail is specifically requested.";
+
+            // Send to OpenAI
+            $apiKey = config('services.chatgpt.api_key');
+            
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiKey,
+                'Content-Type' => 'application/json',
+            ])->timeout(60)->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o',
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => 'You are an expert AI Personal Trainer assistant, knowledgeable in exercise science, biomechanics, and fitness training.'
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $prompt
+                    ]
+                ],
+                'temperature' => 0.7,
+                'max_tokens' => 500
+            ]);
+
+            if ($response->failed()) {
+                throw new \Exception('OpenAI API request failed: ' . $response->body());
+            }
+
+            $aiResponse = $response->json()['choices'][0]['message']['content'] ?? '';
+
+            if (empty($aiResponse)) {
+                throw new \Exception('Empty response from OpenAI');
+            }
+
+            // Save AI response
+            $aiMessage = ExerciseChat::create([
+                'user_id' => Auth::id(),
+                'exercise_id' => $exerciseId,
+                'message' => $aiResponse,
+                'sender' => 'ai'
+            ]);
+
+            Log::info('Exercise Chat: Message sent successfully', [
+                'user_id' => Auth::id(),
+                'exercise_id' => $exerciseId,
+                'user_message_id' => $userMessage->id,
+                'ai_message_id' => $aiMessage->id
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'userMessage' => [
+                    'id' => $userMessage->id,
+                    'message' => $userMessage->message,
+                    'sender' => 'user',
+                    'timestamp' => $userMessage->created_at->format('Y-m-d H:i:s')
+                ],
+                'aiMessage' => [
+                    'id' => $aiMessage->id,
+                    'message' => $aiMessage->message,
+                    'sender' => 'ai',
+                    'timestamp' => $aiMessage->created_at->format('Y-m-d H:i:s')
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Exercise Chat: Failed to send message', [
+                'user_id' => Auth::id(),
+                'exercise_id' => $exerciseId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send message. Please try again.'
+            ], 500);
         }
     }
 }

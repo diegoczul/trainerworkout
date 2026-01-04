@@ -249,7 +249,7 @@
         </div>
     </div> <!-- End of Exercise Header -->
     <div class="containerExercise">
-        <div class="exerciseNote">
+        <div class="exerciseNote" style="display: inline-block; vertical-align: top;">
             <div class="spanContainer" onclick="exerciseNote(this);">
                 <span>{{ Lang::get("content.add") }}<br>{{ Lang::get("content.note") }}</span>
             </div>
@@ -258,6 +258,11 @@
                 <h3>{{ Lang::get("content.Adding a note to this exercise") }}</h3>
                     <textarea name="noteToExercise" class="noteToExercise"></textarea>
                     <button onclick="saveNote(this)">{{ Lang::get("content.Save Note") }}</button>
+            </div>
+        </div>
+        <div class="exerciseAITrainer" style="display: inline-block; vertical-align: top;">
+            <div class="spanContainer" onclick="openAITrainerChat(this);">
+                <span>AI<br>Trainer</span>
             </div>
         </div>
         <div class="exerciseImageContainer">
@@ -3162,6 +3167,7 @@ function fillUpExercise(div,exercise){
 
     }
     $("#"+div).find("h1").text(exercise.exercise.name);
+    $("#"+div).attr("data-exercise-id", exercise.exercise.id);
     $("#"+div).find(".exerciseOptions").find(".edit").attr("onclick",'editExercise(this)');
     $("#"+div).find(".exerciseOptions").find(".duplicate").attr("onclick",'duplicateExercise(this)');
     $("#"+div).find(".exerciseOptions").find(".move-up").attr("onclick",'moveUp(this)');
@@ -3222,6 +3228,7 @@ function fillUpExerciseCircuit(div,exercise){
 
 
     $("#"+div).find("h5").text(exercise.exercise.name);
+    $("#"+div).attr("data-exercise-id", exercise.exercise.id);
     $("#"+div).find(".exerciseOptions").find(".edit").attr("onclick",'editExercise(this)');
     $("#"+div).find(".exerciseOptions").find(".duplicate").attr("onclick",'duplicateExercise(this)');
     $("#"+div).find(".exerciseOptions").find(".move-up").attr("onclick",'moveUp(this)');
@@ -3576,6 +3583,387 @@ function showExercisePopUp(){
     }
 
     
+</script>
+
+<!-- AI Trainer Chat Modal -->
+<div id="aiTrainerModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div style="position: relative; background-color: #fefefe; margin: 2% auto; padding: 0; border-radius: 12px; width: 90%; max-width: 600px; height: 85vh; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+        <!-- Header -->
+        <div style="padding: 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px 12px 0 0;">
+            <div>
+                <h3 id="aiTrainerExerciseName" style="margin: 0; font-size: 20px; font-weight: 600; color:#FFFFFF">AI Trainer</h3>
+                <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.9;">Ask me anything about this exercise</p>
+            </div>
+            <button onclick="closeAITrainerChat()" style="background: transparent; border: none; color: white; font-size: 28px; font-weight: 300; cursor: pointer; line-height: 1; padding: 0; width: 30px; height: 30px;">&times;</button>
+        </div>
+        
+        <!-- Chat Messages Container -->
+        <div id="aiChatMessages" style="flex: 1; overflow-y: auto; padding: 20px; background-color: #f8f9fa;">
+            <!-- Messages will be inserted here -->
+        </div>
+        
+        <!-- Input Area -->
+        <div style="padding: 15px; border-top: 1px solid #e0e0e0; background-color: white; border-radius: 0 0 12px 12px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="aiChatInput" placeholder="Ask about form, technique, variations..." style="flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; font-size: 14px; outline: none;" onkeypress="if(event.key==='Enter') sendAITrainerMessage();">
+                <button onclick="sendAITrainerMessage()" id="aiSendBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: 500; font-size: 14px; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .exerciseAITrainer {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        margin-right: 10px;
+        top:10px;
+        right:60px
+    }
+    
+    .exerciseAITrainer .spanContainer {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .exerciseAITrainer .spanContainer:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+    }
+    
+    .exerciseAITrainer span {
+        color: white;
+        font-size: 10px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.2;
+        text-transform: uppercase;
+    }
+    
+    #aiChatMessages::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    #aiChatMessages::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    #aiChatMessages::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+    
+    #aiChatMessages::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    
+    .chat-message {
+        margin-bottom: 15px;
+        display: flex;
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .chat-message.user {
+        justify-content: flex-end;
+    }
+    
+    .chat-message.ai {
+        justify-content: flex-start;
+    }
+    
+    .chat-bubble {
+        max-width: 75%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 14px;
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
+    
+    .chat-message.user .chat-bubble {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+    
+    .chat-message.ai .chat-bubble {
+        background-color: white;
+        color: #333;
+        border: 1px solid #e0e0e0;
+        border-bottom-left-radius: 4px;
+    }
+    
+    .chat-timestamp {
+        font-size: 10px;
+        color: #999;
+        margin-top: 4px;
+        padding: 0 5px;
+    }
+    
+    .typing-indicator {
+        display: flex;
+        gap: 4px;
+        padding: 12px 16px;
+    }
+    
+    .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #999;
+        animation: typing 1.4s infinite;
+    }
+    
+    .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes typing {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-10px); }
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+<script>
+    let currentExerciseId = null;
+    let currentExerciseName = '';
+
+    function openAITrainerChat(element) {
+        // Find the exercise container
+        const exerciseContainer = element.closest('.containerExercise').parentElement;
+        
+        // Get exercise ID from data attribute
+        currentExerciseId = exerciseContainer.getAttribute('data-exercise-id');
+        
+        if (!currentExerciseId) {
+            alert('Exercise ID not found');
+            return;
+        }
+        
+        // Get exercise name from header
+        const exerciseHeader = exerciseContainer.querySelector('.exerciseHeader');
+        const exerciseNameElement = exerciseHeader.querySelector('h1, h5');
+        currentExerciseName = exerciseNameElement ? exerciseNameElement.textContent.trim() : 'Exercise';
+        
+        // Update modal title
+        document.getElementById('aiTrainerExerciseName').textContent = currentExerciseName;
+        
+        // Load chat history
+        loadChatHistory();
+        
+        // Show modal
+        document.getElementById('aiTrainerModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // Focus input
+        setTimeout(() => {
+            document.getElementById('aiChatInput').focus();
+        }, 100);
+    }
+
+    function closeAITrainerChat() {
+        document.getElementById('aiTrainerModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function loadChatHistory() {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;"><i class="fas fa-spinner fa-spin"></i> Loading chat...</div>';
+        
+        fetch(`/trainer/exercise-chat/${currentExerciseId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.messages.length === 0) {
+                    messagesContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px; color: #999;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">💪</div>
+                            <p style="font-size: 16px; margin: 0;">Ask me anything about <strong>${currentExerciseName}</strong></p>
+                            <p style="font-size: 13px; margin-top: 8px;">Form tips, variations, common mistakes, and more!</p>
+                        </div>
+                    `;
+                } else {
+                    messagesContainer.innerHTML = '';
+                    data.messages.forEach(msg => {
+                        appendMessage(msg.sender, msg.message, false);
+                    });
+                    scrollToBottom();
+                }
+            } else {
+                messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #e74c3c;">Failed to load chat history</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #e74c3c;">Error loading chat</div>';
+        });
+    }
+
+    function sendAITrainerMessage() {
+        const input = document.getElementById('aiChatInput');
+        const message = input.value.trim();
+        
+        if (!message) return;
+        
+        const sendBtn = document.getElementById('aiSendBtn');
+        const originalBtnText = sendBtn.innerHTML;
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<svg style="width: 16px; height: 16px; animation: spin 1s linear infinite;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+        input.disabled = true;
+        
+        // Show user message immediately
+        appendMessage('user', message, true);
+        input.value = '';
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        fetch(`/trainer/exercise-chat/${currentExerciseId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideTypingIndicator();
+            
+            if (data.success) {
+                appendMessage('ai', data.aiMessage.message, true);
+            } else {
+                appendMessage('ai', 'Sorry, I encountered an error. Please try again.', true);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            hideTypingIndicator();
+            appendMessage('ai', 'Sorry, I encountered an error. Please try again.', true);
+        })
+        .finally(() => {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = originalBtnText;
+            input.disabled = false;
+            input.focus();
+        });
+    }
+
+    function appendMessage(sender, message, scroll = true) {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        
+        // Remove welcome message if present
+        const welcomeMsg = messagesContainer.querySelector('[style*="text-align: center"]');
+        if (welcomeMsg && welcomeMsg.textContent.includes('Ask me anything')) {
+            welcomeMsg.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}`;
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble';
+        
+        // Format AI messages with markdown-style formatting
+        if (sender === 'ai') {
+            bubble.innerHTML = formatMarkdown(message);
+        } else {
+            bubble.textContent = message;
+        }
+        
+        messageDiv.appendChild(bubble);
+        messagesContainer.appendChild(messageDiv);
+        
+        if (scroll) {
+            scrollToBottom();
+        }
+    }
+    
+    function formatMarkdown(text) {
+        // Replace **bold** with <strong>
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        // Replace numbered lists (1. 2. 3. etc)
+        text = text.replace(/^(\d+\.\s+)(.*)$/gm, '<div style="margin-left: 15px;">$1$2</div>');
+        
+        // Replace bullet points (- at start of line)
+        text = text.replace(/^-\s+(.*)$/gm, '<div style="margin-left: 15px;">• $1</div>');
+        
+        // Replace multiple consecutive line breaks with single <br>
+        text = text.replace(/\n+/g, '<br>');
+        
+        return text;
+    }
+
+    function showTypingIndicator() {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'chat-message ai';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="chat-bubble">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        `;
+        messagesContainer.appendChild(typingDiv);
+        scrollToBottom();
+    }
+
+    function hideTypingIndicator() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
+
+    function scrollToBottom() {
+        const messagesContainer = document.getElementById('aiChatMessages');
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('aiTrainerModal');
+        if (event.target === modal) {
+            closeAITrainerChat();
+        }
+    }
 </script>
 
 @endsection
