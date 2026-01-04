@@ -3606,7 +3606,7 @@ function showExercisePopUp(){
         <div style="padding: 15px; border-top: 1px solid #e0e0e0; background-color: white; border-radius: 0 0 12px 12px;">
             <div style="display: flex; gap: 10px;">
                 <input type="text" id="aiChatInput" placeholder="Ask about form, technique, variations..." style="flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 25px; font-size: 14px; outline: none;" onkeypress="if(event.key==='Enter') sendAITrainerMessage();">
-                <button onclick="sendAITrainerMessage()" id="aiSendBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: 500; font-size: 14px; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                <button onclick="sendAITrainerMessage()" id="aiSendBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-weight: 500; font-size: 14px; transition: opacity 0.3s;margin-bottom:15px" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                     Send
                 </button>
             </div>
