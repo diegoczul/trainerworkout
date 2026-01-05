@@ -465,6 +465,8 @@ Route::middleware(['auth', 'userTypeChecker'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::post('/ai-exercise-replacement/suggestions', [AIWorkoutController::class, 'getExerciseReplacements'])->name('aiExercise.replacements');
+    Route::post('/ai-exercise-replacement/execute', [AIWorkoutController::class, 'executeExerciseReplacement'])->name('aiExercise.execute');
     Route::get(__('routes./Workouts/removeWorkout/') . '{id}', [WorkoutsController::class, 'deleteWorkout']);
     Route::post(__('routes./widgets/workouts'), [WorkoutsController::class, 'index']);
     Route::post(__('routes./widgets/workouts_create'), [WorkoutsController::class, 'indexCreate']);
@@ -517,6 +519,7 @@ Route::post(__('routes./Workout/unit/update'), [WorkoutsController::class, 'upda
 Route::post('/Workout/weight/update', [WorkoutsController::class, 'updateWeightExerciseGroup'])->name('workout.weight-update')->middleware('auth');
 Route::post('/Workout/weight/history', [WorkoutsController::class, 'historyWeightExerciseGroup'])->name('workout.weight-history')->middleware('auth');
 Route::post('/Workout/weight/remove-history', [WorkoutsController::class, 'removeWeightHistory'])->name('workout.remove-weight-history')->middleware('auth');
+Route::get(__('routes./Workout/') . "{id}/{name}/{author}/perform", [WorkoutsController::class, 'trainerPerformWorkout'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{name}/{author}", [WorkoutsController::class, 'viewWorkout'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}/{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');
 Route::get(__('routes./Workout/') . "{id}//{author}", [WorkoutsController::class, 'viewWorkoutNoName'])->middleware('auth');

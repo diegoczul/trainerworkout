@@ -7,6 +7,7 @@ use App\Models\BodyGroups;
 use App\Models\Exercises;
 use App\Models\Equipments;
 use App\Models\Workouts;
+use App\Models\WorkoutsExercises;
 use App\Models\ExerciseChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1288,6 +1289,307 @@ PROMPT;
                 'trace' => $e->getTraceAsString()
             ]);
             return null;
+        }
+    }
+
+    /**
+     * Get AI suggestions for exercise replacement
+     */
+    public function getExerciseReplacements(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'workout_id' => 'required|exists:workouts,id',
+                'workouts_exercise_id' => 'required|exists:workouts_exercises,id',
+                'exercise_id' => 'required|exists:exercises,id',
+                'bodygroup_id' => 'required|exists:bodygroups,id'
+            ]);
+
+            $workout = Workouts::find($validated['workout_id']);
+            $targetExercise = Exercises::find($validated['exercise_id']);
+            
+            if (!$workout || !$targetExercise) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Workout or exercise not found'
+                ], 404);
+            }
+
+            // Get all exercises in the workout
+            $workoutExercises = WorkoutsExercises::where('workoutId', $workout->id)
+                ->with('exercises')
+                ->get();
+            
+            $currentExerciseNames = $workoutExercises->map(function($we) {
+                return $we->exercises->name ?? '';
+            })->filter()->toArray();
+
+            // Get available exercises for this body group (excluding current workout exercises)
+            $availableExercises = Exercises::where('type', 'public')
+                ->where('bodygroupId', $validated['bodygroup_id'])
+                ->whereNotIn('id', $workoutExercises->pluck('exerciseId')->toArray())
+                ->get();
+
+            if ($availableExercises->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No alternative exercises found for this body group'
+                ], 400);
+            }
+
+            // Build AI prompt for exercise replacement
+            $prompt = $this->buildReplacementPrompt($targetExercise, $currentExerciseNames, $availableExercises);
+
+            Log::info('AI Exercise Replacement: Prompt', [
+                'user_id' => Auth::user()->id,
+                'workout_id' => $workout->id,
+                'target_exercise' => $targetExercise->name,
+                'prompt' => $prompt
+            ]);
+
+            // Send to ChatGPT
+            $chatGPTResponse = $this->sendToChatGPT($prompt);
+
+            if (!$chatGPTResponse) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to get AI suggestions'
+                ], 500);
+            }
+
+            // Parse response
+            $suggestions = $this->parseReplacementResponse($chatGPTResponse, $availableExercises);
+
+            if (!$suggestions || count($suggestions) === 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to parse AI suggestions'
+                ], 500);
+            }
+
+            Log::info('AI Exercise Replacement: Success', [
+                'user_id' => Auth::user()->id,
+                'workout_id' => $workout->id,
+                'suggestions_count' => count($suggestions)
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'suggestions' => $suggestions
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('AI Exercise Replacement: Exception', [
+                'user_id' => Auth::user()->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while getting exercise suggestions'
+            ], 500);
+        }
+    }
+
+    /**
+     * Build prompt for exercise replacement
+     */
+    private function buildReplacementPrompt($targetExercise, $currentExerciseNames, $availableExercises)
+    {
+        $exerciseList = $availableExercises->map(function($ex) {
+            return "ID: {$ex->id}, Name: {$ex->name}, Equipment: " . ($ex->equipment->name ?? 'None');
+        })->join("\n");
+
+        $currentExercises = implode(", ", $currentExerciseNames);
+
+        return "You are a professional fitness trainer helping to find exercise replacements.
+
+Target Exercise to Replace: {$targetExercise->name}
+Body Group: " . ($targetExercise->bodygroup->name ?? 'Unknown') . "
+
+Current Exercises in Workout: {$currentExercises}
+
+Find exactly 5 alternative exercises from the list below that would be good replacements for '{$targetExercise->name}'.
+Consider:
+- Similar movement patterns and muscle activation
+- Exercise variety (don't suggest exercises already in the workout)
+- Different equipment options when possible
+- Progression/regression options
+
+Available Exercises:
+{$exerciseList}
+
+Respond ONLY with valid JSON (no markdown, no code blocks) in this exact format:
+{
+  \"suggestions\": [
+    {\"exercise_id\": 123, \"reason\": \"Brief reason why this is a good replacement\"},
+    {\"exercise_id\": 456, \"reason\": \"Brief reason why this is a good replacement\"},
+    {\"exercise_id\": 789, \"reason\": \"Brief reason why this is a good replacement\"},
+    {\"exercise_id\": 234, \"reason\": \"Brief reason why this is a good replacement\"},
+    {\"exercise_id\": 567, \"reason\": \"Brief reason why this is a good replacement\"}
+  ]
+}";
+    }
+
+    /**
+     * Parse AI replacement response
+     */
+    private function parseReplacementResponse($response, $availableExercises)
+    {
+        try {
+            // Clean up response
+            $cleanResponse = trim($response);
+            $cleanResponse = preg_replace('/^```json\s*/s', '', $cleanResponse);
+            $cleanResponse = preg_replace('/\s*```$/s', '', $cleanResponse);
+            $cleanResponse = trim($cleanResponse);
+
+            $data = json_decode($cleanResponse, true);
+
+            if (!$data || !isset($data['suggestions']) || !is_array($data['suggestions'])) {
+                Log::error('AI Exercise Replacement: Invalid JSON response', [
+                    'response' => $response
+                ]);
+                return null;
+            }
+
+            // Create exercise map for quick lookup
+            $exerciseMap = [];
+            foreach ($availableExercises as $exercise) {
+                $exerciseMap[$exercise->id] = $exercise;
+            }
+
+            // Enrich suggestions with full exercise data
+            $enrichedSuggestions = [];
+            foreach ($data['suggestions'] as $suggestion) {
+                if (!isset($suggestion['exercise_id']) || !isset($exerciseMap[$suggestion['exercise_id']])) {
+                    continue;
+                }
+
+                $exercise = $exerciseMap[$suggestion['exercise_id']];
+                $enrichedSuggestions[] = [
+                    'exercise_id' => $exercise->id,
+                    'name' => $exercise->name,
+                    'equipment' => $exercise->equipment->name ?? 'None',
+                    'reason' => $suggestion['reason'] ?? 'Good alternative exercise',
+                    'image' => $exercise->image ?? '',
+                    'video' => $exercise->video ?? '',
+                    'youtube' => $exercise->youtube ?? ''
+                ];
+            }
+
+            return array_slice($enrichedSuggestions, 0, 5);
+
+        } catch (\Exception $e) {
+            Log::error('AI Exercise Replacement: Parse error', [
+                'error' => $e->getMessage(),
+                'response' => $response
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Execute exercise replacement
+     */
+    public function executeExerciseReplacement(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'workout_id' => 'required|exists:workouts,id',
+                'workouts_exercise_id' => 'required|exists:workouts_exercises,id',
+                'new_exercise_id' => 'required|exists:exercises,id'
+            ]);
+
+            $workout = Workouts::find($validated['workout_id']);
+            $workoutsExercise = WorkoutsExercises::find($validated['workouts_exercise_id']);
+            $newExercise = Exercises::find($validated['new_exercise_id']);
+
+            if (!$workout || !$workoutsExercise || !$newExercise) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid workout, exercise, or replacement'
+                ], 404);
+            }
+
+            $oldExerciseId = $workoutsExercise->exerciseId;
+
+            // Update the WorkoutsExercises record (keeps all sets intact)
+            $workoutsExercise->exerciseId = $newExercise->id;
+            $workoutsExercise->save();
+
+            // Update the JSON exerciseGroup field
+            $this->updateWorkoutJSON($workout, $oldExerciseId, $newExercise->id);
+
+            Log::info('AI Exercise Replacement: Executed', [
+                'user_id' => Auth::user()->id,
+                'workout_id' => $workout->id,
+                'old_exercise_id' => $oldExerciseId,
+                'new_exercise_id' => $newExercise->id
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Exercise replaced successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('AI Exercise Replacement: Execution error', [
+                'user_id' => Auth::user()->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to replace exercise'
+            ], 500);
+        }
+    }
+
+    /**
+     * Update workout JSON with new exercise ID
+     */
+    private function updateWorkoutJSON($workout, $oldExerciseId, $newExerciseId)
+    {
+        try {
+            $exerciseGroup = json_decode($workout->exerciseGroup, true);
+            
+            if (!$exerciseGroup || !is_array($exerciseGroup)) {
+                return;
+            }
+
+            // Recursively search and replace exercise IDs in the nested structure
+            $updated = false;
+            foreach ($exerciseGroup as $groupIndex => &$group) {
+                if (!is_array($group)) {
+                    continue;
+                }
+
+                foreach ($group as $exerciseIndex => &$exercise) {
+                    if (isset($exercise['exercise']['id']) && $exercise['exercise']['id'] == $oldExerciseId) {
+                        $exercise['exercise']['id'] = $newExerciseId;
+                        $updated = true;
+                    }
+                }
+            }
+
+            if ($updated) {
+                $workout->exerciseGroup = json_encode($exerciseGroup);
+                $workout->save();
+
+                Log::info('AI Exercise Replacement: JSON updated', [
+                    'workout_id' => $workout->id,
+                    'old_exercise_id' => $oldExerciseId,
+                    'new_exercise_id' => $newExerciseId
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('AI Exercise Replacement: JSON update error', [
+                'workout_id' => $workout->id,
+                'error' => $e->getMessage()
+            ]);
         }
     }
 }

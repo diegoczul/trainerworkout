@@ -1404,6 +1404,55 @@ class WorkoutsController extends BaseController
 
 
 
+	public function trainerPerformWorkout($id, $name, $author)
+	{
+		$workoutId = $id;
+		$workout = Workouts::find($id);
+		$user = Auth::user();
+		if ($workout) {
+			if ($workout->status == "Draft") {
+				return redirect()->to(__("routes./Trainer/CreateWorkout/") . $workout->id);
+			}
+			$workout->incrementViews();
+
+			$tags = $workout->tags;
+			$tagsArray = explode(",", $tags);
+			$tags = Tags::whereIn("name", $tagsArray)->where("userId", $workout->userId)->get();
+			$tagsClient = Tags::where("type", "user")->where("userId", $workout->userId)->get();
+			$tagsTags = Tags::where("type", "tag")->where("userId", $workout->userId)->get();
+			$agent = new Agent();
+
+
+			$ratings = Ratings::where("ownerId", $workout->authorId)->orderBy("value", "ASC")->get();
+
+			if (count($ratings) == 0) $ratings = Ratings::where(function ($query) {
+				$query->orwhereNull("ownerId");
+				$query->orWhere("ownerId", 0);
+			})->orderBy("value", "ASC")->get();
+
+			Event::dispatch('viewWorkout', array(Auth::user(), $workout->name));
+
+			return view("workout")
+				->with("workout", $workout)
+				->with("agent", $agent)
+				->with("user", $user)
+				->with("performMode", true)
+				->with("workoutId", $workoutId)
+				->with("tags", $tags)
+				->with("ratings", $ratings)
+				->with("tagsTags", $tagsTags)
+				->with("tagsClient", $tagsClient)
+				->with("groups", $workout->getGroups()->get())
+				->with("exercises", $workout->getExercises()->get());
+		} else {
+			if (Auth::user()) {
+				return redirect()->route('Trainee', array('userName' => Helper::formatURLString(Auth::user()->firstName . Auth::user()->lastName)))->withError(__("messages.WorkoutNotFound"));
+			} else {
+				return redirect()->route("home")->withError(__("messages.WorkoutNotFound"));
+			}
+		}
+	}
+
 	public function viewWorkout($id, $name, $author)
 	{
 		$workoutId = $id;

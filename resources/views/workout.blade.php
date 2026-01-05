@@ -85,6 +85,20 @@
                             <!-- {{ Lang::get("content.share") }} -->
                         </a>
 
+                        <!-- Perform -->
+                        <a title="Perform" href="{{ $workout->getPerformURL() }}" class="moreOptionsButton moreOptionsWorkoutButton" onclick="lightBoxLoadingTwSpinner()">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <title>
+                                    Perform
+                                </title>
+                                <g stroke="#369AD8" fill="none" fill-rule="evenodd">
+                                    <path d="M10 18.5c4.694 0 8.5-3.806 8.5-8.5S14.694 1.5 10 1.5 1.5 5.306 1.5 10s3.806 8.5 8.5 8.5z" stroke-width="1.2"/>
+                                    <path d="M7.5 5.5l6 4.5-6 4.5V5.5z" stroke-width=".9" fill="#369AD8"/>
+                                </g>
+                            </svg>
+                            <!-- Perform -->
+                        </a>
+
                         <!-- Edit -->
                         <a title="Edit" href="{{ $workout->getEditURL() }}" class="moreOptionsButton moreOptionsWorkoutButton" onclick="lightBoxLoadingTwSpinner()">
                             <svg width="17" height="24" viewBox="0 0 17 24" xmlns="https://www.w3.org/2000/svg">
@@ -463,6 +477,10 @@
                                                                     </div>
                                                                 @endif
 
+                                                                <div style="margin: 0px 10px; flex-grow: 1">
+                                                                    <a href="javascript:void(0);" onclick="openAIReplaceExerciseModal({{ $exercise->id }}, {{ $workout->id }}, {{ $exercise->exerciseId }}, {{ $exercise->exercises->bodygroupId }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">AI Replace Exercise</a>
+                                                                </div>
+
                                                                 <div class="unitSwitcherContainer" style="margin: 0px">
                                                                     <input type="hidden" id="exercise_units_{{ $exercise->id }}" value="{{ $exercise->units }}"/>
                                                                     <p>{{ Lang::get("content.Lbs") }}</p>
@@ -686,18 +704,24 @@
 
                                                     <div class="exeData">
                                                         <div class="exeData_top">
-                                                            <div class="unitSwitcherContainer">
-                                                                <input type="hidden"
-                                                                       id="exercise_units_{{ $exercise->id }}"
-                                                                       value="{{ $exercise->units }}"/>
-                                                                <p>mi</p>
-                                                                <label class="unitToggleLabel">
-                                                                    <input type="checkbox" class="unitToggleInput"
-                                                                           onChange="changeUnits({{ $exercise->id }},this.value,this)"
-                                                                           value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
-                                                                    <div class="unitToggleControl"></div>
-                                                                </label>
-                                                                <p>km</p>
+                                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; width: 100%;">
+                                                                <div style="margin: 0px 10px; flex-grow: 1">
+                                                                    <a href="javascript:void(0);" onclick="openAIReplaceExerciseModal({{ $exercise->id }}, {{ $workout->id }}, {{ $exercise->exerciseId }}, {{ $exercise->exercises->bodygroupId }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">AI Replace Exercise</a>
+                                                                </div>
+                                                                
+                                                                <div class="unitSwitcherContainer">
+                                                                    <input type="hidden"
+                                                                           id="exercise_units_{{ $exercise->id }}"
+                                                                           value="{{ $exercise->units }}"/>
+                                                                    <p>mi</p>
+                                                                    <label class="unitToggleLabel">
+                                                                        <input type="checkbox" class="unitToggleInput"
+                                                                               onChange="changeUnits({{ $exercise->id }},this.value,this)"
+                                                                               value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
+                                                                        <div class="unitToggleControl"></div>
+                                                                    </label>
+                                                                    <p>km</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <table class="">
@@ -914,15 +938,20 @@
 
                                                 <!-- ///////////////// -->
 
+                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; width: 100%;">
+                                                    <div style="margin: 0px 10px; flex-grow: 1">
+                                                        <a href="javascript:void(0);" onclick="openAIReplaceExerciseModal({{ $exercise->id }}, {{ $workout->id }}, {{ $exercise->exerciseId }}, {{ $exercise->exercises->bodygroupId }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">AI Replace Exercise</a>
+                                                    </div>
 
-                                                <div class="unitSwitcherContainer">
-                                                    <input type="hidden" id="exercise_units_{{ $exercise->id }}" value="{{ $exercise->units }}"/>
-                                                    <p>{{ Lang::get("content.Lbs") }}</p>
-                                                    <label class="unitToggleLabel">
-                                                        <input type="checkbox" class="unitToggleInput" onChange="changeUnits({{ $exercise->id }},this.value,this)" value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
-                                                        <div class="unitToggleControl"></div>
-                                                    </label>
-                                                    <p>{{ Lang::get("content.Kg") }}</p>
+                                                    <div class="unitSwitcherContainer">
+                                                        <input type="hidden" id="exercise_units_{{ $exercise->id }}" value="{{ $exercise->units }}"/>
+                                                        <p>{{ Lang::get("content.Lbs") }}</p>
+                                                        <label class="unitToggleLabel">
+                                                            <input type="checkbox" class="unitToggleInput" onChange="changeUnits({{ $exercise->id }},this.value,this)" value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
+                                                            <div class="unitToggleControl"></div>
+                                                        </label>
+                                                        <p>{{ Lang::get("content.Kg") }}</p>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -1138,17 +1167,23 @@
                                                 </div>
                                             @endif
 
-                                            <div class="unitSwitcherContainer">
-                                                <input type="hidden" id="exercise_units_{{ $exercise->id }}"
-                                                       value="{{ $exercise->units }}"/>
-                                                <p>mi</p>
-                                                <label class="unitToggleLabel">
-                                                    <input type="checkbox" class="unitToggleInput"
-                                                           onChange="changeUnits({{ $exercise->id }},this.value,this)"
-                                                           value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
-                                                    <div class="unitToggleControl"></div>
-                                                </label>
-                                                <p>km</p>
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; width: 100%;">
+                                                <div style="margin: 0px 10px; flex-grow: 1">
+                                                    <a href="javascript:void(0);" onclick="openAIReplaceExerciseModal({{ $exercise->id }}, {{ $workout->id }}, {{ $exercise->exerciseId }}, {{ $exercise->exercises->bodygroupId }});" class="bluebtn" style="padding: 2px 4px; font-size: .7em">AI Replace Exercise</a>
+                                                </div>
+
+                                                <div class="unitSwitcherContainer">
+                                                    <input type="hidden" id="exercise_units_{{ $exercise->id }}"
+                                                           value="{{ $exercise->units }}"/>
+                                                    <p>mi</p>
+                                                    <label class="unitToggleLabel">
+                                                        <input type="checkbox" class="unitToggleInput"
+                                                               onChange="changeUnits({{ $exercise->id }},this.value,this)"
+                                                               value="{{ $exercise->units }}" {{ $exercise->units == "Metric" ? "checked='checked'" : ""  }}>
+                                                        <div class="unitToggleControl"></div>
+                                                    </label>
+                                                    <p>km</p>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -1379,7 +1414,7 @@
     
     <!-- ////////////////////////////////////////////////////// -->
 
-    @if($workout->isOwner() && Auth::user()->userType == "Trainee" )
+    @if(($workout->isOwner() && Auth::user()->userType == "Trainee") || (Auth::user()->userType == "Trainer" && isset($performMode) && $performMode))
         <div id="performanceHeader" class="pt-3 pb-4">
             <div id="step1">
 
@@ -1450,6 +1485,43 @@
                 <!-- <div class="overlayKillChild"></div> -->
 
                 </form>
+            </div>
+
+            <!-- AI Replace Exercise Modal -->
+            <div id="aiReplaceExerciseModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+                <div style="background: white; border-radius: 8px; padding: 30px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative;">
+                    <svg width="15" height="15" viewBox="0 0 15 15" xmlns="https://www.w3.org/2000/svg"
+                         onclick="closeAIReplaceModal();"
+                         style="position: absolute; top: 15px; right: 15px; cursor: pointer;">
+                        <title>Close Icon</title>
+                        <path class="closeIcon"
+                              d="M7.5 4.865L3.536.9a1.874 1.874 0 0 0-2.65 2.65L4.85 7.516.916 11.45a1.874 1.874 0 1 0 2.65 2.65L7.5 10.166l3.934 3.934a1.874 1.874 0 1 0 2.65-2.65L10.15 7.514l3.965-3.964A1.874 1.874 0 0 0 11.465.9L7.5 4.865z"
+                              fill="#666" fill-rule="evenodd"/>
+                    </svg>
+                    <div id="aiReplaceContent">
+                        <h3 style="margin-bottom: 20px; color: #369AD8; font-size: 1.5em;">AI Replace Exercise</h3>
+                        <div id="aiReplaceLoading" style="text-align: center; padding: 40px 20px;">
+                            <div style="margin-bottom: 15px;">
+                                <div style="border: 4px solid #f3f3f3; border-top: 4px solid #369AD8; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                            </div>
+                            <p style="color: #666; font-size: 1.1em;">Finding alternative exercises...</p>
+                        </div>
+                        <div id="aiReplaceSuggestions" style="display: none;">
+                            <p style="margin-bottom: 15px; color: #333; font-size: 1.05em;">Select a replacement exercise:</p>
+                            <ul id="aiExerciseList" style="list-style: none; padding: 0; margin-bottom: 20px;">
+                                <!-- Exercise options will be populated here -->
+                            </ul>
+                            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                                <button onclick="executeReplacement()" id="confirmReplaceBtn" style="background: #369AD8; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 1em; font-weight: bold;">Replace</button>
+                                <button onclick="closeAIReplaceModal()" style="background: #ccc; color: #333; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 1em;">Cancel</button>
+                            </div>
+                        </div>
+                        <div id="aiReplaceError" style="display: none; color: #ff4444; text-align: center; padding: 20px;">
+                            <p id="aiReplaceErrorMessage" style="font-size: 1.1em; margin-bottom: 15px;"></p>
+                            <button onclick="closeAIReplaceModal()" style="background: #369AD8; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 1em;">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -2185,8 +2257,184 @@
         const messagesContainer = document.getElementById('aiChatMessages');
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
+
+    // AI Exercise Replacement Functions
+    let currentReplacementData = {
+        workoutsExerciseId: null,
+        workoutId: null,
+        exerciseId: null,
+        bodygroupId: null,
+        selectedExerciseId: null
+    };
+
+    function openAIReplaceExerciseModal(workoutsExerciseId, workoutId, exerciseId, bodygroupId) {
+        currentReplacementData = {
+            workoutsExerciseId: workoutsExerciseId,
+            workoutId: workoutId,
+            exerciseId: exerciseId,
+            bodygroupId: bodygroupId,
+            selectedExerciseId: null
+        };
+
+        // Show modal and loading state
+        const modal = document.getElementById('aiReplaceExerciseModal');
+        modal.style.display = 'flex';
+        document.getElementById('aiReplaceLoading').style.display = 'block';
+        document.getElementById('aiReplaceSuggestions').style.display = 'none';
+        document.getElementById('aiReplaceError').style.display = 'none';
+
+        // Fetch AI suggestions
+        fetch('/ai-exercise-replacement/suggestions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                workout_id: workoutId,
+                workouts_exercise_id: workoutsExerciseId,
+                exercise_id: exerciseId,
+                bodygroup_id: bodygroupId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.suggestions && data.suggestions.length > 0) {
+                displayExerciseSuggestions(data.suggestions);
+            } else {
+                showAIReplaceError(data.message || 'No suggestions found');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching exercise suggestions:', error);
+            showAIReplaceError('Failed to get exercise suggestions. Please try again.');
+        });
+    }
+
+    function displayExerciseSuggestions(suggestions) {
+        document.getElementById('aiReplaceLoading').style.display = 'none';
+        document.getElementById('aiReplaceSuggestions').style.display = 'block';
+
+        const exerciseList = document.getElementById('aiExerciseList');
+        exerciseList.innerHTML = '';
+
+        suggestions.forEach((suggestion, index) => {
+            const li = document.createElement('li');
+            li.style.cssText = 'margin-bottom: 15px; padding: 15px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.2s;';
+            li.innerHTML = `
+                <label style="cursor: pointer; display: block;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <input type="radio" name="replacementExercise" value="${suggestion.exercise_id}" 
+                               onchange="selectReplacement(${suggestion.exercise_id})" 
+                               style="cursor: pointer; width: 18px; height: 18px;">
+                        <strong style="font-size: 1.2em; color: #369AD8;">${suggestion.name}</strong>
+                    </div>
+                    ${suggestion.equipment ? `<div style="font-size: 0.95em; color: #666; margin-bottom: 8px; padding-left: 28px;"><strong>Equipment:</strong> ${suggestion.equipment}</div>` : ''}
+                    <div style="font-size: 0.95em; color: #333; margin-bottom: 10px; padding-left: 28px;">${suggestion.reason}</div>
+                    ${suggestion.image ? `<div style="padding-left: 28px;"><img src="/${suggestion.image}" alt="${suggestion.name}" style="max-width: 200px; max-height: 150px; border-radius: 5px; object-fit: cover;"></div>` : ''}
+                </label>
+            `;
+            
+            li.addEventListener('mouseover', function() {
+                if (!this.querySelector('input').checked) {
+                    this.style.borderColor = '#369AD8';
+                    this.style.backgroundColor = '#f8f9fa';
+                }
+            });
+            
+            li.addEventListener('mouseout', function() {
+                if (!this.querySelector('input').checked) {
+                    this.style.borderColor = '#e0e0e0';
+                    this.style.backgroundColor = 'transparent';
+                }
+            });
+            
+            exerciseList.appendChild(li);
+        });
+    }
+
+    function selectReplacement(exerciseId) {
+        currentReplacementData.selectedExerciseId = exerciseId;
+        
+        // Update visual styling
+        document.querySelectorAll('#aiExerciseList li').forEach(li => {
+            const radio = li.querySelector('input[type="radio"]');
+            if (radio.checked) {
+                li.style.borderColor = '#369AD8';
+                li.style.backgroundColor = '#e8f4f8';
+            } else {
+                li.style.borderColor = '#e0e0e0';
+                li.style.backgroundColor = 'transparent';
+            }
+        });
+    }
+
+    function executeReplacement() {
+        if (!currentReplacementData.selectedExerciseId) {
+            alert('Please select a replacement exercise');
+            return;
+        }
+
+        document.getElementById('confirmReplaceBtn').disabled = true;
+        document.getElementById('confirmReplaceBtn').textContent = 'Replacing...';
+
+        fetch('/ai-exercise-replacement/execute', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                workout_id: currentReplacementData.workoutId,
+                workouts_exercise_id: currentReplacementData.workoutsExerciseId,
+                new_exercise_id: currentReplacementData.selectedExerciseId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Failed to replace exercise');
+                document.getElementById('confirmReplaceBtn').disabled = false;
+                document.getElementById('confirmReplaceBtn').textContent = 'Confirm Replacement';
+            }
+        })
+        .catch(error => {
+            console.error('Error executing replacement:', error);
+            alert('Failed to replace exercise. Please try again.');
+            document.getElementById('confirmReplaceBtn').disabled = false;
+            document.getElementById('confirmReplaceBtn').textContent = 'Confirm Replacement';
+        });
+    }
+
+    function closeAIReplaceModal() {
+        const modal = document.getElementById('aiReplaceExerciseModal');
+        modal.style.display = 'none';
+        currentReplacementData = {
+            workoutsExerciseId: null,
+            workoutId: null,
+            exerciseId: null,
+            bodygroupId: null,
+            selectedExerciseId: null
+        };
+    }
+
+    function showAIReplaceError(message) {
+        document.getElementById('aiReplaceLoading').style.display = 'none';
+        document.getElementById('aiReplaceSuggestions').style.display = 'none';
+        document.getElementById('aiReplaceError').style.display = 'block';
+        document.getElementById('aiReplaceErrorMessage').textContent = message;
+    }
 </script>
 
 @endsection
 <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 <script src="https://vjs.zencdn.net/5.17.0/video.js"></script>
+
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>

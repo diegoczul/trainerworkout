@@ -424,6 +424,12 @@ class Workouts extends Model
             (($this->author) ? Helper::formatURLString($this->author->firstName . $this->author->lastName) : "");
     }
 
+    public function getPerformURL()
+    {
+        return Lang::get("routes./Workout/") . $this->id . "/" . Helper::formatURLString($this->name) . "/" .
+            (($this->author) ? Helper::formatURLString($this->author->firstName . $this->author->lastName) : "") . "/perform";
+    }
+
     public function getEditURL()
     {
         if ($this->userId == Auth::user()->id || $this->authorId == Auth::user()->id) {
