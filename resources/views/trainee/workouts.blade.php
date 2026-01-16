@@ -9,58 +9,91 @@
 
 @section('content')
 
+<style>
+    .workouts_options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    
+    .workouts_options .addElementButton {
+        background: #7079b1 !important;
+        border: 2px solid #4b5489 !important;
+        color: white !important;
+        margin-left: auto;
+    }
+    
+    .workouts_options .addElementButton:hover {
+        background: #5d66a0 !important;
+        border-color: #3d4378 !important;
+    }
+    
+    .workouts_options .ai-gradient-button {
+        background: linear-gradient(135deg, #7079b1 0%, #4b5489 100%) !important;
+        border: 2px solid #4b5489 !important;
+    }
+    
+    .workouts_options .ai-gradient-button:hover {
+        background: linear-gradient(135deg, #5d66a0 0%, #3d4378 100%) !important;
+    }
+</style>
+
 <div class="content client">
     <div class="traineeBackgroundFilter"></div>
 	<div class="contentContainer trainer">
         <div class="workouts_options workouts_options_down">
-            <a title="Archive" href="javascript:void(0)" class="moreOptionsButton" id="archiveWorkouts" onclick="archiveWorkouts()">
-                <svg width="20" height="16" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <title>
-                        archiveMore
-                    </title>
-                    <defs>
-                        <rect id="a" x="1" y="4" width="18" height="12" rx="1.231"/>
-                        <mask id="c" x="0" y="0" width="18" height="12" fill="#fff">
-                            <use xlink:href="#a"/>
-                        </mask>
-                        <rect id="b" y=".8" width="20" height="4" rx="1.231"/>
-                        <mask id="d" x="0" y="0" width="20" height="4" fill="#fff">
-                            <use xlink:href="#b"/>
-                        </mask>
-                    </defs>
-                    <g stroke="#369AD8" fill="none" fill-rule="evenodd">
-                        <use mask="url(#c)" stroke-width="1.6" xlink:href="#a"/>
-                        <use mask="url(#d)" stroke-width="1.6" xlink:href="#b"/>
-                        <path d="M6.4 7.4h7.2" stroke-width=".8" stroke-linecap="round"/>
-                    </g>
-                </svg>
-            </a>
-
-            <a title="Delete" href="javascript:void(0)" class="moreOptionsButton" id="deleteWorkouts" onclick="deleteWorkouts()">
-                <svg width="13" height="18" viewBox="0 0 13 18" xmlns="https://www.w3.org/2000/svg">
-                    <title>
-                        Delete Icon
-                    </title>
-                    <g stroke-width=".5" stroke="#369AD8" fill="none" fill-rule="evenodd">
-                        <g>
-                            <rect y="1.702" width="13" height="1.702" rx=".413"/>
-                            <rect x="4.875" width="3.25" height="1.276" rx=".413"/>
-                            <path d="M1.22 3.523c0-.23.182-.414.413-.414h9.734c.23 0 .414.187.414.413V16.35c0 .91-.74 1.65-1.65 1.65H2.87a1.65 1.65 0 0 1-1.65-1.65V3.523z"/></path>
+            <div style="display: flex; gap: 10px;">
+                <a title="Archive" href="javascript:void(0)" class="moreOptionsButton" id="archiveWorkouts" onclick="archiveWorkouts()">
+                    <svg width="20" height="16" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <title>
+                            archiveMore
+                        </title>
+                        <defs>
+                            <rect id="a" x="1" y="4" width="18" height="12" rx="1.231"/>
+                            <mask id="c" x="0" y="0" width="18" height="12" fill="#fff">
+                                <use xlink:href="#a"/>
+                            </mask>
+                            <rect id="b" y=".8" width="20" height="4" rx="1.231"/>
+                            <mask id="d" x="0" y="0" width="20" height="4" fill="#fff">
+                                <use xlink:href="#b"/>
+                            </mask>
+                        </defs>
+                        <g stroke="#369AD8" fill="none" fill-rule="evenodd">
+                            <use mask="url(#c)" stroke-width="1.6" xlink:href="#a"/>
+                            <use mask="url(#d)" stroke-width="1.6" xlink:href="#b"/>
+                            <path d="M6.4 7.4h7.2" stroke-width=".8" stroke-linecap="round"/>
                         </g>
-                        <g stroke-linecap="square">
-                            <path d="M9.14 6.3v8.51M6.5 6.3v8.51M3.86 6.3v8.51"/>
+                    </svg>
+                </a>
+
+                <a title="Delete" href="javascript:void(0)" class="moreOptionsButton" id="deleteWorkouts" onclick="deleteWorkouts()">
+                    <svg width="13" height="18" viewBox="0 0 13 18" xmlns="https://www.w3.org/2000/svg">
+                        <title>
+                            Delete Icon
+                        </title>
+                        <g stroke-width=".5" stroke="#369AD8" fill="none" fill-rule="evenodd">
+                            <g>
+                                <rect y="1.702" width="13" height="1.702" rx=".413"/>
+                                <rect x="4.875" width="3.25" height="1.276" rx=".413"/>
+                                <path d="M1.22 3.523c0-.23.182-.414.413-.414h9.734c.23 0 .414.187.414.413V16.35c0 .91-.74 1.65-1.65 1.65H2.87a1.65 1.65 0 0 1-1.65-1.65V3.523z"/></path>
+                            </g>
+                            <g stroke-linecap="square">
+                                <path d="M9.14 6.3v8.51M6.5 6.3v8.51M3.86 6.3v8.51"/>
+                            </g>
                         </g>
-                    </g>
-                </svg>
-            </a>
+                    </svg>
+                </a>
+            </div>
 
-            <a href="{{ Lang::get('routes./Trainee/CreateWorkout') }}" class="addElementButton"
-                id="createWorkout">{{ Lang::get('content.CreateNewWorkout') }}</a>
+            <div style="display: flex; gap: 10px; margin-left: auto;">
+                <a href="{{ Lang::get('routes./Trainee/CreateWorkout') }}" class="addElementButton"
+                    id="createWorkout">{{ Lang::get('content.CreateNewWorkout') }}</a>
 
-            <a href="{{ Lang::get('routes./Trainee/CreateWorkoutAI') }}"
-                style="margin-left:10px;"
-                class="addElementButton ai-gradient-button"
-                id="createWorkoutAI">{{ Lang::get('content.CreateNewWorkoutAI') }}</a>
+                <a href="{{ Lang::get('routes./Trainee/CreateWorkoutAI') }}"
+                    class="addElementButton ai-gradient-button"
+                    id="createWorkoutAI">{{ Lang::get('content.CreateNewWorkoutAI') }}</a>
+            </div>
 
         </div>
 		<div class="traineeWorkoutContainer" id="w_workoutsTrainee">
