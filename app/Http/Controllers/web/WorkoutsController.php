@@ -1095,8 +1095,9 @@ class WorkoutsController extends BaseController
 		}
 
 
-		$workouts = Workouts::where("userId", $user->id)->Released()->orderBy("updated_at", "Desc");
-		$workoutsTotal = Workouts::where("userId", $user->id)->Released()->orderBy("updated_at", "Desc");
+		// Show all workouts for trainee (Released and Draft)
+		$workouts = Workouts::where("userId", $user->id)->orderBy("updated_at", "Desc");
+		$workoutsTotal = Workouts::where("userId", $user->id)->orderBy("updated_at", "Desc");
 
 		if ($archive) {
 			$workouts = $workouts->whereNotNull("archived_at");
@@ -1763,7 +1764,11 @@ class WorkoutsController extends BaseController
 		}
 
 		$tags = Tags::where("userId", Auth::user()->id)->get();
-		return view("trainer.createWorkout")
+		
+		// Determine the view based on user type
+		$viewPath = Auth::user()->userType === 'Trainee' ? 'trainee.createWorkout' : 'trainer.createWorkout';
+		
+		return view($viewPath)
 			->with("workout", $workout)
 			->with("permissions", $permissions)
 			->with("tags", $tags)
@@ -1821,7 +1826,10 @@ class WorkoutsController extends BaseController
 
 			Event::dispatch('editAWorkout', array(Auth::user(), $workout->name));
 
-			return view("trainer.createWorkout")
+			// Determine the view based on user type
+			$viewPath = Auth::user()->userType === 'Trainee' ? 'trainee.createWorkout' : 'trainer.createWorkout';
+
+			return view($viewPath)
 				->with("workout", $workout)
 				->with("client", $client)
 				->with("tags", $tags)
@@ -1870,7 +1878,10 @@ class WorkoutsController extends BaseController
 
 		Event::dispatch('editAWorkout', array(Auth::user(), $workout->name));
 
-		return view("trainer.createWorkout")
+		// Determine the view based on user type
+		$viewPath = Auth::user()->userType === 'Trainee' ? 'trainee.createWorkout' : 'trainer.createWorkout';
+
+		return view($viewPath)
 			->with("workout", $workout)
 			->with("client", $client)
 			->with("tags", $tags)
@@ -1943,7 +1954,10 @@ class WorkoutsController extends BaseController
 
 		$tags = Tags::where("userId", Auth::user()->id)->get();
 
-		return view("trainer.createWorkout")
+		// Determine the view based on user type
+		$viewPath = Auth::user()->userType === 'Trainee' ? 'trainee.createWorkout' : 'trainer.createWorkout';
+
+		return view($viewPath)
 			->with("workout", $workout)
 			->with("client", $clientId)
 			->with("permissions", $permissions)
@@ -2866,7 +2880,7 @@ class WorkoutsController extends BaseController
 
 
 			$membershipCheck = Memberships::checkMembership(Auth::user());
-			if ($membershipCheck == "") {
+			if ($membershipCheck == "" || Auth::user()->userType === 'Trainee') {
 				$workout->status = "Released";
 				$workout->save();
 			} else {

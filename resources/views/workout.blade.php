@@ -2103,7 +2103,8 @@
         const messagesContainer = document.getElementById('aiChatMessages');
         messagesContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;"><i class="fas fa-spinner fa-spin"></i> Loading chat...</div>';
         
-        fetch(`/trainer/exercise-chat/${currentExerciseId}`, {
+        const userType = '{{ strtolower($user->userType) }}';
+        fetch(`/${userType}/exercise-chat/${currentExerciseId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -2157,7 +2158,8 @@
         // Show typing indicator
         showTypingIndicator();
         
-        fetch(`/trainer/exercise-chat/${currentExerciseId}`, {
+        const userType = '{{ strtolower($user->userType) }}';
+        fetch(`/${userType}/exercise-chat/${currentExerciseId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

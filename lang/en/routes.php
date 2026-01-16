@@ -187,6 +187,8 @@ return array(
 	"/Trainee/Workouts" => "/Trainee/Workouts",
 	"/Trainer/Workouts" => "/Trainer/Workouts",
 	"/Trainee/CreateWorkout" => "/Trainee/CreateWorkout",
+	"/Trainee/CreateWorkoutAI" => "/Trainee/CreateWorkoutAI",
+	"/Trainee/autoSaveWorkout" => "/Trainee/autoSaveWorkout",
 	"/Trainer/CreateWorkout" => "/Trainer/CreateWorkout",
 	"/Trainer/CreateWorkoutAI" => "/Trainer/CreateWorkoutAI",
 	"/Trainer/CreateWorkout/Client/" => "/Trainer/CreateWorkout/Client/",

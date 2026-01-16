@@ -54,6 +54,14 @@
                 </svg>
             </a>
 
+            <a href="{{ Lang::get('routes./Trainee/CreateWorkout') }}" class="addElementButton"
+                id="createWorkout">{{ Lang::get('content.CreateNewWorkout') }}</a>
+
+            <a href="{{ Lang::get('routes./Trainee/CreateWorkoutAI') }}"
+                style="margin-left:10px;"
+                class="addElementButton ai-gradient-button"
+                id="createWorkoutAI">{{ Lang::get('content.CreateNewWorkoutAI') }}</a>
+
         </div>
 		<div class="traineeWorkoutContainer" id="w_workoutsTrainee">
 			

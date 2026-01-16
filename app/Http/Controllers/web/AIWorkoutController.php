@@ -36,7 +36,10 @@ class AIWorkoutController extends Controller
             'timestamp' => now()
         ]);
 
-        return view("trainer.createWorkoutAI")
+        // Determine the view based on user type
+        $viewPath = Auth::user()->userType === 'Trainee' ? 'trainee.createWorkoutAI' : 'trainer.createWorkoutAI';
+
+        return view($viewPath)
             ->with("permissions", $permissions)
             ->with("bodyGroups", BodyGroups::select("id", "name")->where("main", 1)->orderBy("name")->get())
             ->with("equipments", Equipments::select("id", "name")->orderBy("name")->get());
@@ -211,8 +214,10 @@ class AIWorkoutController extends Controller
             Session::put("workoutIdInProgress", $workout->id);
             Session::save();
 
-            // Redirect to workout editor
-            return redirect()->to(__('routes./Trainer/CreateWorkout/') . $workout->id)
+            // Redirect to workout editor based on user type
+            $userType = Auth::user()->userType;
+            $routePrefix = $userType === 'Trainee' ? '/Trainee/CreateWorkout/' : __('routes./Trainer/CreateWorkout/');
+            return redirect()->to($routePrefix . $workout->id)
                 ->with('message', 'AI workout generated successfully! You can now customize it further.');
 
         } catch (\Exception $e) {

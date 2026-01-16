@@ -26,6 +26,18 @@
                             </div>
 
                             <div class="workoutsHover_BTNsContainer">
+                                <!-- ******  Edit  ***** -->
+                                <div class="workoutsHover_BTNContainer hvr-grow" onclick="event.cancelBubble = true;">
+                                    <a href="{{ $workout->getEditURL() }}" class="workoutsHoverBTN">
+                                        <div class="workoutsHover_BTNimg">
+                                            <img src="{{asset('/assets/img/editWorkoutIcon.svg')}}">
+                                        </div>
+                                        <div class="workoutsHover_BTNtxt">
+                                            <span>{{ Lang::get("content.Edit") }}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                
                                 <!-- ******  Archive  ***** -->
                                 <div class="workoutsHover_BTNContainer hvr-grow {{ ($workout->status == "Draft") ? "disableDiv" : "" }}" onclick="event.cancelBubble = true;">
                                     <a href="javascript:void(0)" onClick="{{ ($workout->archived_at) ? "un" : "" }}archiveWorkout({{ $workout->id }}, $(this), ''); return false;" class="workoutsHoverBTN">

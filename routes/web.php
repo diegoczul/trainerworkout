@@ -445,8 +445,8 @@ Route::middleware('auth')->group(function () {
     Route::get(__('routes./Trainer/onBoarding/step8'), [OnBoardingController::class, 'step8']);
 });
 
-// WORKOUT
-Route::middleware(['auth', 'userTypeChecker'])->group(function () {
+// WORKOUT - Accessible by both Trainers and Trainees
+Route::middleware(['auth'])->group(function () {
     Route::get(__('routes./Trainer/CreateWorkout') . '/{param}', [WorkoutsController::class, 'createNewWorkoutTrainer']);
     Route::get(__('routes./Trainer/CreateWorkout'), [WorkoutsController::class, 'createNewWorkoutTrainer'])->name('trainerCreateWorkout');
     Route::get(__('routes./Trainer/CreateWorkoutAI'), [AIWorkoutController::class, 'createWorkoutWithAI'])->name('trainerCreateWorkoutAI');
@@ -607,6 +607,19 @@ Route::middleware(['auth', 'userTypeChecker'])->group(function () {
     Route::get(__('routes./Trainee/Profile'), [UsersController::class, 'indexProfile'])->name('TraineeProfile');
     Route::get(__('routes./Trainee/EditProfile'), [UsersController::class, 'indexEditTrainee'])->name('EditProfile');
     Route::post(__('routes./Trainee/EditProfile'), [UsersController::class, 'TraineeSave'])->name('EditProfilePost');
+    
+    // Trainee Workout Creation Routes
+    Route::get(__('routes./Trainee/CreateWorkout') . '/{param}', [WorkoutsController::class, 'createNewWorkoutTrainer']);
+    Route::get(__('routes./Trainee/CreateWorkout'), [WorkoutsController::class, 'createNewWorkoutTrainer'])->name('traineeCreateWorkout');
+    Route::get(__('routes./Trainee/CreateWorkoutAI'), [AIWorkoutController::class, 'createWorkoutWithAI'])->name('traineeCreateWorkoutAI');
+    Route::post(__('routes./Trainee/CreateWorkoutAI'), [AIWorkoutController::class, 'generateWorkout'])->name('traineeGenerateWorkoutAI');
+    Route::post('/trainee/ai-workout/regenerate/{workoutId}', [AIWorkoutController::class, 'regenerateWorkout'])->name('traineeAiWorkout.regenerate');
+    Route::get('/trainee/exercise-chat/{exerciseId}', [AIWorkoutController::class, 'getExerciseChat'])->name('traineeExerciseChat.get');
+    Route::post('/trainee/exercise-chat/{exerciseId}', [AIWorkoutController::class, 'sendExerciseChat'])->name('traineeExerciseChat.send');
+    Route::post(__('routes./Trainee/autoSaveWorkout'), [WorkoutsController::class, 'autoSaveWorkout']);
+    Route::get(__('routes./Trainee/Workouts') . '/{userName?}', [WorkoutsController::class, 'indexWorkoutsTrainer'])->name('traineeWorkoutsList');
+    Route::post(__('routes./Trainee/CreateWorkout'), [WorkoutsController::class, 'createNewWorkoutAddEditTrainer']);
+    Route::post(__('routes./Trainee/CreateWorkout/') . '{param1}', [WorkoutsController::class, 'createNewWorkoutAddEditTrainer']);
 });
 
 // Profile Image Rotation
